@@ -120,3 +120,13 @@ We encourage you to actively engage with the notebooks, treating them as interac
 
 **More Learning:**
 * [snowch.github.io](https://snowch.github.io) - Notes, blogs, and tutorials on AI engineering topics
+
++++
+
+## About This Content
+
+This is a learning resource I created to deepen my own understanding of probability. It's freely available under CC-BY-4.0 license for educational purposes.
+
+**Not for sale. Will always remain free.**
+
+Built with AI assistance and extensive editing. If you find value in this, feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/csnowuk/) or check out my work at [VAST Data](https://vastdata.com/) / [GitHub](https://github.com/snowch).

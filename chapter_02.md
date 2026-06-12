@@ -13,70 +13,70 @@ downloads:
   - file: notebooks/chapter_02.ipynb
 ---
 
-# Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events
+# فصل ۲: زبان احتمال: مجموعه‌ها، فضای نمونه و رویدادها
 
 +++
 
-Welcome to Chapter 2! In the previous chapter, we introduced the 'why' of probability and set up our Python environment. Now, we dive into the fundamental vocabulary and concepts that form the bedrock of probability theory. Understanding these core ideas – sample spaces, events, and the rules governing them – is crucial before we can tackle more complex problems and distributions. We'll use set theory as our language and Python to make these abstract concepts tangible.
+به فصل ۲ خوش آمدید! در فصل قبل، «چرایی» احتمال را معرفی کردیم و محیط پایتون خود را راه‌اندازی کردیم. اکنون به واژگان و مفاهیم بنیادی‌ای می‌پردازیم که پایهٔ نظریهٔ احتمال را تشکیل می‌دهند. درک این ایده‌های اصلی — فضای نمونه، رویدادها و قواعد حاکم بر آن‌ها — پیش از پرداختن به مسائل و توزیع‌های پیچیده‌تر ضروری است. از نظریهٔ مجموعه‌ها به‌عنوان زبان خود استفاده می‌کنیم و با پایتون این مفاهیم انتزاعی را ملموس می‌سازیم.
 
 +++
 
-## Learning Objectives
-* Understand and define experiments, outcomes, and sample spaces.
-* Distinguish between discrete and continuous sample spaces.
-* Define events as subsets of the sample space.
-* Review basic set operations (union, intersection, complement) and their relevance to probability.
-* Grasp the fundamental Axioms of Probability.
-* Apply basic probability rules like the Complement and Addition rules.
-* Use Python sets and lists to represent sample spaces and events.
-* Calculate empirical probabilities through simulation.
+## اهداف یادگیری
+* آزمایش، پیامد و فضای نمونه را درک و تعریف کنید.
+* بین فضای نمونهٔ گسسته و پیوسته تمایز قائل شوید.
+* رویدادها را به‌عنوان زیرمجموعه‌ای از فضای نمونه تعریف کنید.
+* عملیات پایهٔ مجموعه‌ای (اجتماع، اشتراک، متمم) و ارتباط آن‌ها با احتمال را مرور کنید.
+* اصول بنیادی احتمال را درک کنید.
+* قواعد پایهٔ احتمال مانند قاعدهٔ متمم و قاعدهٔ جمع را به‌کار ببرید.
+* از مجموعه‌ها و فهرست‌های پایتون برای نمایش فضای نمونه و رویدادها استفاده کنید.
+* احتمال تجربی را از طریق شبیه‌سازی محاسبه کنید.
 
 +++
 
-## Experiments, Outcomes, Sample Spaces
+## آزمایش، پیامد، فضای نمونه
 
 +++
 
-In probability, an **experiment** is any procedure or process that can be repeated infinitely (in theory) and has a well-defined set of possible results. Think of flipping a coin, rolling a die, measuring a patient's temperature, or recording the time it takes for a website to load.
+در احتمال، **آزمایش** هر رویه یا فرایندی است که (در نظر) به‌طور نامحدود قابل تکرار باشد و مجموعهٔ مشخصی از نتایج ممکن داشته باشد. پرتاب سکه، انداختن تاس، اندازه‌گیری دمای بیمار یا ثبت زمان بارگذاری یک وب‌سایت را در نظر بگیرید.
 
 +++
 
-Each possible result of an experiment is called an **outcome**.
-* For flipping a coin, the outcomes are Heads (H) or Tails (T).
-* For rolling a standard six-sided die, the outcomes are the integers 1, 2, 3, 4, 5, 6.
-* For measuring temperature, an outcome could be 37.2°C.
-* For website load time, an outcome could be 1.34 seconds.
+هر نتیجهٔ ممکن یک آزمایش **پیامد** نامیده می‌شود.
+* برای پرتاب سکه، پیامدها شیر (H) یا خط (T) هستند.
+* برای انداختن یک تاس شش‌وجهی استاندارد، پیامدها اعداد صحیح ۱، ۲، ۳، ۴، ۵، ۶ هستند.
+* برای اندازه‌گیری دما، یک پیامد می‌تواند ۳۷٫۲ درجهٔ سانتی‌گراد باشد.
+* برای زمان بارگذاری وب‌سایت، یک پیامد می‌تواند ۱٫۳۴ ثانیه باشد.
 
 +++
 
-The **sample space**, often denoted by $S$ or $\Omega$ (Omega), is the set of *all possible* outcomes of an experiment.
+**فضای نمونه** که اغلب با $S$ یا $\Omega$ (امگا) نمایش داده می‌شود، مجموعهٔ *همهٔ* پیامدهای ممکن یک آزمایش است.
 
 +++
 
-### Discrete vs. Continuous Sample Spaces
+### فضای نمونهٔ گسسته در برابر پیوسته
 
 +++
 
-Sample spaces can be categorized based on the nature of their outcomes:
+فضاهای نمونه را می‌توان بر اساس ماهیت پیامدها دسته‌بندی کرد:
 
 +++
 
-1.  **Discrete Sample Space:** Contains a finite or countably infinite number of outcomes. The outcomes can be listed.
-    * **Example (Finite):** Rolling a standard six-sided die. The sample space is $S = \{1, 2, 3, 4, 5, 6\}$.
-    * **Example (Countably Infinite):** Flipping a coin until the first Head appears. The sample space is $S = \{H, TH, TTH, TTTH, ...\}$. Although infinite, we can map each outcome to a positive integer (1st flip, 2nd flip, 3rd flip, etc.).
+1.  **فضای نمونهٔ گسسته:** تعداد متناهی یا شمارا نامتناهی از پیامدها دارد. پیامدها را می‌توان فهرست کرد.
+    * **مثال (متناهی):** انداختن یک تاس شش‌وجهی استاندارد. فضای نمونه $S = \{1, 2, 3, 4, 5, 6\}$ است.
+    * **مثال (شمارا نامتناهی):** پرتاب سکه تا ظاهر شدن اولین شیر. فضای نمونه $S = \{H, TH, TTH, TTTH, ...\}$ است. اگرچه نامتناهی است، می‌توان هر پیامد را به یک عدد صحیح مثبت نگاشت کرد (پرتاب اول، پرتاب دوم، پرتاب سوم و غیره).
 
 +++
 
-2.  **Continuous Sample Space:** Contains an infinite number of outcomes that form a continuum. The outcomes cannot be listed individually because there are infinitely many possibilities between any two given outcomes.
-    * **Example:** Measuring the exact height of a randomly selected adult. The sample space might be all real numbers between 0.5 meters and 3.0 meters, $S = \{h \in \mathbb{R} \mid 0.5 \le h \le 3.0\}$.
-    * **Example:** Recording the time until a component fails. $S = \{t \in \mathbb{R} \mid t \ge 0\}$.
+2.  **فضای نمونهٔ پیوسته:** تعداد نامتناهی از پیامدها دارد که یک پیوستگی را تشکیل می‌دهند. پیامدها را نمی‌توان به‌صورت جداگانه فهرست کرد، زیرا بین هر دو پیامد داده‌شده، بی‌نهایت احتمال وجود دارد.
+    * **مثال:** اندازه‌گیری دقیق قد یک بزرگسال به‌صورت تصادفی انتخاب‌شده. فضای نمونه می‌تواند همهٔ اعداد حقیقی بین ۰٫۵ متر و ۳٫۰ متر باشد: $S = \{h \in \mathbb{R} \mid 0.5 \le h \le 3.0\}$.
+    * **مثال:** ثبت زمان تا خرابی یک قطعه. $S = \{t \in \mathbb{R} \mid t \ge 0\}$.
 
 +++
 
-**Python Representation (Discrete):**
-We can easily represent finite discrete sample spaces using Python sets or lists. Sets are often conceptually closer as they inherently handle uniqueness and order doesn't matter.
+**نمایش پایتونی (گسسته):**
+می‌توان فضاهای نمونهٔ گسستهٔ متناهی را به‌سادگی با مجموعه‌ها یا فهرست‌های پایتون نمایش داد. از نظر مفهومی، مجموعه‌ها اغلب نزدیک‌ترند، زیرا ذاتاً یکتایی را مدیریت می‌کنند و ترتیب اهمیت ندارد.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Sample space for rolling a single six-sided die
 sample_space_die = {1, 2, 3, 4, 5, 6}
@@ -89,27 +89,27 @@ print(f"Sample space (Coin): {sample_space_coin}")
 ```
 :::
 
-## Events as Subsets
+## رویدادها به‌عنوان زیرمجموعه
 
 +++
 
-An **event** is any subset of the sample space. It represents a specific outcome or a collection of outcomes of interest. Events are usually denoted by capital letters (A, B, E, etc.).
+**رویداد** هر زیرمجموعه‌ای از فضای نمونه است. یک پیامد خاص یا مجموعه‌ای از پیامدهای مورد نظر را نمایش می‌دهد. رویدادها معمولاً با حروف بزرگ (A، B، E و غیره) نمایش داده می‌شوند.
 
 +++
 
-* **Experiment:** Rolling a die ($S = \{1, 2, 3, 4, 5, 6\}$)
-    * **Event A:** Rolling an even number. $A = \{2, 4, 6\}$. Note that $A \subseteq S$.
-    * **Event B:** Rolling a number greater than 4. $B = \{5, 6\}$. Note that $B \subseteq S$.
-    * **Event C:** Rolling a 3. $C = \{3\}$. Simple event (contains only one outcome).
-    * **Event D:** Rolling a number less than 10. $D = \{1, 2, 3, 4, 5, 6\} = S$. This is the certain event.
-    * **Event E:** Rolling a 7. $E = \{\}$ or $\emptyset$. This is the impossible event (the empty set).
+* **آزمایش:** انداختن تاس ($S = \{1, 2, 3, 4, 5, 6\}$)
+    * **رویداد A:** آمدن عدد زوج. $A = \{2, 4, 6\}$. توجه کنید که $A \subseteq S$.
+    * **رویداد B:** آمدن عددی بزرگ‌تر از ۴. $B = \{5, 6\}$. توجه کنید که $B \subseteq S$.
+    * **رویداد C:** آمدن ۳. $C = \{3\}$. رویداد ساده (فقط یک پیامد دارد).
+    * **رویداد D:** آمدن عددی کمتر از ۱۰. $D = \{1, 2, 3, 4, 5, 6\} = S$. این رویداد حتمی است.
+    * **رویداد E:** آمدن ۷. $E = \{\}$ یا $\emptyset$. این رویداد ناممکن است (مجموعهٔ تهی).
 
 +++
 
-**Python Representation:**
-Events, being subsets, can also be represented using Python sets.
+**نمایش پایتونی:**
+رویدادها، به‌عنوان زیرمجموعه، را می‌توان با مجموعه‌های پایتون نیز نمایش داد.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Continuing the die roll example
 S = {1, 2, 3, 4, 5, 6}
@@ -128,43 +128,43 @@ print(f"Event B: {B}")
 ```
 :::
 
-## Set Theory Refresher
+## مرور نظریهٔ مجموعه‌ها
 
 +++
 
-Since events are sets, the language and operations of set theory are fundamental to probability. Let A and B be two events in a sample space S.
+از آنجا که رویدادها مجموعه هستند، زبان و عملیات نظریهٔ مجموعه‌ها برای احتمال بنیادی است. فرض کنید A و B دو رویداد در فضای نمونه S باشند.
 
 +++
 
-1.  **Union ($A \cup B$):** The set of outcomes that are in A, or in B, or in both. Corresponds to the logical 'OR'.
-    * *Example:* For the die roll, $A \cup B$ = "Rolling an even number OR a number greater than 4" = $\{2, 4, 5, 6\}$.
+1.  **اجتماع ($A \cup B$):** مجموعهٔ پیامدهایی که در A، یا در B، یا در هر دو هستند. معادل «یا» منطقی است.
+    * *مثال:* برای انداختن تاس، $A \cup B$ = «آمدن عدد زوج یا عددی بزرگ‌تر از ۴» = $\{2, 4, 5, 6\}$.
 
 +++
 
-2.  **Intersection ($A \cap B$):** The set of outcomes that are in *both* A and B. Corresponds to the logical 'AND'.
-    * *Example:* For the die roll, $A \cap B$ = "Rolling an even number AND a number greater than 4" = $\{6\}$.
+2.  **اشتراک ($A \cap B$):** مجموعهٔ پیامدهایی که در *هر دو* A و B هستند. معادل «و» منطقی است.
+    * *مثال:* برای انداختن تاس، $A \cap B$ = «آمدن عدد زوج *و* عددی بزرگ‌تر از ۴» = $\{6\}$.
 
 +++
 
-3.  **Complement ($A'$ or $A^c$):** The set of outcomes in the sample space S that are *not* in A. Corresponds to the logical 'NOT'.
-    * *Example:* For the die roll, $A'$ = "NOT rolling an even number" = "Rolling an odd number" = $\{1, 3, 5\}$.
+3.  **متمم ($A'$ یا $A^c$):** مجموعهٔ پیامدهای فضای نمونه S که در A *نیستند*. معادل «نه» منطقی است.
+    * *مثال:* برای انداختن تاس، $A'$ = «*عدم* آمدن عدد زوج» = «آمدن عدد فرد» = $\{1, 3, 5\}$.
 
 +++
 
-**Disjoint Events:** Two events A and B are **disjoint** or **mutually exclusive** if they have no outcomes in common, i.e., their intersection is the empty set ($A \cap B = \emptyset$).
-* *Example:* The event "Rolling an even number" (A={2,4,6}) and the event "Rolling an odd number" (A'={1,3,5}) are disjoint. The event "Rolling a 1" ({1}) and "Rolling a 6" ({6}) are disjoint.
+**رویدادهای مجزا:** دو رویداد A و B **مجزا** یا **متقابلاً منافی** هستند اگر هیچ پیامد مشترکی نداشته باشند، یعنی اشتراک آن‌ها مجموعهٔ تهی باشد ($A \cap B = \emptyset$).
+* *مثال:* رویداد «آمدن عدد زوج» (A={2,4,6}) و رویداد «آمدن عدد فرد» (A'={1,3,5}) مجزا هستند. رویداد «آمدن ۱» ({1}) و «آمدن ۶» ({6}) مجزا هستند.
 
 +++
 
-**Venn Diagrams:** These are useful visual aids. The sample space S is represented by a rectangle, and events are represented by circles or shapes within it. Overlapping areas show intersections, and the area outside a circle represents its complement.
+**نمودارهای ون:** این‌ها ابزارهای بصری مفیدی هستند. فضای نمونه S با یک مستطیل نمایش داده می‌شود و رویدادها با دایره‌ها یا شکل‌های داخل آن. نواحی هم‌پوشان اشتراک را نشان می‌دهند و ناحیهٔ بیرون یک دایره متمم آن را نمایش می‌دهد.
 
 +++
 
-(We won't draw Venn diagrams directly in code here, but libraries like `matplotlib_venn` can be used for this. Conceptually, imagine S as a box containing numbers 1-6. Circle A encloses 2, 4, 6. Circle B encloses 5, 6. The overlap contains only 6. The area outside A contains 1, 3, 5.)
+(در اینجا نمودار ون را مستقیماً در کد رسم نمی‌کنیم، اما کتابخانه‌هایی مانند `matplotlib_venn` برای این کار قابل استفاده‌اند. از نظر مفهومی، S را به‌صورت جعبه‌ای تصور کنید که اعداد ۱ تا ۶ را در بر می‌گیرد. دایرهٔ A شامل ۲، ۴، ۶ است. دایرهٔ B شامل ۵، ۶ است. ناحیهٔ هم‌پوشان فقط ۶ را دارد. ناحیهٔ بیرون A شامل ۱، ۳، ۵ است.)
 
-**Python Set Operations:**
+**عملیات مجموعه‌ای پایتون:**
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 S = {1, 2, 3, 4, 5, 6}
 A = {2, 4, 6}  # Even numbers
@@ -191,57 +191,57 @@ print(f"Are A and C disjoint? {intersection_AC == set()}") # Empty set means dis
 ```
 :::
 
-## Axioms of Probability
+## اصول احتمال
 
 +++
 
-The entire structure of probability theory is built upon three fundamental axioms, proposed by Andrey Kolmogorov. Let S be a sample space, and P(A) denote the probability of an event A.
+کل ساختار نظریهٔ احتمال بر سه اصل بنیادی استوار است که آندره کولموگوروف پیشنهاد کرد. فرض کنید S فضای نمونه و P(A) احتمال رویداد A باشد.
 
 +++
 
-1.  **Non-negativity:** For any event A, the probability of A is greater than or equal to zero.
+1.  **نامنفی‌بودن:** برای هر رویداد A، احتمال A بزرگ‌تر یا مساوی صفر است.
 
     $$P(A) \ge 0$$
 
-    Probabilities cannot be negative.
+    احتمال‌ها نمی‌توانند منفی باشند.
 
 +++
 
-2.  **Normalization:** The probability of the entire sample space S is equal to 1.
+2.  **نرمال‌سازی:** احتمال کل فضای نمونه S برابر ۱ است.
 
     $$P(S) = 1$$
 
-    This means that *some* outcome within the realm of possibility *must* occur. The maximum possible probability is 1.
+    این یعنی *برخی* پیامد در محدودهٔ امکان *باید* رخ دهد. بیشترین احتمال ممکن ۱ است.
 
 +++
 
-3.  **Additivity for Disjoint Events:** If $A_1, A_2, A_3, ...$ is a sequence of *mutually exclusive* (disjoint) events (i.e., $A_i \cap A_j = \emptyset$ for all $i \ne j$), then the probability of their union is the sum of their individual probabilities:
+3.  **جمع‌پذیری برای رویدادهای مجزا:** اگر $A_1, A_2, A_3, ...$ دنباله‌ای از رویدادهای *متقابلاً منافی* (مجزا) باشد (یعنی $A_i \cap A_j = \emptyset$ برای همهٔ $i \ne j$)، آنگاه احتمال اجتماع آن‌ها برابر مجموع احتمال‌های فردی است:
 
     $$P(A_1 \cup A_2 \cup A_3 \cup ...) = P(A_1) + P(A_2) + P(A_3) + ...$$
         
-    For a finite number of disjoint events, say A and B, this simplifies to: If $A \cap B = \emptyset$, then $P(A \cup B) = P(A) + P(B)$.
+    برای تعداد متناهی رویداد مجزا، مثلاً A و B، این ساده می‌شود به: اگر $A \cap B = \emptyset$، آنگاه $P(A \cup B) = P(A) + P(B)$.
 
 +++
 
-**Examples based on the axioms:**
+**مثال‌ها بر اساس اصول:**
 
-Consider rolling a fair six-sided die with $S = \{1, 2, 3, 4, 5, 6\}$. Assuming fairness, each outcome has probability 1/6.
+انداختن یک تاس شش‌وجهی منصفانه با $S = \{1, 2, 3, 4, 5, 6\}$ را در نظر بگیرید. با فرض انصاف، هر پیامد احتمال ۱/۶ دارد.
 
 +++
 
-**Example 1 - Non-negativity (Axiom 1):**
+**مثال ۱ — نامنفی‌بودن (اصل ۱):**
 
-Each individual outcome has non-negative probability:
+هر پیامد فردی احتمال نامنفی دارد:
 
 $$P(\{1\}) = 1/6 \ge 0, \quad P(\{2\}) = 1/6 \ge 0, \quad \text{etc.}$$
 
 +++
 
-**Example 2 - Normalization (Axiom 2):**
+**مثال ۲ — نرمال‌سازی (اصل ۲):**
 
-The event "Roll < 7" equals the entire sample space: $D = \{1, 2, 3, 4, 5, 6\} = S$.
+رویداد «آمدن < ۷» برابر کل فضای نمونه است: $D = \{1, 2, 3, 4, 5, 6\} = S$.
 
-Since the individual outcomes are disjoint, we can apply Axiom 3:
+از آنجا که پیامدهای فردی مجزا هستند، می‌توان اصل ۳ را به‌کار برد:
 
 $$P(D) = P(S) = P(\{1\} \cup \{2\} \cup ... \cup \{6\})$$
 
@@ -251,86 +251,86 @@ $$= 1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6 = 6/6 = 1$$
 
 +++
 
-**Example 3 - Impossible events:**
+**مثال ۳ — رویدادهای ناممکن:**
 
-The event "Roll > 6" is impossible: $E = \emptyset$.
+رویداد «آمدن > ۶» ناممکن است: $E = \emptyset$.
 
-To find $P(\emptyset)$, note that $S \cup \emptyset = S$ and these sets are disjoint. By Axiom 3:
+برای یافتن $P(\emptyset)$، توجه کنید که $S \cup \emptyset = S$ و این مجموعه‌ها مجزا هستند. بر اساس اصل ۳:
 
 $$P(S \cup \emptyset) = P(S) + P(\emptyset)$$
 
-Since $P(S) = 1$ (Axiom 2):
+از آنجا که $P(S) = 1$ (اصل ۲):
 
 $$1 = 1 + P(\emptyset)$$
 
 $$\therefore P(\emptyset) = 0$$
 
-This shows that the probability of any impossible event is 0.
+این نشان می‌دهد که احتمال هر رویداد ناممکن برابر ۰ است.
 
 +++
 
-## Basic Probability Rules
+## قواعد پایهٔ احتمال
 
 +++
 
-Several useful rules can be derived directly from the axioms:
+چند قاعدهٔ مفید را می‌توان مستقیماً از اصول استخراج کرد:
 
 +++
 
-1.  **Probability Range:** For any event A:
+1.  **بازهٔ احتمال:** برای هر رویداد A:
 
     $$0 \le P(A) \le 1$$
 
-    (Follows from Axioms 1 & 2 and $A \subseteq S$).
+    (از اصول ۱ و ۲ و $A \subseteq S$ نتیجه می‌شود).
 
 +++
 
-2.  **Complement Rule:** The probability that event A does *not* occur is 1 minus the probability that it *does* occur.
+2.  **قاعدهٔ متمم:** احتمال *عدم* وقوع رویداد A برابر ۱ منهای احتمال وقوع آن است.
 
     $$P(A') = 1 - P(A)$$
-    * **Derivation:**
-    A and A' are disjoint ($A \cap A' = \emptyset$) and their union is the entire sample space ($A \cup A' = S$). By Axiom 3, $P(A \cup A') = P(A) + P(A')$. By Axiom 2, $P(S) = 1$. Therefore, $P(A) + P(A') = 1$, which rearranges to the rule.
-    * **Example:** What is the probability of *not* rolling a 6?
-        Let $A = \{6\}$, so $P(A) = 1/6$.
-        $A'$ = "not rolling a 6" = $\{1, 2, 3, 4, 5\}$.
+    * **استخراج:**
+    A و A' مجزا هستند ($A \cap A' = \emptyset$) و اجتماع آن‌ها کل فضای نمونه است ($A \cup A' = S$). بر اساس اصل ۳، $P(A \cup A') = P(A) + P(A')$. بر اساس اصل ۲، $P(S) = 1$. بنابراین $P(A) + P(A') = 1$ که به قاعده منجر می‌شود.
+    * **مثال:** احتمال *عدم* آمدن ۶ چقدر است؟
+        فرض کنید $A = \{6\}$، پس $P(A) = 1/6$.
+        $A'$ = «عدم آمدن ۶» = $\{1, 2, 3, 4, 5\}$.
         $P(A') = 1 - P(A) = 1 - 1/6 = 5/6$.
 
 +++
 
-3.  **Addition Rule (General):** For any two events A and B (not necessarily disjoint), the probability that A *or* B (or both) occurs is:
+3.  **قاعدهٔ جمع (عمومی):** برای هر دو رویداد A و B (لزوماً مجزا نیستند)، احتمال وقوع A *یا* B (یا هر دو) برابر است با:
 
     $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
 
-    * **Intuition:** If we simply add P(A) and P(B), we have double-counted the probability of the outcomes that are in *both* A and B (the intersection). So, we subtract $P(A \cap B)$ to correct for this. If A and B are disjoint, $A \cap B = \emptyset$ and $P(A \cap B) = 0$, which reduces this rule to Axiom 3 for two events.
-    * **Example:** What is the probability of rolling an even number (A={2,4,6}) or a number greater than 4 (B={5,6})?
+    * **شهود:** اگر به‌سادگی P(A) و P(B) را جمع کنیم، احتمال پیامدهای موجود در *هر دو* A و B (اشتراک) را دوبار شمارش کرده‌ایم. بنابراین $P(A \cap B)$ را کم می‌کنیم تا این اشتباه اصلاح شود. اگر A و B مجزا باشند، $A \cap B = \emptyset$ و $P(A \cap B) = 0$، و این قاعده به اصل ۳ برای دو رویداد کاهش می‌یابد.
+    * **مثال:** احتمال آمدن عدد زوج (A={2,4,6}) یا عددی بزرگ‌تر از ۴ (B={5,6}) چقدر است؟
         $P(A) = 3/6 = 1/2$
         $P(B) = 2/6 = 1/3$
-        The intersection is $A \cap B = \{6\}$, so $P(A \cap B) = 1/6$.
-        Using the Addition Rule:
+        اشتراک $A \cap B = \{6\}$ است، پس $P(A \cap B) = 1/6$.
+        با استفاده از قاعدهٔ جمع:
         $P(A \cup B) = P(A) + P(B) - P(A \cap B) = 3/6 + 2/6 - 1/6 = 4/6 = 2/3$.
-        Let's check the outcomes in $A \cup B = \{2, 4, 5, 6\}$. There are 4 outcomes, each with probability 1/6. So the total probability is indeed $4 \times (1/6) = 4/6 = 2/3$. It works!
+        پیامدهای $A \cup B = \{2, 4, 5, 6\}$ را بررسی کنیم. ۴ پیامد وجود دارد، هر کدام با احتمال ۱/۶. پس احتمال کل واقعاً $4 \times (1/6) = 4/6 = 2/3$ است. درست است!
 
 +++
 
-## Hands-on Python Practice
+## تمرین عملی پایتون
 
 +++
 
-Let's use Python to solidify these concepts through simulation. We often don't know the theoretical probabilities beforehand, or the situation is too complex to calculate. Simulation allows us to *estimate* probabilities by running the experiment many times and observing the outcomes. This estimated probability is called the **empirical probability**.
+بیایید از پایتون برای تثبیت این مفاهیم از طریق شبیه‌سازی استفاده کنیم. اغلب احتمال‌های نظری را از پیش نمی‌دانیم، یا موقعیت برای محاسبهٔ تحلیلی بیش از حد پیچیده است. شبیه‌سازی به ما امکان می‌دهد احتمال را با اجرای مکرر آزمایش و مشاهدهٔ پیامدها *برآورد* کنیم. این احتمال برآوردشده **احتمال تجربی** نامیده می‌شود.
 
 +++
 
-**Empirical Probability:**
+**احتمال تجربی:**
 
 $$P_{empirical}(A) = \frac{\text{Number of times event A occurred}}{\text{Total number of trials}}$$
 
-The Law of Large Numbers (which we'll study later) tells us that as the number of trials increases, the empirical probability converges to the true theoretical probability.
+قانون اعداد بزرگ (که بعداً مطالعه می‌کنیم) می‌گوید با افزایش تعداد آزمایش‌ها، احتمال تجربی به احتمال نظری واقعی همگرا می‌شود.
 
 +++
 
-**Setup:** We'll need NumPy for efficient random number generation.
+**راه‌اندازی:** برای تولید کارآمد اعداد تصادفی به NumPy نیاز داریم.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
@@ -340,15 +340,15 @@ plt.style.use('seaborn-v0_8-whitegrid')
 ```
 :::
 
-With our libraries imported, we can now work through several examples demonstrating how Python helps us understand probability concepts.
+با وارد کردن کتابخانه‌ها، اکنون می‌توانیم چند مثال را برای نشان دادن اینکه پایتون چگونه به درک مفاهیم احتمال کمک می‌کند، بررسی کنیم.
 
-### 1. Representing Sample Spaces and Events
+### ۱. نمایش فضای نمونه و رویدادها
 
 +++
 
-We've already seen how to use Python sets. Let's reiterate for a coin flip.
+قبلاً دیدیم چگونه از مجموعه‌های پایتون استفاده کنیم. برای پرتاب سکه دوباره مرور می‌کنیم.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Sample Space
 S_coin = {'H', 'T'} # Using H for Heads, T for Tails
@@ -363,13 +363,13 @@ print(f"Is Heads an event in S_coin? {E_heads.issubset(S_coin)}")
 ```
 :::
 
-### 2. Simulating Simple Experiments
+### ۲. شبیه‌سازی آزمایش‌های ساده
 
 +++
 
-Let's simulate rolling a fair six-sided die many times.
+بیایید انداختن یک تاس شش‌وجهی منصفانه را بارها شبیه‌سازی کنیم.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 import numpy as np
 
@@ -383,15 +383,15 @@ print(f"Total rolls simulated: {len(rolls)}")
 ```
 :::
 
-### 3. Calculating Empirical Probabilities
+### ۳. محاسبهٔ احتمال تجربی
 
 +++
 
-**Example:** What is the empirical probability of rolling a number greater than 4?
+**مثال:** احتمال تجربی آمدن عددی بزرگ‌تر از ۴ چقدر است؟
 
-Theoretical answer: Event $B = \{5, 6\}$. $P(B) = 2/6 = 1/3 \approx 0.333$.
+پاسخ نظری: رویداد $B = \{5, 6\}$. $P(B) = 2/6 = 1/3 \approx 0.333$.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Define the event B: rolling > 4
 # We can count how many rolls satisfy this condition
@@ -408,15 +408,15 @@ print(f"Theoretical P(Roll > 4): {1/3:.4f}")
 ```
 :::
 
-**Note:** The `rolls` variable used here comes from the dice roll simulation above. Try running the simulation and this calculation multiple times—you'll notice the empirical probability fluctuates slightly but remains close to the theoretical value of 1/3, especially with a large `num_rolls`.
+**توجه:** متغیر `rolls` که اینجا استفاده شده از شبیه‌سازی انداختن تاس بالا می‌آید. شبیه‌سازی و این محاسبه را چند بار اجرا کنید — خواهید دید احتمال تجربی کمی نوسان می‌کند اما به مقدار نظری ۱/۳ نزدیک می‌ماند، به‌ویژه با `num_rolls` بزرگ.
 
 +++
 
-**Example:** What is the empirical probability of rolling an even number?
+**مثال:** احتمال تجربی آمدن عدد زوج چقدر است؟
 
-Theoretical answer: Event $A = \{2, 4, 6\}$. $P(A) = 3/6 = 0.5$.
+پاسخ نظری: رویداد $A = \{2, 4, 6\}$. $P(A) = 3/6 = 0.5$.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Event A: rolling an even number
 # An outcome is even if outcome % 2 == 0
@@ -433,13 +433,13 @@ print(f"Theoretical P(Roll is Even): {0.5:.4f}")
 ```
 :::
 
-### 4. Visualizing Events and Outcomes
+### ۴. مصورسازی رویدادها و پیامدها
 
 +++
 
-We can use histograms to visualize the distribution of outcomes from our simulation.
+می‌توانیم از هیستوگرام برای مصورسازی توزیع پیامدهای شبیه‌سازی استفاده کنیم.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 import matplotlib.pyplot as plt
 
@@ -466,13 +466,13 @@ plt.show()
 ```
 :::
 
-The histogram shows the counts for each outcome (1 through 6). For a fair die and a large number of rolls, we expect the bars to be roughly the same height, close to the theoretical expected frequency (total rolls / 6).
+هیستوگرام تعداد هر پیامد (۱ تا ۶) را نشان می‌دهد. برای تاس منصفانه و تعداد زیاد پرتاب، انتظار داریم میله‌ها تقریباً هم‌ارتفاع و نزدیک به فراوانی مورد انتظار نظری (تعداد کل پرتاب‌ها / ۶) باشند.
 
 +++
 
-We can also visualize the outcomes that constitute a specific event. For instance, let's highlight the rolls that were greater than 4.
+همچنین می‌توانیم پیامدهایی را که یک رویداد خاص را تشکیل می‌دهند مصور کنیم. مثلاً پرتاب‌هایی را که بزرگ‌تر از ۴ بودند برجسته کنیم.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Create a boolean mask for the event
 event_mask_B = rolls > 4 # True if roll > 4, False otherwise
@@ -490,187 +490,187 @@ print(f"- The empirical probability is {empirical_prob_B:.4f}")
 ```
 :::
 
-This visualization shows which specific outcomes from our simulation satisfy the event condition (rolling > 4). It demonstrates how we can programmatically filter and analyze events from our simulated data.
+این مصورسازی نشان می‌دهد کدام پیامدهای خاص از شبیه‌سازی شرط رویداد (آمدن > ۴) را برآورده می‌کنند. نشان می‌دهد چگونه می‌توان به‌صورت برنامه‌نویسی رویدادها را از دادهٔ شبیه‌سازی‌شده فیلتر و تحلیل کرد.
 
 +++
 
-## Chapter Summary
+## خلاصهٔ فصل
 
 +++
 
-This chapter introduced the basic language of probability theory, grounded in set theory.
-* We defined **experiments**, **outcomes**, and **sample spaces** (discrete and continuous).
-* We conceptualized **events** as subsets of the sample space.
-* We reviewed set operations (**union, intersection, complement**) and how they relate to combining or modifying events.
-* We established the foundational **Axioms of Probability** (Non-negativity, Normalization, Additivity).
-* We derived essential rules like the **Complement Rule** and the **Addition Rule**.
-* Crucially, we used Python to represent these concepts (using `sets` and `numpy`) and performed simulations to calculate **empirical probabilities**, comparing them to theoretical values.
+این فصل زبان پایهٔ نظریهٔ احتمال را، بر پایهٔ نظریهٔ مجموعه‌ها، معرفی کرد.
+* **آزمایش**، **پیامد** و **فضای نمونه** (گسسته و پیوسته) را تعریف کردیم.
+* **رویدادها** را به‌عنوان زیرمجموعه‌ای از فضای نمونه مفهوم‌سازی کردیم.
+* عملیات مجموعه‌ای (**اجتماع، اشتراک، متمم**) و ارتباط آن‌ها با ترکیب یا تغییر رویدادها را مرور کردیم.
+* **اصول بنیادی احتمال** (نامنفی‌بودن، نرمال‌سازی، جمع‌پذیری) را استوار کردیم.
+* قواعد ضروری مانند **قاعدهٔ متمم** و **قاعدهٔ جمع** را استخراج کردیم.
+* مهم‌تر از همه، از پایتون برای نمایش این مفاهیم (با `sets` و `numpy`) استفاده کردیم و شبیه‌سازی انجام دادیم تا **احتمال تجربی** را محاسبه و با مقادیر نظری مقایسه کنیم.
 
 +++
 
-Understanding this vocabulary and these basic rules is essential. In the next chapter, we will build upon this foundation by learning systematic ways to count the number of outcomes in sample spaces and events, which is often necessary for calculating theoretical probabilities, especially when outcomes are equally likely.
+درک این واژگان و قواعد پایه ضروری است. در فصل بعد، بر این پایه می‌سازیم و روش‌های نظام‌مند برای شمارش تعداد پیامدهای فضای نمونه و رویدادها را می‌آموزیم — که اغلب برای محاسبهٔ احتمال نظری، به‌ویژه وقتی پیامدها هم‌احتمال‌اند، لازم است.
 
 +++
 
-## Exercises
+## تمرین‌ها
 
-1. **Set Operations and Events:** In a survey of 100 students:
-   - 60 students study Mathematics (M)
-   - 50 students study Physics (P)
-   - 30 students study both Mathematics and Physics
+1. **عملیات مجموعه‌ای و رویدادها:** در نظرسنجی ۱۰۰ دانشجو:
+   - ۶۰ نفر ریاضی (M) می‌خوانند
+   - ۵۰ نفر فیزیک (P) می‌خوانند
+   - ۳۰ نفر هم ریاضی و هم فیزیک می‌خوانند
 
-   a) How many students study Mathematics or Physics (or both)?
-   b) How many students study neither Mathematics nor Physics?
-   c) How many students study exactly one of the two subjects?
+   الف) چند نفر ریاضی یا فیزیک (یا هر دو) می‌خوانند؟
+   ب) چند نفر نه ریاضی و نه فیزیک می‌خوانند؟
+   ج) چند نفر دقیقاً یکی از دو درس را می‌خوانند؟
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   Let $M$ be the set of students studying Mathematics, $P$ be the set of students studying Physics.
+   فرض کنید $M$ مجموعهٔ دانشجویان ریاضی و $P$ مجموعهٔ دانشجویان فیزیک باشد.
 
-   Given:
+   داده‌شده:
    - $|M| = 60$
    - $|P| = 50$
    - $|M \cap P| = 30$
-   - Total students = 100
+   - کل دانشجویان = 100
 
-   **a) Students studying M or P (or both):**
-   Using the inclusion-exclusion principle:
+   **الف) دانشجویان ریاضی یا فیزیک (یا هر دو):**
+   با اصل شمول و استثنا:
    $$|M \cup P| = |M| + |P| - |M \cap P| = 60 + 50 - 30 = 80$$
 
-   **Answer:** 80 students
+   **پاسخ:** ۸۰ دانشجو
 
-   **b) Students studying neither:**
+   **ب) دانشجویان هیچ‌کدام:**
    $|(M \cup P)^c| = 100 - |M \cup P| = 100 - 80 = 20$
 
-   **Answer:** 20 students
+   **پاسخ:** ۲۰ دانشجو
 
-   **c) Students studying exactly one subject:**
-   Only M: $|M| - |M \cap P| = 60 - 30 = 30$
-   Only P: $|P| - |M \cap P| = 50 - 30 = 20$
-   Total: $30 + 20 = 50$
+   **ج) دانشجویان دقیقاً یک درس:**
+   فقط M: $|M| - |M \cap P| = 60 - 30 = 30$
+   فقط P: $|P| - |M \cap P| = 50 - 30 = 20$
+   مجموع: $30 + 20 = 50$
 
-   **Answer:** 50 students
+   **پاسخ:** ۵۰ دانشجو
    ```
 
-2. **Probability Axioms:** A box contains 5 red balls, 3 blue balls, and 2 green balls. You randomly select one ball.
+2. **اصول احتمال:** جعبه‌ای ۵ توپ قرمز، ۳ توپ آبی و ۲ توپ سبز دارد. یک توپ را به‌صورت تصادفی انتخاب می‌کنید.
 
-   a) What is the probability of selecting a red ball?
-   b) What is the probability of not selecting a red ball?
-   c) What is the probability of selecting a red or blue ball?
-   d) Verify that the probabilities of all possible outcomes sum to 1.
+   الف) احتمال انتخاب توپ قرمز چقدر است؟
+   ب) احتمال انتخاب توپ غیرقرمز چقدر است؟
+   ج) احتمال انتخاب توپ قرمز یا آبی چقدر است؟
+   د) بررسی کنید که احتمال همهٔ پیامدهای ممکن جمعاً ۱ می‌شود.
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   Sample space: $S = \{\text{Red}, \text{Blue}, \text{Green}\}$
-   Total balls = $5 + 3 + 2 = 10$
+   فضای نمونه: $S = \{\text{Red}, \text{Blue}, \text{Green}\}$
+   کل توپ‌ها = $5 + 3 + 2 = 10$
 
-   **a) Probability of red:**
+   **الف) احتمال قرمز:**
    $$P(\text{Red}) = \frac{5}{10} = \frac{1}{2} = 0.5$$
 
-   **b) Probability of not red (Complement Rule):**
+   **ب) احتمال غیرقرمز (قاعدهٔ متمم):**
    $$P(\text{Red}^c) = 1 - P(\text{Red}) = 1 - 0.5 = 0.5$$
 
-   Or directly: $P(\text{Blue or Green}) = \frac{3+2}{10} = \frac{5}{10} = 0.5$
+   یا مستقیماً: $P(\text{Blue or Green}) = \frac{3+2}{10} = \frac{5}{10} = 0.5$
 
-   **c) Probability of red or blue (Addition Rule for mutually exclusive events):**
+   **ج) احتمال قرمز یا آبی (قاعدهٔ جمع برای رویدادهای متقابلاً منافی):**
    $$P(\text{Red} \cup \text{Blue}) = P(\text{Red}) + P(\text{Blue}) = \frac{5}{10} + \frac{3}{10} = \frac{8}{10} = 0.8$$
 
-   **d) Verification (Normalization Axiom):**
+   **د) بررسی (اصل نرمال‌سازی):**
    $$P(\text{Red}) + P(\text{Blue}) + P(\text{Green}) = \frac{5}{10} + \frac{3}{10} + \frac{2}{10} = \frac{10}{10} = 1 \,\checkmark$$
    ```
 
-3. **Addition Rule:** A fair six-sided die is rolled. Let $A$ be the event "roll an even number" and $B$ be the event "roll a number greater than 3".
+3. **قاعدهٔ جمع:** یک تاس شش‌وجهی منصفانه انداخته می‌شود. $A$ رویداد «آمدن عدد زوج» و $B$ رویداد «آمدن عددی بزرگ‌تر از ۳» باشد.
 
-   a) List the outcomes in events $A$, $B$, and $A \cap B$
-   b) Calculate $P(A)$, $P(B)$, and $P(A \cap B)$
-   c) Use the Addition Rule to find $P(A \cup B)$
-   d) Verify your answer by directly counting favorable outcomes
+   الف) پیامدهای رویدادهای $A$، $B$ و $A \cap B$ را فهرست کنید
+   ب) $P(A)$، $P(B)$ و $P(A \cap B)$ را محاسبه کنید
+   ج) با قاعدهٔ جمع $P(A \cup B)$ را بیابید
+   د) پاسخ را با شمارش مستقیم پیامدهای مطلوب تأیید کنید
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   Sample space: $S = \{1, 2, 3, 4, 5, 6\}$, each outcome has probability $\frac{1}{6}$
+   فضای نمونه: $S = \{1, 2, 3, 4, 5, 6\}$، هر پیامد احتمال $\frac{1}{6}$ دارد
 
-   **a) Events:**
-   - $A = \{2, 4, 6\}$ (even numbers)
-   - $B = \{4, 5, 6\}$ (greater than 3)
-   - $A \cap B = \{4, 6\}$ (even AND greater than 3)
+   **الف) رویدادها:**
+   - $A = \{2, 4, 6\}$ (اعداد زوج)
+   - $B = \{4, 5, 6\}$ (بزرگ‌تر از ۳)
+   - $A \cap B = \{4, 6\}$ (زوج *و* بزرگ‌تر از ۳)
 
-   **b) Probabilities:**
+   **ب) احتمال‌ها:**
    - $P(A) = \frac{3}{6} = \frac{1}{2}$
    - $P(B) = \frac{3}{6} = \frac{1}{2}$
    - $P(A \cap B) = \frac{2}{6} = \frac{1}{3}$
 
-   **c) Using Addition Rule:**
+   **ج) با قاعدهٔ جمع:**
    $$P(A \cup B) = P(A) + P(B) - P(A \cap B) = \frac{1}{2} + \frac{1}{2} - \frac{1}{3} = 1 - \frac{1}{3} = \frac{2}{3}$$
 
-   **d) Direct verification:**
-   $A \cup B = \{2, 4, 5, 6\}$, so $P(A \cup B) = \frac{4}{6} = \frac{2}{3}$ ✓
+   **د) تأیید مستقیم:**
+   $A \cup B = \{2, 4, 5, 6\}$، پس $P(A \cup B) = \frac{4}{6} = \frac{2}{3}$ ✓
    ```
 
-4. **De Morgan's Laws:** In a deck of 52 playing cards, let:
-   - $H$ = event that the card is a Heart
-   - $F$ = event that the card is a face card (Jack, Queen, King)
+4. **قوانین دمورگان:** در یک دستهٔ ۵۲ کارتی، فرض کنید:
+   - $H$ = رویداد خال دل بودن کارت
+   - $F$ = رویداد کارت تصویری بودن (سرباز، بی‌بی، شاه)
 
-   Find the probability that a randomly drawn card is:
-   a) Neither a Heart nor a face card (use De Morgan's Law: $(H \cup F)^c = H^c \cap F^c$)
-   b) Verify your answer by calculating directly
+   احتمال اینکه کارت کشیده‌شده:
+   الف) نه دل و نه تصویری باشد (با قانون دمورگان: $(H \cup F)^c = H^c \cap F^c$)
+   ب) پاسخ را با محاسبهٔ مستقیم تأیید کنید
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   In a standard deck:
-   - Hearts: 13 cards, so $P(H) = \frac{13}{52} = \frac{1}{4}$
-   - Face cards: $3 \times 4 = 12$ cards (J, Q, K in each suit), so $P(F) = \frac{12}{52} = \frac{3}{13}$
-   - Heart face cards: 3 cards (J♥, Q♥, K♥), so $P(H \cap F) = \frac{3}{52}$
+   در دستهٔ استاندارد:
+   - دل: ۱۳ کارت، پس $P(H) = \frac{13}{52} = \frac{1}{4}$
+   - کارت‌های تصویری: $3 \times 4 = 12$ کارت (س، ب، ش در هر خال)، پس $P(F) = \frac{12}{52} = \frac{3}{13}$
+   - کارت‌های تصویری دل: ۳ کارت (س♥، ب♥، ش♥)، پس $P(H \cap F) = \frac{3}{52}$
 
-   **a) Using De Morgan's Law:**
+   **الف) با قانون دمورگان:**
 
-   First, find $P(H \cup F)$ using the Addition Rule:
+   ابتدا $P(H \cup F)$ را با قاعدهٔ جمع بیابید:
    $$P(H \cup F) = P(H) + P(F) - P(H \cap F) = \frac{13}{52} + \frac{12}{52} - \frac{3}{52} = \frac{22}{52} = \frac{11}{26}$$
 
-   Then apply Complement Rule:
+   سپس قاعدهٔ متمم را به‌کار ببرید:
    $$P((H \cup F)^c) = P(H^c \cap F^c) = 1 - P(H \cup F) = 1 - \frac{11}{26} = \frac{15}{26}$$
 
-   **b) Direct calculation:**
-   Total cards: 52
-   Hearts or face cards: 22 (calculated above)
-   Neither: $52 - 22 = 30$
+   **ب) محاسبهٔ مستقیم:**
+   کل کارت‌ها: 52
+   دل یا تصویری: 22 (محاسبه‌شده بالا)
+   هیچ‌کدام: $52 - 22 = 30$
 
    $$P(H^c \cap F^c) = \frac{30}{52} = \frac{15}{26}$$ ✓
    ```
 
-5. **Mutually Exclusive vs. Independent:** Consider rolling a fair six-sided die.
-   - Let $A$ = "roll a 2"
-   - Let $B$ = "roll an odd number"
+5. **متقابلاً منافی در برابر مستقل:** انداختن یک تاس شش‌وجهی منصفانه را در نظر بگیرید.
+   - $A$ = «آمدن ۲»
+   - $B$ = «آمدن عدد فرد»
 
-   a) Are events $A$ and $B$ mutually exclusive? Explain.
-   b) Calculate $P(A)$, $P(B)$, and $P(A \cap B)$
-   c) If events were independent, what would $P(A \cap B)$ equal? Compare with your answer in (b).
+   الف) آیا $A$ و $B$ متقابلاً منافی‌اند؟ توضیح دهید.
+   ب) $P(A)$، $P(B)$ و $P(A \cap B)$ را محاسبه کنید
+   ج) اگر رویدادها مستقل بودند، $P(A \cap B)$ چقدر می‌شد؟ با پاسخ (ب) مقایسه کنید.
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   **a) Mutually exclusive?**
+   **الف) متقابلاً منافی؟**
 
-   Yes, $A$ and $B$ are mutually exclusive because:
+   بله، $A$ و $B$ متقابلاً منافی‌اند زیرا:
    - $A = \{2\}$
    - $B = \{1, 3, 5\}$
-   - $A \cap B = \emptyset$ (cannot roll both 2 and an odd number simultaneously)
+   - $A \cap B = \emptyset$ (نمی‌توان همزمان ۲ و عدد فرد آورد)
 
-   **b) Probabilities:**
+   **ب) احتمال‌ها:**
    - $P(A) = \frac{1}{6}$
    - $P(B) = \frac{3}{6} = \frac{1}{2}$
-   - $P(A \cap B) = 0$ (since $A \cap B = \emptyset$)
+   - $P(A \cap B) = 0$ (چون $A \cap B = \emptyset$)
 
-   **c) If independent:**
+   **ج) اگر مستقل بودند:**
 
-   If $A$ and $B$ were independent, then:
+   اگر $A$ و $B$ مستقل بودند، آنگاه:
    $$P(A \cap B) = P(A) \times P(B) = \frac{1}{6} \times \frac{1}{2} = \frac{1}{12}$$
 
-   But we found $P(A \cap B) = 0 \neq \frac{1}{12}$
+   اما $P(A \cap B) = 0 \neq \frac{1}{12}$ یافتیم
 
-   **Conclusion:** Events $A$ and $B$ are NOT independent. Mutually exclusive events (with positive probability) can never be independent—knowing one occurred tells us the other didn't occur.
+   **نتیجه:** $A$ و $B$ مستقل *نیستند*. رویدادهای متقابلاً منافی (با احتمال مثبت) هرگز مستقل نمی‌توانند باشند — دانستن وقوع یکی به ما می‌گوید دیگری رخ نداده است.
    ```

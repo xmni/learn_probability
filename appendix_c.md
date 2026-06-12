@@ -13,98 +13,98 @@ downloads:
   - file: notebooks/appendix_c.ipynb
 ---
 
-# Appendix C: Mathematical Notation Summary
+# پیوست ج: خلاصهٔ نمادگذاری ریاضی
 
-This appendix provides a summary of the common mathematical notations used throughout this book. Familiarity with these symbols is helpful for understanding the theoretical underpinnings alongside the Python implementations.
+این پیوست خلاصه‌ای از نمادگذاری‌های ریاضی رایج در سراسر این کتاب ارائه می‌دهد. آشنایی با این نمادها برای درک بنیادهای نظری در کنار پیاده‌سازی‌های پایتونی مفید است.
 
-## Set Theory and Probability Basics
+## نظریهٔ مجموعه‌ها و مبانی احتمال
 
-| Notation              | Meaning                                     | Example                                                               | Chapter(s) |
+| نماد              | معنا                                     | مثال                                                               | فصل(ها) |
 | :-------------------- | :------------------------------------------ | :-------------------------------------------------------------------- | :--------- |
-| $S$, $\Omega$          | Sample Space (the set of all possible outcomes) | $S = \{1, 2, 3, 4, 5, 6\}$ for a die roll.                             | 2          |
-| $A, B, E, ...$        | Events (subsets of the sample space)        | $A = \{2, 4, 6\}$ (rolling an even number).                             | 2          |
-| $\emptyset$           | Empty Set (impossible event)                 | Rolling a 7 on a standard die.                                        | 2          |
-| $A \cup B$           | Union ('A or B' or both occur)              | $\{1, 2, 3\} \cup \{3, 4, 5\} = \{1, 2, 3, 4, 5\}$                     | 2          |
-| $A \cap B$           | Intersection ('A and B' both occur)         | $\{1, 2, 3\} \cap \{3, 4, 5\} = \{3\}$                               | 2          |
-| $A^c$, $\bar{A}$        | Complement ('not A')                       | If $S=\{1,2,3\}$, $A=\{1\}$, then $A^c = \{2, 3\}$.                      | 2          |
-| $A \setminus B$        | Set Difference ('A but not B')              | $\{1, 2, 3\} \setminus \{3, 4, 5\} = \{1, 2\}$                          | 2          |
-| $|A|$                 | Cardinality (number of elements in set A)   | $|\{2, 4, 6\}| = 3$                                                 | 2, 3       |
-| $P(A)$                | Probability of event A occurring            | $P(\text{Heads}) = 0.5$ for a fair coin.                               | 2          |
-| $P(A|B)$              | Conditional Probability (prob. of A given B) | $P(\text{Sum}>10 | \text{First roll is } 6)$                             | 4          |
+| $S$, $\Omega$          | فضای نمونه (مجموعهٔ همهٔ پیامدهای ممکن) | $S = \{1, 2, 3, 4, 5, 6\}$ برای پرتاب تاس.                             | 2          |
+| $A, B, E, ...$        | رویدادها (زیرمجموعه‌های فضای نمونه)        | $A = \{2, 4, 6\}$ (آمدن عدد زوج).                             | 2          |
+| $\emptyset$           | مجموعهٔ تهی (رویداد غیرممکن)                 | آمدن ۷ روی تاس استاندارد.                                        | 2          |
+| $A \cup B$           | اجتماع («A یا B» یا هر دو)              | $\{1, 2, 3\} \cup \{3, 4, 5\} = \{1, 2, 3, 4, 5\}$                     | 2          |
+| $A \cap B$           | اشتراک («A و B» هر دو رخ می‌دهند)         | $\{1, 2, 3\} \cap \{3, 4, 5\} = \{3\}$                               | 2          |
+| $A^c$, $\bar{A}$        | متمم («نه A»)                       | اگر $S=\{1,2,3\}$، $A=\{1\}$، آنگاه $A^c = \{2, 3\}$.                      | 2          |
+| $A \setminus B$        | تفاضل مجموعه‌ها («A اما نه B»)              | $\{1, 2, 3\} \setminus \{3, 4, 5\} = \{1, 2\}$                          | 2          |
+| $|A|$                 | تعداد عناصر (کاردینالیتی مجموعه A)   | $|\{2, 4, 6\}| = 3$                                                 | 2, 3       |
+| $P(A)$                | احتمال وقوع رویداد A            | $P(\text{Heads}) = 0.5$ برای سکهٔ منصفانه.                               | 2          |
+| $P(A|B)$              | احتمال شرطی (احتمال A با فرض B) | $P(\text{Sum}>10 | \text{First roll is } 6)$                             | 4          |
 
-## Counting Techniques
+## فنون شمارش
 
-| Notation             | Meaning                                        | Example                                             | Chapter(s) |
+| نماد             | معنا                                        | مثال                                             | فصل(ها) |
 | :------------------- | :--------------------------------------------- | :-------------------------------------------------- | :--------- |
-| $n!$                 | Factorial ($n \times (n-1) \times ... \times 1$) | $5! = 5 \times 4 \times 3 \times 2 \times 1 = 120$               | 3          |
-| $P(n, k)$, $^nP_k$    | Permutations (ordered arrangements of k from n) | Ways to award Gold, Silver, Bronze to 3 of 10 runners | 3          |
-| $C(n, k)$, $^nC_k$, $\binom{n}{k}$ | Combinations (unordered selections of k from n) | Ways to choose a committee of 3 from 10 people    | 3          |
+| $n!$                 | فاکتوریل ($n \times (n-1) \times ... \times 1$) | $5! = 5 \times 4 \times 3 \times 2 \times 1 = 120$               | 3          |
+| $P(n, k)$, $^nP_k$    | تبدیلات (چیدمان‌های مرتب k از n) | روش‌های اعطای طلا، نقره، برنز به ۳ نفر از ۱۰ دونده | 3          |
+| $C(n, k)$, $^nC_k$, $\binom{n}{k}$ | ترکیبات (انتخاب‌های نامرتب k از n) | روش‌های انتخاب کمیتهٔ ۳ نفره از ۱۰ نفر    | 3          |
 
-## Random Variables and Distributions
+## متغیرهای تصادفی و توزیع‌ها
 
-| Notation                       | Meaning                                                        | Example                                                             | Chapter(s) |
+| نماد                       | معنا                                                        | مثال                                                             | فصل(ها) |
 | :----------------------------- | :------------------------------------------------------------- | :------------------------------------------------------------------ | :--------- |
-| $X, Y, Z$                      | Random Variables (variables whose values are numerical outcomes) | $X =$ Number of heads in 3 coin flips.                              | 6-12       |
-| $x, y, z$                      | Specific values (realizations) of random variables             | $X$ could take the value $x=2$.                                     | 6-12       |
-| $X \sim \text{Dist}(...)$      | 'X follows the distribution Dist with given parameters'         | $X \sim \text{Binomial}(n=10, p=0.5)$                              | 7, 9       |
-| $p(x)$, $p_X(x)$, $P(X=x)$      | Probability Mass Function (PMF) of a discrete RV $X$           | $p_X(k) = P(X=k)$ for $k=0, 1, ..., n$ in a Binomial distribution. | 6, 7       |
-| $f(x)$, $f_X(x)$                | Probability Density Function (PDF) of a continuous RV $X$      | The bell curve shape for a Normal distribution.                     | 8, 9       |
-| $F(x)$, $F_X(x)$                | Cumulative Distribution Function (CDF) $P(X \le x)$           | $F_X(x) = P(X \le x)$                                                | 6, 8       |
-| $E[X]$, $\mu$, $\mu_X$          | Expected Value (mean) of RV $X$                                | Average value expected from many trials.                            | 6, 8       |
-| $Var(X)$, $\sigma^2$, $\sigma^2_X$ | Variance of RV $X$ (measure of spread)                         | $Var(X) = E[(X - \mu)^2]$                                          | 6, 8       |
-| $SD(X)$, $\sigma$, $\sigma_X$    | Standard Deviation of RV $X$ ($\sqrt{Var(X)}$)                   | Spread measured in the same units as $X$.                           | 6, 8       |
+| $X, Y, Z$                      | متغیرهای تصادفی (متغیرهایی که مقادیرشان پیامدهای عددی‌اند) | $X =$ تعداد شیر در ۳ پرتاب سکه.                              | 6-12       |
+| $x, y, z$                      | مقادیر مشخص (تحقق‌ها) متغیرهای تصادفی             | $X$ می‌تواند مقدار $x=2$ بگیرد.                                     | 6-12       |
+| $X \sim \text{Dist}(...)$      | «X از توزیع Dist با پارامترهای داده‌شده پیروی می‌کند»         | $X \sim \text{Binomial}(n=10, p=0.5)$                              | 7, 9       |
+| $p(x)$, $p_X(x)$, $P(X=x)$      | تابع جرم احتمال (PMF) متغیر گسستهٔ $X$           | $p_X(k) = P(X=k)$ برای $k=0, 1, ..., n$ در توزیع دوجمله‌ای. | 6, 7       |
+| $f(x)$, $f_X(x)$                | تابع چگالی احتمال (PDF) متغیر پیوستهٔ $X$      | شکل منحنی زنگوله‌ای برای توزیع نرمال.                     | 8, 9       |
+| $F(x)$, $F_X(x)$                | تابع توزیع تجمعی (CDF) $P(X \le x)$           | $F_X(x) = P(X \le x)$                                                | 6, 8       |
+| $E[X]$, $\mu$, $\mu_X$          | امید ریاضی (میانگین) متغیر $X$                                | مقدار میانگین مورد انتظار از تکرارهای زیاد.                            | 6, 8       |
+| $Var(X)$, $\sigma^2$, $\sigma^2_X$ | واریانس متغیر $X$ (معیار پراکندگی)                         | $Var(X) = E[(X - \mu)^2]$                                          | 6, 8       |
+| $SD(X)$, $\sigma$, $\sigma_X$    | انحراف معیار متغیر $X$ ($\sqrt{Var(X)}$)                   | پراکندگی در همان واحد $X$.                           | 6, 8       |
 
-## Multiple Random Variables
+## چند متغیر تصادفی
 
-| Notation                           | Meaning                                                              | Chapter(s) |
+| نماد                           | معنا                                                              | فصل(ها) |
 | :--------------------------------- | :------------------------------------------------------------------- | :--------- |
-| $(X, Y)$                           | A pair of random variables                                           | 10-12      |
-| $p(x, y)$, $p_{X,Y}(x, y)$           | Joint PMF of discrete RVs $X, Y$                                     | 10         |
-| $f(x, y)$, $f_{X,Y}(x, y)$           | Joint PDF of continuous RVs $X, Y$                                   | 10         |
-| $F(x, y)$, $F_{X,Y}(x, y)$           | Joint CDF $P(X \le x, Y \le y)$                                      | 10         |
-| $p_X(x)$, $f_X(x)$                  | Marginal PMF/PDF of $X$ (derived from joint distribution)          | 10         |
-| $p(y|x)$, $p_{Y|X}(y|x)$            | Conditional PMF of $Y$ given $X=x$                                   | 10         |
-| $f(y|x)$, $f_{Y|X}(y|x)$            | Conditional PDF of $Y$ given $X=x$                                   | 10         |
-| $Cov(X, Y)$                        | Covariance between $X$ and $Y$ ($E[(X-\mu_X)(Y-\mu_Y)]$)             | 11         |
-| $\rho(X, Y)$, $Corr(X, Y)$         | Correlation Coefficient between $X$ and $Y$ ($\frac{Cov(X,Y)}{\sigma_X \sigma_Y}$) | 11         |
+| $(X, Y)$                           | یک جفت متغیر تصادفی                                           | 10-12      |
+| $p(x, y)$, $p_{X,Y}(x, y)$           | PMF مشترک متغیرهای گسستهٔ $X, Y$                                     | 10         |
+| $f(x, y)$, $f_{X,Y}(x, y)$           | PDF مشترک متغیرهای پیوستهٔ $X, Y$                                   | 10         |
+| $F(x, y)$, $F_{X,Y}(x, y)$           | CDF مشترک $P(X \le x, Y \le y)$                                      | 10         |
+| $p_X(x)$, $f_X(x)$                  | PMF/PDF حاشیه‌ای $X$ (مشتق‌شده از توزیع مشترک)          | 10         |
+| $p(y|x)$, $p_{Y|X}(y|x)$            | PMF شرطی $Y$ با فرض $X=x$                                   | 10         |
+| $f(y|x)$, $f_{Y|X}(y|x)$            | PDF شرطی $Y$ با فرض $X=x$                                   | 10         |
+| $Cov(X, Y)$                        | کوواریانس بین $X$ و $Y$ ($E[(X-\mu_X)(Y-\mu_Y)]$)             | 11         |
+| $\rho(X, Y)$, $Corr(X, Y)$         | ضریب همبستگی بین $X$ و $Y$ ($\frac{Cov(X,Y)}{\sigma_X \sigma_Y}$) | 11         |
 
-## Limit Theorems and Convergence
+## قضایای حدی و همگرایی
 
-| Notation           | Meaning                         | Chapter(s) |
+| نماد           | معنا                         | فصل(ها) |
 | :----------------- | :------------------------------ | :--------- |
-| $X_n \xrightarrow{p} X$ | Convergence in Probability      | 13         |
-| $X_n \xrightarrow{d} X$ | Convergence in Distribution     | 14         |
+| $X_n \xrightarrow{p} X$ | همگرایی در احتمال      | 13         |
+| $X_n \xrightarrow{d} X$ | همگرایی در توزیع     | 14         |
 
-## Bayesian Inference
+## استنتاج بیزی
 
-| Notation           | Meaning                      | Chapter(s) |
+| نماد           | معنا                      | فصل(ها) |
 | :----------------- | :--------------------------- | :--------- |
-| $\theta$            | Parameter of interest        | 5, 15      |
-| $\pi(\theta)$        | Prior distribution of $\theta$ | 15         |
-| $L(\theta | x)$     | Likelihood function          | 15         |
-| $p(\theta | x)$     | Posterior distribution of $\theta$ | 5, 15      |
+| $\theta$            | پارامتر مورد علاقه        | 5, 15      |
+| $\pi(\theta)$        | توزیع پیشین $\theta$ | 15         |
+| $L(\theta | x)$     | تابع درست‌نمایی          | 15         |
+| $p(\theta | x)$     | توزیع پسین $\theta$ | 5, 15      |
 
-## Markov Chains
+## زنجیره‌های مارکوف
 
-| Notation  | Meaning                                     | Chapter(s) |
+| نماد  | معنا                                     | فصل(ها) |
 | :-------- | :------------------------------------------ | :--------- |
-| $P_{ij}$  | Transition probability from state $i$ to $j$ | 16         |
-| $\mathbf{P}$ | Transition Probability Matrix             | 16         |
-| $\pi$    | Stationary distribution vector              | 16         |
+| $P_{ij}$  | احتمال گذار از حالت $i$ به $j$ | 16         |
+| $\mathbf{P}$ | ماتریس احتمال گذار             | 16         |
+| $\pi$    | بردار توزیع ایستا              | 16         |
 
-## General Mathematical Symbols
+## نمادهای ریاضی عمومی
 
-| Notation           | Meaning                                                | Chapter(s) |
+| نماد           | معنا                                                | فصل(ها) |
 | :----------------- | :----------------------------------------------------- | :--------- |
-| $\sum$            | Summation                                              | Throughout |
-| $\int$            | Integral                                               | Throughout |
-| $\approx$         | Approximately equal to                                 | Throughout |
-| $\propto$         | Proportional to                                        | 5, 15      |
-| $\mathbb{R}$      | Set of real numbers                                    | Throughout |
-| $\mathbb{N}$      | Set of natural numbers (usually $\{1, 2, 3, ...\}$)      | Throughout |
-| $\in$             | 'Element of' or 'belongs to'                           | 2          |
-| $\forall$         | 'For all'                                              | Throughout |
-| $\exists$         | 'There exists'                                         | Throughout |
+| $\sum$            | جمع                                              | در سراسر کتاب |
+| $\int$            | انتگرال                                               | در سراسر کتاب |
+| $\approx$         | تقریباً برابر                                 | در سراسر کتاب |
+| $\propto$         | متناسب با                                        | 5, 15      |
+| $\mathbb{R}$      | مجموعهٔ اعداد حقیقی                                    | در سراسر کتاب |
+| $\mathbb{N}$      | مجموعهٔ اعداد طبیعی (معمولاً $\{1, 2, 3, ...\}$)      | در سراسر کتاب |
+| $\in$             | «عضو» یا «متعلق به»                           | 2          |
+| $\forall$         | «برای همه»                                              | در سراسر کتاب |
+| $\exists$         | «وجود دارد»                                         | در سراسر کتاب |
 
 ```{code-cell} ipython3
 

@@ -13,61 +13,61 @@ downloads:
   - file: notebooks/appendix_a.ipynb
 ---
 
-# Appendix A: Python/Jupyter Setup Deep Dive
+# پیوست الف: راهنمای عمیق راه‌اندازی Python/Jupyter
 
 +++
 
-## Introduction
+## مقدمه
 
-Welcome to the practical side of probability! This book relies heavily on using Python and specific libraries within the Jupyter Notebook environment to explore concepts, run simulations, and visualize results. This appendix provides a detailed guide to setting up this environment on your computer.
+به جنبهٔ عملی احتمال خوش آمدید! این کتاب به‌شدت بر استفاده از پایتون و کتابخانه‌های مشخص در محیط Jupyter Notebook برای کاوش مفاهیم، اجرای شبیه‌سازی‌ها و مصورسازی نتایج تکیه دارد. این پیوست راهنمای مفصلی برای راه‌اندازی این محیط روی رایانهٔ شما ارائه می‌دهد.
 
-Our goal is to ensure you can:
-1.  Install Python.
-2.  Run Jupyter Notebooks.
-3.  Install and verify the core scientific libraries: NumPy, SciPy, Matplotlib, and Seaborn.
-4.  Access the book's code examples.
+هدف ما اطمینان از این است که بتوانید:
+1.  پایتون را نصب کنید.
+2.  Jupyter Notebookها را اجرا کنید.
+3.  کتابخانه‌های علمی اصلی — NumPy، SciPy، Matplotlib و Seaborn — را نصب و تأیید کنید.
+4.  به مثال‌های کد کتاب دسترسی داشته باشید.
 
-Even if you have some experience with Python, we recommend skimming through to ensure you have the specific setup used throughout the book.
+حتی اگر با پایتون آشنایی دارید، توصیه می‌کنیم برای اطمینان از داشتن همان راه‌اندازی مورد استفاده در سراسر کتاب، مرور سریعی انجام دهید.
 
 +++
 
-## 1. Python Installation: The Anaconda Distribution
+## ۱. نصب پایتون: توزیع Anaconda
 
-The easiest way to get Python and the essential scientific libraries installed together is by using the **Anaconda Distribution**. Anaconda bundles Python, Jupyter, many core libraries (like NumPy, SciPy, Matplotlib, Pandas), and a package manager (`conda`) that simplifies installation and management of environments.
+ساده‌ترین راه برای نصب همزمان پایتون و کتابخانه‌های علمی ضروری، استفاده از **Anaconda Distribution** است. Anaconda پایتون، Jupyter، بسیاری از کتابخانه‌های اصلی (مانند NumPy، SciPy، Matplotlib، Pandas) و یک مدیر بسته (`conda`) را که نصب و مدیریت محیط‌ها را ساده می‌کند، یکجا فراهم می‌کند.
 
-**Steps:**
+**مراحل:**
 
-1.  **Download:** Go to the Anaconda Distribution website: [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution)
-2.  **Select Installer:** Download the installer appropriate for your operating system (Windows, macOS, Linux). Choose the latest Python 3.x version.
-3.  **Run Installer:** Execute the downloaded installer. Follow the on-screen instructions.
-    * **Recommendation:** Unless you have a specific reason not to, accept the default settings. This usually includes adding Anaconda to your system's PATH environment variable (though the installer might advise against it for advanced users, for beginners it's often simpler).
-    * You do **not** need administrator privileges to install Anaconda for your user only, which is often sufficient.
+1.  **دانلود:** به وب‌سایت Anaconda Distribution بروید: [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution)
+2.  **انتخاب نصب‌کننده:** نصب‌کنندهٔ مناسب سیستم‌عامل خود (Windows، macOS، Linux) را دانلود کنید. آخرین نسخهٔ Python 3.x را انتخاب کنید.
+3.  **اجرای نصب‌کننده:** فایل دانلودشده را اجرا کنید. دستورالعمل‌های روی صفحه را دنبال کنید.
+    * **توصیه:** مگر دلیل خاصی دارید، تنظیمات پیش‌فرض را بپذیرید. این معمولاً شامل افزودن Anaconda به متغیر محیطی PATH سیستم می‌شود (اگرچه نصب‌کننده ممکن است برای کاربران پیشرفته توصیهٔ مخالف بدهد، برای مبتدیان اغلب ساده‌تر است).
+    * برای نصب Anaconda فقط برای کاربر خود، **نیازی** به دسترسی مدیر سیستم ندارید که اغلب کافی است.
 
-**Verification:**
+**تأیید:**
 
-Once installation is complete, open your system's terminal or command prompt:
-* **Windows:** Search for `Anaconda Prompt` in the Start menu and open it.
-* **macOS:** Open the `Terminal` application (found in Applications > Utilities).
-* **Linux:** Open your standard terminal.
+پس از تکمیل نصب، ترمینال یا command prompt سیستم را باز کنید:
+* **Windows:** در منوی Start عبارت `Anaconda Prompt` را جستجو کرده و آن را باز کنید.
+* **macOS:** برنامهٔ `Terminal` را باز کنید (در Applications > Utilities).
+* **Linux:** ترمینال استاندارد خود را باز کنید.
 
-In the terminal, type the following command and press Enter:
+در ترمینال، دستور زیر را تایپ کرده و Enter بزنید:
 
 ```bash
 python --version
 ```
 
-You should see output similar to `Python 3.x.y` (e.g., `Python 3.10.9`), indicating Python is installed and accessible. If you get an error like "command not found", the installation might not have completed correctly, or Anaconda wasn't added to your PATH (you might need to reinstall or manually add it, consult Anaconda's documentation).
+باید خروجی مشابه `Python 3.x.y` (مثلاً `Python 3.10.9`) ببینید که نشان می‌دهد پایتون نصب و در دسترس است. اگر خطایی مانند "command not found" دریافت کردید، نصب ممکن است درست تکمیل نشده باشد یا Anaconda به PATH اضافه نشده باشد (ممکن است نیاز به نصب مجدد یا افزودن دستی داشته باشید؛ مستندات Anaconda را ببینید).
 
 +++
 
-## 2. Jupyter Notebooks
+## ۲. Jupyter Notebookها
 
-Jupyter Notebooks provide an interactive, browser-based environment where you can write and execute Python code, add explanatory text (like this!), include mathematical equations, and display visualizations, all in one document. Anaconda comes with Jupyter pre-installed.
+Jupyter Notebookها محیطی تعاملی مبتنی بر مرورگر فراهم می‌کنند که در آن می‌توانید کد پایتون بنویسید و اجرا کنید، متن توضیحی (مانند همین!) اضافه کنید، معادلات ریاضی بگنجانید و مصورسازی‌ها را نمایش دهید — همه در یک سند. Anaconda با Jupyter از پیش نصب‌شده عرضه می‌شود.
 
-**Launching JupyterLab (Recommended Interface):**
+**راه‌اندازی JupyterLab (رابط توصیه‌شده):**
 
-1.  Open the Anaconda Prompt (Windows) or Terminal (macOS/Linux).
-2.  Navigate to the directory where you want to store your notebooks (or where you downloaded the book's code). You can use the `cd` (change directory) command. For example:
+1.  Anaconda Prompt (Windows) یا Terminal (macOS/Linux) را باز کنید.
+2.  به پوشه‌ای بروید که می‌خواهید notebookها را در آن نگه دارید (یا جایی که کد کتاب را دانلود کرده‌اید). می‌توانید از دستور `cd` (change directory) استفاده کنید. مثلاً:
     ```bash
     # Example for Windows - navigate to a 'ProbBook' folder on the C drive
     cd C:\Users\YourUsername\Documents\ProbBook 
@@ -75,61 +75,61 @@ Jupyter Notebooks provide an interactive, browser-based environment where you ca
     # Example for macOS/Linux - navigate to a 'ProbBook' folder in your home directory
     cd ~/Documents/ProbBook 
     ```
-3.  Type the following command and press Enter:
+3.  دستور زیر را تایپ کرده و Enter بزنید:
     ```bash
     jupyter lab
     ```
-4.  This should automatically open a new tab in your default web browser displaying the JupyterLab interface. The terminal window must remain open while you are using JupyterLab.
+4.  این باید به‌طور خودکار یک برگهٔ جدید در مرورگر پیش‌فرض باز کند و رابط JupyterLab را نمایش دهد. پنجرهٔ ترمینال باید هنگام استفاده از JupyterLab باز بماند.
 
-**Alternatively, Launching Classic Jupyter Notebook:**
+**راه‌اندازی Jupyter Notebook کلاسیک (جایگزین):**
 
-If you prefer the classic interface, use this command instead:
+اگر رابط کلاسیک را ترجیح می‌دهید، به‌جای آن از این دستور استفاده کنید:
 ```bash
 jupyter notebook
 ```
 
-**Basic Jupyter Usage:**
+**استفادهٔ پایه از Jupyter:**
 
-* **Interface:** JupyterLab typically shows a file browser on the left and a main work area on the right. You can open existing `.ipynb` notebook files or create new ones (File > New > Notebook).
-* **Cells:** Notebooks are composed of cells. The two main types are:
-    * **Code Cells:** Contain Python code to be executed. Select a code cell and press `Shift + Enter` (or click the Run button) to execute the code. Output appears below the cell.
-    * **Markdown Cells:** Contain formatted text (using Markdown syntax), like this cell. Press `Shift + Enter` to render the Markdown.
-* **Kernel:** The 'engine' that executes the code. You can restart the kernel if things get stuck (Kernel > Restart Kernel...). 
-* **Saving:** Notebooks are saved automatically, but you can manually save using File > Save Notebook.
-* **Closing:** Close the browser tab. In the terminal where you launched Jupyter, press `Ctrl + C` (you might need to press it twice) and confirm shutdown if prompted.
+* **رابط:** JupyterLab معمولاً مرورگر فایل را در سمت چپ و ناحیهٔ کار اصلی را در سمت راست نشان می‌دهد. می‌توانید فایل‌های notebook موجود `.ipynb` را باز کنید یا جدید بسازید (File > New > Notebook).
+* **سلول‌ها:** notebookها از سلول‌ها تشکیل شده‌اند. دو نوع اصلی عبارت‌اند از:
+    * **سلول‌های کد:** حاوی کد پایتون برای اجرا. یک سلول کد را انتخاب کرده و `Shift + Enter` (یا دکمهٔ Run) بزنید تا کد اجرا شود. خروجی زیر سلول ظاهر می‌شود.
+    * **سلول‌های Markdown:** حاوی متن قالب‌بندی‌شده (با نحو Markdown)، مانند این سلول. `Shift + Enter` را برای رندر Markdown بزنید.
+* **هسته (Kernel):** «موتور» اجرای کد. اگر گیر کردید می‌توانید هسته را راه‌اندازی مجدد کنید (Kernel > Restart Kernel...).
+* **ذخیره:** notebookها به‌طور خودکار ذخیره می‌شوند، اما می‌توانید دستی از File > Save Notebook ذخیره کنید.
+* **بستن:** برگهٔ مرورگر را ببندید. در ترمینالی که Jupyter را راه‌اندازی کردید، `Ctrl + C` بزنید (ممکن است دو بار لازم باشد) و در صورت درخواست، خاموش‌سازی را تأیید کنید.
 
 +++
 
-## 3. Core Libraries Installation/Verification
+## ۳. نصب/تأیید کتابخانه‌های اصلی
 
-Anaconda typically installs the most crucial libraries for this book automatically. These include:
+Anaconda معمولاً مهم‌ترین کتابخانه‌های این کتاب را به‌طور خودکار نصب می‌کند. این‌ها شامل موارد زیرند:
 
-* **NumPy:** Fundamental package for numerical computing, especially arrays (`np`).
-* **SciPy:** Library for scientific and technical computing, building on NumPy (`scipy`). We heavily use `scipy.stats`, `scipy.special`, and `scipy.integrate`.
-* **Matplotlib:** Core plotting library (`plt`).
-* **Pandas:** Library for data manipulation and analysis (often used alongside NumPy, `pd`). While not the primary focus, it's useful for handling datasets in examples.
+* **NumPy:** بستهٔ بنیادین محاسبات عددی، به‌ویژه آرایه‌ها (`np`).
+* **SciPy:** کتابخانهٔ محاسبات علمی و فنی بر پایهٔ NumPy (`scipy`). به‌شدت از `scipy.stats`، `scipy.special` و `scipy.integrate` استفاده می‌کنیم.
+* **Matplotlib:** کتابخانهٔ اصلی رسم نمودار (`plt`).
+* **Pandas:** کتابخانهٔ دستکاری و تحلیل داده (اغلب همراه NumPy، `pd`). اگرچه تمرکز اصلی نیست، برای کار با مجموعه‌داده‌ها در مثال‌ها مفید است.
 
-**Seaborn**, a visualization library based on Matplotlib that provides a high-level interface for drawing attractive statistical graphics (`sns`), might sometimes need to be installed separately.
+**Seaborn**، کتابخانهٔ مصورسازی مبتنی بر Matplotlib که رابط سطح‌بالایی برای رسم نمودارهای آماری جذاب فراهم می‌کند (`sns`)، گاهی ممکن است جداگانه نصب شود.
 
-**Checking and Installing Libraries:**
+**بررسی و نصب کتابخانه‌ها:**
 
-1.  **Using Conda (Recommended with Anaconda):**
-    Open Anaconda Prompt or Terminal and use `conda install`:
+1.  **با Conda (توصیه‌شده با Anaconda):**
+    Anaconda Prompt یا Terminal را باز کرده و از `conda install` استفاده کنید:
     ```bash
     conda install numpy scipy matplotlib pandas seaborn
     ```
-    Conda will check if the packages are installed and update them or install them if missing.
+    Conda بررسی می‌کند بسته‌ها نصب باشند و در صورت نیاز به‌روزرسانی یا نصب می‌کند.
 
-2.  **Using Pip (Alternative):**
-    If you are not using Anaconda or prefer pip:
+2.  **با Pip (جایگزین):**
+    اگر از Anaconda استفاده نمی‌کنید یا pip را ترجیح می‌دهید:
     ```bash
     pip install numpy scipy matplotlib pandas seaborn
     ```
-    *Note: It's generally recommended to stick to one package manager (`conda` or `pip`) within a single environment to avoid potential conflicts.*
+    *توجه: معمولاً توصیه می‌شود در یک محیط فقط از یک مدیر بسته (`conda` یا `pip`) استفاده کنید تا از تداخل احتمالی جلوگیری شود.*
 
-**Verification:**
+**تأیید:**
 
-The best way to verify is to create a new Jupyter Notebook and run the following code cell. If it executes without any `ImportError` messages, your core libraries are ready.
+بهترین راه تأیید، ساخت یک Jupyter Notebook جدید و اجرای سلول کد زیر است. اگر بدون پیام `ImportError` اجرا شود، کتابخانه‌های اصلی شما آماده‌اند.
 
 ```{code-cell} ipython3
 # Verification Cell: Import Core Libraries
@@ -168,40 +168,40 @@ except Exception as e:
     print("Please check your installations.")
 ```
 
-## 4. Getting the Book's Code
+## ۴. دریافت کد کتاب
 
-All the Jupyter Notebooks containing the code examples and exercises for this book are available online, typically in a GitHub repository.
+همهٔ Jupyter Notebookهای حاوی مثال‌های کد و تمرین‌های این کتاب به‌صورت آنلاین در دسترس‌اند، معمولاً در یک مخزن GitHub.
 
-* **Location:** Please refer to the Preface or the book's companion website for the exact URL of the GitHub repository (e.g., `https://github.com/snowch/learn_probability`).
+* **مکان:** برای URL دقیق مخزن GitHub به پیش‌گفتار یا وب‌سایت همراه کتاب مراجعه کنید (مثلاً `https://github.com/snowch/learn_probability`).
 
-**How to Download:**
+**نحوهٔ دانلود:**
 
-1.  **Download ZIP:** The simplest way is often to navigate to the main page of the GitHub repository in your web browser and look for a green "Code" button. Clicking it usually reveals a "Download ZIP" option. Download the file and unzip it into a convenient location on your computer (e.g., the `ProbBook` folder you might have created earlier).
-2.  **Using Git (More Advanced):** If you are familiar with Git, you can clone the repository. Open your terminal or Anaconda Prompt, navigate to where you want to store the code, and run:
+1.  **دانلود ZIP:** ساده‌ترین راه اغلب رفتن به صفحهٔ اصلی مخزن GitHub در مرورگر و جستجوی دکمهٔ سبز «Code» است. با کلیک روی آن معمولاً گزینهٔ «Download ZIP» ظاهر می‌شود. فایل را دانلود کرده و در مکان مناسبی روی رایانه (مثلاً پوشهٔ `ProbBook` که ممکن است قبلاً ساخته باشید) از حالت فشرده خارج کنید.
+2.  **با Git (پیشرفته‌تر):** اگر با Git آشنا هستید، می‌توانید مخزن را clone کنید. ترمینال یا Anaconda Prompt را باز کرده، به محل مورد نظر بروید و اجرا کنید:
     ```bash
     git clone https://github.com/snowch/learn_probability.git
     ```
-    This method makes it easier to get updates later using `git pull`.
+    این روش دریافت به‌روزرسانی‌های بعدی با `git pull` را آسان‌تر می‌کند.
 
-Once downloaded, you can launch JupyterLab or Jupyter Notebook from the directory containing the code, and you should see the `.ipynb` files ready to be opened.
-
-+++
-
-## 5. Basic Troubleshooting
-
-If you encounter issues, here are a few common problems and suggestions:
-
-* **`command not found` (e.g., `python`, `jupyter`, `conda`):** This usually means Anaconda/Python is not in your system's PATH. Try using the `Anaconda Prompt` specifically, as it's pre-configured. If using a standard terminal, you might need to reinstall Anaconda (ensuring the 'Add to PATH' option is selected, if appropriate for your comfort level) or manually configure the PATH environment variable (consult Anaconda documentation).
-* **`ImportError: No module named 'some_library'`:** The specific library (e.g., `seaborn`) is not installed in the Python environment Jupyter is using. Use `conda install some_library` or `pip install some_library` in the Anaconda Prompt/Terminal. Make sure you install it in the same environment Jupyter is running from (usually the 'base' environment if you haven't created others).
-* **Code runs indefinitely or crashes:** Try restarting the Jupyter kernel (Kernel > Restart Kernel...). This often resolves issues caused by variables holding unexpected states.
-* **Plots not showing:** Ensure you have run `%matplotlib inline` (usually included at the start of notebooks) or check for specific errors in the plotting code.
-* **Permission Errors (conda/pip):** If you installed Anaconda system-wide, you might need administrator privileges to install new packages. Try running Anaconda Prompt 'as Administrator' (Windows) or using `sudo` (macOS/Linux, use with caution).
-* **Searching for Help:** Copy and paste the error message into a search engine like Google. Include terms like `python`, `jupyter`, `conda`, and the library name. Stack Overflow ([stackoverflow.com](https://stackoverflow.com)) is an excellent resource for programming-related errors.
+پس از دانلود، می‌توانید JupyterLab یا Jupyter Notebook را از پوشهٔ حاوی کد راه‌اندازی کنید و باید فایل‌های `.ipynb` آمادهٔ باز شدن را ببینید.
 
 +++
 
-## 6. Next Steps
+## ۵. عیب‌یابی پایه
 
-With your environment set up and verified, you are ready to dive into the world of probability with Python! You can now proceed to **Chapter 1: Introduction to Probability and Python Setup** to begin your hands-on journey.
+اگر با مشکل روبه‌رو شدید، چند مسئلهٔ رایج و پیشنهادها:
 
-Make sure you can open and run the first few code cells in the Chapter 1 notebook provided with the book's materials. Happy coding and exploring!
+* **`command not found` (مثلاً `python`، `jupyter`، `conda`):** این معمولاً یعنی Anaconda/Python در PATH سیستم نیست. سعی کنید از `Anaconda Prompt` استفاده کنید، زیرا از پیش پیکربندی شده است. اگر از ترمینال استاندارد استفاده می‌کنید، ممکن است نیاز به نصب مجدد Anaconda (با انتخاب گزینهٔ «Add to PATH»، اگر برای سطح راحتی شما مناسب است) یا پیکربندی دستی PATH داشته باشید (مستندات Anaconda را ببینید).
+* **`ImportError: No module named 'some_library'`:** کتابخانهٔ مشخص (مثلاً `seaborn`) در محیط پایتونی که Jupyter از آن استفاده می‌کند نصب نیست. در Anaconda Prompt/Terminal از `conda install some_library` یا `pip install some_library` استفاده کنید. مطمئن شوید در همان محیطی نصب می‌کنید که Jupyter از آن اجرا می‌شود (معمولاً محیط «base» اگر محیط دیگری نساخته‌اید).
+* **کد بی‌پایان اجرا می‌شود یا crash می‌کند:** هستهٔ Jupyter را راه‌اندازی مجدد کنید (Kernel > Restart Kernel...). این اغلب مشکلات ناشی از متغیرهایی با حالت‌های غیرمنتظره را حل می‌کند.
+* **نمودارها نمایش داده نمی‌شوند:** مطمئن شوید `%matplotlib inline` را اجرا کرده‌اید (معمولاً در ابتدای notebookها) یا خطاهای خاص در کد رسم را بررسی کنید.
+* **خطاهای دسترسی (conda/pip):** اگر Anaconda را در سطح سیستم نصب کرده‌اید، ممکن است برای نصب بسته‌های جدید به دسترسی مدیر نیاز داشته باشید. Anaconda Prompt را «به‌عنوان Administrator» (Windows) اجرا کنید یا از `sudo` (macOS/Linux، با احتیاط) استفاده کنید.
+* **جستجوی کمک:** پیام خطا را در موتور جستجو مانند Google کپی کنید. عباراتی مانند `python`، `jupyter`، `conda` و نام کتابخانه را اضافه کنید. Stack Overflow ([stackoverflow.com](https://stackoverflow.com)) منبع عالی برای خطاهای برنامه‌نویسی است.
+
++++
+
+## ۶. گام‌های بعدی
+
+با راه‌اندازی و تأیید محیط، آمادهٔ ورود به دنیای احتمال با پایتون هستید! اکنون می‌توانید به **فصل ۱: مقدمه‌ای بر احتمال و راه‌اندازی پایتون** بروید تا سفر عملی خود را آغاز کنید.
+
+مطمئن شوید می‌توانید notebook فصل ۱ همراه با مطالب کتاب را باز کرده و چند سلول کد اول را اجرا کنید. کدنویسی و کاوش مبارک!

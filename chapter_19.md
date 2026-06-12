@@ -13,45 +13,45 @@ downloads:
   - file: notebooks/chapter_19.ipynb
 ---
 
-# Chapter 19: (Optional) Further Explorations
+# فصل ۱۹: (اختیاری) پیمایش‌های بیشتر
 
 +++
 
-**Welcome to the final chapter!** This chapter provides a brief glimpse into several fascinating areas that build upon the foundations of probability we've established. These topics often form the basis for more advanced courses in statistics, machine learning, information theory, and quantitative finance. 
+**به فصل پایانی خوش آمدید!** این فصل نگاهی کوتاه به چند حوزهٔ جذاب می‌اندازد که بر پایه‌های احتمالی که ساخته‌ایم بنا شده‌اند. این موضوعات اغلب مبنای دوره‌های پیشرفته‌تر در آمار، یادگیری ماشین، نظریهٔ اطلاعات و مالی کمی هستند.
 
-We won't delve into rigorous proofs or exhaustive detail, but rather aim to provide an intuitive understanding and demonstrate simple applications using Python. Consider this a launching point for your further learning.
+به اثبات‌های دقیق یا جزئیات کامل نمی‌پردازیم، بلکه هدف درک شهودی و نمایش کاربردهای ساده با پایتون است. این فصل را نقطهٔ آغاز یادگیری بیشتر خود بدانید.
 
-We will touch upon:
-* **Information Theory:** Quantifying information and comparing distributions (Entropy, KL Divergence).
-* **Stochastic Processes:** Modeling systems that evolve randomly over time (Poisson Process, Brownian Motion).
-* **Generating Functions:** Powerful mathematical tools for analyzing distributions (MGFs, PGFs).
-
-+++
-
-## Introduction to Information Theory
+به این موضوعات می‌پردازیم:
+* **نظریهٔ اطلاعات:** کمی‌سازی اطلاعات و مقایسهٔ توزیع‌ها (آنتروپی، واگرایی KL).
+* **فرایندهای تصادفی:** مدل‌سازی سامانه‌هایی که در طول زمان به‌صورت تصادفی تکامل می‌یابند (فرایند پواسون، حرکت براونی).
+* **توابع تولیدکننده:** ابزارهای ریاضی قدرتمند برای تحلیل توزیع‌ها (MGF، PGF).
 
 +++
 
-Information theory, pioneered by Claude Shannon, deals with quantifying information, data compression, and communication limits. Two fundamental concepts are entropy and Kullback-Leibler (KL) divergence.
+## مقدمه‌ای بر نظریهٔ اطلاعات
 
 +++
 
-### Entropy
+نظریهٔ اطلاعات، که توسط کلود شانون بنیان‌گذاری شد، با کمی‌سازی اطلاعات، فشرده‌سازی داده و محدودیت‌های ارتباطی سروکار دارد. دو مفهوم بنیادین آنتروپی و واگرایی کولبک-لایbler (KL) هستند.
 
 +++
 
-Entropy measures the average level of "information", "surprise", or "uncertainty" inherent in a random variable's possible outcomes. For a discrete random variable $X$ with PMF $p(x)$, the entropy $H(X)$ is defined as:
+### آنتروپی
+
++++
+
+آنتروپی میانگین سطح «اطلاعات»، «غافلگیری» یا «عدم‌قطعیت» ذاتی در پیامدهای ممکن یک متغیر تصادفی را می‌سنجد. برای متغیر تصادفی گسستهٔ $X$ با تابع جرم احتمال $p(x)$، آنتروپی $H(X)$ به‌صورت زیر تعریف می‌شود:
 
 $$ H(X) = - \sum_{x} p(x) \log_b p(x) $$
 
-The base $b$ of the logarithm determines the units (usually base 2 for bits, base $e$ for nats).
+پایهٔ $b$ لگاریتم واحد را تعیین می‌کند (معمولاً پایهٔ ۲ برای بیت و پایهٔ $e$ برای nat).
 
-* **High Entropy:** The outcomes are roughly equally likely (high uncertainty). A fair coin flip has higher entropy than a heavily biased coin.
-* **Low Entropy:** One outcome is much more likely than others (low uncertainty).
+* **آنتروپی بالا:** پیامدها تقریباً به‌طور یکسان محتمل‌اند (عدم‌قطعیت بالا). پرتاب یک سکهٔ منصفانه آنتروپی بیشتری از یک سکهٔ شدیداً مغرض دارد.
+* **آنتروپی پایین:** یک پیامد بسیار محتمل‌تر از بقیه است (عدم‌قطعیت پایین).
 
-**Example:** Consider a fair six-sided die vs. a heavily weighted die where P(roll=1)=0.9 and P(roll=i)=0.02 for i=2..6. The fair die has higher entropy because the outcome is less predictable.
+**مثال:** یک تاس شش‌وجهی منصفانه را با تاسی که شدیداً وزن‌دار است مقایسه کنید؛ در تاس دوم P(نتیجه=۱)=۰٫۹ و P(نتیجه=i)=۰٫۰۲ برای i=2..6. تاس منصفانه آنتروپی بیشتری دارد چون نتیجه کمتر قابل پیش‌بینی است.
 
-Let's compare the entropy of English text (where 'e' is common, 'z' is rare) to random characters (where all letters are equally likely). English text will have lower entropy because the letter frequencies are uneven, making it more predictable than random characters.
+بیایید آنتروپی متن انگلیسی (که «e» رایج و «z» نادر است) را با نویسه‌های تصادفی (که همهٔ حروف به‌طور یکسان محتمل‌اند) مقایسه کنیم. متن انگلیسی آنتروپی کمتری دارد چون بسامد حروف ناهمگن است و قابل پیش‌بینی‌تر از نویسه‌های تصادفی است.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -77,22 +77,22 @@ print(f"Entropy of biased die: {entropy_biased:.4f} bits")
 # Higher entropy means more uncertainty/unpredictability
 ```
 
-### Kullback-Leibler (KL) Divergence
+### واگرایی کولبک-لایbler (KL)
 
 +++
 
-KL divergence measures how one probability distribution $P$ diverges from a second, expected probability distribution $Q$. It's often interpreted as the information gain achieved when switching from a prior distribution $Q$ to a posterior distribution $P$.
+واگرایی KL می‌سنجد یک توزیع احتمال $P$ چقدر از توزیع احتمال مورد انتظار دوم $Q$ منحرف است. اغلب به‌عنوان سود اطلاعاتی هنگام گذار از توزیع پیشین $Q$ به توزیع پسین $P$ تفسیر می‌شود.
 
-For discrete distributions $P$ and $Q$ defined on the same sample space, the KL divergence from $Q$ to $P$ is:
+برای توزیع‌های گسستهٔ $P$ و $Q$ تعریف‌شده روی یک فضای نمونهٔ مشترک، واگرایی KL از $Q$ به $P$ برابر است با:
 
 $$ D_{KL}(P || Q) = \sum_{x} P(x) \log_b \frac{P(x)}{Q(x)} $$
 
-Key properties:
+ویژگی‌های کلیدی:
 * $D_{KL}(P || Q) \ge 0$
-* $D_{KL}(P || Q) = 0$ if and only if $P = Q$
-* It is **not** symmetric: $D_{KL}(P || Q) \neq D_{KL}(Q || P)$ in general.
+* $D_{KL}(P || Q) = 0$ اگر و فقط اگر $P = Q$
+* **متقارن نیست:** به‌طور کلی $D_{KL}(P || Q) \neq D_{KL}(Q || P)$.
 
-**Example:** How much information is lost if we model the biased die using the distribution of a fair die?
+**مثال:** اگر تاس وزن‌دار را با توزیع یک تاس منصفانه مدل کنیم، چقدر اطلاعات از دست می‌رود؟
 
 ```{code-cell} ipython3
 # Example: KL Divergence between biased and fair die
@@ -112,32 +112,32 @@ print(f"KL Divergence D_KL(Fair || Biased): {kl_qp:.4f} bits")
 # The asymmetry shows the 'direction' matters.
 ```
 
-## Introduction to Stochastic Processes
+## مقدمه‌ای بر فرایندهای تصادفی
 
 +++
 
-A stochastic process is a collection of random variables, typically indexed by time, $\{X(t) | t \in T\}$. It describes systems that evolve randomly.
+فرایند تصادفی مجموعه‌ای از متغیرهای تصادفی است که معمولاً بر حسب زمان نمایه‌گذاری شده‌اند، $\{X(t) | t \in T\}$. سامانه‌هایی را توصیف می‌کند که به‌صورت تصادفی تکامل می‌یابند.
 
-* **Markov Chains (Chapter 17):** Discrete time, discrete state space, memoryless property.
-* **Poisson Process:** Continuous time, discrete events occurring randomly.
-* **Brownian Motion:** Continuous time, continuous state space, modeling random movement.
-
-+++
-
-### Poisson Process
+* **زنجیره‌های مارکوف (فصل ۱۷):** زمان گسسته، فضای حالت گسسته، ویژگی بی‌حافظگی.
+* **فرایند پواسون:** زمان پیوسته، وقوع گسستهٔ رویدادها به‌صورت تصادفی.
+* **حرکت براونی:** زمان پیوسته، فضای حالت پیوسته، مدل‌سازی حرکت تصادفی.
 
 +++
 
-A Poisson process counts the number of events occurring in a given time interval. It's characterized by a constant average rate $\lambda$ (events per unit time).
+### فرایند پواسون
 
-Key properties:
-1.  The number of events in any interval of length $t$ follows a Poisson distribution with mean $\lambda t$.
-2.  The numbers of events in disjoint time intervals are independent.
-3.  The time *between* consecutive events follows an Exponential distribution with rate $\lambda$ (mean $1/\lambda$).
++++
 
-**Example:** Modeling the arrival of customers at a store, radioactive decay events, or receiving emails, assuming the average rate is constant and events are independent.
+فرایند پواسون تعداد رویدادهای رخ‌داده در یک بازهٔ زمانی را می‌شمارد. با نرخ میانگین ثابت $\lambda$ (رویداد در واحد زمان) مشخص می‌شود.
 
-Let's simulate the arrival times of events in a Poisson process.
+ویژگی‌های کلیدی:
+1.  تعداد رویدادها در هر بازه‌ای به طول $t$ از توزیع پواسون با میانگین $\lambda t$ پیروی می‌کند.
+2.  تعداد رویدادها در بازه‌های زمانی مجزا مستقل‌اند.
+3.  زمان *بین* رویدادهای متوالی از توزیع نمایی با نرخ $\lambda$ (میانگین $1/\lambda$) پیروی می‌کند.
+
+**مثال:** مدل‌سازی ورود مشتریان به فروشگاه، رویدادهای واپاشی رادیواکتیو یا دریافت ایمیل، با فرض نرخ میانگین ثابت و استقلال رویدادها.
+
+بیایید زمان‌های ورود رویدادها در یک فرایند پواسون را شبیه‌سازی کنیم.
 
 ```{code-cell} ipython3
 import matplotlib.pyplot as plt
@@ -174,26 +174,26 @@ print(f"Number of events simulated in {total_time} time units: {len(arrival_time
 # The actual number is random and follows Poisson(lambda*T)
 ```
 
-### Brownian Motion
+### حرکت براونی
 
 +++
 
-Brownian motion (or Wiener process) $W(t)$ models the random movement of particles suspended in a fluid, or more generally, phenomena exhibiting continuous random fluctuations.
+حرکت براونی (یا فرایند وینر) $W(t)$ حرکت تصادفی ذرات معلق در سیال را مدل می‌کند، یا به‌طور کلی‌تر پدیده‌هایی با نوسانات تصادفی پیوسته.
 
-Key properties (Standard Brownian Motion):
+ویژگی‌های کلیدی (حرکت براونی استاندارد):
 1.  $W(0) = 0$.
-2.  Independent Increments: For any $0 \le s < t < u < v$, the increments $W(t) - W(s)$ and $W(v) - W(u)$ are independent random variables.
-3.  Normal Increments: For any $0 \le s < t$, the increment $W(t) - W(s)$ is normally distributed with mean 0 and variance $t - s$. $W(t) \sim \mathcal{N}(0, t)$.
-4.  Continuous Paths: The function $W(t)$ is continuous in $t$.
+2.  افزایش‌های مستقل: برای هر $0 \le s < t < u < v$، افزایش‌های $W(t) - W(s)$ و $W(v) - W(u)$ متغیرهای تصادفی مستقل‌اند.
+3.  افزایش‌های نرمال: برای هر $0 \le s < t$، افزایش $W(t) - W(s)$ نرمال با میانگین ۰ و واریانس $t - s$ توزیع شده است. $W(t) \sim \mathcal{N}(0, t)$.
+4.  مسیرهای پیوسته: تابع $W(t)$ در $t$ پیوسته است.
 
-**Geometric Brownian Motion (GBM):** Often used in finance to model stock prices. A process $S(t)$ follows GBM if it satisfies the stochastic differential equation:
+**حرکت براونی هندسی (GBM):** اغلب در مالی برای مدل‌سازی قیمت سهام به‌کار می‌رود. فرایند $S(t)$ از GBM پیروی می‌کند اگر معادلهٔ دیفرانسیل تصادفی زیر را ارضا کند:
 $$ dS(t) = \mu S(t) dt + \sigma S(t) dW(t) $$
-where $\mu$ is the drift (average rate of return), $\sigma$ is the volatility (standard deviation of returns), and $dW(t)$ is the increment of a Wiener process.
+که در آن $\mu$ رانش (نرخ میانگین بازده) و $\sigma$ نوسان‌پذیری (انحراف معیار بازده‌ها) است و $dW(t)$ افزایش یک فرایند وینر است.
 
-The solution can be written as:
+راه‌حل را می‌توان به‌صورت زیر نوشت:
 $$ S(t) = S(0) \exp\left( (\mu - \frac{\sigma^2}{2})t + \sigma W(t) \right) $$
 
-**Example:** Simulating a simple stock price path using GBM.
+**مثال:** شبیه‌سازی یک مسیر سادهٔ قیمت سهام با GBM.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -233,51 +233,51 @@ plt.grid(True)
 plt.show()
 ```
 
-## Generating Functions
+## توابع تولیدکننده
 
 +++
 
-Generating functions are powerful tools in probability and combinatorics. They encode the sequence of probabilities of a distribution into a single function. Derivatives and manipulations of this function can reveal properties like moments (mean, variance) and the distribution of sums of independent random variables.
+توابع تولیدکننده ابزارهای قدرتمند در احتمال و ترکیبیات هستند. دنبالهٔ احتمال‌های یک توزیع را در یک تابع واحد رمزگذاری می‌کنند. مشتق‌ها و دستکاری‌های این تابع می‌توانند ویژگی‌هایی مانند گشتاورها (میانگین، واریانس) و توزیع مجموع متغیرهای تصادفی مستقل را آشکار کنند.
 
 +++
 
-### Probability Generating Functions (PGFs)
+### توابع تولید احتمال (PGF)
 
 +++
 
-Used for non-negative integer-valued discrete random variables $X$ (like Poisson, Binomial, Geometric). The PGF is defined as:
+برای متغیرهای تصادفی گسستهٔ با مقادیر صحیح نامنفی $X$ (مانند پواسون، دوجمله‌ای، هندسی) به‌کار می‌روند. PGF به‌صورت زیر تعریف می‌شود:
 
 $$ G_X(z) = E[z^X] = \sum_{k=0}^{\infty} P(X=k) z^k $$
 
-Properties:
+ویژگی‌ها:
 * $G_X(1) = \sum P(X=k) = 1$
-* $E[X] = G'_X(1)$ (first derivative evaluated at z=1)
+* $E[X] = G'_X(1)$ (مشتق اول در z=1)
 * $Var(X) = G''_X(1) + G'_X(1) - [G'_X(1)]^2$
-* If $X$ and $Y$ are independent, then $G_{X+Y}(z) = G_X(z) G_Y(z)$.
+* اگر $X$ و $Y$ مستقل باشند، آنگاه $G_{X+Y}(z) = G_X(z) G_Y(z)$.
 
 +++
 
-### Moment Generating Functions (MGFs)
+### توابع تولید گشتاور (MGF)
 
 +++
 
-Applicable to both discrete and continuous random variables. The MGF is defined as:
+برای متغیرهای تصادفی گسسته و پیوسته قابل استفاده‌اند. MGF به‌صورت زیر تعریف می‌شود:
 
 $$ M_X(t) = E[e^{tX}] $$
 
-For discrete $X$: $M_X(t) = \sum_x e^{tx} P(X=x)$
-For continuous $X$: $M_X(t) = \int_{-\infty}^{\infty} e^{tx} f_X(x) dx$
+برای $X$ گسسته: $M_X(t) = \sum_x e^{tx} P(X=x)$
+برای $X$ پیوسته: $M_X(t) = \int_{-\infty}^{\infty} e^{tx} f_X(x) dx$
 
-Properties:
+ویژگی‌ها:
 * $M_X(0) = E[e^0] = 1$
-* $E[X^n] = M_X^{(n)}(0)$ (n-th derivative evaluated at t=0)
+* $E[X^n] = M_X^{(n)}(0)$ (مشتق nام در t=0)
 * $E[X] = M'_X(0)$
 * $Var(X) = E[X^2] - (E[X])^2 = M''_X(0) - [M'_X(0)]^2$
-* If $X$ and $Y$ are independent, then $M_{X+Y}(t) = M_X(t) M_Y(t)$.
-* Uniqueness: If two random variables have the same MGF (in a neighborhood around 0), they have the same distribution.
+* اگر $X$ و $Y$ مستقل باشند، آنگاه $M_{X+Y}(t) = M_X(t) M_Y(t)$.
+* یکتایی: اگر دو متغیر تصادفی MGF یکسان داشته باشند (در همسایگی ۰)، توزیع یکسانی دارند.
 
-**Example:** The MGF of a Normal distribution $X \sim \mathcal{N}(\mu, \sigma^2)$ is $M_X(t) = \exp(\mu t + \frac{1}{2} \sigma^2 t^2)$.
-Let's verify the mean and variance using derivatives:
+**مثال:** MGF توزیع نرمال $X \sim \mathcal{N}(\mu, \sigma^2)$ برابر است با $M_X(t) = \exp(\mu t + \frac{1}{2} \sigma^2 t^2)$.
+بیایید میانگین و واریانس را با مشتق‌ها تأیید کنیم:
 * $M'_X(t) = (\mu + \sigma^2 t) \exp(\mu t + \frac{1}{2} \sigma^2 t^2)$
    $E[X] = M'_X(0) = (\mu + 0) \exp(0) = \mu$
 * $M''_X(t) = \sigma^2 \exp(\dots) + (\mu + \sigma^2 t)^2 \exp(\dots)$
@@ -286,7 +286,7 @@ Let's verify the mean and variance using derivatives:
 
 +++
 
-While calculating MGFs often involves calculus, some libraries like `scipy.stats` internally use properties derived from them to provide moments.
+در حالی که محاسبهٔ MGFها اغلب به حساب دیفرانسیل و انتگرال نیاز دارد، برخی کتابخانه‌ها مانند `scipy.stats` از ویژگی‌های مشتق‌شده از آن‌ها برای ارائهٔ گشتاورها استفاده می‌کنند.
 
 ```{code-cell} ipython3
 from scipy.stats import norm
@@ -312,13 +312,13 @@ print(f"  E[X^2]: {ex2:.4f} (Theoretical: {sigma**2 + mu**2})")
 # Using MGFs is primarily an analytical technique.
 ```
 
-## Chapter Summary
+## خلاصهٔ فصل
 
 +++
 
-This chapter offered a brief introduction to several advanced probability topics:
-* **Information Theory:** We saw how entropy quantifies uncertainty (using `scipy.stats.entropy`) and KL divergence measures the difference between distributions.
-* **Stochastic Processes:** We explored models for random evolution over time, simulating event arrivals with the **Poisson Process** (using `scipy.stats.expon` for inter-arrival times) and modeling continuous random movement like stock prices with **Geometric Brownian Motion** (using `numpy.random.normal` for increments).
-* **Generating Functions:** We discussed the concepts of PGFs and MGFs as mathematical tools to analyze distributions and find moments, illustrating how `scipy.stats` provides moments consistent with MGF theory for common distributions like the Normal.
+این فصل مقدمه‌ای کوتاه بر چند موضوع پیشرفتهٔ احتمال ارائه داد:
+* **نظریهٔ اطلاعات:** دیدیم آنتروپی چگونه عدم‌قطعیت را کمی‌سازی می‌کند (با `scipy.stats.entropy`) و واگرایی KL تفاوت بین توزیع‌ها را می‌سنجد.
+* **فرایندهای تصادفی:** مدل‌هایی برای تکامل تصادفی در زمان را بررسی کردیم؛ شبیه‌سازی ورود رویدادها با **فرایند پواسون** (با `scipy.stats.expon` برای زمان‌های بین‌ورودی) و مدل‌سازی حرکت تصادفی پیوسته مانند قیمت سهام با **حرکت براونی هندسی** (با `numpy.random.normal` برای افزایش‌ها).
+* **توابع تولیدکننده:** مفاهیم PGF و MGF را به‌عنوان ابزارهای ریاضی برای تحلیل توزیع‌ها و یافتن گشتاورها بررسی کردیم و نشان دادیم `scipy.stats` گشتاورهایی سازگار با نظریهٔ MGF برای توزیع‌های رایج مانند نرمال فراهم می‌کند.
 
-These areas represent vast fields of study. Hopefully, this glimpse has piqued your interest and demonstrated how the fundamental concepts learned throughout this book serve as stepping stones to more complex and powerful probabilistic modeling techniques.
+این حوزه‌ها میدان‌های گسترده‌ای از مطالعه را تشکیل می‌دهند. امیدواریم این نگاه کوتاه علاقهٔ شما را برانگیخته و نشان داده باشد که مفاهیم بنیادین آموخته‌شده در سراسر این کتاب پله‌هایی به سوی تکنیک‌های مدل‌سازی احتمالاتی پیچیده‌تر و قدرتمندتر هستند.

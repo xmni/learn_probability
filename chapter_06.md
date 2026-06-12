@@ -14,55 +14,55 @@ downloads:
   - file: notebooks/chapter_06.ipynb
 ---
 
-# Chapter 6: Discrete Random Variables
+# فصل ۶: متغیرهای تصادفی گسسته
 
-Welcome to Part 3 of our journey! We've built a solid foundation in basic probability, counting, conditional probability, and independence. Now, we introduce a central concept that bridges probability theory and data analysis: the **Random Variable**. Random variables allow us to quantitatively describe the outcomes of random phenomena. In this chapter, we'll focus specifically on **Discrete Random Variables**, which take on a finite or countably infinite number of values. We'll learn how to describe their behavior using Probability Mass Functions (PMFs) and Cumulative Distribution Functions (CDFs), and how to summarize them using measures like Expected Value (Mean) and Variance.
-
-+++
-
-## What is a Random Variable?
-
-In many experiments, we're not interested in the specific outcome itself, but rather in some numerical property associated with that outcome.
-
-**Definition:** A **Random Variable** is a variable whose value is a numerical outcome of a random phenomenon. More formally, it's a function that maps each outcome in the sample space $\Omega$ to a real number.
-
-We typically denote random variables with uppercase letters (e.g., $X, Y, Z$) and their specific values with lowercase letters (e.g., $x, y, z$).
-
-**Types of Random Variables:**
-1.  **Discrete Random Variable:** A random variable that can only take on a finite or countably infinite number of distinct values. Often associated with counting processes.
-2.  **Continuous Random Variable:** A random variable that can take on any value within a given range or interval. Often associated with measurement processes. (We'll cover these in Chapter 8).
-
-**Example:** Consider rolling a fair six-sided die.
-* The sample space is $\Omega = \{1, 2, 3, 4, 5, 6\}$.
-* We can define a random variable $X$ to be the number shown on the die after the roll. $X$ maps each outcome (which is already a number in this case) to itself.
-* $X$ is a **discrete random variable** because it can only take on the specific values $\{1, 2, 3, 4, 5, 6\}$.
-
-**Another Example:** Consider flipping a coin twice.
-* The sample space is $\Omega = \{HH, HT, TH, TT\}$.
-* Let $Y$ be the random variable representing the *number of heads* obtained.
-* $Y$ maps the outcomes to numbers: $Y(HH) = 2$, $Y(HT) = 1$, $Y(TH) = 1$, $Y(TT) = 0$.
-* $Y$ is a **discrete random variable** because it can only take on the values $\{0, 1, 2\}$.
+به بخش سوم سفرمان خوش آمدید! پایه‌ای محکم در احتمال پایه، شمارش، احتمال شرطی و استقلال ساخته‌ایم. اکنون مفهومی محوری را معرفی می‌کنیم که نظریه احتمال و تحلیل داده را به هم پیوند می‌دهد: **متغیر تصادفی**. متغیرهای تصادفی امکان توصیف کمی پیامدهای پدیده‌های تصادفی را فراهم می‌کنند. در این فصل، به‌طور خاص بر **متغیرهای تصادفی گسسته** تمرکز می‌کنیم؛ یعنی متغیرهایی که تعداد محدود یا شمارا بی‌نهایت مقدار می‌گیرند. خواهیم آموخت که رفتار آن‌ها را با تابع جرم احتمال (PMF) و تابع توزیع تجمعی (CDF) چگونه توصیف کنیم و با اندازه‌هایی مانند امید ریاضی (میانگین) و واریانس چگونه خلاصه کنیم.
 
 +++
 
-## Probability Mass Function (PMF)
+## متغیر تصادفی چیست؟
 
-For a discrete random variable, we want to know the probability associated with each possible value it can take. This is captured by the Probability Mass Function (PMF).
+در بسیاری از آزمایش‌ها، خود پیامد خاص اهمیت ندارد؛ بلکه برخی ویژگی عددی مرتبط با آن پیامد برای ما مهم است.
 
-**Definition:** The **Probability Mass Function (PMF)** of a discrete random variable $X$ is a function, denoted by $p_X(x)$ or simply $p(x)$, that gives the probability that $X$ is exactly equal to some value $x$.
+**تعریف:** **متغیر تصادفی** متغیری است که مقدار آن یک پیامد عددی از یک پدیده تصادفی است. به‌صورت رسمی‌تر، تابعی است که هر پیامد در فضای نمونه $\Omega$ را به یک عدد حقیقی نگاشت می‌کند.
+
+معمولاً متغیرهای تصادفی را با حروف بزرگ (مثلاً $X, Y, Z$) و مقادیر مشخص آن‌ها را با حروف کوچک (مثلاً $x, y, z$) نمایش می‌دهیم.
+
+**انواع متغیرهای تصادفی:**
+1.  **متغیر تصادفی گسسته:** متغیر تصادفی‌ای که فقط می‌تواند تعداد محدود یا شمارا بی‌نهایت مقدار متمایز بگیرد. اغلب با فرایندهای شمارشی مرتبط است.
+2.  **متغیر تصادفی پیوسته:** متغیر تصادفی‌ای که می‌تواند هر مقداری در یک بازه یا محدوده معین بگیرد. اغلب با فرایندهای اندازه‌گیری مرتبط است. (این موضوع را در فصل ۸ پوشش می‌دهیم).
+
+**مثال:** پرتاب یک تاس شش‌وجهی منصفانه را در نظر بگیرید.
+* فضای نمونه $\Omega = \{1, 2, 3, 4, 5, 6\}$ است.
+* می‌توانیم متغیر تصادفی $X$ را به‌عنوان عدد روی تاس پس از پرتاب تعریف کنیم. $X$ هر پیامد (که در این مورد خود عدد است) را به خودش نگاشت می‌کند.
+* $X$ یک **متغیر تصادفی گسسته** است زیرا فقط می‌تواند مقادیر $\{1, 2, 3, 4, 5, 6\}$ را بگیرد.
+
+**مثال دیگر:** دو بار پرتاب سکه را در نظر بگیرید.
+* فضای نمونه $\Omega = \{HH, HT, TH, TT\}$ است.
+* $Y$ را متغیر تصادفی نماینده *تعداد شیر* به‌دست‌آمده در نظر بگیرید.
+* $Y$ پیامدها را به اعداد نگاشت می‌کند: $Y(HH) = 2$، $Y(HT) = 1$، $Y(TH) = 1$، $Y(TT) = 0$.
+* $Y$ یک **متغیر تصادفی گسسته** است زیرا فقط می‌تواند مقادیر $\{0, 1, 2\}$ را بگیرد.
+
++++
+
+## تابع جرم احتمال (PMF)
+
+برای یک متغیر تصادفی گسسته، می‌خواهیم احتمال مرتبط با هر مقدار ممکن آن را بدانیم. این موضوع در تابع جرم احتمال (PMF) بیان می‌شود.
+
+**تعریف:** **تابع جرم احتمال (PMF)** متغیر تصادفی گسسته $X$ تابعی است که با $p_X(x)$ یا به‌اختصار $p(x)$ نمایش داده می‌شود و احتمال برابر بودن دقیق $X$ با مقدار $x$ را می‌دهد.
 
 $$
 p_X(x) = P(X = x)
 $$
 
-A valid PMF must satisfy two conditions:
-1.  $p_X(x) \ge 0$ for all possible values $x$. (Probabilities cannot be negative).
-2.  $\sum_{x} p_X(x) = 1$, where the sum is taken over all possible values $x$ that $X$ can assume. (The total probability must be 1).
+یک PMF معتبر باید دو شرط زیر را برآورده کند:
+1.  $p_X(x) \ge 0$ برای همه مقادیر ممکن $x$. (احتمال‌ها نمی‌توانند منفی باشند).
+2.  $\sum_{x} p_X(x) = 1$، که در آن جمع روی همه مقادیر ممکن $x$ که $X$ می‌تواند بگیرد گرفته می‌شود. (مجموع احتمال‌ها باید ۱ باشد).
 
-:::{admonition} Example: Fair Die PMF
+:::{admonition} مثال: PMF تاس منصفانه
 :class: tip dropdown
 
-For the fair die roll, let $X$ be the outcome. The possible values are $\{1, 2, 3, 4, 5, 6\}$. Since the die is fair, each outcome has a probability of $\frac{1}{6}$. The PMF is:
+برای پرتاب تاس منصفانه، $X$ را پیامد در نظر بگیرید. مقادیر ممکن $\{1, 2, 3, 4, 5, 6\}$ هستند. از آنجا که تاس منصفانه است، هر پیامد احتمال $\frac{1}{6}$ دارد. PMF به‌صورت زیر است:
 
 $$
 p_X(x) =
@@ -72,12 +72,12 @@ p_X(x) =
 \end{cases}
 $$
 
-So, $P(X=1) = 1/6$, $P(X=2) = 1/6$, ..., $P(X=6) = 1/6$.
+بنابراین $P(X=1) = 1/6$، $P(X=2) = 1/6$، ...، $P(X=6) = 1/6$.
 
-The sum is $6 \times \frac{1}{6} = 1$.
+مجموع برابر است با $6 \times \frac{1}{6} = 1$.
 :::
 
-Let's represent and visualize this PMF in Python.
+بیایید این PMF را در پایتون نمایش دهیم و مصور کنیم.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -90,9 +90,9 @@ from scipy.stats import rv_discrete
 plt.style.use('seaborn-v0_8-whitegrid')
 ```
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 
-This code creates the PMF for a fair die by defining the possible values and their probabilities. We use a dictionary to represent the PMF for easy lookup and verify that probabilities sum to 1.
+این کد PMF تاس منصفانه را با تعریف مقادیر ممکن و احتمال‌های آن‌ها می‌سازد. از یک dictionary برای نمایش PMF به‌منظور جستجوی آسان استفاده می‌کنیم و بررسی می‌کنیم که مجموع احتمال‌ها ۱ باشد.
 
 ```{code-cell} ipython3
 from pprint import pprint
@@ -129,41 +129,41 @@ plt.show()
 ---
 width: 80%
 ---
-PMF of a fair die roll showing uniform probability of 1/6 for each outcome.
+PMF پرتاب تاس منصفانه که احتمال یکنواخت ۱/۶ برای هر پیامد را نشان می‌دهد.
 ```
 
 +++
 
-## Cumulative Distribution Function (CDF)
+## تابع توزیع تجمعی (CDF)
 
-Sometimes, we are interested not just in the probability of $X$ being *exactly* a certain value, but in the probability that $X$ is *less than or equal to* a certain value. This is captured by the Cumulative Distribution Function (CDF).
+گاهی نه فقط احتمال *دقیقاً* برابر بودن $X$ با یک مقدار خاص، بلکه احتمال *کمتر یا مساوی* بودن $X$ با آن مقدار برای ما مهم است. این موضوع در تابع توزیع تجمعی (CDF) بیان می‌شود.
 
-**Definition:** The **Cumulative Distribution Function (CDF)** of a random variable $X$ (discrete or continuous), denoted by $F_X(x)$ or simply $F(x)$, gives the probability that $X$ takes on a value less than or equal to $x$.
+**تعریف:** **تابع توزیع تجمعی (CDF)** متغیر تصادفی $X$ (گسسته یا پیوسته)، که با $F_X(x)$ یا به‌اختصار $F(x)$ نمایش داده می‌شود، احتمال این را می‌دهد که $X$ مقداری کمتر یا مساوی $x$ بگیرد.
 
 $$
 F_X(x) = P(X \le x)
 $$
 
-For a discrete random variable $X$, the CDF is calculated by summing the PMF values for all outcomes less than or equal to $x$:
+برای متغیر تصادفی گسسته $X$، CDF با جمع مقادیر PMF برای همه پیامدهای کمتر یا مساوی $x$ محاسبه می‌شود:
 
 $$
 F_X(x) = \sum_{k \le x} p_X(k)
 $$
 
-**Properties of a CDF:**
+**ویژگی‌های CDF:**
 
-1.  $0 \le F_X(x) \le 1$ for all $x$.
-2.  $F_X(x)$ is a non-decreasing function of $x$: if $a < b$, then $F_X(a) \le F_X(b)$.
-3.  $\lim_{x \to -\infty} F_X(x) = 0$ and $\lim_{x \to +\infty} F_X(x) = 1$.
-4.  For a discrete random variable, the CDF is a step function, increasing at the points where the PMF is positive.
+1.  $0 \le F_X(x) \le 1$ برای همه $x$.
+2.  $F_X(x)$ تابعی ناکاهشی از $x$ است: اگر $a < b$، آنگاه $F_X(a) \le F_X(b)$.
+3.  $\lim_{x \to -\infty} F_X(x) = 0$ و $\lim_{x \to +\infty} F_X(x) = 1$.
+4.  برای متغیر تصادفی گسسته، CDF تابع پله‌ای است که در نقاطی که PMF مثبت است افزایش می‌یابد.
 5.  $P(X > x) = 1 - F_X(x)$.
-6.  $P(a < X \le b) = F_X(b) - F_X(a)$ for $a < b$.
-7.  $P(X=x) = F_X(x) - \lim_{y \to x^-} F_X(y)$ (the size of the jump at $x$).
+6.  $P(a < X \le b) = F_X(b) - F_X(a)$ برای $a < b$.
+7.  $P(X=x) = F_X(x) - \lim_{y \to x^-} F_X(y)$ (اندازه پرش در $x$).
 
-:::{admonition} Example: CDF Calculations for Fair Die
+:::{admonition} مثال: محاسبات CDF برای تاس منصفانه
 :class: tip dropdown
 
-For the fair die roll $X$:
+برای پرتاب تاس منصفانه $X$:
 
 $$
 \begin{align*}
@@ -178,11 +178,11 @@ F_X(6.5) &= P(X \le 6.5) = P(X \le 6) = 1
 $$
 :::
 
-Let's calculate and visualize the CDF.
+بیایید CDF را محاسبه و مصور کنیم.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 
-This code demonstrates how to calculate the CDF by cumulatively summing the PMF values. We then create a function `die_cdf_func(x)` that can evaluate the CDF at any point, handling values below 1, above 6, and in between.
+این کد نحوه محاسبه CDF را با جمع تجمعی مقادیر PMF نشان می‌دهد. سپس تابع `die_cdf_func(x)` را می‌سازیم که CDF را در هر نقطه ارزیابی می‌کند و مقادیر کمتر از ۱، بیشتر از ۶ و مقادیر بین آن‌ها را مدیریت می‌کند.
 
 ```{code-cell} ipython3
 from pprint import pprint
@@ -217,7 +217,7 @@ print(f"  F(10)  = {die_cdf_func(10):.4f}  (after last outcome)")
 ```
 :::
 
-The plot below visualizes the CDF as a step function. Notice how the function jumps at each integer value (where the die can actually land) and remains constant between integers. The filled circles show the value of the CDF at each point, while the open circles indicate the value just before the jump.
+نمودار زیر CDF را به‌صورت تابع پله‌ای مصور می‌کند. توجه کنید که تابع در هر مقدار صحیح (جایی که تاس واقعاً می‌افتد) پرش می‌کند و بین اعداد صحیح ثابت می‌ماند. دایره‌های پر، مقدار CDF در هر نقطه را نشان می‌دهند و دایره‌های توخالی مقدار درست قبل از پرش را نشان می‌دهند.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -247,29 +247,29 @@ plt.show()
 ---
 width: 80%
 ---
-CDF of a fair die roll showing the cumulative probability as a step function.
+CDF پرتاب تاس منصفانه که احتمال تجمعی را به‌صورت تابع پله‌ای نشان می‌دهد.
 ```
 
 +++
 
-## Expected Value (Mean)
+## امید ریاضی (میانگین)
 
-The expected value, or mean, of a discrete random variable is a weighted average of its possible values, where the weights are the probabilities (PMF values). It represents the long-run average value we would expect if we observed the random variable many times.
+امید ریاضی یا میانگین یک متغیر تصادفی گسسته، میانگین وزنی مقادیر ممکن آن است که وزن‌ها همان احتمال‌ها (مقادیر PMF) هستند. این مقدار، میانگین بلندمدتی را نشان می‌دهد که اگر متغیر تصادفی را بارها مشاهده کنیم انتظار داریم.
 
-**Definition:** The **Expected Value** (or **Mean**) of a discrete random variable $X$, denoted by $E[X]$ or $\mu_X$, is defined as:
+**تعریف:** **امید ریاضی** (یا **میانگین**) متغیر تصادفی گسسته $X$، که با $E[X]$ یا $\mu_X$ نمایش داده می‌شود، به‌صورت زیر تعریف می‌شود:
 
 $$
 E[X] = \mu_X = \sum_{x} x \cdot p_X(x)
 $$
 
-where the sum is over all possible values $x$ that $X$ can take.
+که در آن جمع روی همه مقادیر ممکن $x$ که $X$ می‌تواند بگیرد گرفته می‌شود.
 
-The expected value doesn't have to be one of the possible values of $X$.
+امید ریاضی لزوماً یکی از مقادیر ممکن $X$ نیست.
 
-:::{admonition} Example: Calculating Expected Value
+:::{admonition} مثال: محاسبه امید ریاضی
 :class: tip dropdown
 
-For the fair die roll $X$:
+برای پرتاب تاس منصفانه $X$:
 
 $$
 \begin{align*}
@@ -280,12 +280,12 @@ E[X] &= (1 \times \frac{1}{6}) + (2 \times \frac{1}{6}) + (3 \times \frac{1}{6})
 \end{align*}
 $$
 
-Even though the die can never land on 3.5, the long-run average value of many rolls is expected to be 3.5.
+اگرچه تاس هرگز روی ۳٫۵ نمی‌افتد، میانگین بلندمدت بسیاری از پرتاب‌ها انتظار می‌رود ۳٫۵ باشد.
 :::
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 
-This code calculates the expected value using the formula $E[X] = \sum x \cdot p_X(x)$. We use `np.sum()` to compute the weighted sum of values times probabilities.
+این کد امید ریاضی را با استفاده از فرمول $E[X] = \sum x \cdot p_X(x)$ محاسبه می‌کند. از `np.sum()` برای محاسبه جمع وزنی مقادیر در احتمال‌ها استفاده می‌کنیم.
 
 ```{code-cell} ipython3
 # Setup: Define die values and probabilities
@@ -323,49 +323,49 @@ plt.show()
 ---
 width: 80%
 ---
-PMF with expected value marked at 3.5, the theoretical long-run average.
+PMF با امید ریاضی در ۳٫۵، میانگین نظری بلندمدت.
 ```
 
 +++
 
-## Variance and Standard Deviation
+## واریانس و انحراف معیار
 
-While the expected value tells us the center of the distribution, the variance and standard deviation measure the *spread* or *dispersion* of the random variable's values around the mean.
+در حالی که امید ریاضی مرکز توزیع را به ما می‌دهد، واریانس و انحراف معیار *پراکندگی* یا *گسترش* مقادیر متغیر تصادفی حول میانگین را اندازه می‌گیرند.
 
-**Definition:** The **Variance** of a random variable $X$, denoted by $Var(X)$ or $\sigma_X^2$, is the expected value of the squared difference between $X$ and its mean $E[X] = \mu_X$.
+**تعریف:** **واریانس** متغیر تصادفی $X$، که با $Var(X)$ یا $\sigma_X^2$ نمایش داده می‌شود، امید ریاضی مربع اختلاف $X$ از میانگین $E[X] = \mu_X$ است.
 
 $$
 Var(X) = \sigma_X^2 = E[(X - \mu_X)^2]
 $$
 
-For a discrete random variable, this is calculated as:
+برای متغیر تصادفی گسسته، این مقدار به‌صورت زیر محاسبه می‌شود:
 
 $$
 Var(X) = \sum_{x} (x - \mu_X)^2 \cdot p_X(x)
 $$
 
-A computationally simpler formula for variance is often used:
+اغلب از فرمول محاسباتی ساده‌تر زیر برای واریانس استفاده می‌شود:
 
 $$
 Var(X) = E[X^2] - (E[X])^2
 $$
 
-where $E[X^2] = \sum_{x} x^2 \cdot p_X(x)$.
+که در آن $E[X^2] = \sum_{x} x^2 \cdot p_X(x)$.
 
-**Definition:** The **Standard Deviation** of a random variable $X$, denoted by $SD(X)$ or $\sigma_X$, is the positive square root of the variance.
+**تعریف:** **انحراف معیار** متغیر تصادفی $X$، که با $SD(X)$ یا $\sigma_X$ نمایش داده می‌شود، ریشه مثبت واریانس است.
 
 $$
 SD(X) = \sigma_X = \sqrt{Var(X)}
 $$
 
-The standard deviation is often preferred because it has the same units as the random variable $X$.
+انحراف معیار اغلب ترجیح داده می‌شود زیرا همان واحد متغیر تصادفی $X$ را دارد.
 
-:::{admonition} Example: Calculating Variance and Standard Deviation
+:::{admonition} مثال: محاسبه واریانس و انحراف معیار
 :class: tip dropdown
 
-For the fair die roll $X$, we know $\mu_X = 3.5$.
+برای پرتاب تاس منصفانه $X$، می‌دانیم $\mu_X = 3.5$.
 
-Let's calculate $E[X^2]$ first:
+ابتدا $E[X^2]$ را محاسبه می‌کنیم:
 
 $$
 \begin{align*}
@@ -375,7 +375,7 @@ E[X^2] &= (1^2 \times \frac{1}{6}) + (2^2 \times \frac{1}{6}) + (3^2 \times \fra
 \end{align*}
 $$
 
-Now, calculate the variance:
+اکنون واریانس را محاسبه می‌کنیم:
 
 $$
 \begin{align*}
@@ -388,16 +388,16 @@ Var(X) &= E[X^2] - (E[X])^2 \\
 \end{align*}
 $$
 
-And the standard deviation:
+و انحراف معیار:
 
 $$
 SD(X) = \sigma_X = \sqrt{\frac{35}{12}} \approx \sqrt{2.917} \approx 1.708
 $$
 :::
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 
-This code calculates variance using the computational formula $Var(X) = E[X^2] - (E[X])^2$. We also show the alternative calculation using the definition $E[(X - \mu)^2]$ to verify they give the same result.
+این کد واریانس را با فرمول محاسباتی $Var(X) = E[X^2] - (E[X])^2$ محاسبه می‌کند. همچنین محاسبه جایگزین با تعریف $E[(X - \mu)^2]$ را نشان می‌دهیم تا تأیید کنیم هر دو روش نتیجه یکسانی می‌دهند.
 
 ```{code-cell} ipython3
 # Setup: Define die values and probabilities
@@ -455,16 +455,16 @@ plt.show()
 ---
 width: 100%
 ---
-PMF showing mean and standard deviation bands, illustrating the spread of the distribution.
+PMF با میانگین و باندهای انحراف معیار که پراکندگی توزیع را نشان می‌دهد.
 ```
 
 +++
 
-## Functions of a Random Variable
+## توابع یک متغیر تصادفی
 
-Often, we are interested in a quantity that is derived from a random variable. If $X$ is a random variable and $g$ is a function, then $Y = g(X)$ is also a random variable.
+اغلب به کمیتی علاقه‌مندیم که از یک متغیر تصادفی مشتق شده باشد. اگر $X$ متغیر تصادفی و $g$ تابعی باشد، آنگاه $Y = g(X)$ نیز متغیر تصادفی است.
 
-If $X$ is discrete with PMF $p_X(x)$, we can find the PMF of $Y = g(X)$, denoted $p_Y(y)$, by summing the probabilities of all $x$ values such that $g(x) = y$:
+اگر $X$ گسسته با PMF $p_X(x)$ باشد، می‌توانیم PMF $Y = g(X)$ را که با $p_Y(y)$ نمایش داده می‌شود، با جمع احتمال همه $x$‌هایی که $g(x) = y$ پیدا کنیم:
 
 $$
 \begin{align*}
@@ -474,31 +474,31 @@ p_Y(y) &= P(Y=y) \\
 \end{align*}
 $$
 
-```{admonition} Reading the notation
+```{admonition} خواندن نمادگذاری
 :class: note
 
-The notation $\sum_{x: g(x)=y}$ is read as "sum over all values of $x$ such that $g(x) = y$". The colon (:) means "such that" or "where". This is a concise way to write a conditional sum - we only include terms where the condition $g(x)=y$ is true.
+نمادگذاری $\sum_{x: g(x)=y}$ به این معناست که «جمع روی همه $x$‌هایی که $g(x) = y$». دو‌نقطه (:) به معنای «به‌گونه‌ای که» یا «که در آن» است. این روشی فشرده برای نوشتن جمع شرطی است — فقط جملاتی را می‌آوریم که شرط $g(x)=y$ برقرار باشد.
 
-**Example:** Consider $X$ as a fair die roll and $Y = X^2$. To find $p_Y(4) = P(Y=4)$:
+**مثال:** $X$ را پرتاب تاس منصفانه و $Y = X^2$ در نظر بگیرید. برای یافتن $p_Y(4) = P(Y=4)$:
 $$p_Y(4) = \sum_{x: x^2=4} p_X(x)$$
 
-Only $x=2$ satisfies $x^2=4$, so:
+فقط $x=2$ شرط $x^2=4$ را برآورده می‌کند، پس:
 $$p_Y(4) = p_X(2) = \frac{1}{6}$$
 
-The other values ($x \in \{1, 3, 4, 5, 6\}$) do NOT satisfy the condition $x^2=4$, so they are not included in the sum.
+مقادیر دیگر ($x \in \{1, 3, 4, 5, 6\}$) شرط $x^2=4$ را برآورده *نمی‌کنند*، بنابراین در جمع نمی‌آیند.
 ```
 
-### Expected Value of a Function of a Random Variable (LOTUS)
+### امید ریاضی تابعی از متغیر تصادفی (LOTUS)
 
-A very useful result, sometimes called the Law of the Unconscious Statistician (LOTUS), allows us to calculate the expected value of $Y=g(X)$ without explicitly finding the PMF of $Y$.
+نتیجه بسیار مفیدی که گاهی **قانون آماردان ناخودآگاه** (Law of the Unconscious Statistician یا LOTUS) نامیده می‌شود، امکان محاسبه امید ریاضی $Y=g(X)$ را بدون یافتن صریح PMF $Y$ می‌دهد.
 
-**Definition:** For a discrete random variable $X$ with PMF $p_X(x)$ and a function $g$, the expected value of $Y = g(X)$ is:
+**تعریف:** برای متغیر تصادفی گسسته $X$ با PMF $p_X(x)$ و تابع $g$، امید ریاضی $Y = g(X)$ برابر است با:
 
 $$
 E[g(X)] = \sum_{x} g(x) \cdot p_X(x)
 $$
 
-Compare this to the definition of $E[X]$:
+این را با تعریف $E[X]$ مقایسه کنید:
 
 $$
 \begin{align*}
@@ -507,20 +507,20 @@ E[g(X)] &= \sum_{x} g(x) \cdot p_X(x)
 \end{align*}
 $$
 
-Notice that we simply replace $x$ with $g(x)$ in the summation. This is how we calculated $E[X^2]$ earlier, where $g(x) = x^2$.
+توجه کنید که در جمع، به‌سادگی $x$ را با $g(x)$ جایگزین می‌کنیم. همین روشی است که قبلاً $E[X^2]$ را با آن محاسبه کردیم، جایی که $g(x) = x^2$.
 
-:::{admonition} Example: PMF and Expected Value of Y = X²
+:::{admonition} مثال: PMF و امید ریاضی Y = X²
 :class: tip dropdown
 
-Let $X$ be the outcome of a fair die roll. Let $Y = X^2$. What are the PMF and expected value of $Y$?
+$X$ را پیامد پرتاب تاس منصفانه در نظر بگیرید. $Y = X^2$. PMF و امید ریاضی $Y$ چیست؟
 
-* The possible values of $X$ are $\{1, 2, 3, 4, 5, 6\}$, each with probability $1/6$.
-* The possible values of $Y = X^2$ are $\{1^2, 2^2, 3^2, 4^2, 5^2, 6^2\} = \{1, 4, 9, 16, 25, 36\}$.
-* Since each $x$ value maps to a unique $y=x^2$ value, the probability of each $y$ is the same as the probability of the corresponding $x$.
-* The PMF of $Y$ is:
-    $p_Y(y) = 1/6$ for $y \in \{1, 4, 9, 16, 25, 36\}$, and $0$ otherwise.
+* مقادیر ممکن $X$ برابر $\{1, 2, 3, 4, 5, 6\}$ هستند، هر کدام با احتمال $1/6$.
+* مقادیر ممکن $Y = X^2$ برابر $\{1^2, 2^2, 3^2, 4^2, 5^2, 6^2\} = \{1, 4, 9, 16, 25, 36\}$ هستند.
+* از آنجا که هر $x$ به یک $y=x^2$ یکتا نگاشت می‌شود، احتمال هر $y$ همان احتمال $x$ متناظر است.
+* PMF $Y$ به‌صورت زیر است:
+    $p_Y(y) = 1/6$ برای $y \in \{1, 4, 9, 16, 25, 36\}$، و در غیر این صورت $0$.
 
-**Calculating E[Y] using the PMF of Y:**
+**محاسبه E[Y] با استفاده از PMF $Y$:**
 
 $$
 \begin{align*}
@@ -530,7 +530,7 @@ E[Y] = \sum_{y} y \cdot p_Y(y) &= (1 \times \frac{1}{6}) + (4 \times \frac{1}{6}
 \end{align*}
 $$
 
-**Alternatively, using LOTUS:**
+**روش جایگزین با استفاده از LOTUS:**
 
 $$
 \begin{align*}
@@ -541,12 +541,12 @@ E[Y] = E[X^2] &= \sum_{x=1}^{6} x^2 \cdot p_X(x) \\
 \end{align*}
 $$
 
-This confirms our earlier calculation of $E[X^2]$.
+این محاسبه قبلی $E[X^2]$ را تأیید می‌کند.
 :::
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 
-This code demonstrates two methods for calculating $E[Y]$ where $Y = X^2$: first by finding the PMF of $Y$ and using it directly, and second by using LOTUS to calculate directly from $X$ without finding the PMF of $Y$. Both methods give the same result.
+این کد دو روش برای محاسبه $E[Y]$ که $Y = X^2$ را نشان می‌دهد: اول با یافتن PMF $Y$ و استفاده مستقیم از آن، و دوم با استفاده از LOTUS برای محاسبه مستقیم از $X$ بدون یافتن PMF $Y$. هر دو روش نتیجه یکسانی می‌دهند.
 
 ```{code-cell} ipython3
 from pprint import pprint
@@ -601,21 +601,21 @@ plt.show()
 ---
 width: 80%
 ---
-PMF of $Y = X^2$ showing the transformed distribution.
+PMF $Y = X^2$ که توزیع تبدیل‌شده را نشان می‌دهد.
 ```
 
 +++
 
-## Hands-on: Simulation and Comparison
+## کار عملی: شبیه‌سازی و مقایسه
 
-The Law of Large Numbers (which we'll study later) tells us that if we simulate a random variable many times, the average of the outcomes (the *sample mean*) should get close to the theoretical expected value $E[X]$. Similarly, the variance of the outcomes (the *sample variance*) should approach $Var(X)$. Let's verify this for our die roll example.
+قانون اعداد بزرگ (که بعداً مطالعه می‌کنیم) می‌گوید اگر یک متغیر تصادفی را بارها شبیه‌سازی کنیم، میانگین پیامدها (*میانگین نمونه*) باید به امید ریاضی نظری $E[X]$ نزدیک شود. به‌طور مشابه، واریانس پیامدها (*واریانس نمونه*) باید به $Var(X)$ نزدیک شود. بیایید این را برای مثال پرتاب تاس بررسی کنیم.
 
-We will:
-1.  Simulate a large number of fair die rolls using `numpy.random.randint`.
-2.  Calculate the sample mean and sample variance of the simulated outcomes.
-3.  Compare these empirical results to the theoretical values ($E[X]=3.5$, $Var(X) \approx 2.917$).
-4.  Visualize the distribution of the simulated outcomes (empirical PMF) and compare it to the theoretical PMF.
-5.  Visualize the empirical CDF and compare it to the theoretical CDF.
+کارهایی که انجام می‌دهیم:
+1.  تعداد زیادی پرتاب تاس منصفانه با `numpy.random.randint` شبیه‌سازی می‌کنیم.
+2.  میانگین نمونه و واریانس نمونه پیامدهای شبیه‌سازی‌شده را محاسبه می‌کنیم.
+3.  این نتایج تجربی را با مقادیر نظری ($E[X]=3.5$، $Var(X) \approx 2.917$) مقایسه می‌کنیم.
+4.  توزیع پیامدهای شبیه‌سازی‌شده (PMF تجربی) را مصور می‌کنیم و با PMF نظری مقایسه می‌کنیم.
+5.  CDF تجربی را مصور می‌کنیم و با CDF نظری مقایسه می‌کنیم.
 
 ```{code-cell} ipython3
 # Setup: Calculate theoretical values
@@ -653,9 +653,9 @@ print(f"Difference (SD):    {abs(sample_std_dev - std_dev):.4f}")
 
 +++
 
-### Visualizing Empirical vs Theoretical Distributions
+### مصورسازی توزیع‌های تجربی در برابر نظری
 
-Now let's plot the frequencies of our simulated results and compare them to the theoretical probabilities (PMF), and do the same for the cumulative distributions (CDF).
+اکنون فراوانی نتایج شبیه‌سازی‌شده را رسم می‌کنیم و با احتمال‌های نظری (PMF) مقایسه می‌کنیم، و همین کار را برای توزیع‌های تجمعی (CDF) انجام می‌دهیم.
 
 ```{code-cell} ipython3
 # Calculate empirical PMF and CDF
@@ -706,48 +706,48 @@ plt.show()
 width: 100%
 figclass: full-width
 ---
-Comparison of empirical (simulated) and theoretical distributions, demonstrating convergence.
+مقایسه توزیع‌های تجربی (شبیه‌سازی‌شده) و نظری که همگرایی را نشان می‌دهد.
 ```
 
-As you can see from the simulation results and the plots, the empirical values (sample mean, sample variance, empirical PMF/CDF) obtained from a large number of simulations closely approximate the theoretical values we derived. This demonstrates the connection between probability theory and real-world observations or simulations.
+همان‌طور که از نتایج شبیه‌سازی و نمودارها مشخص است، مقادیر تجربی (میانگین نمونه، واریانس نمونه، PMF/CDF تجربی) که از تعداد زیادی شبیه‌سازی به‌دست می‌آیند، به‌خوبی به مقادیر نظری که استخراج کردیم نزدیک می‌شوند. این ارتباط بین نظریه احتمال و مشاهدات یا شبیه‌سازی‌های دنیای واقعی را نشان می‌دهد.
 
 +++
 
-## Summary
+## خلاصه
 
-In this chapter, we introduced the fundamental concept of a discrete random variable.
+در این فصل، مفهوم بنیادین متغیر تصادفی گسسته را معرفی کردیم.
 
-* A **Random Variable** assigns a numerical value to each outcome of a random experiment.
-* A **Discrete Random Variable** takes on a finite or countably infinite number of values.
-* The **Probability Mass Function (PMF)**, $p_X(x) = P(X=x)$, gives the probability for each possible value $x$.
-* The **Cumulative Distribution Function (CDF)**, $F_X(x) = P(X \le x)$, gives the cumulative probability up to a value $x$.
-* The **Expected Value (Mean)**, $E[X] = \sum x \cdot p_X(x)$, represents the long-run average value.
-* The **Variance**, $Var(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2$, measures the spread around the mean.
-* The **Standard Deviation**, $SD(X) = \sqrt{Var(X)}$, also measures spread but in the original units.
-* We can analyze **Functions of Random Variables**, $Y = g(X)$, and find their PMFs by summing probabilities: $p_Y(y) = \sum_{x: g(x)=y} p_X(x)$.
-* **LOTUS (Law of the Unconscious Statistician)** allows us to calculate expected values of functions directly: $E[g(X)] = \sum g(x) p_X(x)$.
-* Simulations using Python (`numpy`) allow us to generate empirical data that converges to theoretical probability distributions and their parameters as the number of simulations increases.
+* **متغیر تصادفی** به هر پیامد یک آزمایش تصادفی یک مقدار عددی نسبت می‌دهد.
+* **متغیر تصادفی گسسته** تعداد محدود یا شمارا بی‌نهایت مقدار می‌گیرد.
+* **تابع جرم احتمال (PMF)**، $p_X(x) = P(X=x)$، احتمال هر مقدار ممکن $x$ را می‌دهد.
+* **تابع توزیع تجمعی (CDF)**، $F_X(x) = P(X \le x)$، احتمال تجمعی تا مقدار $x$ را می‌دهد.
+* **امید ریاضی (میانگین)**، $E[X] = \sum x \cdot p_X(x)$، میانگین بلندمدت را نشان می‌دهد.
+* **واریانس**، $Var(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2$، پراکندگی حول میانگین را اندازه می‌گیرد.
+* **انحراف معیار**، $SD(X) = \sqrt{Var(X)}$، پراکندگی را با همان واحد اصلی اندازه می‌گیرد.
+* می‌توانیم **توابع متغیرهای تصادفی**، $Y = g(X)$، را تحلیل کنیم و PMF آن‌ها را با جمع احتمال‌ها بیابیم: $p_Y(y) = \sum_{x: g(x)=y} p_X(x)$.
+* **LOTUS (قانون آماردان ناخودآگاه)** امکان محاسبه مستقیم امید ریاضی توابع را می‌دهد: $E[g(X)] = \sum g(x) p_X(x)$.
+* شبیه‌سازی با پایتون (`numpy`) امکان تولید داده تجربی را می‌دهد که با افزایش تعداد شبیه‌سازی‌ها به توزیع‌های احتمال نظری و پارامترهای آن‌ها همگرا می‌شود.
 
-In the next chapter, we will explore several important families of discrete distributions that model common real-world scenarios.
+در فصل بعد، چند خانواده مهم از توزیع‌های گسسته را که سناریوهای رایج دنیای واقعی را مدل می‌کنند بررسی می‌کنیم.
 
 +++
 
 ---
 
-## Exercises
+## تمرین‌ها
 
-1.  **Biased Coin:** Consider a biased coin where the probability of getting Heads (H) is $P(H) = 0.7$. Let $X$ be the random variable representing the number of heads in a single flip (so $X=1$ for Heads, $X=0$ for Tails).
-    a.  What is the PMF of $X$?
-    b.  What is the CDF of $X$? Plot it.
-    c.  Calculate the expected value $E[X]$.
-    d.  Calculate the variance $Var(X)$ and standard deviation $SD(X)$.
+1.  **سکه نامتوازن:** سکه‌ای نامتوازن در نظر بگیرید که احتمال آمدن شیر (H) برابر $P(H) = 0.7$ است. $X$ را متغیر تصادفی نماینده تعداد شیر در یک پرتاب واحد در نظر بگیرید (پس $X=1$ برای شیر و $X=0$ برای خط).
+    a.  PMF $X$ چیست؟
+    b.  CDF $X$ چیست؟ آن را رسم کنید.
+    c.  امید ریاضی $E[X]$ را محاسبه کنید.
+    d.  واریانس $Var(X)$ و انحراف معیار $SD(X)$ را محاسبه کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    a) PMF: $P(X=0) = 0.3$, $P(X=1) = 0.7$
+    a) PMF: $P(X=0) = 0.3$، $P(X=1) = 0.7$
 
-    b) CDF: $F(x) = 0$ for $x < 0$; $F(x) = 0.3$ for $0 \le x < 1$; $F(x) = 1$ for $x \ge 1$
+    b) CDF: $F(x) = 0$ برای $x < 0$؛ $F(x) = 0.3$ برای $0 \le x < 1$؛ $F(x) = 1$ برای $x \ge 1$
 
     c) $E[X] = 0 \times 0.3 + 1 \times 0.7 = 0.7$
 
@@ -758,75 +758,75 @@ In the next chapter, we will explore several important families of discrete dist
     $SD(X) = \sqrt{0.21} \approx 0.458$
     ```
 
-2.  **Two Dice Sum:** Let $X$ be the random variable representing the sum of the outcomes when two fair six-sided dice are rolled.
-    a.  What are the possible values for $X$?
-    b.  Determine the PMF of $X$. (Hint: There are 36 equally likely outcomes for the pair of dice.)
-    c.  Calculate $E[X]$. Is there an easier way than using the PMF directly? (Hint: Linearity of Expectation)
-    d.  Calculate $Var(X)$. (Hint: Variance of sums of independent variables)
-    e.  Find $P(X > 7)$.
-    f.  Find $P(X \text{ is even})$.
+2.  **مجموع دو تاس:** $X$ را متغیر تصادفی نماینده مجموع پیامدهای پرتاب دو تاس شش‌وجهی منصفانه در نظر بگیرید.
+    a.  مقادیر ممکن $X$ چیست؟
+    b.  PMF $X$ را تعیین کنید. (راهنما: ۳۶ پیامد هم‌احتمال برای جفت تاس وجود دارد.)
+    c.  $E[X]$ را محاسبه کنید. آیا روش ساده‌تری غیر از استفاده مستقیم از PMF وجود دارد؟ (راهنما: خطی بودن امید ریاضی)
+    d.  $Var(X)$ را محاسبه کنید. (راهنما: واریانس مجموع متغیرهای مستقل)
+    e.  $P(X > 7)$ را بیابید.
+    f.  $P(X \text{ is even})$ را بیابید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    a) Possible values: $\{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}$
+    a) مقادیر ممکن: $\{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}$
 
-    b) PMF: Count outcomes for each sum. For example, $P(X=7) = 6/36 = 1/6$ (six ways: 1+6, 2+5, 3+4, 4+3, 5+2, 6+1)
+    b) PMF: برای هر مجموع پیامدها را بشمارید. مثلاً $P(X=7) = 6/36 = 1/6$ (شش حالت: 1+6، 2+5، 3+4، 4+3، 5+2، 6+1)
 
-    c) Using linearity: $E[X] = E[D_1] + E[D_2] = 3.5 + 3.5 = 7$
+    c) با خطی بودن: $E[X] = E[D_1] + E[D_2] = 3.5 + 3.5 = 7$
 
-    d) For independent dice: $Var(X) = Var(D_1) + Var(D_2) = 35/12 + 35/12 = 70/12 \approx 5.833$
+    d) برای تاس‌های مستقل: $Var(X) = Var(D_1) + Var(D_2) = 35/12 + 35/12 = 70/12 \approx 5.833$
 
     e) $P(X > 7) = P(X \in \{8,9,10,11,12\}) = (5+4+3+2+1)/36 = 15/36 = 5/12$
 
-    f) Count even sums: $P(X \text{ even}) = 18/36 = 1/2$
+    f) شمارش مجموع‌های زوج: $P(X \text{ is even}) = 18/36 = 1/2$
     ```
 
-3.  **Game Value:** You pay £2 to play a game. You roll a fair six-sided die. If you roll a 6, you win £5 (getting your £2 back plus £3 profit). If you roll a 4 or 5, you win £2 (getting your £2 back). If you roll a 1, 2, or 3, you win nothing (losing your £2). Let $W$ be the random variable representing your *net* winnings (profit/loss) from playing the game once.
-    a.  What are the possible values for $W$?
-    b.  Determine the PMF of $W$.
-    c.  Calculate the expected net winnings $E[W]$. Is this a fair game? (A fair game has $E[W]=0$).
-    d.  Calculate the variance $Var(W)$.
+3.  **ارزش بازی:** £2 برای بازی می‌پردازید. تاس شش‌وجهی منصفانه می‌اندازید. اگر ۶ بیاید، £5 برنده می‌شوید (£2 خودتان به‌علاوه £3 سود). اگر ۴ یا ۵ بیاید، £2 برنده می‌شوید (£2 خودتان را پس می‌گیرید). اگر ۱، ۲ یا ۳ بیاید، چیزی برنده نمی‌شوید (£2 خود را از دست می‌دهید). $W$ را متغیر تصادفی نماینده *سود خالص* شما از یک بار بازی در نظر بگیرید.
+    a.  مقادیر ممکن $W$ چیست؟
+    b.  PMF $W$ را تعیین کنید.
+    c.  سود خالص مورد انتظار $E[W]$ را محاسبه کنید. آیا این بازی منصفانه است؟ (بازی منصفانه $E[W]=0$ دارد).
+    d.  واریانس $Var(W)$ را محاسبه کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    a) Possible values: $\{-2, 0, 3\}$ (net: lose £2, break even, or profit £3)
+    a) مقادیر ممکن: $\{-2, 0, 3\}$ (خالص: باخت £2، سر به سر، سود £3)
 
     b) PMF:
-    - $P(W=-2) = 3/6 = 1/2$ (roll 1, 2, or 3)
-    - $P(W=0) = 2/6 = 1/3$ (roll 4 or 5)
-    - $P(W=3) = 1/6$ (roll 6)
+    - $P(W=-2) = 3/6 = 1/2$ (آمدن 1، 2 یا 3)
+    - $P(W=0) = 2/6 = 1/3$ (آمدن 4 یا 5)
+    - $P(W=3) = 1/6$ (آمدن 6)
 
     c) $E[W] = (-2)(1/2) + (0)(1/3) + (3)(1/6) = -1 + 0 + 0.5 = -0.5$
 
-    Not fair; expected loss of £0.50 per game
+    منصفانه نیست؛ باخت مورد انتظار £0.50 در هر بازی
 
     d) $E[W^2] = 4(1/2) + 0(1/3) + 9(1/6) = 2 + 0 + 1.5 = 3.5$
 
     $Var(W) = 3.5 - (-0.5)^2 = 3.5 - 0.25 = 3.25$
     ```
 
-4.  **Simulation Comparison:** Simulate rolling two fair dice and calculating their sum $10,000$ times.
-    a.  Calculate the sample mean and sample variance of the simulated sums.
-    b.  Compare these to the theoretical values you calculated in Exercise 2.
-    c.  Plot the empirical PMF of the simulated sums and compare it to the theoretical PMF from Exercise 2.
+4.  **مقایسه شبیه‌سازی:** پرتاب دو تاس منصفانه و محاسبه مجموع آن‌ها را $10{,}000$ بار شبیه‌سازی کنید.
+    a.  میانگین نمونه و واریانس نمونه مجموع‌های شبیه‌سازی‌شده را محاسبه کنید.
+    b.  آن‌ها را با مقادیر نظری که در تمرین ۲ محاسبه کردید مقایسه کنید.
+    c.  PMF تجربی مجموع‌های شبیه‌سازی‌شده را رسم کنید و با PMF نظری تمرین ۲ مقایسه کنید.
 
-    ```{admonition} Hint
+    ```{admonition} راهنما
     :class: tip
 
-    Use `np.random.randint(1, 7, size=(10000, 2))` to simulate two dice 10000 times, then sum along axis 1.
+    از `np.random.randint(1, 7, size=(10000, 2))` برای شبیه‌سازی دو تاس 10000 بار استفاده کنید، سپس در امتداد محور 1 جمع بگیرید.
     ```
 
 ---
 
 +++
 
-*(Solutions/Hints Appendix)*
+*(پیوست راه‌حل‌ها/راهنماها)*
 
-:::{dropdown} Example Code for Exercise 1
+:::{dropdown} کد نمونه برای تمرین ۱
 ```{code-cell} ipython3
-# Exercise 1: Biased Coin
+# تمرین ۱: سکهٔ نامتوازن
 p_heads = 0.7
 p_tails = 1 - p_heads
 

@@ -1,83 +1,83 @@
 ---
-title: Download Notebooks
+title: دانلود Notebookها
 ---
 
-# Download Jupyter Notebooks
+# دانلود Jupyter Notebookها
 
-All chapters and materials are available as Jupyter notebooks (.ipynb) that you can download and run locally on your computer.
+تمام فصل‌ها و مطالب به‌صورت Jupyter Notebook (`.ipynb`) در دسترس‌اند تا بتوانید دانلود کرده و به‌صورت محلی اجرا کنید.
 
-## Download All Notebooks
+## دانلود همه Notebookها
 
-Get all notebooks in a single zip file:
+همه Notebookها در یک فایل zip:
 
-📦 [**Download All Notebooks (ZIP)**](../learn_probability_notebooks.zip)
+📦 [**دانلود همه Notebookها (ZIP)**](../learn_probability_notebooks.zip)
 
-## Individual Notebooks
+## Notebookهای تکی
 
-### Part 1 - Foundations of Probability
+### بخش ۱ — مبانی احتمال
 
-- [Chapter 1: Introduction to Probability and Python Setup](../notebooks/chapter_01.ipynb)
-- [Chapter 2: Sample Spaces and Events](../notebooks/chapter_02.ipynb)
-- [Chapter 3: Probability Axioms and Basic Rules](../notebooks/chapter_03.ipynb)
+- [فصل ۱: مقدمه‌ای بر احتمال و راه‌اندازی پایتون](../notebooks/chapter_01.ipynb)
+- [فصل ۲: فضاهای نمونه و رویدادها](../notebooks/chapter_02.ipynb)
+- [فصل ۳: اصول احتمال و قواعد پایه](../notebooks/chapter_03.ipynb)
 
-### Part 2 - Conditional Probability and Independence
+### بخش ۲ — احتمال شرطی و استقلال
 
-- [Chapter 4: Conditional Probability](../notebooks/chapter_04.ipynb)
-- [Chapter 5: Independence](../notebooks/chapter_05.ipynb)
+- [فصل ۴: احتمال شرطی](../notebooks/chapter_04.ipynb)
+- [فصل ۵: استقلال](../notebooks/chapter_05.ipynb)
 
-### Part 3 - Random Variables and Distributions
+### بخش ۳ — متغیرهای تصادفی و توزیع‌ها
 
-- [Chapter 6: Discrete Random Variables](../notebooks/chapter_06.ipynb)
-- [Chapter 7: Continuous Random Variables](../notebooks/chapter_07.ipynb)
-- [Chapter 8: Expectation and Variance](../notebooks/chapter_08.ipynb)
-- [Chapter 9: Important Discrete Distributions](../notebooks/chapter_09.ipynb)
-- [Chapter 10: Important Continuous Distributions](../notebooks/chapter_10.ipynb)
+- [فصل ۶: متغیرهای تصادفی گسسته](../notebooks/chapter_06.ipynb)
+- [فصل ۷: متغیرهای تصادفی پیوسته](../notebooks/chapter_07.ipynb)
+- [فصل ۸: امید ریاضی و واریانس](../notebooks/chapter_08.ipynb)
+- [فصل ۹: توزیع‌های گسسته مهم](../notebooks/chapter_09.ipynb)
+- [فصل ۱۰: توزیع‌های پیوسته مهم](../notebooks/chapter_10.ipynb)
 
-### Part 4 - Multiple Random Variables
+### بخش ۴ — چند متغیر تصادفی
 
-- [Chapter 11: Joint Distributions](../notebooks/chapter_11.ipynb)
-- [Chapter 12: Covariance and Correlation](../notebooks/chapter_12.ipynb)
-- [Chapter 13: Conditional Expectation](../notebooks/chapter_13.ipynb)
+- [فصل ۱۱: توزیع‌های مشترک](../notebooks/chapter_11.ipynb)
+- [فصل ۱۲: کوواریانس و همبستگی](../notebooks/chapter_12.ipynb)
+- [فصل ۱۳: امید ریاضی شرطی](../notebooks/chapter_13.ipynb)
 
-### Part 5 - Limit Theorems and Their Significance
+### بخش ۵ — قضایای حدی و اهمیت آن‌ها
 
-- [Chapter 14: Moment Generating Functions](../notebooks/chapter_14.ipynb)
-- [Chapter 15: The Central Limit Theorem](../notebooks/chapter_15.ipynb)
+- [فصل ۱۴: توابع مولد گشتاور](../notebooks/chapter_14.ipynb)
+- [فصل ۱۵: قضیه حد مرکزی](../notebooks/chapter_15.ipynb)
 
-### Part 6 - Advanced Topics and Applications
+### بخش ۶ — مباحث پیشرفته و کاربردها
 
-- [Chapter 16: Markov Chains](../notebooks/chapter_16.ipynb)
-- [Chapter 17: Poisson Processes](../notebooks/chapter_17.ipynb)
-- [Chapter 18: Introduction to Bayesian Statistics](../notebooks/chapter_18.ipynb)
-- [Chapter 19: Basic Statistical Inference](../notebooks/chapter_19.ipynb)
-- [Chapter 20: Monte Carlo Methods](../notebooks/chapter_20.ipynb)
-- [Chapter 21: Applications and Case Studies](../notebooks/chapter_21.ipynb)
+- [فصل ۱۶: زنجیره‌های مارکوف](../notebooks/chapter_16.ipynb)
+- [فصل ۱۷: فرآیندهای پواسون](../notebooks/chapter_17.ipynb)
+- [فصل ۱۸: مقدمه‌ای بر آمار بیزی](../notebooks/chapter_18.ipynb)
+- [فصل ۱۹: استنتاج آماری پایه](../notebooks/chapter_19.ipynb)
+- [فصل ۲۰: روش‌های مونت‌کارلو](../notebooks/chapter_20.ipynb)
+- [فصل ۲۱: کاربردها و مطالعات موردی](../notebooks/chapter_21.ipynb)
 
-### Exercises and Labs
+### تمرین‌ها و آزمایشگاه
 
-- [Chapter 4 Exercises](../notebooks/chapter_04_exercises_a.ipynb)
-- [Chapter 4 Lab](../notebooks/chapter_04_lab.ipynb)
-- [Chapter 5 Lab](../notebooks/chapter_05_lab.ipynb)
+- [تمرین‌های فصل ۴](../notebooks/chapter_04_exercises_a.ipynb)
+- [آزمایشگاه فصل ۴](../notebooks/chapter_04_lab.ipynb)
+- [آزمایشگاه فصل ۵](../notebooks/chapter_05_lab.ipynb)
 
-### Appendices
+### پیوست‌ها
 
-- [Appendix A: Python Programming Primer](../notebooks/appendix_a.ipynb)
-- [Appendix B: Key Mathematical Concepts](../notebooks/appendix_b.ipynb)
-- [Appendix C: Common Probability Distributions Reference](../notebooks/appendix_c.ipynb)
-- [Appendix D: Solutions to Selected Exercises](../notebooks/appendix_d.ipynb)
-- [Appendix E: Further Resources](../notebooks/appendix_e.ipynb)
+- [پیوست الف: مقدمه برنامه‌نویسی پایتون](../notebooks/appendix_a.ipynb)
+- [پیوست ب: مفاهیم ریاضی کلیدی](../notebooks/appendix_b.ipynb)
+- [پیوست ج: مرجع توزیع‌های احتمال رایج](../notebooks/appendix_c.ipynb)
+- [پیوست د: پاسخ تمرین‌های منتخب](../notebooks/appendix_d.ipynb)
+- [پیوست ه: منابع بیشتر](../notebooks/appendix_e.ipynb)
 
-## How to Use Downloaded Notebooks
+## نحوه استفاده از Notebookهای دانلودشده
 
-1. **Extract the ZIP file** (if you downloaded the complete archive)
-2. **Install Jupyter**: `pip install jupyter notebook`
-3. **Install required packages**: `pip install -r requirements.txt`
-4. **Launch Jupyter**: `jupyter notebook`
-5. **Open and run** any notebook file
+1. **فایل ZIP را استخراج کنید** (اگر آرشیو کامل را دانلود کرده‌اید)
+2. **Jupyter را نصب کنید:** `pip install jupyter notebook`
+3. **بسته‌های مورد نیاز را نصب کنید:** `pip install -r requirements.txt`
+4. **Jupyter را اجرا کنید:** `jupyter notebook`
+5. **هر Notebook را باز کرده و اجرا کنید**
 
-## Requirements
+## پیش‌نیازها
 
-To run these notebooks, you'll need Python 3.11+ and the following packages:
+برای اجرای این Notebookها به Python 3.11+ و بسته‌های زیر نیاز دارید:
 
 - jupyter-book
 - matplotlib
@@ -88,15 +88,15 @@ To run these notebooks, you'll need Python 3.11+ and the following packages:
 - seaborn
 - sympy
 
-Install all requirements with:
+نصب همه پیش‌نیازها:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Alternative: Run in the Cloud
+## جایگزین: اجرا در ابر
 
-Don't want to install anything locally? You can also:
+نمی‌خواهید چیزی محلی نصب کنید؟ می‌توانید:
 
-- 🚀 **Run in browser**: Most pages have an interactive JupyterLite option
-- ☁️ **Launch on Binder**: Click the Binder badge on any chapter to run in the cloud
+- 🚀 **در مرورگر اجرا کنید:** بیشتر صفحات گزینه JupyterLite تعاملی دارند
+- ☁️ **در Binder اجرا کنید:** روی نشان Binder هر فصل کلیک کنید تا در ابر اجرا شود

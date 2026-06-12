@@ -14,50 +14,50 @@ downloads:
   - file: notebooks/chapter_15.ipynb
 ---
 
-# Chapter 15: The Central Limit Theorem (CLT)
+# فصل ۱۵: قضیه حد مرکزی (CLT)
 
 +++
 
-## Introduction: The Ubiquitous Bell Curve
+## مقدمه: منحنی زنگولهٔ همه‌جا
 
 +++
 
-In the previous chapter, we explored the Law of Large Numbers (LLN), which tells us that the average of a large number of independent and identically distributed (IID) random variables converges to the expected value. That's about the *value* it approaches. But what about the *distribution* of that average? Does it have a predictable shape?
+در فصل پیشین، قانون اعداد بزرگ (LLN) را بررسی کردیم که می‌گوید میانگین تعداد زیادی متغیر تصادفی مستقل و همتوزیع (IID) به امید ریاضی همگرا می‌شود. این دربارهٔ *مقداری* است که به آن نزدیک می‌شود. اما *توزیع* آن میانگین چطور؟ آیا شکل قابل‌پیش‌بینی دارد؟
 
 +++
 
-Enter the Central Limit Theorem (CLT), often considered one of the most remarkable and useful results in probability theory. In essence, the CLT states that the distribution of the sum (or average) of a large number of IID random variables tends towards a Normal (Gaussian) distribution, *regardless of the shape of the original distribution* from which the variables are drawn, provided the original distribution has a finite variance.
+قضیه حد مرکزی (CLT) وارد می‌شود؛ قضیه‌ای که اغلب یکی از شگفت‌انگیزترین و مفیدترین نتایج نظریه احتمال دانسته می‌شود. در اصل، CLT می‌گوید توزیع مجموع (یا میانگین) تعداد زیادی متغیر تصادفی IID به سمت توزیع نرمال (گاوسی) متمایل می‌شود، *صرف‌نظر از شکل توزیع اصلی* که متغیرها از آن نمونه‌گیری شده‌اند، به‌شرطی که توزیع اصلی واریانس متناهی داشته باشد.
 
 +++
 
-This is profound! It explains why the Normal distribution appears so frequently in nature and in data analysis. Many real-world phenomena can be thought of as the sum or average of many small, independent effects (e.g., measurement errors, height influenced by many genetic and environmental factors), and the CLT predicts that these resulting phenomena will be approximately Normally distributed.
+این عمیق است! توضیح می‌دهد چرا توزیع نرمال در طبیعت و تحلیل داده این‌قدر پرتکرار است. بسیاری از پدیده‌های دنیای واقعی را می‌توان مجموع یا میانگین اثرات کوچک و مستقل دانست (مثلاً خطاهای اندازه‌گیری، قد تحت تأثیر عوامل ژنتیکی و محیطی متعدد) و CLT پیش‌بینی می‌کند این پدیده‌ها تقریباً به‌صورت نرمال توزیع می‌شوند.
 
 +++
 
-In this chapter, we will:
-1. Formally state the Central Limit Theorem.
-2. Understand the concept of convergence in distribution.
-3. Discuss the conditions required for the CLT to hold and its limitations.
-4. Explore key applications, particularly the Normal approximation to other distributions.
-5. Use Python simulations to visualize the CLT in action and apply it to problems.
+در این فصل:
+1. قضیه حد مرکزی را به‌صورت رسمی بیان می‌کنیم.
+2. مفهوم همگرایی در توزیع را درک می‌کنیم.
+3. شرایط لازم برای برقراری CLT و محدودیت‌های آن را بررسی می‌کنیم.
+4. کاربردهای کلیدی، به‌ویژه تقریب نرمال برای توزیع‌های دیگر را بررسی می‌کنیم.
+5. با شبیه‌سازی پایتون، CLT را در عمل مصور کرده و به مسائل اعمال می‌کنیم.
 
 +++
 
-Let's start by stating the theorem more formally.
+با بیان رسمی‌تر قضیه آغاز می‌کنیم.
 
 +++
 
-## Statement and Intuition
+## بیان و شهود
 
 +++
 
-**The Central Limit Theorem (Lindeberg–Lévy CLT):**
+**قضیه حد مرکزی (CLT لیندبرگ–لِوی):**
 
 +++
 
-Let $X_1, X_2, \dots, X_n$ be a sequence of $n$ independent and identically distributed (IID) random variables, each having a finite expected value $\mu$ and a finite non-zero variance $\sigma^2$.
-Let $\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i$ be the sample mean.
-As $n \to \infty$, the distribution of the standardized sample mean converges to a standard Normal distribution:
+فرض کنید $X_1, X_2, \dots, X_n$ دنباله‌ای از $n$ متغیر تصادفی مستقل و همتوزیع (IID) باشند که هر کدام امید ریاضی متناهی $\mu$ و واریانس غیرصفر متناهی $\sigma^2$ دارند.
+$\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i$ میانگین نمونه باشد.
+با $n \to \infty$، توزیع میانگین نمونهٔ استانداردشده به توزیع نرمال استاندارد همگرا می‌شود:
 
 +++
 
@@ -65,127 +65,127 @@ $$ Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0, 1) $$
 
 +++
 
-Where $\xrightarrow{d}$ denotes convergence in distribution.
+که در آن $\xrightarrow{d}$ همگرایی در توزیع را نشان می‌دهد.
 
 +++
 
-**Intuition:**
-Imagine you have *any* distribution for a single random variable $X$ (as long as its variance isn't infinite). This could be a Uniform distribution (like rolling a fair die), an Exponential distribution (like waiting times), or something completely irregular.
-Now, take a sample of $n$ values from this distribution and calculate their average, $\bar{X}_n$. Repeat this process many times, collecting many sample averages.
-The CLT tells us that if $n$ is sufficiently large, the histogram of these collected sample averages will look like a bell curve (a Normal distribution).
+**شهود:**
+تصور کنید *هر* توزیعی برای یک متغیر تصادفی تکی $X$ دارید (به‌شرطی که واریانسش بی‌نهایت نباشد). این می‌تواند توزیع یکنواخت (مثل پرتاب تاس منصفانه)، نمایی (مثل زمان انتظار) یا چیزی کاملاً نامنظم باشد.
+اکنون نمونه‌ای به اندازهٔ $n$ از این توزیع بگیرید و میانگین آن‌ها $\bar{X}_n$ را محاسبه کنید. این فرایند را بارها تکرار کنید و میانگین‌های نمونهٔ زیادی جمع کنید.
+CLT می‌گوید اگر $n$ به‌اندازهٔ کافی بزرگ باشد، هیستوگرام این میانگین‌های جمع‌آوری‌شده شبیه منحنی زنگوله (توزیع نرمال) خواهد بود.
 
 +++
 
-Furthermore, the theorem specifies the parameters of this Normal distribution:
-* The mean of the distribution of sample means ($\mu_{\bar{X}_n}$) is the same as the original distribution's mean ($\mu$).
-* The standard deviation of the distribution of sample means ($\sigma_{\bar{X}_n}$), often called the **standard error**, is the original standard deviation divided by the square root of the sample size ($\sigma/\sqrt{n}$).
+علاوه بر این، قضیه پارامترهای این توزیع نرمال را مشخص می‌کند:
+* میانگین توزیع میانگین‌های نمونه ($\mu_{\bar{X}_n}$) همان میانگین توزیع اصلی ($\mu$) است.
+* انحراف معیار توزیع میانگین‌های نمونه ($\sigma_{\bar{X}_n}$)، که اغلب **خطای استاندارد** نامیده می‌شود، انحراف معیار اصلی تقسیم بر جذر اندازهٔ نمونه است ($\sigma/\sqrt{n}$).
 
 +++
 
-**Example:** Think about the average weight of 30 randomly chosen apples. Individual apple weights might follow some distribution (maybe skewed, maybe multimodal), but the CLT suggests that the distribution of the *average* weight calculated from samples of 30 apples will be approximately Normal. The more apples we average ($n=50, n=100$), the closer the distribution of the average weight will be to a perfect Normal distribution.
+**مثال:** به میانگین وزن ۳۰ سیب تصادفی فکر کنید. وزن سیب‌های تکی ممکن است توزیعی داشته باشد (شاید چوله، شاید چندوجهی)، اما CLT پیشنهاد می‌کند توزیع *میانگین* وزن محاسبه‌شده از نمونه‌های ۳۰ سیب تقریباً نرمال خواهد بود. هرچه سیب‌های بیشتری میانگین بگیریم ($n=50, n=100$)، توزیع میانگین وزن به توزیع نرمال کامل نزدیک‌تر می‌شود.
 
 +++
 
-## Convergence in Distribution
+## همگرایی در توزیع
 
 +++
 
-The CLT uses the concept of **convergence in distribution**. This is different from *convergence in probability* which we saw with the Weak Law of Large Numbers (WLLN).
+CLT از مفهوم **همگرایی در توزیع** استفاده می‌کند. این با *همگرایی در احتمال* که در قانون ضعیف اعداد بزرگ (WLLN) دیدیم متفاوت است.
 
 +++
 
-* **Convergence in Probability (WLLN):** The *value* of the sample mean $\bar{X}_n$ gets arbitrarily close to the true mean $\mu$ as $n$ increases. $P(|\bar{X}_n - \mu| > \epsilon) \to 0$.
-* **Convergence in Distribution (CLT):** The *shape* of the probability distribution of the (standardized) sample mean $Z_n = (\bar{X}_n - \mu) / (\sigma/\sqrt{n})$ gets arbitrarily close to the shape of the standard Normal distribution $N(0, 1)$ as $n$ increases. Formally, the Cumulative Distribution Function (CDF) of $Z_n$ converges to the CDF of the standard Normal distribution at every point where the standard Normal CDF is continuous (which is everywhere for the Normal distribution).
+* **همگرایی در احتمال (WLLN):** *مقدار* میانگین نمونه $\bar{X}_n$ با افزایش $n$ به‌طور دلخواه به میانگین واقعی $\mu$ نزدیک می‌شود. $P(|\bar{X}_n - \mu| > \epsilon) \to 0$.
+* **همگرایی در توزیع (CLT):** *شکل* توزیع احتمال میانگین نمونهٔ (استانداردشده) $Z_n = (\bar{X}_n - \mu) / (\sigma/\sqrt{n})$ با افزایش $n$ به‌طور دلخواه به شکل توزیع نرمال استاندارد $N(0, 1)$ نزدیک می‌شود. به‌صورت رسمی، تابع توزیع تجمعی (CDF) $Z_n$ در هر نقطه‌ای که CDF نرمال استاندارد پیوسته است (که برای توزیع نرمال همه‌جا است) به CDF نرمال استاندارد همگرا می‌شود.
     $$ \lim_{n \to \infty} P(Z_n \le z) = \Phi(z) $$
-    where $\Phi(z)$ is the CDF of the standard Normal distribution.
+    که در آن $\Phi(z)$ CDF توزیع نرمال استاندارد است.
 
 +++
 
-This means that for large $n$, we can approximate the probability $P(\bar{X}_n \le x)$ by using the Normal distribution $N(\mu, \sigma^2/n)$. Specifically:
+این یعنی برای $n$ بزرگ، می‌توانیم احتمال $P(\bar{X}_n \le x)$ را با استفاده از توزیع نرمال $N(\mu, \sigma^2/n)$ تقریب بزنیم. به‌طور مشخص:
 $$ P(\bar{X}_n \le x) \approx \Phi\left(\frac{x - \mu}{\sigma/\sqrt{n}}\right) $$
 
 +++
 
-Similarly, for the sum $S_n = \sum_{i=1}^{n} X_i$, we know $E[S_n] = n\mu$ and $Var(S_n) = n\sigma^2$. The CLT implies:
+به‌طور مشابه، برای مجموع $S_n = \sum_{i=1}^{n} X_i$، می‌دانیم $E[S_n] = n\mu$ و $Var(S_n) = n\sigma^2$. CLT دلالت می‌کند:
 $$ \frac{S_n - n\mu}{\sqrt{n}\sigma} \xrightarrow{d} N(0, 1) $$
-So, we can approximate the distribution of the sum $S_n$ using $N(n\mu, n\sigma^2)$.
+پس می‌توانیم توزیع مجموع $S_n$ را با $N(n\mu, n\sigma^2)$ تقریب بزنیم.
 
 +++
 
-## Conditions and Limitations
+## شرایط و محدودیت‌ها
 
 +++
 
-The power of the CLT is immense, but it's crucial to understand its requirements:
+قدرت CLT بسیار زیاد است، اما درک الزامات آن حیاتی است:
 
 +++
 
-1.  **Independent and Identically Distributed (IID) Variables:** The standard version of the CLT assumes the random variables $X_i$ are independent and drawn from the same distribution. There are extensions (like the Lyapunov CLT or Lindeberg-Feller CLT) that relax these conditions, particularly the identical distribution part, but they require more complex conditions. For many practical applications, the IID assumption is a reasonable starting point.
-2.  **Finite Variance ($\sigma^2 < \infty$):** The original distribution *must* have a finite variance. If the variance is infinite (e.g., the Cauchy distribution), the sample mean does not converge to a Normal distribution. The sample mean's distribution might still converge, but to a different type of stable distribution.
-3.  **Sufficiently Large Sample Size ($n$):** The theorem states convergence *as $n \to \infty$*. In practice, "sufficiently large" depends heavily on the shape of the original distribution.
-    * If the original distribution is already symmetric and close to Normal, $n$ can be quite small (even $n<10$).
-    * If the original distribution is highly skewed (like Exponential), $n$ might need to be larger (e.g., $n \ge 30$ or $n \ge 50$) for the Normal approximation to be reasonably accurate.
-    * There's no single magic number for $n$, but $n=30$ is a commonly cited, often overly simplistic, rule of thumb. Visualization (like we'll do in the hands-on section) is key.
-4.  **Applies to Sums or Averages:** The CLT specifically describes the distribution of the *sum* or *average* of random variables, not the distribution of the individual variables themselves.
+1.  **متغیرهای مستقل و همتوزیع (IID):** نسخهٔ استاندارد CLT فرض می‌کند متغیرهای تصادفی $X_i$ مستقل و از یک توزیع یکسان نمونه‌گیری شده‌اند. گسترش‌هایی (مانند CLT لیاپونوف یا لیندبرگ–فلر) این شرایط را، به‌ویژه بخش توزیع یکسان، تسهیل می‌کنند، اما شرایط پیچیده‌تری می‌طلبد. برای بسیاری از کاربردهای عملی، فرض IID نقطهٔ شروع معقولی است.
+2.  **واریانس متناهی ($\sigma^2 < \infty$):** توزیع اصلی *باید* واریانس متناهی داشته باشد. اگر واریانس بی‌نهایت باشد (مثلاً توزیع کوشی)، میانگین نمونه به توزیع نرمال همگرا نمی‌شود. توزیع میانگین نمونه ممکن است همچنان همگرا شود، اما به نوع دیگری از توزیع پایدار.
+3.  **اندازهٔ نمونهٔ به‌اندازهٔ کافی ($n$):** قضیه همگرایی را *با $n \to \infty$* بیان می‌کند. در عمل، «به‌اندازهٔ کافی بزرگ» به‌شدت به شکل توزیع اصلی بستگی دارد.
+    * اگر توزیع اصلی از قبل متقارن و نزدیک به نرمال باشد، $n$ می‌تواند کوچک باشد (حتی $n<10$).
+    * اگر توزیع اصلی بسیار چوله باشد (مثل نمایی)، $n$ ممکن است بزرگ‌تر لازم باشد (مثلاً $n \ge 30$ یا $n \ge 50$) تا تقریب نرمال به‌اندازهٔ کافی دقیق باشد.
+    * عدد جادویی واحدی برای $n$ وجود ندارد، اما $n=30$ قاعدهٔ انگشتی رایجی است که اغلب بیش از حد ساده‌انگارانه است. مصورسازی (مانند بخش عملی) کلیدی است.
+4.  **بر مجموع‌ها یا میانگین‌ها اعمال می‌شود:** CLT به‌طور مشخص توزیع *مجموع* یا *میانگین* متغیرهای تصادفی را توصیف می‌کند، نه توزیع متغیرهای تکی.
 
 +++
 
-## Applications: The Normal Approximation
+## کاربردها: تقریب نرمال
 
 +++
 
-One of the most frequent applications of the CLT is approximating probabilities for distributions that are difficult to calculate directly, especially sums of random variables.
+یکی از پرتکرارترین کاربردهای CLT، تقریب احتمال برای توزیع‌هایی است که محاسبهٔ مستقیم آن‌ها دشوار است، به‌ویژه مجموع متغیرهای تصادفی.
 
 +++
 
-**Approximating the Binomial Distribution:**
-Recall that a Binomial random variable $X \sim Binomial(n, p)$ can be seen as the sum of $n$ independent Bernoulli($p$) random variables: $X = \sum_{i=1}^{n} Y_i$, where $Y_i \sim Bernoulli(p)$.
-Each $Y_i$ has mean $\mu = p$ and variance $\sigma^2 = p(1-p)$.
-By the CLT, if $n$ is large enough, the sum $X$ will be approximately Normally distributed.
-* Mean: $E[X] = n\mu = np$
-* Variance: $Var(X) = n\sigma^2 = np(1-p)$
-So, $X \approx N(np, np(1-p))$.
+**تقریب توزیع دوجمله‌ای:**
+به‌خاطر بیاورید متغیر تصادفی دوجمله‌ای $X \sim Binomial(n, p)$ را می‌توان مجموع $n$ متغیر تصادفی مستقل برنولی($p$) دید: $X = \sum_{i=1}^{n} Y_i$، که $Y_i \sim Bernoulli(p)$.
+هر $Y_i$ میانگین $\mu = p$ و واریانس $\sigma^2 = p(1-p)$ دارد.
+طبق CLT، اگر $n$ به‌اندازهٔ کافی بزرگ باشد، مجموع $X$ تقریباً به‌صورت نرمال توزیع می‌شود.
+* میانگین: $E[X] = n\mu = np$
+* واریانس: $Var(X) = n\sigma^2 = np(1-p)$
+پس $X \approx N(np, np(1-p))$.
 
 +++
 
-A common rule of thumb for this approximation to be adequate is $np \ge 5$ and $n(1-p) \ge 5$. Some sources use $np \ge 10$ and $n(1-p) \ge 10$ for better accuracy.
+قاعدهٔ انگشتی رایج برای کفایت این تقریب $np \ge 5$ و $n(1-p) \ge 5$ است. برخی منابع برای دقت بهتر از $np \ge 10$ و $n(1-p) \ge 10$ استفاده می‌کنند.
 
 +++
 
-**Continuity Correction:** When approximating a discrete distribution (like Binomial) with a continuous one (Normal), accuracy is improved by using a **continuity correction**. Since a Normal variable can take any value, while a Binomial variable only takes integer values, we adjust the interval.
-* To approximate $P(X \le k)$, we calculate $P(Y \le k + 0.5)$ where $Y$ is the Normal approximation.
-* To approximate $P(X \ge k)$, we calculate $P(Y \ge k - 0.5)$.
-* To approximate $P(X = k)$, we calculate $P(k - 0.5 \le Y \le k + 0.5)$.
-* To approximate $P(a \le X \le b)$, we calculate $P(a - 0.5 \le Y \le b + 0.5)$.
+**تصحیح پیوستگی:** هنگام تقریب یک توزیع گسسته (مثل دوجمله‌ای) با توزیع پیوسته (نرمال)، دقت با **تصحیح پیوستگی** بهبود می‌یابد. از آنجا که متغیر نرمال می‌تواند هر مقداری بگیرد، در حالی که متغیر دوجمله‌ای فقط مقادیر صحیح می‌گیرد، بازه را تنظیم می‌کنیم.
+* برای تقریب $P(X \le k)$، $P(Y \le k + 0.5)$ را محاسبه می‌کنیم که $Y$ تقریب نرمال است.
+* برای تقریب $P(X \ge k)$، $P(Y \ge k - 0.5)$ را محاسبه می‌کنیم.
+* برای تقریب $P(X = k)$، $P(k - 0.5 \le Y \le k + 0.5)$ را محاسبه می‌کنیم.
+* برای تقریب $P(a \le X \le b)$، $P(a - 0.5 \le Y \le b + 0.5)$ را محاسبه می‌کنیم.
 
 +++
 
-**Example:** What is the probability of getting more than 60 heads in 100 flips of a fair coin?
-Here, $X \sim Binomial(n=100, p=0.5)$.
-Mean $\mu = np = 100 \times 0.5 = 50$.
-Variance $\sigma^2 = np(1-p) = 100 \times 0.5 \times 0.5 = 25$. Standard deviation $\sigma = \sqrt{25} = 5$.
-Since $np = 50 \ge 5$ and $n(1-p) = 50 \ge 5$, we can use the Normal approximation $Y \sim N(50, 25)$.
-We want $P(X > 60)$, which is the same as $P(X \ge 61)$.
-Using continuity correction, we approximate this by $P(Y \ge 61 - 0.5) = P(Y \ge 60.5)$.
-Standardize the value: $Z = \frac{60.5 - 50}{5} = \frac{10.5}{5} = 2.1$.
-So we need $P(Z \ge 2.1)$, where $Z \sim N(0, 1)$.
-Using a standard Normal table or `scipy.stats`:
+**مثال:** احتمال بیش از ۶۰ شیر در ۱۰۰ پرتاب سکهٔ منصفانه چقدر است؟
+اینجا $X \sim Binomial(n=100, p=0.5)$.
+میانگین $\mu = np = 100 \times 0.5 = 50$.
+واریانس $\sigma^2 = np(1-p) = 100 \times 0.5 \times 0.5 = 25$. انحراف معیار $\sigma = \sqrt{25} = 5$.
+از آنجا که $np = 50 \ge 5$ و $n(1-p) = 50 \ge 5$، می‌توانیم از تقریب نرمال $Y \sim N(50, 25)$ استفاده کنیم.
+می‌خواهیم $P(X > 60)$ که همان $P(X \ge 61)$ است.
+با تصحیح پیوستگی، این را با $P(Y \ge 61 - 0.5) = P(Y \ge 60.5)$ تقریب می‌زنیم.
+استانداردسازی: $Z = \frac{60.5 - 50}{5} = \frac{10.5}{5} = 2.1$.
+پس به $P(Z \ge 2.1)$ نیاز داریم، که $Z \sim N(0, 1)$.
+با جدول نرمال استاندارد یا `scipy.stats`:
 $P(Z \ge 2.1) = 1 - P(Z < 2.1) \approx 1 - 0.9821 = 0.0179$.
-The probability is approximately 1.79%.
+احتمال تقریباً ۱٫۷۹٪ است.
 
 +++
 
-Other applications include:
-* **Confidence Intervals:** The CLT underpins the construction of confidence intervals for population means, even when the population distribution is unknown.
-* **Hypothesis Testing:** Many statistical tests rely on the assumption that sample means are Normally distributed for large samples.
+کاربردهای دیگر شامل:
+* **بازه‌های اطمینان:** CLT زیربنای ساخت بازه‌های اطمینان برای میانگین‌های جامعه است، حتی وقتی توزیع جامعه ناشناخته است.
+* **آزمون فرضیه:** بسیاری از آزمون‌های آماری بر فرضی که میانگین‌های نمونه برای نمونه‌های بزرگ به‌صورت نرمال توزیع می‌شوند تکیه دارند.
 
 +++
 
-## Hands-on: Simulating the Central Limit Theorem
+## عملی: شبیه‌سازی قضیه حد مرکزی
 
 +++
 
-Let's use Python to see the CLT in action. We'll simulate taking averages from a non-Normal distribution (the Exponential distribution) and see how the distribution of these averages becomes Normal as the sample size $n$ increases.
+از پایتون برای دیدن CLT در عمل استفاده می‌کنیم. میانگین‌گیری از توزیعی غیرنرمال (توزیع نمایی) را شبیه‌سازی می‌کنیم و می‌بینیم چگونه توزیع این میانگین‌ها با افزایش اندازهٔ نمونه $n$ نرمال می‌شود.
 
 ```{code-cell} ipython3
 
@@ -260,14 +260,14 @@ plt.show()
 
 +++ {"title": "++"}
 
-**Observation:**
-Notice how the histogram of sample means starts highly skewed (similar to the original Exponential distribution) when $n=1$. As the sample size $n$ increases (from 2, 5, 10, 30, to 100), the shape of the histogram becomes increasingly symmetric and bell-shaped, closely matching the red curve representing the Normal distribution predicted by the CLT ($N(\mu, \sigma^2/n)$). For $n=30$ and especially $n=100$, the fit is remarkably good, even though the original data came from a very non-Normal, skewed Exponential distribution.
+**مشاهده:**
+توجه کنید هیستوگرام میانگین‌های نمونه وقتی $n=1$ است بسیار چوله است (شبیه توزیع نمایی اصلی). با افزایش اندازهٔ نمونه $n$ (از ۲، ۵، ۱۰، ۳۰ تا ۱۰۰)، شکل هیستوگرام به‌تدریج متقارن و زنگوله‌ای می‌شود و به‌خوبی با منحنی قرمز که توزیع نرمال پیش‌بینی‌شده توسط CLT ($N(\mu, \sigma^2/n)$) را نشان می‌دهد همخوان است. برای $n=30$ و به‌ویژه $n=100$، برازش به‌طور چشمگیری خوب است، حتی با وجود اینکه دادهٔ اصلی از توزیع نمایی بسیار غیرنرمال و چوله آمده است.
 
-### Using Q-Q Plots for Visual Assessment
+### استفاده از نمودار Q-Q برای ارزیابی بصری
 
-A Quantile-Quantile (Q-Q) plot is another excellent tool to visually check if a dataset follows a particular distribution (in this case, Normal). It plots the quantiles of the sample data against the theoretical quantiles of the target distribution. If the data follows the distribution, the points should fall approximately along a straight line.
+نمودار Quantile-Quantile (Q-Q) ابزار عالی دیگری برای بررسی بصری اینکه آیا مجموعه‌داده از توزیع خاصی (در اینجا نرمال) پیروی می‌کند است. چارک‌های دادهٔ نمونه را در برابر چارک‌های نظری توزیع هدف رسم می‌کند. اگر داده از توزیع پیروی کند، نقاط باید تقریباً روی خط مستقیم قرار گیرند.
 
-Let's generate Q-Q plots for our sample means for different $n$.
+نمودارهای Q-Q را برای میانگین‌های نمونه برای $n$های مختلف تولید می‌کنیم.
 
 ```{code-cell} ipython3
 
@@ -300,12 +300,12 @@ plt.show()
 
 +++ {"title": "++"}
 
-**Observation:**
-The Q-Q plots reinforce our findings. For small $n$ (like $n=1, n=2$), the points deviate significantly from the straight red line, especially at the tails, indicating non-Normality. As $n$ increases, the points align much more closely with the line, showing that the distribution of sample means is increasingly well-approximated by a Normal distribution. For $n=30$ and $n=100$, the points lie almost perfectly on the line.
+**مشاهده:**
+نمودارهای Q-Q یافته‌های ما را تقویت می‌کنند. برای $n$ کوچک (مثل $n=1, n=2$)، نقاط به‌طور قابل‌توجهی از خط قرمز مستقیم، به‌ویژه در دُم‌ها، منحرف‌اند و غیرنرمال بودن را نشان می‌دهند. با افزایش $n$، نقاط بسیار نزدیک‌تر به خط قرار می‌گیرند و نشان می‌دهند توزیع میانگین‌های نمونه به‌طور فزاینده‌ای با توزیع نرمال تقریب خوبی دارد. برای $n=30$ و $n=100$، نقاط تقریباً کاملاً روی خط قرار دارند.
 
-### Hands-on: Normal Approximation to Binomial
+### عملی: تقریب نرمال برای دوجمله‌ای
 
-Let's verify the coin flip example calculation ($P(X > 60)$ for $X \sim Binomial(100, 0.5)$) using Python.
+محاسبهٔ مثال پرتاب سکه ($P(X > 60)$ برای $X \sim Binomial(100, 0.5)$) را با پایتون تأیید می‌کنیم.
 
 ```{code-cell} ipython3
 
@@ -345,30 +345,30 @@ print(f"Error (With CC): {abs(approx_prob_cc - exact_prob):.6f}")
 
 +++ {"title": "++"}
 
-**Observation:**
-As expected, the Normal approximation with continuity correction (`0.017864`) is significantly closer to the exact Binomial probability (`0.017600`) than the approximation without it (`0.022750`). This highlights the importance of the continuity correction when approximating a discrete distribution with a continuous one.
+**مشاهده:**
+همان‌طور که انتظار می‌رفت، تقریب نرمال با تصحیح پیوستگی (`0.017864`) به‌طور قابل‌توجهی به احتمال دقیق دوجمله‌ای (`0.017600`) نزدیک‌تر از تقریب بدون آن (`0.022750`) است. این اهمیت تصحیح پیوستگی هنگام تقریب توزیع گسسته با توزیع پیوسته را برجسته می‌کند.
 
-## Summary
+## خلاصه
 
-The Central Limit Theorem is a cornerstone of probability and statistics. It tells us that under fairly general conditions (IID variables, finite variance), the distribution of the sample mean (or sum) converges to a Normal distribution as the sample size grows large. This convergence is in *distribution*, meaning the shape of the standardized distribution approaches the standard Normal bell curve.
+قضیه حد مرکزی سنگ‌بنای احتمال و آمار است. می‌گوید تحت شرایط نسبتاً عمومی (متغیرهای IID، واریانس متناهی)، توزیع میانگین نمونه (یا مجموع) با بزرگ شدن اندازهٔ نمونه به توزیع نرمال همگرا می‌شود. این همگرایی *در توزیع* است؛ یعنی شکل توزیع استانداردشده به منحنی زنگولهٔ نرمال استاندارد نزدیک می‌شود.
 
-This theorem is incredibly practical:
-* It explains the prevalence of Normal distributions in observed data.
-* It allows us to approximate complex distributions (like Binomial or Poisson for large parameters) with the well-understood Normal distribution, simplifying calculations.
-* It provides the theoretical basis for many statistical inference techniques, such as constructing confidence intervals and performing hypothesis tests for means.
+این قضیه فوق‌العاده عملی است:
+* فراوانی توزیع‌های نرمال در داده‌های مشاهده‌شده را توضیح می‌دهد.
+* به ما اجازه می‌دهد توزیع‌های پیچیده (مثل دوجمله‌ای یا پواسون برای پارامترهای بزرگ) را با توزیع نرمال آشنا تقریب بزنیم و محاسبات را ساده کنیم.
+* مبنای نظری بسیاری از تکنیک‌های استنتاج آماری، مانند ساخت بازه‌های اطمینان و انجام آزمون فرضیه برای میانگین‌ها را فراهم می‌کند.
 
-Through simulation, we visually confirmed how the distribution of sample means from an Exponential distribution becomes increasingly Normal as the sample size $n$ increases, validating the CLT's prediction. We also demonstrated the effectiveness and importance of the continuity correction when using the Normal distribution to approximate Binomial probabilities.
+از طریق شبیه‌سازی، به‌صورت بصری تأیید کردیم چگونه توزیع میانگین‌های نمونه از توزیع نمایی با افزایش اندازهٔ نمونه $n$ به‌طور فزاینده‌ای نرمال می‌شود و پیش‌بینی CLT را تأیید می‌کند. همچنین اثربخشی و اهمیت تصحیح پیوستگی هنگام استفاده از توزیع نرمال برای تقریب احتمالات دوجمله‌ای را نشان دادیم.
 
-Understanding the CLT empowers you to make approximations, understand statistical methods, and appreciate the surprising emergence of order (the Normal distribution) from the combination of many independent random events.
+درک CLT به شما امکان می‌دهد تقریب بزنید، روش‌های آماری را درک کنید و ظهور شگفت‌انگیز نظم (توزیع نرمال) از ترکیب بسیاری از واقعه‌های تصادفی مستقل را تحسین کنید.
 
-## Exercises
+## تمرین‌ها
 
-1.  **Simulating from Uniform:** Repeat the simulation and plotting steps (histograms and Q-Q plots) from the "Hands-on: Simulating the Central Limit Theorem" section, but this time draw samples from a `Uniform(0, 1)` distribution instead of an Exponential distribution. Does the convergence to Normality appear faster or slower compared to the Exponential case? Why might this be?
-    * *Hint:* The Uniform(0, 1) distribution has mean $\mu=0.5$ and variance $\sigma^2=1/12$. Consider the symmetry of the Uniform distribution compared to the Exponential.
-2.  **Poisson Approximation:** The number of calls arriving at a call center follows a Poisson distribution with an average rate of $\lambda = 30$ calls per hour. We are interested in the probability of receiving *fewer than 25 calls* in a given hour.
-    * Calculate the exact probability using `scipy.stats.poisson`.
-    * Use the Normal approximation to the Poisson distribution (recall for Poisson($\lambda$), $\mu=\lambda$ and $\sigma^2=\lambda$) to estimate this probability. Remember to use the continuity correction. Compare the approximation to the exact value. (Is the approximation valid here? Check the rule of thumb $\lambda \ge 5$ or $\lambda \ge 10$).
-3.  **Limitations Question:** Suppose you are averaging samples from a Cauchy distribution. Why does the standard Central Limit Theorem *not* apply in this case? What key condition is violated?
+1.  **شبیه‌سازی از یکنواخت:** مراحل شبیه‌سازی و رسم (هیستوگرام‌ها و نمودارهای Q-Q) از بخش «عملی: شبیه‌سازی قضیه حد مرکزی» را تکرار کنید، اما این بار نمونه‌ها را از توزیع `Uniform(0, 1)` به‌جای نمایی بگیرید. آیا همگرایی به نرمال بودن سریع‌تر یا کندتر از مورد نمایی است؟ چرا ممکن است چنین باشد؟
+    * *راهنما:* توزیع `Uniform(0, 1)` میانگین $\mu=0.5$ و واریانس $\sigma^2=1/12$ دارد. تقارن توزیع یکنواخت را در مقایسه با نمایی در نظر بگیرید.
+2.  **تقریب پواسون:** تعداد تماس‌های رسیده به مرکز تماس از توزیع پواسون با نرخ میانگین $\lambda = 30$ تماس در ساعت پیروی می‌کند. به احتمال دریافت *کمتر از ۲۵ تماس* در یک ساعت مشخص علاقه‌مندیم.
+    * احتمال دقیق را با `scipy.stats.poisson` محاسبه کنید.
+    * از تقریب نرمال به توزیع پواسون (به‌خاطر بیاورید برای پواسون($\lambda$)، $\mu=\lambda$ و $\sigma^2=\lambda$) برای برآورد این احتمال استفاده کنید. تصحیح پیوستگی را فراموش نکنید. تقریب را با مقدار دقیق مقایسه کنید. (آیا تقریب اینجا معتبر است؟ قاعدهٔ انگشتی $\lambda \ge 5$ یا $\lambda \ge 10$ را بررسی کنید).
+3.  **سؤال محدودیت‌ها:** فرض کنید نمونه‌ها را از توزیع کوشی میانگین می‌گیرید. چرا قضیه حد مرکزی استاندارد *در این مورد* اعمال نمی‌شود؟ کدام شرط کلیدی نقض شده است؟
 
 ```{code-cell} ipython3
 

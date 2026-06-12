@@ -13,22 +13,22 @@ downloads:
   - file: notebooks/chapter_17.ipynb
 ---
 
-# Chapter 17: Introduction to Markov Chains
+# فصل ۱۷: مقدمه‌ای بر زنجیره مارکوف
 
 +++
 
-Welcome to Chapter 17! In this chapter, we venture into the world of stochastic processes by exploring **Markov Chains**. Markov chains are a fundamental concept used to model systems that transition between different states over time, where the future state depends *only* on the current state, not on the sequence of events that preceded it. This 'memoryless' property makes them incredibly useful for modeling various real-world phenomena, from weather patterns and stock market movements to customer behavior and website navigation.
+به فصل ۱۷ خوش آمدید! در این فصل با کاوش **زنجیره مارکوف** وارد دنیای فرایندهای تصادفی می‌شویم. زنجیره مارکوف مفهومی بنیادین برای مدل‌سازی سامانه‌هایی است که در طول زمان بین حالت‌های مختلف گذار می‌کنند، جایی که حالت آینده *فقط* به حالت فعلی بستگی دارد، نه به دنبالهٔ واقعه‌های پیشین. این ویژگی «بی‌حافظگی» آن‌ها را برای مدل‌سازی پدیده‌های دنیای واقعی — از الگوهای آب‌وهوا و حرکت بازار سهام تا رفتار مشتری و پیمایش وب‌سایت — فوق‌العاده مفید می‌سازد.
 
 +++
 
-**Learning Objectives:**
-* Understand the definition of a Markov chain, its components (states, transitions), and the crucial Markov property.
-* Learn how to represent Markov chains using transition matrices.
-* Simulate the behavior of a Markov chain over time using Python.
-* Calculate multi-step transition probabilities using matrix powers.
-* Gain an introductory understanding of state classification (e.g., absorbing states).
-* Learn about stationary distributions and how to find them, representing the long-run behavior of a chain.
-* Apply these concepts to practical examples using NumPy.
+**اهداف یادگیری:**
+* تعریف زنجیره مارکوف، اجزای آن (حالت‌ها، گذارها) و ویژگی حیاتی مارکوف را درک کنید.
+* نحوهٔ نمایش زنجیره مارکوف با ماتریس‌های گذار را بیاموزید.
+* رفتار یک زنجیره مارکوف در طول زمان را با پایتون شبیه‌سازی کنید.
+* احتمالات گذار چندمرحله‌ای را با توان ماتریس محاسبه کنید.
+* درکی مقدماتی از طبقه‌بندی حالت‌ها (مثلاً حالت‌های جذب‌کننده) به‌دست آورید.
+* توزیع‌های پایدار و نحوهٔ یافتن آن‌ها را بیاموزید که رفتار بلندمدت زنجیره را نشان می‌دهند.
+* این مفاهیم را در مثال‌های عملی با NumPy به‌کار ببرید.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -39,32 +39,32 @@ plt.style.use('seaborn-v0_8-whitegrid')
 plt.rcParams['figure.figsize'] = (10, 6)
 ```
 
-## 16.1 What is a Markov Chain?
+## ۱۷.۱ زنجیره مارکوف چیست؟
 
 +++
 
-A **Markov chain** is a mathematical model describing a sequence of possible events (or states) where the probability of transitioning to the next state depends *only* on the current state and not on the sequence of states that preceded it. This is known as the **Markov Property** (or memorylessness).
+**زنجیره مارکوف** مدل ریاضی است که دنباله‌ای از واقعه‌های (یا حالت‌های) ممکن را توصیف می‌کند، جایی که احتمال گذار به حالت بعدی *فقط* به حالت فعلی بستگی دارد و نه به دنبالهٔ حالت‌های پیشین. این **ویژگی مارکوف** (یا بی‌حافظگی) نامیده می‌شود.
 
-Key components:
-* **States:** A finite or countably infinite set of possible conditions or positions the system can be in. Let the set of states be $S = \{s_1, s_2, ..., s_k\}$.
-* **Transitions:** Movements between states.
-* **Transition Probabilities:** The probability of moving from one state to another in a single time step. The probability of transitioning from state $s_i$ to state $s_j$ is denoted as $P_{ij} = P(X_{t+1} = s_j | X_t = s_i)$, where $X_t$ is the state at time $t$.
-* **Initial Distribution:** A probability distribution describing the starting state of the system at time $t=0$.
+اجزای کلیدی:
+* **حالت‌ها:** مجموعهٔ متناهی یا شمارا از شرایط یا موقعیت‌های ممکن سامانه. مجموعهٔ حالت‌ها $S = \{s_1, s_2, ..., s_k\}$ باشد.
+* **گذارها:** جابه‌جایی بین حالت‌ها.
+* **احتمالات گذار:** احتمال حرکت از یک حالت به حالت دیگر در یک گام زمانی. احتمال گذار از حالت $s_i$ به حالت $s_j$ با $P_{ij} = P(X_{t+1} = s_j | X_t = s_i)$ نمایش داده می‌شود، که $X_t$ حالت در زمان $t$ است.
+* **توزیع اولیه:** توزیع احتمالی که حالت آغازین سامانه را در زمان $t=0$ توصیف می‌کند.
 
-**Example: Customer Subscription Model**
+**مثال: مدل اشتراک مشتری**
 
-Consider a company offering subscription plans: Free, Basic, and Premium. Customers can switch plans month-to-month, or they might churn (cancel). We can model this as a Markov chain:
-* **States:** $S = \{\text{'Free', 'Basic', 'Premium', 'Churned'}\}$ 
-* **Time Step:** One month.
-* **Markov Property Assumption:** The probability a customer switches to a new plan next month depends *only* on their current plan, not their entire history (e.g., whether they were Premium two months ago doesn't directly influence the next step if they are currently Basic).
-
-+++
-
-## 16.2 The Transition Matrix
+شرکتی طرح‌های اشتراک Free، Basic و Premium ارائه می‌دهد. مشتریان می‌توانند ماه‌به‌ماه طرح عوض کنند یا لغو (churn) کنند. این را می‌توان زنجیره مارکوف مدل کرد:
+* **حالت‌ها:** $S = \{\text{'Free', 'Basic', 'Premium', 'Churned'}\}$ 
+* **گام زمانی:** یک ماه.
+* **فرض ویژگی مارکوف:** احتمال اینکه مشتری ماه بعد به طرح جدید برود *فقط* به طرح فعلی بستگی دارد، نه کل تاریخ (مثلاً اینکه دو ماه پیش Premium بود اگر الان Basic است مستقیماً بر گام بعد تأثیر نمی‌گذارد).
 
 +++
 
-The transition probabilities of a Markov chain with $k$ states can be conveniently organized into a $k \times k$ matrix called the **Transition Matrix**, often denoted by $P$. 
+## ۱۷.۲ ماتریس گذار
+
++++
+
+احتمالات گذار زنجیره مارکوف با $k$ حالت را می‌توان به‌صورت منظم در ماتریس $k \times k$ به نام **ماتریس گذار**، که اغلب با $P$ نمایش داده می‌شود، سازمان داد.
 
 $$ 
 P = \begin{pmatrix}
@@ -75,17 +75,17 @@ P = \begin{pmatrix}
  \end{pmatrix}
  $$ 
 
-Where $P_{ij}$ is the probability of transitioning *from* state $i$ *to* state $j$ in one step.
+که در آن $P_{ij}$ احتمال گذار *از* حالت $i$ *به* حالت $j$ در یک گام است.
 
-**Properties of a Transition Matrix:**
-1.  All entries must be non-negative: $P_{ij} \ge 0$ for all $i, j$.
-2.  The sum of probabilities in each row must equal 1: $\sum_{j=1}^{k} P_{ij} = 1$ for all $i$. (From any state $i$, the system must transition to *some* state $j$ in the next step).
+**ویژگی‌های ماتریس گذار:**
+1.  همهٔ درایه‌ها باید نامنفی باشند: $P_{ij} \ge 0$ برای همهٔ $i, j$.
+2.  مجموع احتمالات در هر سطر باید برابر ۱ باشد: $\sum_{j=1}^{k} P_{ij} = 1$ برای همهٔ $i$. (از هر حالت $i$، سامانه در گام بعد باید به *برخی* حالت $j$ گذار کند).
 
 +++
 
-**Example: Subscription Model Transition Matrix**
+**مثال: ماتریس گذار مدل اشتراک**
 
-Let's define a plausible transition matrix for our subscription model. States are ordered: 0: Free, 1: Basic, 2: Premium, 3: Churned.
+ماتریس گذار معقولی برای مدل اشتراک تعریف می‌کنیم. ترتیب حالت‌ها: ۰: Free، ۱: Basic، ۲: Premium، ۳: Churned.
 
 | From \\ To | Free | Basic | Premium | Churned |
 |-----------|------|-------|---------|---------|
@@ -113,13 +113,13 @@ print(P)
 print("\nRow sums:", P.sum(axis=1))
 ```
 
-## 16.3 Simulating Markov Chain Paths
+## ۱۷.۳ شبیه‌سازی مسیرهای زنجیره مارکوف
 
 +++
 
-We can simulate the progression of a system through states over time using the transition matrix. Given a current state, we use the corresponding row in the transition matrix as probabilities to randomly choose the next state.
+می‌توانیم پیشرفت سامانه در حالت‌ها در طول زمان را با ماتریس گذار شبیه‌سازی کنیم. با داشتن حالت فعلی، سطر متناظر در ماتریس گذار را به‌عنوان احتمالات برای انتخاب تصادفی حالت بعدی استفاده می‌کنیم.
 
-We can use `numpy.random.choice` for this.
+برای این کار از `numpy.random.choice` استفاده می‌کنیم.
 
 ```{code-cell} ipython3
 def simulate_path(transition_matrix, state_names, start_state_name, num_steps):
@@ -160,21 +160,21 @@ print(f"Simulated {steps}-month journey starting from {start_state}:")
 print(" -> ".join(simulated_journey))
 ```
 
-Run the simulation cell multiple times to see different possible paths a customer might take.
+سلول شبیه‌سازی را چند بار اجرا کنید تا مسیرهای مختلفی که مشتری ممکن است طی کند ببینید.
 
 +++
 
-## 16.4 n-Step Transition Probabilities
+## ۱۷.۴ احتمالات گذار $n$ مرحله‌ای
 
 +++
 
-The transition matrix $P$ gives the probabilities of moving between states in *one* step. What if we want to know the probability of transitioning from state $i$ to state $j$ in *n* steps?
+ماتریس گذار $P$ احتمالات گذار بین حالت‌ها در *یک* گام را می‌دهد. اگر بخواهیم احتمال گذار از حالت $i$ به حالت $j$ در *$n$* گام را بدانیم چه؟
 
-This is given by the $(i, j)$-th entry of the matrix power $P^n$. 
+این با درایه $(i, j)$ توان ماتریس $P^n$ داده می‌شود.
 
 $P^{(n)}_{ij} = P(X_{t+n} = s_j | X_t = s_i) = (P^n)_{ij}$
 
-We can calculate matrix powers using `numpy.linalg.matrix_power`.
+توان ماتریس را با `numpy.linalg.matrix_power` محاسبه می‌کنیم.
 
 ```{code-cell} ipython3
 # Calculate the transition matrix after 3 steps (months)
@@ -201,57 +201,57 @@ prob_basic_to_churned_6_steps = P_n_long[start_idx_basic, end_idx_churned]
 print(f"Probability(State=Churned at month 6 | State=Basic at month 0): {prob_basic_to_churned_6_steps:.3f}")
 ```
 
-## 16.5 Classification of States (Brief Introduction)
+## ۱۷.۵ طبقه‌بندی حالت‌ها (مقدمهٔ مختصر)
 
 +++
 
-States in a Markov chain can be classified based on their long-term behavior:
+حالت‌های یک زنجیره مارکوف را می‌توان بر اساس رفتار بلندمدت طبقه‌بندی کرد:
 
-* **Accessible:** State $j$ is accessible from state $i$ if there is a non-zero probability of eventually reaching $j$ starting from $i$ (i.e., $P^{(n)}_{ij} > 0$ for some $n \ge 0$).
-* **Communicating:** States $i$ and $j$ communicate if they are accessible from each other.
-* **Irreducible Chain:** A Markov chain is irreducible if all states communicate with each other (it's possible to get from any state to any other state).
-* **Recurrent State:** If starting from state $i$, the probability of eventually returning to state $i$ is 1. 
-* **Transient State:** If starting from state $i$, there is a non-zero probability of *never* returning to state $i$. 
-* **Absorbing State:** A state $i$ is absorbing if once entered, it cannot be left ($P_{ii} = 1$). In our example, 'Churned' is an absorbing state.
+* **دسترس‌پذیر:** حالت $j$ از حالت $i$ دسترس‌پذیر است اگر احتمال غیرصفر رسیدن در نهایت به $j$ با شروع از $i$ وجود داشته باشد (یعنی $P^{(n)}_{ij} > 0$ برای برخی $n \ge 0$).
+* **ارتباطی:** حالت‌های $i$ و $j$ ارتباطی‌اند اگر از یکدیگر دسترس‌پذیر باشند.
+* **زنجیره تقلیل‌ناپذیر:** زنجیره مارکوف تقلیل‌ناپذیر است اگر همهٔ حالت‌ها با یکدیگر ارتباط داشته باشند (از هر حالتی بتوان به هر حالت دیگر رسید).
+* **حالت بازگشت‌پذیر:** اگر با شروع از حالت $i$، احتمال بازگشت در نهایت به $i$ برابر ۱ باشد.
+* **حالت گذرا:** اگر با شروع از حالت $i$، احتمال *هرگز* بازنگشتن به $i$ غیرصفر باشد.
+* **حالت جذب‌کننده:** حالت $i$ جذب‌کننده است اگر پس از ورود، نتوان آن را ترک کرد ($P_{ii} = 1$). در مثال ما، 'Churned' حالت جذب‌کننده است.
 
-In our subscription model:
-* 'Churned' is an absorbing state.
-* 'Free', 'Basic', and 'Premium' are likely transient states because from any of them, there is a path to 'Churned', and once in 'Churned', you cannot return.
-* The chain is *not* irreducible because you cannot leave the 'Churned' state.
-
-+++
-
-## 16.6 Stationary Distributions
+در مدل اشتراک ما:
+* 'Churned' حالت جذب‌کننده است.
+* 'Free'، 'Basic' و 'Premium' احتمالاً حالت‌های گذرا هستند چون از هر کدام مسیری به 'Churned' وجود دارد و پس از ورود به 'Churned' نمی‌توان بازگشت.
+* زنجیره تقلیل‌ناپذیر *نیست* چون نمی‌توان حالت 'Churned' را ترک کرد.
 
 +++
 
-For certain types of Markov chains (specifically, irreducible and aperiodic ones), the distribution of probabilities across states converges to a unique **stationary distribution** (or steady-state distribution), regardless of the initial state. Let $\pi = [\pi_1, \pi_2, ..., \pi_k]$ be the row vector representing this distribution, where $\pi_j$ is the long-run probability of being in state $j$.
+## ۱۷.۶ توزیع‌های پایدار
 
-The stationary distribution $\pi$ satisfies the equation:
++++
+
+برای انواع خاصی از زنجیره مارکوف (به‌ویژه تقلیل‌ناپذیر و بدون دوره‌ای)، توزیع احتمالات روی حالت‌ها صرف‌نظر از حالت اولیه به یک **توزیع پایدار** (یا توزیع حالت پایدار) یکتا همگرا می‌شود. $\pi = [\pi_1, \pi_2, ..., \pi_k]$ بردار سطری این توزیع باشد، که $\pi_j$ احتمال بلندمدت بودن در حالت $j$ است.
+
+توزیع پایدار $\pi$ معادلهٔ زیر را برآورده می‌کند:
 
 $$ \pi P = \pi $$ 
 
-subject to the constraint that $\sum_{j=1}^{k} \pi_j = 1$.
+با قید $\sum_{j=1}^{k} \pi_j = 1$.
 
-This means that if the distribution of states is $\pi$, it will remain $\pi$ after one more step. $\pi$ is the left eigenvector of the transition matrix $P$ corresponding to the eigenvalue $\lambda = 1$.
+این یعنی اگر توزیع حالت‌ها $\pi$ باشد، پس از یک گام دیگر نیز $\pi$ می‌ماند. $\pi$ بردار ویژهٔ چپ ماتریس گذار $P$ متناظر با مقدار ویژه $\lambda = 1$ است.
 
-**Important Note:** Our subscription model has an absorbing state. In such cases, the long-run probability will eventually concentrate entirely in the absorbing state(s). For any starting state other than 'Churned', the probability of being in 'Churned' approaches 1 as $n \to \infty$. The concept of a unique stationary distribution across *all* states applies more directly to chains where you can always move between states (irreducible chains).
+**نکتهٔ مهم:** مدل اشتراک ما حالت جذب‌کننده دارد. در چنین مواردی، احتمال بلندمدت در نهایت کاملاً در حالت(های) جذب‌کننده متمرکز می‌شود. برای هر حالت آغازین غیر از 'Churned'، احتمال بودن در 'Churned' با $n \to \infty$ به ۱ نزدیک می‌شود. مفهوم توزیع پایدار یکتا روی *همه* حالت‌ها مستقیماً‌تر برای زنجیره‌هایی اعمال می‌شود که همیشه بتوان بین حالت‌ها جابه‌جا شد (زنجیره‌های تقلیل‌ناپذیر).
 
 +++
 
-**Example: Finding Stationary Distribution for a Weather Model**
+**مثال: یافتن توزیع پایدار برای مدل آب‌وهوا**
 
-Let's consider a simpler, irreducible weather model (Sunny, Cloudy, Rainy) to illustrate finding a stationary distribution.
+مدل آب‌وهوای ساده‌تر و تقلیل‌ناپذیری (آفتابی، ابری، بارانی) را برای نمایش یافتن توزیع پایدار در نظر می‌گیریم.
 
-Weather States: `['Sunny', 'Cloudy', 'Rainy']`
-Weather Matrix `W`:
+حالت‌های آب‌وهوا: `['Sunny', 'Cloudy', 'Rainy']`
+ماتریس آب‌وهوا `W`:
 ```
    Sunny Cloudy Rainy
 Sunny  [0.7,  0.2,   0.1]
 Cloudy [0.3,  0.5,   0.2]
 Rainy  [0.2,  0.4,   0.4]
 ```
-We need to find $\pi = [\pi_S, \pi_C, \pi_R]$ such that $\pi W = \pi$ and $\pi_S + \pi_C + \pi_R = 1$. This is equivalent to finding the left eigenvector for eigenvalue 1.
+باید $\pi = [\pi_S, \pi_C, \pi_R]$ را بیابیم که $\pi W = \pi$ و $\pi_S + \pi_C + \pi_R = 1$. این معادل یافتن بردار ویژهٔ چپ برای مقدار ویژه ۱ است.
 
 ```{code-cell} ipython3
 # Weather example
@@ -290,15 +290,15 @@ else:
     print("\nVerification (pi * W):", np.dot(stationary_distribution, W))
 ```
 
-This stationary distribution tells us that, in the long run, regardless of whether today is Sunny, Cloudy, or Rainy, the probability of a future day being Sunny is about 44.7%, Cloudy is about 36.8%, and Rainy is about 18.4%.
+این توزیع پایدار می‌گوید در بلندمدت، صرف‌نظر از اینکه امروز آفتابی، ابری یا بارانی باشد، احتمال روز آیندهٔ آفتابی حدود ۴۴٫۷٪، ابری حدود ۳۶٫۸٪ و بارانی حدود ۱۸٫۴٪ است.
 
 +++
 
-## 16.7 Hands-on: Analyzing the Subscription Model Long-Term
+## ۱۷.۷ عملی: تحلیل بلندمدت مدل اشتراک
 
 +++
 
-Let's use our simulation and n-step transition probabilities to see what happens to subscribers in the long run in our original model with the 'Churned' state.
+از شبیه‌سازی و احتمالات گذار $n$ مرحله‌ای برای دیدن آنچه در بلندمدت برای مشترکین در مدل اصلی با حالت 'Churned' رخ می‌دهد استفاده می‌کنیم.
 
 ```{code-cell} ipython3
 # Simulate many paths to see the distribution of final states
@@ -336,42 +336,42 @@ for i, state in enumerate(states):
     print(f"  {state}: {theoretical_probs[i]:.4f}")
 ```
 
-Notice how the simulation results closely match the theoretical probabilities calculated using the matrix power $P^n$. Also, observe that as the number of steps (`simulation_length`) increases, the probability mass shifts significantly towards the 'Churned' state, as expected for a model with an absorbing state.
+توجه کنید نتایج شبیه‌سازی به‌خوبی با احتمالات نظری محاسبه‌شده با توان ماتریس $P^n$ هم‌خوان است. همچنین مشاهده کنید با افزایش تعداد گام‌ها (`simulation_length`)، جرم احتمال به‌طور قابل‌توجهی به سمت حالت 'Churned' جابه‌جا می‌شود، همان‌طور که برای مدلی با حالت جذب‌کننده انتظار می‌رود.
 
 +++
 
-## 16.8 Summary
+## ۱۷.۸ خلاصه
 
 +++
 
-In this chapter, we introduced Markov chains, a powerful tool for modeling systems that transition between states based only on their current state. 
+در این فصل زنجیره مارکوف را معرفی کردیم؛ ابزاری قدرتمند برای مدل‌سازی سامانه‌هایی که بر اساس حالت فعلی بین حالت‌ها گذار می‌کنند.
 
-We learned:
-* The definition of states, transitions, and the Markov property.
-* How to use transition matrices ($P$) to represent one-step probabilities.
-* To simulate Markov chain paths using Python and `np.random.choice`.
-* That matrix powers ($P^n$) give n-step transition probabilities.
-* The basic classification of states, including absorbing states.
-* The concept of a stationary distribution ($\pi P = \pi$) for irreducible, aperiodic chains, representing long-run behavior, and how to find it using eigenvectors.
+آموختیم:
+* تعریف حالت‌ها، گذارها و ویژگی مارکوف.
+* استفاده از ماتریس‌های گذار ($P$) برای نمایش احتمالات یک‌گامی.
+* شبیه‌سازی مسیرهای زنجیره مارکوف با پایتون و `np.random.choice`.
+* اینکه توان ماتریس ($P^n$) احتمالات گذار $n$ مرحله‌ای را می‌دهد.
+* طبقه‌بندی پایهٔ حالت‌ها، از جمله حالت‌های جذب‌کننده.
+* مفهوم توزیع پایدار ($\pi P = \pi$) برای زنجیره‌های تقلیل‌ناپذیر و بدون دوره‌ای که رفتار بلندمدت را نشان می‌دهد و نحوهٔ یافتن آن با بردارهای ویژه.
 
-Markov chains form the basis for many more advanced models and algorithms in fields like reinforcement learning, finance, genetics, and operations research.
-
-+++
-
-## Exercises
+زنجیره مارکوف پایهٔ بسیاری از مدل‌ها و الگوریتم‌های پیشرفته‌تر در حوزه‌هایی مانند یادگیری تقویتی، مالی، ژنتیک و تحقیق در عملیات است.
 
 +++
 
-1.  **Simple Weather Model:** Consider the weather model (Sunny, Cloudy, Rainy) with transition matrix `W`. If it's Sunny today, what is the probability it will be Rainy the day after tomorrow (in 2 steps)? Calculate this using matrix multiplication.
-2.  **Gambler's Ruin (Simulation):** A gambler starts with \$3. They bet \$1 on a fair coin flip (50% chance win, 50% chance lose). They stop if they reach \$0 (ruin) or \$5 (win). 
-    a. Define the states (amount of money: 0, 1, 2, 3, 4, 5).
-    b. Define the transition matrix. Note the absorbing states 0 and 5.
-    c. Simulate 10000 games starting from \$3. What proportion end in ruin (\$0) and what proportion end in winning (\$5)?
-3.  **Stationary Distribution Verification:** For the weather model, manually verify that the calculated stationary distribution $\pi$ satisfies $\pi W = \pi$. 
-4.  **Modify Subscription Model:** Change the 'Churned' state in the subscription model `P` so that there's a small probability (e.g., 0.05) of a churned customer re-subscribing to the 'Free' plan each month (adjust the $P_{33}$ probability accordingly so the row still sums to 1). Is the chain still absorbing? Try to find the new stationary distribution using the eigenvector method. What does it represent now?
+## تمرین‌ها
+
++++
+
+1.  **مدل آب‌وهوای ساده:** مدل آب‌وهوا (آفتابی، ابری، بارانی) با ماتریس گذار `W` را در نظر بگیرید. اگر امروز آفتابی باشد، احتمال بارانی بودن پس‌فردا (در ۲ گام) چقدر است؟ با ضرب ماتریس محاسبه کنید.
+2.  **ورشکستگی قمارباز (شبیه‌سازی):** قماربازی با \$3 شروع می‌کند. \$1 روی پرتاب سکهٔ منصفانه شرط‌بندی می‌کند (۵۰٪ برد، ۵۰٪ باخت). اگر به \$0 (ورشکستگی) یا \$5 (برد) برسد متوقف می‌شود.
+    الف. حالت‌ها را تعریف کنید (مقدار پول: ۰، ۱، ۲، ۳، ۴، ۵).
+    ب. ماتریس گذار را تعریف کنید. حالت‌های جذب‌کننده ۰ و ۵ را در نظر بگیرید.
+    ج. ۱۰۰۰۰ بازی با شروع از \$3 شبیه‌سازی کنید. چه نسبتی به ورشکستگی (\$0) و چه نسبتی به برد (\$5) ختم می‌شود؟
+3.  **تأیید توزیع پایدار:** برای مدل آب‌وهوا، به‌صورت دستی تأیید کنید توزیع پایدار محاسبه‌شده $\pi$ رابطه $\pi W = \pi$ را برآورده می‌کند.
+4.  **تغییر مدل اشتراک:** حالت 'Churned' در مدل اشتراک `P` را طوری تغییر دهید که احتمال کوچکی (مثلاً ۰٫۰۵) برای بازاشتراک مشتری لغوشده در طرح 'Free' هر ماه وجود داشته باشد (احتمال $P_{33}$ را متناسب تنظیم کنید تا مجموع سطر همچنان ۱ باشد). آیا زنجیره هنوز جذب‌کننده است؟ با روش بردار ویژه توزیع پایدار جدید را بیابید. اکنون چه چیزی را نشان می‌دهد؟
 
 ```{code-cell} ipython3
-# Exercise 1 Code/Calculation Space
+# فضای کد/محاسبهٔ تمرین ۱
 W_states = ['Sunny', 'Cloudy', 'Rainy']
 W = np.array([
     [0.7, 0.2, 0.1],
@@ -390,7 +390,7 @@ print(f"(Exercise 1) Probability Sunny -> Rainy in 2 steps: {prob_sunny_to_rainy
 ```
 
 ```{code-cell} ipython3
-# Exercise 2 Code/Calculation Space
+# فضای کد/محاسبهٔ تمرین ۲
 # Gambler's Ruin
 gambler_states = [0, 1, 2, 3, 4, 5] # Amount of money
 P_gambler = np.array([
@@ -442,7 +442,7 @@ print(f"  Proportion ending in Win ($5): {win_count / num_games:.4f}")  # Should
 ```
 
 ```{code-cell} ipython3
-# Exercise 3 Code/Calculation Space
+# فضای کد/محاسبهٔ تمرین ۳
 # Verification: pi * W = pi
 
 # From previous calculation (ensure these are accurate)
@@ -462,7 +462,7 @@ print(f"  Are they close? {np.allclose(pi_weather, result_vector)}")
 ```
 
 ```{code-cell} ipython3
-# Exercise 4 Code/Calculation Space
+# فضای کد/محاسبهٔ تمرین ۴
 
 # Reload original P and states just in case they were modified
 states = ['Free', 'Basic', 'Premium', 'Churned']

@@ -13,172 +13,172 @@ downloads:
   - file: notebooks/appendix_b.ipynb
 ---
 
-# Appendix B: Essential Library Reference
+# پیوست ب: مرجع کتابخانه‌های ضروری
 
-This appendix provides a quick reference for the most commonly used functions and concepts from the core Python libraries leveraged throughout this book. It is not exhaustive but covers the essentials for probability simulation, calculation, and visualization.
+این پیوست مرجع سریعی برای پرکاربردترین توابع و مفاهیم کتابخانه‌های اصلی پایتون مورد استفاده در سراسر این کتاب ارائه می‌دهد. جامع نیست اما موارد ضروری برای شبیه‌سازی، محاسبه و مصورسازی احتمال را پوشش می‌دهد.
 
-## 1. Python Standard Libraries
+## ۱. کتابخانه‌های استاندارد پایتون
 
 ### `math`
 
-- `math.factorial(n)`: Computes $n!$
-- `math.comb(n, k)`: Computes binomial coefficient $\binom{n}{k}$ ('n choose k'). Requires Python 3.8+.
-- `math.perm(n, k)`: Computes permutations $P(n, k) = \frac{n!}{(n-k)!}$. Requires Python 3.8+.
-- `math.exp(x)`: Computes $e^x$.
-- `math.log(x, [base])`: Computes the logarithm of $x$. Natural logarithm ($\ln x$) if base is omitted, otherwise $\log_{\text{base}} x$.
-- `math.sqrt(x)`: Computes the square root $\sqrt{x}$.
+- `math.factorial(n)`: محاسبهٔ $n!$
+- `math.comb(n, k)`: محاسبهٔ ضریب دوجمله‌ای $\binom{n}{k}$ («انتخاب k از n»). نیاز به Python 3.8+.
+- `math.perm(n, k)`: محاسبهٔ تبدیلات $P(n, k) = \frac{n!}{(n-k)!}$. نیاز به Python 3.8+.
+- `math.exp(x)`: محاسبهٔ $e^x$.
+- `math.log(x, [base])`: محاسبهٔ لگاریتم $x$. لگاریتم طبیعی ($\ln x$) اگر پایه حذف شود، در غیر این صورت $\log_{\text{base}} x$.
+- `math.sqrt(x)`: محاسبهٔ جذر $\sqrt{x}$.
 
-## 2. NumPy (`import numpy as np`)
+## ۲. NumPy (`import numpy as np`)
 
-### Array Creation
+### ساخت آرایه
 
-- `np.array([list])`: Create a NumPy array from a Python list.
-- `np.arange(start, stop, step)`: Create an array with evenly spaced values within a given interval (stop is exclusive).
-- `np.linspace(start, stop, num)`: Create an array with `num` evenly spaced values between `start` and `stop` (inclusive).
-- `np.zeros(shape)`, `np.ones(shape)`: Create arrays of a given shape filled with 0s or 1s.
-- `np.eye(N)`: Create an $N \times N$ identity matrix.
+- `np.array([list])`: ساخت آرایهٔ NumPy از یک فهرست پایتون.
+- `np.arange(start, stop, step)`: ساخت آرایه با مقادیر یکنواخت در بازه (stop شامل نمی‌شود).
+- `np.linspace(start, stop, num)`: ساخت آرایه با `num` مقدار یکنواخت بین `start` و `stop` (شامل هر دو).
+- `np.zeros(shape)`, `np.ones(shape)`: ساخت آرایه‌هایی با شکل داده‌شده پر از ۰ یا ۱.
+- `np.eye(N)`: ساخت ماتریس همانی $N \times N$.
 
-### Random Sampling (`np.random`)
+### نمونه‌گیری تصادفی (`np.random`)
 
-- `np.random.seed(integer)`: Set the random seed for reproducibility.
-- `np.random.rand(d0, d1, ...)`: Generate random floats uniformly distributed over $[0, 1)$.
-- `np.random.randn(d0, d1, ...)`: Generate random floats from the standard normal distribution ($N(0, 1)$).
-- `np.random.randint(low, high, size)`: Generate random integers from `low` (inclusive) to `high` (exclusive).
-- `np.random.choice(a, size, replace=True, p=None)`: Generate a random sample from a given 1-D array `a`. `replace` controls sampling with/without replacement. `p` allows specifying probabilities for each element in `a`.
+- `np.random.seed(integer)`: تنظیم بذر تصادفی برای تکرارپذیری.
+- `np.random.rand(d0, d1, ...)`: تولید اعداد تصادفی یکنواخت روی $[0, 1)$.
+- `np.random.randn(d0, d1, ...)`: تولید اعداد تصادفی از توزیع نرمال استاندارد ($N(0, 1)$).
+- `np.random.randint(low, high, size)`: تولید اعداد صحیح تصادفی از `low` (شامل) تا `high` (غیرشامل).
+- `np.random.choice(a, size, replace=True, p=None)`: نمونه‌گیری تصادفی از آرایهٔ یک‌بعدی `a`. `replace` نمونه‌گیری با/بدون جایگزینی را کنترل می‌کند. `p` امکان تعیین احتمال هر عنصر در `a` را می‌دهد.
 
-### Array Operations & Math
+### عملیات و ریاضی آرایه
 
-- Standard arithmetic operators (`+`, `-`, `*`, `/`, `**`) operate element-wise.
-- `np.sum(a)`, `np.mean(a)`, `np.std(a)`, `np.var(a)`: Calculate sum, mean, standard deviation ($\sigma$), and variance ($\sigma^2$) of array elements.
-- `np.min(a)`, `np.max(a)`: Find minimum and maximum values.
-- `np.argmin(a)`, `np.argmax(a)`: Find the indices of the minimum and maximum values.
-- `np.sqrt(a)`, `np.exp(a)`, `np.log(a)`, `np.sin(a)`, etc.: Element-wise mathematical functions.
-- `np.dot(a, b)` or `a @ b`: Matrix multiplication / dot product.
-- `a.T`: Transpose of array `a`.
+- عملگرهای حسابی استاندارد (`+`، `-`، `*`، `/`، `**`) به‌صورت عنصر به عنصر عمل می‌کنند.
+- `np.sum(a)`, `np.mean(a)`, `np.std(a)`, `np.var(a)`: محاسبهٔ مجموع، میانگین، انحراف معیار ($\sigma$) و واریانس ($\sigma^2$) عناصر آرایه.
+- `np.min(a)`, `np.max(a)`: یافتن کمینه و بیشینه.
+- `np.argmin(a)`, `np.argmax(a)`: یافتن اندیس کمینه و بیشینه.
+- `np.sqrt(a)`, `np.exp(a)`, `np.log(a)`, `np.sin(a)` و غیره: توابع ریاضی عنصر به عنصر.
+- `np.dot(a, b)` یا `a @ b`: ضرب ماتریسی / ضرب داخلی.
+- `a.T`: ترانهادهٔ آرایهٔ `a`.
 
-### Indexing and Slicing
+### اندیس‌گذاری و برش
 
-- Standard Python slicing `a[start:stop:step]` works for each dimension.
-- Boolean Indexing: `a[boolean_array]` or `a[a > 5]` selects elements where the condition is True.
-- Fancy Indexing: `a[[1, 4, 0]]` selects specific rows/elements using a list of indices.
+- برش استاندارد پایتون `a[start:stop:step]` برای هر بعد کار می‌کند.
+- اندیس‌گذاری بولی: `a[boolean_array]` یا `a[a > 5]` عناصری را که شرط True است انتخاب می‌کند.
+- اندیس‌گذاری پیشرفته: `a[[1, 4, 0]]` سطرها/عناصر مشخص را با فهرست اندیس‌ها انتخاب می‌کند.
 
-## 3. SciPy (`import scipy`)
+## ۳. SciPy (`import scipy`)
 
-### Special Functions (`scipy.special`)
+### توابع ویژه (`scipy.special`)
 
-- `scipy.special.perm(N, k)`: Computes permutations $P(N, k)$.
-- `scipy.special.comb(N, k)`: Computes combinations $C(N, k) = \binom{N}{k}$.
-- `scipy.special.gamma(z)`: Gamma function $\Gamma(z)$.
-- `scipy.special.gammaln(z)`: Log of the absolute value of the Gamma function, $\ln|\Gamma(z)|$.
+- `scipy.special.perm(N, k)`: محاسبهٔ تبدیلات $P(N, k)$.
+- `scipy.special.comb(N, k)`: محاسبهٔ ترکیبات $C(N, k) = \binom{N}{k}$.
+- `scipy.special.gamma(z)`: تابع گاما $\Gamma(z)$.
+- `scipy.special.gammaln(z)`: لگاریتم قدر مطلق تابع گاما، $\ln|\Gamma(z)|$.
 
-### Integration (`scipy.integrate`)
+### انتگرال‌گیری (`scipy.integrate`)
 
-- `scipy.integrate.quad(func, a, b)`: Computes the definite integral $\int_a^b f(x) dx$. Returns the integral result and an estimated error.
+- `scipy.integrate.quad(func, a, b)`: محاسبهٔ انتگرال معین $\int_a^b f(x) dx$. نتیجهٔ انتگرال و خطای تخمینی را برمی‌گرداند.
 
-### Statistics (`scipy.stats`)
+### آمار (`scipy.stats`)
 
-Provides distribution objects (e.g., `norm`, `binom`, `poisson`) with common methods:
+شیءهای توزیع (مثلاً `norm`، `binom`، `poisson`) با متدهای رایج:
 
-- `dist.rvs(...)`: Generate Random VariateS (samples).
-- `dist.pmf(k, ...)`: Probability Mass Function $P(X=k)$ (for discrete distributions).
-- `dist.pdf(x, ...)`: Probability Density Function $f(x)$ (for continuous distributions).
-- `dist.cdf(x, ...)`: Cumulative Distribution Function $F(x) = P(X \le x)$.
-- `dist.ppf(q, ...)`: Percent Point Function (inverse CDF or quantile function). Finds $x$ such that $F(x) = q$.
-- `dist.sf(x, ...)`: Survival Function $S(x) = 1 - F(x) = P(X > x)$.
-- `dist.isf(q, ...)`: Inverse Survival Function. Finds $x$ such that $S(x) = q$.
-- `dist.stats(moments='mvsk')`: Computes Mean ('m'), Variance ('v'), Skewness ('s'), Kurtosis ('k').
-- `dist.mean(...)`, `dist.median(...)`, `dist.var(...)`, `dist.std(...)`: Compute specific moments/statistics.
-- `dist.interval(alpha, ...)`: Computes an interval containing `alpha` proportion of the probability density (e.g., `alpha=0.95` for a 95% interval).
+- `dist.rvs(...)`: تولید متغیرهای تصادفی (نمونه).
+- `dist.pmf(k, ...)`: تابع جرم احتمال $P(X=k)$ (برای توزیع‌های گسسته).
+- `dist.pdf(x, ...)`: تابع چگالی احتمال $f(x)$ (برای توزیع‌های پیوسته).
+- `dist.cdf(x, ...)`: تابع توزیع تجمعی $F(x) = P(X \le x)$.
+- `dist.ppf(q, ...)`: تابع درصد (CDF معکوس یا تابع چندک). $x$ را می‌یابد که $F(x) = q$.
+- `dist.sf(x, ...)`: تابع بقا $S(x) = 1 - F(x) = P(X > x)$.
+- `dist.isf(q, ...)`: تابع بقای معکوس. $x$ را می‌یابد که $S(x) = q$.
+- `dist.stats(moments='mvsk')`: محاسبهٔ میانگین ('m')، واریانس ('v')، چولگی ('s')، کشیدگی ('k').
+- `dist.mean(...)`, `dist.median(...)`, `dist.var(...)`, `dist.std(...)`: محاسبهٔ گشتاور/آمارهٔ مشخص.
+- `dist.interval(alpha, ...)`: محاسبهٔ بازه‌ای که `alpha` نسبت از چگالی احتمال را در بر می‌گیرد (مثلاً `alpha=0.95` برای بازهٔ ۹۵٪).
 
-Common Distributions (parameters might vary slightly from textbook definitions, check documentation):
+توزیع‌های رایج (پارامترها ممکن است اندکی با تعاریف کتاب درسی متفاوت باشند؛ مستندات را ببینید):
 
-- `scipy.stats.bernoulli(p)`: Bernoulli (probability of success `p`).
-- `scipy.stats.binom(n, p)`: Binomial (number of trials `n`, probability of success `p`).
-- `scipy.stats.geom(p)`: Geometric (probability of success `p`).
-- `scipy.stats.nbinom(n, p)`: Negative Binomial (number of successes `n`, probability of success `p`).
-- `scipy.stats.poisson(mu)`: Poisson (rate `mu`, $\lambda$).
-- `scipy.stats.hypergeom(M, n, N)`: Hypergeometric (M=population size, n=items with feature, N=sample size).
-- `scipy.stats.uniform(loc, scale)`: Uniform on $[loc, loc+scale]$.
-- `scipy.stats.expon(scale)`: Exponential (scale = $1/\lambda$, where $\lambda$ is the rate parameter).
-- `scipy.stats.norm(loc, scale)`: Normal (Gaussian) (loc=mean $\mu$, scale=standard deviation $\sigma$).
-- `scipy.stats.gamma(a, loc, scale)`: Gamma (`a` is the shape parameter $\alpha$ or $k$).
-- `scipy.stats.beta(a, b, loc, scale)`: Beta (`a`, `b` are shape parameters $\alpha, \beta$).
+- `scipy.stats.bernoulli(p)`: برنولی (احتمال موفقیت `p`).
+- `scipy.stats.binom(n, p)`: دوجمله‌ای (تعداد آزمایش `n`، احتمال موفقیت `p`).
+- `scipy.stats.geom(p)`: هندسی (احتمال موفقیت `p`).
+- `scipy.stats.nbinom(n, p)`: دوجمله‌ای منفی (تعداد موفقیت‌های هدف `n`، احتمال موفقیت `p`).
+- `scipy.stats.poisson(mu)`: پواسون (نرخ `mu`، $\lambda$).
+- `scipy.stats.hypergeom(M, n, N)`: فوق‌هندسی (M=اندازهٔ جامعه، n=تعداد دارای ویژگی، N=اندازهٔ نمونه).
+- `scipy.stats.uniform(loc, scale)`: یکنواخت روی $[loc, loc+scale]$.
+- `scipy.stats.expon(scale)`: نمایی (scale = $1/\lambda$، که $\lambda$ پارامتر نرخ است).
+- `scipy.stats.norm(loc, scale)`: نرمال (گاوسی) (loc=میانگین $\mu$، scale=انحراف معیار $\sigma$).
+- `scipy.stats.gamma(a, loc, scale)`: گاما (`a` پارامتر شکل $\alpha$ یا $k$).
+- `scipy.stats.beta(a, b, loc, scale)`: بتا (`a`، `b` پارامترهای شکل $\alpha, \beta$).
 
-## 4. Matplotlib (`import matplotlib.pyplot as plt`)
+## ۴. Matplotlib (`import matplotlib.pyplot as plt`)
 
-### Basic Plotting
+### رسم پایه
 
-- `plt.plot(x, y, [fmt], ...)`: Line plot.
-- `plt.scatter(x, y, ...)`: Scatter plot.
-- `plt.bar(x, height, ...)`: Vertical bar chart.
-- `plt.hist(data, bins=..., density=False, ...)`: Histogram. `density=True` normalizes the histogram to form a probability density.
-- `plt.boxplot(data, ...)`: Box-and-whisker plot.
+- `plt.plot(x, y, [fmt], ...)`: نمودار خطی.
+- `plt.scatter(x, y, ...)`: نمودار پراکندگی.
+- `plt.bar(x, height, ...)`: نمودار میله‌ای عمودی.
+- `plt.hist(data, bins=..., density=False, ...)`: هیستوگرام. `density=True` هیستوگرام را نرمال می‌کند تا چگالی احتمال شود.
+- `plt.boxplot(data, ...)`: نمودار جعبه‌ای.
 
-### Customization & Display
+### سفارشی‌سازی و نمایش
 
-- `plt.title('...')`, `plt.xlabel('...')`, `plt.ylabel('...')`: Set plot title and axis labels.
-- `plt.legend(['label1', 'label2'])`: Add a legend (use `label='...'` kwarg in plot commands).
-- `plt.grid(True)`: Display grid lines.
-- `plt.xlim(min, max)`, `plt.ylim(min, max)`: Set axis limits.
-- `plt.figure(figsize=(width, height))`: Create a new figure object with specified size in inches.
-- `plt.subplot(nrows, ncols, index)`: Create axes in a grid of subplots.
-- `plt.tight_layout()`: Adjusts plot parameters for a tight layout.
-- `plt.show()`: Display the current figure.
-- `plt.savefig('filename.png')`: Save the current figure to a file.
+- `plt.title('...')`, `plt.xlabel('...')`, `plt.ylabel('...')`: تنظیم عنوان و برچسب محورها.
+- `plt.legend(['label1', 'label2'])`: افزودن راهنما (از آرگومان `label='...'` در دستورات plot استفاده کنید).
+- `plt.grid(True)`: نمایش خطوط شبکه.
+- `plt.xlim(min, max)`, `plt.ylim(min, max)`: تنظیم محدودهٔ محورها.
+- `plt.figure(figsize=(width, height))`: ساخت شیء figure جدید با اندازهٔ مشخص به اینچ.
+- `plt.subplot(nrows, ncols, index)`: ساخت محورها در شبکهٔ subplot.
+- `plt.tight_layout()`: تنظیم پارامترهای نمودار برای چیدمان فشرده.
+- `plt.show()`: نمایش figure فعلی.
+- `plt.savefig('filename.png')`: ذخیرهٔ figure فعلی در فایل.
 
-## 5. Seaborn (`import seaborn as sns`)
+## ۵. Seaborn (`import seaborn as sns`)
 
-Built on Matplotlib, providing higher-level interface for statistical graphics.
+بر پایهٔ Matplotlib ساخته شده و رابط سطح‌بالاتری برای نمودارهای آماری فراهم می‌کند.
 
-### Common Statistical Plots
+### نمودارهای آماری رایج
 
-- `sns.histplot(data=..., x=..., hue=..., kde=True)`: Histogram with optional Kernel Density Estimate (KDE).
-- `sns.kdeplot(data=..., x=..., hue=...)`: Plot Kernel Density Estimate.
-- `sns.ecdfplot(data=..., x=..., hue=...)`: Plot Empirical Cumulative Distribution Function.
-- `sns.boxplot(data=..., x=..., y=..., hue=...)`: Box plot, easily handles grouping by categorical variables.
-- `sns.violinplot(data=..., x=..., y=..., hue=...)`: Combines box plot with KDE.
-- `sns.scatterplot(data=..., x=..., y=..., hue=..., size=...)`: Enhanced scatter plot.
-- `sns.heatmap(data, annot=False, cmap=...)`: Visualize matrix data (e.g., covariance, transition matrices). `annot=True` shows values.
-- `sns.pairplot(data, hue=...)`: Plot pairwise relationships between variables in a DataFrame.
-- `sns.jointplot(data=..., x=..., y=..., kind='scatter'|'kde'|'hist')`: Scatter plot with marginal distributions on axes.
+- `sns.histplot(data=..., x=..., hue=..., kde=True)`: هیستوگرام با برآورد چگالی هسته (KDE) اختیاری.
+- `sns.kdeplot(data=..., x=..., hue=...)`: رسم برآورد چگالی هسته.
+- `sns.ecdfplot(data=..., x=..., hue=...)`: رسم تابع توزیع تجمعی تجربی.
+- `sns.boxplot(data=..., x=..., y=..., hue=...)`: نمودار جعبه‌ای، به‌راحتی گروه‌بندی بر اساس متغیرهای طبقه‌ای.
+- `sns.violinplot(data=..., x=..., y=..., hue=...)`: ترکیب نمودار جعبه‌ای با KDE.
+- `sns.scatterplot(data=..., x=..., y=..., hue=..., size=...)`: نمودار پراکندگی پیشرفته.
+- `sns.heatmap(data, annot=False, cmap=...)`: مصورسازی دادهٔ ماتریسی (مثلاً کوواریانس، ماتریس‌های گذار). `annot=True` مقادیر را نشان می‌دهد.
+- `sns.pairplot(data, hue=...)`: رسم روابط دو به دو متغیرها در یک DataFrame.
+- `sns.jointplot(data=..., x=..., y=..., kind='scatter'|'kde'|'hist')`: نمودار پراکندگی با توزیع‌های حاشیه‌ای روی محورها.
 
-### Aesthetics
+### زیبایی‌شناسی
 
-- `sns.set_theme(style=..., palette=..., context=...)`: Set the global aesthetic parameters (e.g., `style='whitegrid'`, `palette='viridis'`).
+- `sns.set_theme(style=..., palette=..., context=...)`: تنظیم پارامترهای زیبایی‌شناسی سراسری (مثلاً `style='whitegrid'`، `palette='viridis'`).
 
-## 6. Pandas (`import pandas as pd`)
+## ۶. Pandas (`import pandas as pd`)
 
-Primarily used for data loading, manipulation, and preliminary analysis.
+عمدتاً برای بارگذاری، دستکاری و تحلیل اولیهٔ داده استفاده می‌شود.
 
-### Core Data Structures
+### ساختارهای دادهٔ اصلی
 
-- `pd.Series(data, index=...)`: 1-dimensional labeled array.
-- `pd.DataFrame(data, index=..., columns=...)`: 2-dimensional labeled table-like structure.
+- `pd.Series(data, index=...)`: آرایهٔ برچسب‌دار یک‌بعدی.
+- `pd.DataFrame(data, index=..., columns=...)`: ساختار جدول‌مانند دو‌بعدی برچسب‌دار.
 
-### Data Loading/Saving
+### بارگذاری/ذخیرهٔ داده
 
-- `pd.read_csv('filepath')`, `pd.read_excel('filepath')`: Load data from files.
-- `df.to_csv('filepath')`, `df.to_excel('filepath')`: Save DataFrame to files.
+- `pd.read_csv('filepath')`, `pd.read_excel('filepath')`: بارگذاری داده از فایل.
+- `df.to_csv('filepath')`, `df.to_excel('filepath')`: ذخیرهٔ DataFrame در فایل.
 
-### Selection & Inspection
+### انتخاب و بازرسی
 
-- `df.head(n)`, `df.tail(n)`: View first/last n rows.
-- `df.info()`: Summary of DataFrame (index dtype, columns, non-null values, memory usage).
-- `df.describe()`: Generate descriptive statistics for numerical columns.
-- `df['column']`, `df.column`: Select a column as a Series.
-- `df[['col1', 'col2']]`: Select multiple columns as a DataFrame.
-- `df.loc[row_label, col_label]`: Access group of rows/columns by label(s).
-- `df.iloc[row_index, col_index]`: Access group of rows/columns by integer position(s).
-- Boolean Indexing: `df[df['value'] > 0]`
+- `df.head(n)`, `df.tail(n)`: مشاهدهٔ n سطر اول/آخر.
+- `df.info()`: خلاصهٔ DataFrame (نوع اندیس، ستون‌ها، مقادیر غیرتهی، مصرف حافظه).
+- `df.describe()`: تولید آماره‌های توصیفی برای ستون‌های عددی.
+- `df['column']`, `df.column`: انتخاب یک ستون به‌عنوان Series.
+- `df[['col1', 'col2']]`: انتخاب چند ستون به‌عنوان DataFrame.
+- `df.loc[row_label, col_label]`: دسترسی به گروهی از سطرها/ستون‌ها با برچسب.
+- `df.iloc[row_index, col_index]`: دسترسی به گروهی از سطرها/ستون‌ها با موقعیت عددی.
+- اندیس‌گذاری بولی: `df[df['value'] > 0]`
 
-### Common Operations & Statistics
+### عملیات و آمار رایج
 
-- `df['column'].mean()`, `.std()`, `.var()`, `.median()`, `.min()`, `.max()`, `.sum()`: Column-wise statistics.
-- `df.corr()`: Compute pairwise correlation of columns.
-- `df.cov()`: Compute pairwise covariance of columns.
-- `df['column'].value_counts()`: Count unique values in a Series.
-- `df.groupby('col_name').agg({'other_col': 'mean'})`: Group data and apply aggregation functions.
-- `df.apply(function, axis=0|1)`: Apply a function along an axis.
+- `df['column'].mean()`, `.std()`, `.var()`, `.median()`, `.min()`, `.max()`, `.sum()`: آماره‌های ستونی.
+- `df.corr()`: محاسبهٔ همبستگی دو به دو ستون‌ها.
+- `df.cov()`: محاسبهٔ کوواریانس دو به دو ستون‌ها.
+- `df['column'].value_counts()`: شمارش مقادیر یکتا در یک Series.
+- `df.groupby('col_name').agg({'other_col': 'mean'})`: گروه‌بندی داده و اعمال توابع تجمیع.
+- `df.apply(function, axis=0|1)`: اعمال تابع در امتداد یک محور.
 
 ```{code-cell} ipython3
 

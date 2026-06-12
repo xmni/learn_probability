@@ -13,92 +13,92 @@ downloads:
   - file: notebooks/chapter_05.ipynb
 ---
 
-# Chapter 5: Bayes' Theorem and Independence
+# فصل ۵: قضیه بیز و استقلال
 
 +++
 
-In the previous chapter, we explored conditional probability – how the probability of an event changes given that another event has occurred. Now, we'll delve into one of the most powerful and widely applicable results stemming from conditional probability: **Bayes' Theorem**. This theorem provides a formal way to update our beliefs (probabilities) in light of new evidence. We will also formally define and explore the concept of **independence** between events, a crucial idea for simplifying probability calculations.
+در فصل پیشین، احتمال شرطی را بررسی کردیم — اینکه چگونه احتمال یک واقعه با فرض وقوع واقعه دیگر تغییر می‌کند. اکنون به یکی از قدرتمندترین و پرکاربردترین نتایج حاصل از احتمال شرطی می‌پردازیم: **قضیه بیز**. این قضیه راهی رسمی برای به‌روزرسانی باورهای ما (احتمال‌ها) در پرتو شواهد جدید فراهم می‌کند. همچنین مفهوم **استقلال** بین واقعه‌ها را به‌صورت رسمی تعریف و بررسی می‌کنیم؛ ایده‌ای حیاتی برای ساده‌سازی محاسبات احتمال.
 
 +++
 
-## Learning Objectives:
-* Understand the derivation and interpretation of Bayes' Theorem.
-* Distinguish between prior and posterior probabilities.
-* Apply Bayes' Theorem to solve problems, particularly diagnostic testing scenarios.
-* Define and test for the independence of events.
-* Understand the concept of conditional independence.
-* Implement Bayesian updates and independence checks using Python simulations.
+## اهداف یادگیری:
+* اثبات و تفسیر قضیه بیز را درک کنید.
+* بین احتمال پیشین و پسین تمایز قائل شوید.
+* قضیه بیز را برای حل مسائل، به‌ویژه سناریوهای آزمون تشخیصی، به‌کار ببرید.
+* استقلال واقعه‌ها را تعریف و آزمون کنید.
+* مفهوم استقلال شرطی را درک کنید.
+* به‌روزرسانی‌های بیزی و بررسی استقلال را با شبیه‌سازی پایتون پیاده‌سازی کنید.
 
 +++
 
-## 1. Bayes' Theorem: Derivation and Interpretation
+## ۱. قضیه بیز: اثبات و تفسیر
 
 +++
 
-Bayes' Theorem provides a way to "reverse" conditional probabilities. If we know $P(B|A)$, Bayes' Theorem helps us find $P(A|B)$. It's named after Reverend Thomas Bayes (1701-1761), who first provided an equation that allows new evidence to update beliefs.
+قضیه بیز راهی برای «معکوس کردن» احتمال‌های شرطی فراهم می‌کند. اگر $P(B|A)$ را بدانیم، قضیه بیز به یافتن $P(A|B)$ کمک می‌کند. نام آن از Reverend Thomas Bayes (1701-1761) گرفته شده است؛ او نخستین کسی بود که معادله‌ای ارائه داد که به شواهد جدید اجازه می‌دهد باورها را به‌روز کنند.
 
-**Derivation:**
+**اثبات:**
 
-Recall the definition of conditional probability:
+تعریف احتمال شرطی را به‌خاطر بیاورید:
 
-1.  $P(A|B) = \frac{P(A \cap B)}{P(B)}$, provided $P(B) > 0$.
-2.  $P(B|A) = \frac{P(B \cap A)}{P(A)}$, provided $P(A) > 0$.
+1.  $P(A|B) = \frac{P(A \cap B)}{P(B)}$، به‌شرط $P(B) > 0$.
+2.  $P(B|A) = \frac{P(B \cap A)}{P(A)}$، به‌شرط $P(A) > 0$.
 
-Since $P(A \cap B) = P(B \cap A)$, we can rearrange these equations:
+از آنجا که $P(A \cap B) = P(B \cap A)$، می‌توانیم این معادلات را بازآرایی کنیم:
 
 1.  $P(A \cap B) = P(A|B) P(B)$
 2.  $P(B \cap A) = P(B|A) P(A)$
 
-Setting them equal gives:
+برابر قرار دادن آن‌ها می‌دهد:
 
 $P(A|B) P(B) = P(B|A) P(A)$
 
-Dividing by $P(B)$ (assuming $P(B) > 0$), we get **Bayes' Theorem**:
+تقسیم بر $P(B)$ (با فرض $P(B) > 0$)، **قضیه بیز** را به‌دست می‌دهد:
 
 $$P(A|B) = \frac{P(B|A) P(A)}{P(B)}$$
 
-**Interpretation:**
+**تفسیر:**
 
-Let's think of $A$ as an event or hypothesis we are interested in (e.g., "a patient has a specific disease," "a coin is biased") and $B$ as new evidence or data observed (e.g., "the patient tested positive," "we observed 8 heads in 10 flips").
+$A$ را واقعه یا فرضیه‌ای که به آن علاقه‌مندیم (مثلاً «بیمار بیماری خاصی دارد»، «سکه نامتقارن است») و $B$ را شواهد یا داده‌های جدید مشاهده‌شده (مثلاً «بیمار نتیجه مثبت گرفت»، «در ۱۰ پرتاب ۸ شیر دیدیم») در نظر بگیرید.
 
-- $P(A)$: **Prior probability** — our belief about $A$ *before* seeing the evidence $B$.
-- $P(B\mid A)$: **Likelihood** — the probability of observing the evidence $B$ *given that* $A$ is true.
-- $P(B)$: **Probability of the evidence** — the overall probability of observing $B$, regardless of whether $A$ is true or not.  
-  Using the Law of Total Probability with the partition $\{A, A^c\}$:
+- $P(A)$: **احتمال پیشین** — باور ما درباره $A$ *قبل از* دیدن شواهد $B$.
+- $P(B\mid A)$: **درست‌نمایی** — احتمال مشاهده شواهد $B$ *با فرض* درست بودن $A$.
+- $P(B)$: **احتمال شواهد** — احتمال کلی مشاهده $B$، صرف‌نظر از درست یا نادرست بودن $A$.  
+  با استفاده از قانون احتمال کل و پارتیشن $\{A, A^c\}$:
   
 $$
 P(B)=P(B\mid A)P(A)+P(B\mid A^c)P(A^c).
 $$
   
-- $P(A\mid B)$: **Posterior probability** — our updated belief about $A$ *after* observing the evidence $B$.
-Bayes' Theorem tells us how to update our prior belief $P(A)$ to a posterior belief $P(A|B)$ based on the likelihood of the evidence $P(B|A)$ and the overall probability of the evidence $P(B)$.
+- $P(A\mid B)$: **احتمال پسین** — باور به‌روزشده ما درباره $A$ *پس از* مشاهده شواهد $B$.
+قضیه بیز به ما می‌گوید چگونه باور پیشین $P(A)$ را به باور پسین $P(A|B)$ بر اساس درست‌نمایی شواهد $P(B|A)$ و احتمال کلی شواهد $P(B)$ به‌روز کنیم.
 
-### 1.1 Visual intuition: Bayes’ Theorem (area model)
+### ۱.۱ شهود بصری: قضیه بیز (مدل مساحتی)
 
-You can read Bayes’ theorem directly from the picture below as an **area ratio**:
+می‌توانید قضیه بیز را مستقیماً از تصویر زیر به‌صورت یک **نسبت مساحتی** بخوانید:
 
-- **Numerator** = the shaded overlap area $A \cap B$
-- **Denominator** = the total shaded $B$ area
+- **صورت** = مساحت سایه‌دار هم‌پوشانی $A \cap B$
+- **مخرج** = کل مساحت سایه‌دار $B$
 
-So by the definition of conditional probability:
+پس طبق تعریف احتمال شرطی:
 
 $$
 P(A\mid B)=\frac{P(A\cap B)}{P(B)}.
 $$
 
-Now rewrite the overlap using the multiplication rule:
+اکنون هم‌پوشانی را با قانون ضرب بازنویسی کنید:
 
 $$
 P(A\cap B)=P(B\mid A)\,P(A),
 $$
 
-which gives the compact “Bayes form”:
+که شکل فشرده «بیزی» را می‌دهد:
 
 $$
 P(A\mid B)=\frac{P(B\mid A)\,P(A)}{P(B)}.
 $$
 
-To connect this *directly* to the area model, expand the denominator by splitting \(B\) into the part inside \(A\) and the part inside \(A^c\):
+برای اتصال *مستقیم* این به مدل مساحتی، مخرج را با تقسیم \(B\) به بخش داخل \(A\) و بخش داخل \(A^c\) باز کنید:
 
 $$
 \begin{align*}
@@ -107,7 +107,7 @@ P(B) &= P(B\cap A)+P(B\cap A^c) \\
 \end{align*}
 $$
 
-Substitute into the Bayes form:
+در معادله بیزی جایگذاری کنید:
 
 $$
 \begin{align*}
@@ -263,53 +263,53 @@ save_bayes_area_svg("bayes-area.svg", pA=0.35, pB_given_A=0.70, pB_given_Ac=0.20
 width: 100%
 figclass: full-width
 ---
-Area model: $P(A\mid B)$ is “the share of the shaded $B$ region that falls inside the $A$ strip”.
+مدل مساحتی: $P(A\mid B)$ «سهم ناحیه سایه‌دار $B$ که در نوار $A$ قرار دارد» است.
 ```
 
-**How to read the diagram**
+**نحوه خواندن نمودار**
 
-* The outer rectangle is the sample space $S$ (all possible outcomes).
-* The two vertical strips form a partition of $S$: either you are in $A$ or in $A^c$ (never both, and no gaps).
+* مستطیل بیرونی فضای نمونه $S$ (همه پیامدهای ممکن) است.
+* دو نوار عمودی پارتیشن $S$ را می‌سازند: یا در $A$ هستید یا در $A^c$ (هرگز هر دو، و بدون شکاف).
 
-  * The strip widths are proportional to their probabilities: width$(A)=P(A)$ and width$(A^c)=P(A^c)$.
-* The shaded overlay represents the evidence event $B$.
-* Within each strip, the **shaded height** encodes the conditional probability of $B$ in that case:
+  * عرض نوارها متناسب با احتمال‌شان است: width$(A)=P(A)$ و width$(A^c)=P(A^c)$.
+* پوشش سایه‌دار واقعه شواهد $B$ را نشان می‌دهد.
+* درون هر نوار، **ارتفاع سایه‌دار** احتمال شرطی $B$ را در آن حالت رمزگذاری می‌کند:
 
-  * In the $A$ strip the height is $P(B\mid A)$, so the shaded area is
+  * در نوار $A$ ارتفاع $P(B\mid A)$ است، پس مساحت سایه‌دار
     $$
     \text{area}(A\cap B)=P(B\mid A)\,P(A).
     $$
-  * In the $A^c$ strip the height is $P(B\mid A^c)$, so the shaded area is
+  * در نوار $A^c$ ارتفاع $P(B\mid A^c)$ است، پس مساحت سایه‌دار
     $$
     \text{area}(A^c\cap B)=P(B\mid A^c)\,P(A^c).
     $$
-* Adding the two shaded areas gives the total shaded region:
+* جمع دو مساحت سایه‌دار، کل ناحیه سایه‌دار را می‌دهد:
   $$
   \text{area}(B)=\text{area}(A\cap B)+\text{area}(A^c\cap B)=P(B).
   $$
-  This is the **Law of Total Probability** using the partition $\{A, A^c\}$.
-* Bayes’ theorem is the corresponding **area ratio**:
+  این **قانون احتمال کل** با پارتیشن $\{A, A^c\}$ است.
+* قضیه بیز **نسبت مساحتی** متناظر است:
   $$
   P(A\mid B)=\frac{\text{area}(A\cap B)}{\text{area}(B)}.
   $$
-  Read it as: *“given that we are in the shaded $B$ region, what fraction of that region lies inside $A$?”*
+  آن را این‌گونه بخوانید: *«با فرض اینکه در ناحیه سایه‌دار $B$ هستیم، چه کسری از آن درون $A$ قرار دارد؟»*
 
 +++
 
-## 2. Updating Beliefs: Prior and Posterior Probabilities
+## ۲. به‌روزرسانی باورها: احتمال پیشین و پسین
 
 +++
 
-The core idea of Bayesian thinking is updating beliefs. We start with a prior belief, gather data (evidence), and update our belief to a posterior. This posterior can then become the prior for the next piece of evidence.
+ایده اصلی تفکر بیزی به‌روزرسانی باورهاست. با یک باور پیشین شروع می‌کنیم، داده (شواهد) جمع می‌کنیم و باور را به پسین به‌روز می‌کنیم. این پسین می‌تواند پیشین بعدی برای شواهد بعدی شود.
 
-**Example:** Imagine you have a website and you're testing a new ad banner.
+**مثال:** فرض کنید وب‌سایتی دارید و یک بنر تبلیغاتی جدید را آزمایش می‌کنید.
 
-* **Hypothesis (A):** The new ad banner is effective (e.g., has a click-through rate > 5%).
-* **Prior ( $P(A)$ ):** Based on previous ad campaigns, you might initially believe there's a 30% chance the new ad is effective. So, $P(A) = 0.30$.
-* **Evidence (B):** You observe a visitor's Browse history (e.g., they previously visited related product pages).
-* **Likelihood ( $P(B|A) $):** The probability that a visitor has this Browse history *given* the ad is effective. Perhaps effective ads are better targeted, so this might be high, say $P(B|A) = 0.70$.
-* **Likelihood ( $P(B|A^c)$ ):** The probability that a visitor has this Browse history *given* the ad is *not* effective. This might be lower, say $P(B|A^c) = 0.20$.
-* **Probability of Evidence ( $P(B)$ ):** Using the Law of Total Probability:
+* **فرضیه (A):** بنر تبلیغاتی جدید مؤثر است (مثلاً نرخ کلیک بیش از ۵٪).
+* **پیشین ( $P(A)$ ):** بر اساس کمپین‌های قبلی، ممکن است ابتدا باور داشته باشید ۳۰٪ احتمال دارد بنر جدید مؤثر باشد. پس $P(A) = 0.30$.
+* **شواهد (B):** سابقه مرور یک بازدیدکننده را مشاهده می‌کنید (مثلاً قبلاً صفحات محصول مرتبط را دیده).
+* **درست‌نمایی ( $P(B|A) $):** احتمال اینکه بازدیدکننده این سابقه مرور را *با فرض* مؤثر بودن تبلیغ داشته باشد. شاید تبلیغات مؤثر هدف‌گیری بهتری دارند، پس این می‌تواند بالا باشد، مثلاً $P(B|A) = 0.70$.
+* **درست‌نمایی ( $P(B|A^c)$ ):** احتمال اینکه بازدیدکننده این سابقه مرور را *با فرض* *غیرمؤثر* بودن تبلیغ داشته باشد. این می‌تواند پایین‌تر باشد، مثلاً $P(B|A^c) = 0.20$.
+* **احتمال شواهد ( $P(B)$ ):** با استفاده از قانون احتمال کل:
   
     $$
     \begin{align*}
@@ -320,7 +320,7 @@ The core idea of Bayesian thinking is updating beliefs. We start with a prior be
     \end{align*}
     $$
   
-* **Posterior ( $P(A|B)$ ):** Now apply Bayes' Theorem:
+* **پسین ( $P(A|B)$ ):** اکنون قضیه بیز را به‌کار ببرید:
   
     $$
     \begin{align*}
@@ -330,66 +330,66 @@ The core idea of Bayesian thinking is updating beliefs. We start with a prior be
     \end{align*}
     $$
 
-After observing the visitor's Browse history, your belief that the ad is effective increased from 30% (prior) to 60% (posterior).
+پس از مشاهده سابقه مرور بازدیدکننده، باور شما به مؤثر بودن تبلیغ از ۳۰٪ (پیشین) به ۶۰٪ (پسین) افزایش یافت.
 
 +++
 
-## 3. Applications: The Diagnostic Test Example
+## ۳. کاربردها: مثال آزمون تشخیصی
 
 +++
 
-One of the most classic and intuitive applications of Bayes' Theorem is in interpreting the results of medical diagnostic tests.
+یکی از کلاسیک‌ترین و شهودی‌ترین کاربردهای قضیه بیز، تفسیر نتایج آزمون‌های تشخیصی پزشکی است.
 
-**Scenario:**
-* A certain disease affects 1% of the population. (Prevalence)
-* A test for the disease has 95% accuracy:
-    * If a person *has* the disease, the test correctly identifies it 95% of the time. (Sensitivity)
-    * If a person *does not have* the disease, the test correctly identifies it 95% of the time. (Specificity)
+**سناریو:**
+* بیماری خاصی ۱٪ جمعیت را تحت تأثیر قرار می‌دهد. (شیوع)
+* آزمونی برای بیماری ۹۵٪ دقت دارد:
+    * اگر فرد *بیمار* باشد، آزمون ۹۵٪ مواقع درست تشخیص می‌دهد. (حساسیت)
+    * اگر فرد *بیمار نباشد*، آزمون ۹۵٪ مواقع درست تشخیص می‌دهد. (ویژگی)
 
-```{admonition} Sensitivity and Specificity 
+```{admonition} حساسیت و ویژگی 
 :class: dropdown
-Looking at the origins and definitions of the words "sensitivity" and "specificity" can definitely help reinforce their meanings in this context.
+نگاه به ریشه و تعریف واژه‌های «sensitivity» و «specificity» قطعاً می‌تواند معانی آن‌ها را در این زمینه تقویت کند.
 
-1. **Sensitivity:**  
-   * **Origin:** Comes from the Latin word sentire, meaning "to feel" or "to perceive."  
-   * **General Meaning:** The quality or condition of being sensitive; responsiveness to stimuli.  
-   * **Connection to the Test:** Think of the test as needing to "feel" or "perceive" the presence of the disease. A highly **sensitive** test has a strong ability to *detect* the disease when it is actually there. It's responsive to the "stimulus" of the disease. If the disease is present, a sensitive test is likely to react (give a positive result). This aligns with its technical meaning of correctly identifying true positives.  
-2. **Specificity:**  
-   * **Origin:** Comes from the Latin word specificus, derived from species (meaning "kind" or "sort") and facere (meaning "to make"). Essentially, "making of a particular kind."  
-   * **General Meaning:** The quality of being specific; restricted to a particular item, condition, or effect; being precise or exact.  
-   * **Connection to the Test:** Think of the test as being designed for one *specific* target – the disease. A highly **specific** test is precise and only reacts to that *particular* target. It does *not* react to other things (like the absence of the disease or other conditions). It correctly identifies individuals who do *not* have the specific target disease (giving a negative result). This aligns with its technical meaning of correctly identifying true negatives.
+1. **حساسیت (Sensitivity):**  
+   * **ریشه:** از واژه لاتین sentire، به معنای «احساس کردن» یا «درک کردن».  
+   * **معنی عمومی:** کیفیت یا وضعیت حساس بودن؛ پاسخ‌دهی به محرک‌ها.  
+   * **ارتباط با آزمون:** آزمون را چنین تصور کنید که باید حضور بیماری را «احساس» یا «درک» کند. آزمون **حساس** توانایی قوی *کشف* بیماری را وقتی واقعاً وجود دارد دارد. به محرک بیماری پاسخ می‌دهد. اگر بیماری باشد، آزمون حساس احتمالاً واکنش نشان می‌دهد (نتیجه مثبت). این با معنی فنی آن — شناسایی درست مثبت‌های واقعی — هم‌خوان است.  
+2. **ویژگی (Specificity):**  
+   * **ریشه:** از واژه لاتین specificus، مشتق از species (به معنای «گونه» یا «نوع») و facere (به معنای «ساختن»). اساساً «ساختن از یک نوع خاص».  
+   * **معنی عمومی:** کیفیت خاص بودن؛ محدود شدن به مورد، شرط یا اثر خاص؛ دقیق یا exact بودن.  
+   * **ارتباط با آزمون:** آزمون را برای یک هدف *خاص* — بیماری — طراحی‌شده تصور کنید. آزمون **ویژه** دقیق است و فقط به آن هدف *خاص* واکنش نشان می‌دهد. به چیزهای دیگر (مثل نبود بیماری یا شرایط دیگر) واکنش *نمی‌دهد*. افرادی که بیماری هدف *خاص* را *ندارند* را درست شناسایی می‌کند (نتیجه منفی). این با معنی فنی آن — شناسایی درست منفی‌های واقعی — هم‌خوان است.
 
-**How it Helps Understanding:**
+**چگونه به درک کمک می‌کند:**
 
-* **Sensitivity:** Relates to the test's ability to **sense** or **detect** the disease if it's present. High sensitivity means good detection.  
-* **Specificity:** Relates to the test being **specific** or **precise** to only the disease in question. High specificity means the test only flags the *specific* condition it's looking for and avoids flagging healthy people.
+* **حساسیت:** به توانایی آزمون برای **احساس** یا **کشف** بیماری در صورت حضور آن مربوط است. حساسیت بالا یعنی کشف خوب.  
+* **ویژگی:** به **خاص** یا **دقیق** بودن آزمون فقط برای بیماری مورد نظر مربوط است. ویژگی بالا یعنی آزمون فقط *شرایط خاص* مورد جستجو را علامت می‌زند و از علامت‌گذاری افراد سالم پرهیز می‌کند.
 
-So, the origins help frame the concepts: sensitivity is about *detection power*, while specificity is about *precision* and *target accuracy*.
+پس ریشه‌ها به قاب‌بندی مفاهیم کمک می‌کنند: حساسیت درباره *قدرت کشف* است، در حالی که ویژگی درباره *دقت* و *صحت هدف* است.
 ```
 
-**Question:** If a randomly selected person tests positive, what is the probability they actually have the disease?
+**سؤال:** اگر فردی به‌طور تصادفی نتیجه مثبت بگیرد، احتمال واقعی داشتن بیماری چقدر است؟
 
-**Let's define the events:**
-* $D$: The person has the disease.
-* $D^c$: The person does not have the disease.
-* $Pos$: The person tests positive.
-* $Neg$: The person tests negative.
+**واقعه‌ها را تعریف کنیم:**
+* $D$: فرد بیمار است.
+* $D^c$: فرد بیمار نیست.
+* $Pos$: فرد نتیجه مثبت می‌گیرد.
+* $Neg$: فرد نتیجه منفی می‌گیرد.
 
-**What we know:**
-* $P(D) = 0.01$ (Prior probability of having the disease - Prevalence)
+**آنچه می‌دانیم:**
+* $P(D) = 0.01$ (احتمال پیشین داشتن بیماری — شیوع)
 * $P(D^c) = 1 - P(D) = 0.99$
-* $P(Pos|D) = 0.95$ (Probability of testing positive *given* you have the disease - Sensitivity)
-* $P(Neg|D) = 1 - P(Pos|D) = 0.05$ (False Negative Rate)
-* $P(Neg|D^c) = 0.95$ (Probability of testing negative *given* you don't have the disease - Specificity)
-* $P(Pos|D^c) = 1 - P(Neg|D^c) = 0.05$ (False Positive Rate)
+* $P(Pos|D) = 0.95$ (احتمال نتیجه مثبت *با فرض* داشتن بیماری — حساسیت)
+* $P(Neg|D) = 1 - P(Pos|D) = 0.05$ (نرخ منفی کاذب)
+* $P(Neg|D^c) = 0.95$ (احتمال نتیجه منفی *با فرض* نداشتن بیماری — ویژگی)
+* $P(Pos|D^c) = 1 - P(Neg|D^c) = 0.05$ (نرخ مثبت کاذب)
 
-**What we want to find:** $P(D|Pos)$ (The probability of having the disease *given* a positive test result).
+**آنچه می‌خواهیم بیابیم:** $P(D|Pos)$ (احتمال داشتن بیماری *با فرض* نتیجه مثبت).
 
-**Apply Bayes' Theorem:**
+**قضیه بیز را به‌کار ببرید:**
 
 $P(D|Pos) = \frac{P(Pos|D) P(D)}{P(Pos)}$
 
-We need to find $P(Pos)$. Use the Law of Total Probability:
+باید $P(Pos)$ را بیابیم. از قانون احتمال کل استفاده کنید:
 
 $$
 \begin{align*}
@@ -400,7 +400,7 @@ P(\text{Pos}) &= P(\text{Pos}|D)P(D) + P(\text{Pos}|D^c)P(D^c) \\
 \end{align*}
 $$
 
-Now substitute into Bayes' Theorem:
+اکنون در قضیه بیز جایگذاری کنید:
 
 $$
 \begin{align*}
@@ -410,98 +410,98 @@ P(D|Pos) &= \frac{(0.95)(0.01)}{0.0590} \\
 \end{align*}
 $$
 
-**Interpretation:** Even with a positive test result from a 95% accurate test, the probability of actually having the disease is only about 16.1%! This seems counter-intuitive but highlights the strong influence of the low prior probability (prevalence) of the disease. Most positive tests come from the large group of healthy people who receive a false positive, rather than the small group of sick people who receive a true positive.
+**تفسیر:** حتی با نتیجه مثبت از یک آزمون ۹۵٪ دقیق، احتمال واقعی داشتن بیماری فقط حدود ۱۶.۱٪ است! این ضدشهود به نظر می‌رسد اما تأثیر قوی احتمال پیشین پایین (شیوع) بیماری را برجسته می‌کند. بیشتر نتایج مثبت از گروه بزرگ افراد سالم با مثبت کاذب می‌آید، نه از گروه کوچک بیماران با مثبت واقعی.
 
 +++
 
-## 4. Independence of Events
+## ۴. استقلال واقعه‌ها
 
 +++
 
-Two events A and B are said to be **independent** if the occurrence (or non-occurrence) of one event does not affect the probability of the other event occurring.
+دو واقعه A و B **مستقل** نامیده می‌شوند اگر وقوع (یا عدم وقوع) یکی بر احتمال وقوع دیگری اثر نگذارد.
 
-I.e. Two events A and B are said to be **independent** if knowing whether one event happened tells you nothing about whether the other event will happen. Their probabilities are not linked.
+یعنی دو واقعه A و B **مستقل**ند اگر دانستن اینکه یکی رخ داده درباره وقوع دیگری چیزی به ما نگوید. احتمال‌هایشان به هم وابسته نیست.
 
-### 4.1. Formal Definition
+### ۴.۱. تعریف رسمی
 
-The formal mathematical definition of independence between two eventsis that Events A and B are independent if and only if:
+تعریف ریاضی رسمی استقلال بین دو واقعه این است که A و B مستقل‌اند اگر و فقط اگر:
 $P(A \cap B) = P(A) P(B)$
 
-```{admonition} Explanation
+```{admonition} توضیح
 :class: dropdown
 
-Events **A** and **B** are **independent** if and only if the probability that *both* events happen is equal to the product of their individual probabilities.
+واقعه‌های **A** و **B** **مستقل**‌اند اگر و فقط اگر احتمال وقوع *هر دو* برابر حاصل‌ضرب احتمال‌های فردی‌شان باشد.
 
-Mathematically:
+به‌صورت ریاضی:
 $P(A \cap B) = P(A) \times P(B)$
 
-* $P(A \cap B)$ means "the probability of both A AND B occurring" (the intersection of A and B).
-* $P(A)$ is the probability of event A occurring.
-* $P(B)$ is the probability of event B occurring.
+* $P(A \cap B)$ یعنی «احتمال وقوع هم‌زمان A و B» (اشتراک A و B).
+* $P(A)$ احتمال وقوع واقعه A است.
+* $P(B)$ احتمال وقوع واقعه B است.
 
-**Why does this formula capture independence?**
-Think about it this way: If the events truly don't influence each other, the chance of them *both* happening should just be a simple multiplication of their individual chances. If there *was* some influence (dependence), this multiplication wouldn't accurately reflect the combined probability.
+**چرا این فرمول استقلال را می‌گیرد؟**
+این‌گونه فکر کنید: اگر واقعه‌ها واقعاً بر یکدیگر اثر نگذارند، شانس وقوع *هر دو* باید فقط ضرب ساده شانس‌های فردی باشد. اگر تأثیر (وابستگی) وجود داشت، این ضرب احتمال ترکیبی را درست منعکس نمی‌کرد.
 ```
 
-```{admonition} Example: Flipping a Fair Coin Twice 🪙
+```{admonition} مثال: پرتاب دو بار سکه منصفانه 🪙
 :class: dropdown
 
-Let's consider flipping a fair coin two times.
+پرتاب دو بار یک سکه منصفانه را در نظر بگیرید.
 
-* **Event A**: Getting heads (H) on the **first flip**.
-* **Event B**: Getting heads (H) on the **second flip**.
+* **واقعه A**: شیر (H) در **پرتاب اول**.
+* **واقعه B**: شیر (H) در **پرتاب دوم**.
 
-We want to know if these two events are independent.
+می‌خواهیم بدانیم آیا این دو واقعه مستقل‌اند.
 
-1.  **Calculate $P(A)$**:
-    The probability of getting heads on a single flip of a fair coin is $\frac{1}{2}$.
-    So, $P(A) = \frac{1}{2}$.
+1.  **محاسبه $P(A)$**:
+    احتمال شیر در یک پرتاب سکه منصفانه $\frac{1}{2}$ است.
+    پس $P(A) = \frac{1}{2}$.
 
-2.  **Calculate $P(B)$**:
-    The outcome of the second flip is not affected by the first flip. The coin has no memory. So, the probability of getting heads on the second flip is also $\frac{1}{2}$.
-    So, $P(B) = \frac{1}{2}$.
+2.  **محاسبه $P(B)$**:
+    پیامد پرتاب دوم تحت تأثیر پرتاب اول نیست. سکه حافظه ندارد. پس احتمال شیر در پرتاب دوم هم $\frac{1}{2}$ است.
+    پس $P(B) = \frac{1}{2}$.
 
-3.  **Calculate $P(A \cap B)$**:
-    This is the probability of getting heads on the first flip **AND** heads on the second flip (HH).
-    The possible outcomes when flipping a coin twice are: HH, HT, TH, TT. There are 4 equally likely outcomes.
-    Only one of these outcomes is HH.
-    So, $P(A \cap B) = \frac{1}{4}$.
+3.  **محاسبه $P(A \cap B)$**:
+    این احتمال شیر در پرتاب اول **و** شیر در پرتاب دوم (HH) است.
+    پیامدهای ممکن هنگام پرتاب دو بار سکه: HH, HT, TH, TT. ۴ پیامد به‌طور یکسان محتمل وجود دارد.
+    فقط یکی HH است.
+    پس $P(A \cap B) = \frac{1}{4}$.
 
-4.  **Check the Independence Formula**:
-    Now we check if $P(A \cap B) = P(A) \times P(B)$.
+4.  **بررسی فرمول استقلال**:
+    اکنون بررسی می‌کنیم آیا $P(A \cap B) = P(A) \times P(B)$.
     * $P(A) \times P(B) = \frac{1}{2} \times \frac{1}{2} = \frac{1}{4}$
-    * We already found that $P(A \cap B) = \frac{1}{4}$.
+    * قبلاً یافتیم $P(A \cap B) = \frac{1}{4}$.
 
-5.  **Conclusion**:
-    Since $P(A \cap B) = P(A) \times P(B)$ (because $\frac{1}{4} = \frac{1}{4}$), the events A (heads on the first flip) and B (heads on the second flip) are **independent**.
+5.  **نتیجه**:
+    چون $P(A \cap B) = P(A) \times P(B)$ (زیرا $\frac{1}{4} = \frac{1}{4}$)، واقعه‌های A (شیر در پرتاب اول) و B (شیر در پرتاب دوم) **مستقل**‌اند.
 
-This makes intuitive sense: the result of the first coin flip doesn't change the probability of getting heads or tails on the second flip.
+این شهودی است: نتیجه پرتاب اول سکه احتمال شیر یا خط در پرتاب دوم را تغییر نمی‌دهد.
 ```
 
-### 4.2. Alternative Definition (using conditional probability)
+### ۴.۲. تعریف جایگزین (با استفاده از احتمال شرطی)
 
-If $P(B) > 0$, A and B are independent if and only if:
+اگر $P(B) > 0$، A و B مستقل‌اند اگر و فقط اگر:
 
 $P(A|B) = P(A)$
 
-Similarly, if $P(A) > 0$, independence means:
+به‌طور مشابه، اگر $P(A) > 0$، استقلال یعنی:
 
 $P(B|A) = P(B)$
 
-This definition aligns with the intuition: knowing B occurred doesn't change the probability of A.
+این تعریف با شهود هم‌خوان است: دانستن وقوع B احتمال A را تغییر نمی‌دهد.
 
-```{admonition} Example: Fair Die Roll
+```{admonition} مثال: پرتاب تاس منصفانه
 :class: dropdown
 
-| Event Definition                                  | Probability Calculation |
+| تعریف واقعه                                  | محاسبه احتمال |
 | :------------------------------------------------ | :---------------------- |
-| **A**: "rolling an even number" = {2, 4, 6}       | $P(A) = 3/6 = 1/2$      |
-| **B**: "rolling a number > 4" = {5, 6}            | $P(B) = 2/6 = 1/3$      |
-| **A ∩ B**: "even number > 4" = {6}                | $P(A \cap B) = 1/6$     |
+| **A**: «عدد زوج» = {2, 4, 6}       | $P(A) = 3/6 = 1/2$      |
+| **B**: «عدد > 4» = {5, 6}            | $P(B) = 2/6 = 1/3$      |
+| **A ∩ B**: «عدد زوج > 4» = {6}                | $P(A \cap B) = 1/6$     |
 
-Let's check for independence:
+استقلال را بررسی کنیم:
 
-Is $P(A \cap B) = P(A) P(B)$?
+آیا $P(A \cap B) = P(A) P(B)$؟
 
 $$
 \begin{align*}
@@ -511,9 +511,9 @@ P(A \cap B) &\stackrel{?}{=} P(A) P(B) \\
 \end{align*}
 $$
 
-Yes, the events A and B are independent. 
+بله، واقعه‌های A و B مستقل‌اند. 
 
-Knowing the roll is greater than 4 doesn't change the probability that it's even - it's still 1/2: 
+دانستن اینکه پرتاب بزرگ‌تر از ۴ است احتمال زوج بودن را تغییر نمی‌دهد — هنوز 1/2 است:
 
 $$
 \begin{align*}
@@ -526,18 +526,18 @@ P(A|B) &= \frac{P(A \cap B)}{P(B)} \\
 \end{align*}
 $$
 
-I.e. $P(A|B) = P(A)$
+یعنی $P(A|B) = P(A)$
 ```
 
-```{admonition} Example: Drawing Cards (Without Replacement)
+```{admonition} مثال: کشیدن کارت (بدون بازگرداندن)
 :class: dropdown
 
-Let A be the event "the first card drawn is an Ace". $P(A) = 4/52$.
-Let B be the event "the second card drawn is an Ace".
+A را واقعه «کارت اول کشیده‌شده آس باشد» در نظر بگیرید. $P(A) = 4/52$.
+B را واقعه «کارت دوم کشیده‌شده آس باشد» در نظر بگیرید.
 
-Are A and B independent? Intuitively, no. If the first card was an Ace, the probability the second is an Ace changes.
+آیا A و B مستقل‌اند؟ شهوداً نه. اگر کارت اول آس بود، احتمال آس بودن کارت دوم تغییر می‌کند.
 
-Let's calculate $P(B)$. Using the Law of Total Probability:
+$P(B)$ را محاسبه کنیم. با استفاده از قانون احتمال کل:
 
 $$
 \begin{align*}
@@ -551,9 +551,9 @@ P(B) &= P(B|A)P(A) + P(B|A^c)P(A^c) \\
 \end{align*}
 $$
 
-So, $P(B) = 1/13$.
+پس $P(B) = 1/13$.
 
-Now let's calculate the intersection: $P(A \cap B) = P(\text{first is Ace AND second is Ace})$
+اکنون اشتراک را محاسبه کنیم: $P(A \cap B) = P(\text{first is Ace AND second is Ace})$
 
 $$
 \begin{align*}
@@ -565,9 +565,9 @@ P(A \cap B) &= P(B|A)P(A) \\
 \end{align*}
 $$
 
-Check for independence: 
+استقلال را بررسی کنیم: 
 
-Is $P(A \cap B) = P(A)P(B)$?
+آیا $P(A \cap B) = P(A)P(B)$؟
 
 $$
 \begin{align*}
@@ -578,17 +578,17 @@ $$
 \end{align*}
 $$
 
-As expected, the events are **not** independent.
+طبق انتظار، واقعه‌ها **مستقل نیستند**.
 ```
 
-**Important Note:** Do not confuse independence with mutual exclusivity.
-* **Mutually exclusive** events cannot happen together ($A \cap B = \emptyset$, so $P(A \cap B) = 0$).
-* **Independent** events *can* happen together, but one doesn't affect the other's probability.
-If two events A and B have non-zero probabilities, they *cannot* be both mutually exclusive and independent. If they were mutually exclusive, $P(A \cap B) = 0$. If they were independent, $P(A \cap B) = P(A)P(B) > 0$. This is a contradiction.
+**نکته مهم:** استقلال را با ناسازگاری اشتباه نگیرید.
+* واقعه‌های **ناسازگار** نمی‌توانند هم‌زمان رخ دهند ($A \cap B = \emptyset$، پس $P(A \cap B) = 0$).
+* واقعه‌های **مستقل** *می‌توانند* هم‌زمان رخ دهند، اما یکی بر احتمال دیگری اثر نمی‌گذارد.
+اگر دو واقعه A و B احتمال غیرصفر داشته باشند، *نمی‌توانند* هم‌زمان ناسازگار و مستقل باشند. اگر ناسازگار بودند، $P(A \cap B) = 0$. اگر مستقل بودند، $P(A \cap B) = P(A)P(B) > 0$. این تناقض است.
 
 +++
 
-## 5. Conditional Independence
+## ۵. استقلال شرطی
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -720,60 +720,60 @@ def save_common_cause_svg():
 save_common_cause_svg()
 ```
 
-```{admonition} Why this section matters (and why it's tricky)
+```{admonition} چرا این بخش مهم است (و چرا پیچیده است)
 :class: tip
 
-Conditional independence is one of the most subtle but important concepts in probability. It explains many real-world phenomena that seem paradoxical at first:
+استقلال شرطی یکی از ظریف‌ترین اما مهم‌ترین مفاهیم در احتمال است. بسیاری از پدیده‌های واقعی که در ابتدا پارادوکس به نظر می‌رسند را توضیح می‌دهد:
 
-* Why a treatment might appear effective overall but ineffective (or even harmful) within specific patient groups
-* Why two variables might seem correlated in your data but are actually unrelated once you account for a hidden factor
-* How mixing data from different sources can create spurious relationships
+* چرا یک درمان ممکن است در کل مؤثر به نظر برسد اما در گروه‌های خاص بیمار بی‌اثر (یا حتی مضر) باشد
+* چرا دو متغیر در داده‌ها همبسته به نظر برسند اما پس از لحاظ فاکتور پنهان واقعاً بی‌ارتباط باشند
+* چگونه مخلوط کردن داده از منابع مختلف می‌تواند روابط spurious ایجاد کند
 
-**The key insight:** Two events can be *independent* when you know the context, but *dependent* when the context is hidden. This is counter-intuitive because we're used to thinking of independence as an absolute property, not something that depends on what else we know.
+**بینش کلیدی:** دو واقعه می‌توانند وقتی زمینه را می‌دانید *مستقل* باشند، اما وقتی زمینه پنهان است *وابسته*. این ضدشهود است چون به استقلال به‌عنوان ویژگی مطلق عادت داریم، نه چیزی که به آنچه دیگر می‌دانیم بستگی دارد.
 
-**Take your time with this section.** The concepts are subtle and you will probably need to read this section multiple times. This is completely normal - conditional independence takes time to internalize, but the payoff is enormous for understanding statistics, causality, and data analysis.
+**عجله نکنید.** مفاهیم ظریف‌اند و احتمالاً باید این بخش را چند بار بخوانید. این کاملاً طبیعی است — استقلال شرطی زمان می‌برد تا درونی شود، اما پاداش آن برای درک آمار، علّیت و تحلیل داده بسیار بزرگ است.
 ```
 
-Sometimes two events appear related overall (in the same experiment), but become independent once we condition on a relevant context **$C$**.
+گاهی دو واقعه در کل (در همان آزمایش) مرتبط به نظر می‌رسند، اما با شرط گذاشتن روی زمینه مرتبط **$C$** مستقل می‌شوند.
 
-Think of **$C$** as a *context switch*: if you fix the context, $A$ and $B$ stop giving each other information.
+**$C$** را یک *کلید زمینه* در نظر بگیرید: اگر زمینه را ثابت کنید، $A$ و $B$ دیگر به یکدیگر اطلاعات نمی‌دهند.
 
 ---
 
-:::{admonition} Example: The Grocery Store (Common Cause)
+:::{admonition} مثال: فروشگاه مواد غذایی (علّت مشترک)
 :class: tip
 
-This example illustrates how external "shocks" affect behavior and create apparent connections between events.
+این مثال نشان می‌دهد «شوک‌های» بیرونی چگونه رفتار را تحت تأثیر قرار می‌دهند و ارتباط ظاهری بین واقعه‌ها می‌سازند.
 
-**Scenario:**
-- Variable $H_1$: Sales of umbrellas increase.
-- Variable $H_2$: Sales of flashlights increase.
-- Condition $C$: A severe storm warning is issued.
+**سناریو:**
+- متغیر $H_1$: فروش چتر افزایش می‌یابد.
+- متغیر $H_2$: فروش چراغ‌قوه افزایش می‌یابد.
+- شرط $C$: هشدار طوفان شدید صادر می‌شود.
 
-**Why it works:**
+**چرا درست است:**
 
-You notice that every time people buy umbrellas, they also seem to buy flashlights. The two events appear linked. However, the umbrella purchase doesn't *cause* the flashlight purchase. Both are independent responses to the storm warning ($C$).
+متوجه می‌شوید هر بار مردم چتر می‌خرند، چراغ‌قوه هم می‌خرند. دو واقعه مرتبط به نظر می‌رسند. اما خرید چتر *علّت* خرید چراغ‌قوه نیست. هر دو پاسخ مستقل به هشدار طوفان ($C$) هستند.
 
-Once you know the storm is coming, seeing someone grab an umbrella tells you nothing new about the flashlight stock—the storm already told you everything you needed to know.
+وقتی می‌دانید طوفان می‌آید، دیدن کسی که چتر برمی‌دارد درباره موجودی چراغ‌قوه چیز جدیدی نمی‌گوید — طوفان قبلاً همه چیز لازم را گفته بود.
 
-**Mathematically:**
+**به‌صورت ریاضی:**
 $$
 P(H_2 \mid H_1, C) = P(H_2 \mid C)
 $$
 
-```{admonition} Notation note
+```{admonition} نکته نمادگذاری
 :class: note
-The notation $P(H_2 \mid H_1, C)$ means "the probability of $H_2$ given both $H_1$ and $C$"—the comma is shorthand for "and". We'll explain this notation in more detail in Section 5.1.
+نمادگذاری $P(H_2 \mid H_1, C)$ یعنی «احتمال $H_2$ با فرض $H_1$ و $C$» — ویرگول مخفف «و» است. این نمادگذاری را در بخش ۵.۱ با جزئیات بیشتر توضیح می‌دهیم.
 ```
 
-This equation says: "Given that we know a storm warning was issued ($C$), learning that umbrella sales increased ($H_1$) gives us no additional information about whether flashlight sales increased ($H_2$)."
+این معادله می‌گوید: «با فرض اینکه هشدار طوفان صادر شده ($C$)، دانستن افزایش فروش چتر ($H_1$) اطلاعات اضافی درباره افزایش فروش چراغ‌قوه ($H_2$) نمی‌دهد.»
 
 ```{figure} common-cause-without-context.svg
 ---
 width: 80%
 figclass: full-width
 ---
-**Without knowing the context:** When we don't know about the storm warning, umbrella sales ($H_1$) and flashlight sales ($H_2$) appear to be dependent. Observing one gives us information about the other.
+**بدون دانستن زمینه:** وقتی از هشدار طوفان خبر نداریم، فروش چتر ($H_1$) و فروش چراغ‌قوه ($H_2$) وابسته به نظر می‌رسند. مشاهده یکی درباره دیگری اطلاعات می‌دهد.
 ```
 
 ```{figure} common-cause-with-context.svg
@@ -781,78 +781,78 @@ figclass: full-width
 width: 80%
 figclass: full-width
 ---
-**With context revealed:** Once we know about the storm warning ($C$), the connection between $H_1$ and $H_2$ is blocked. The storm warning is the common cause of both events. Given $C$, learning about umbrella sales tells us nothing new about flashlight sales—they are conditionally independent.
+**با آشکار شدن زمینه:** وقتی از هشدار طوفان ($C$) مطلع می‌شویم، ارتباط بین $H_1$ و $H_2$ مسدود می‌شود. هشدار طوفان علّت مشترک هر دو واقعه است. با فرض $C$، دانستن فروش چتر درباره فروش چراغ‌قوه چیز جدیدی نمی‌گوید — آن‌ها مستقل شرطی‌اند.
 ```
 
-**The key insight:** This pattern—where a common cause creates apparent dependence between effects—is one of the most important concepts in conditional independence. We'll formalize this idea in the sections that follow.
+**بینش کلیدی:** این الگو — جایی که علّت مشترک وابستگی ظاهری بین اثرها می‌سازد — یکی از مهم‌ترین مفاهیم در استقلال شرطی است. این ایده را در بخش‌های بعد رسمی می‌کنیم.
 
 :::
 
 +++
 
-### 5.1. Notation and Definition
+### ۵.۱. نمادگذاری و تعریف
 
-Before we explore conditional independence, we need to understand how to work with conditional probabilities involving multiple conditions.
+قبل از بررسی استقلال شرطی، باید بدانیم چگونه با احتمال‌های شرطی شامل چند شرط کار کنیم.
 
-#### Conditioning on Multiple Events
+#### شرطی‌سازی روی چند واقعه
 
-When we write $P(A \mid B, C)$, we mean the probability of event $A$ given that *both* events $B$ and $C$ have occurred. This is equivalent to conditioning on the intersection:
+وقتی $P(A \mid B, C)$ می‌نویسیم، احتمال واقعه $A$ را با فرض وقوع *هر دو* واقعه $B$ و $C$ می‌خواهیم. این معادل شرطی‌سازی روی اشتراک است:
 
 $$
 P(A \mid B, C) = P(A \mid B \cap C)
 $$
 
-The comma in the conditioning clause is simply a convenient shorthand for the intersection. Both notations are used interchangeably in probability and statistics.
+ویرگول در بخش شرط، مخفف راحت اشتراک است. هر دو نمادگذاری در احتمال و آمار به‌طور متناوب استفاده می‌شوند.
 
-```{admonition} Reading the notation
+```{admonition} خواندن نمادگذاری
 :class: note
 
-$P(A \mid B, C)$ reads as "the probability of $A$ given $B$ and $C$"
+$P(A \mid B, C)$ را «احتمال $A$ با فرض $B$ و $C$» می‌خوانیم.
 
-It represents our updated belief about $A$ when we know that both $B$ and $C$ have occurred.
+باور به‌روزشده ما درباره $A$ را نشان می‌دهد وقتی می‌دانیم $B$ و $C$ هر دو رخ داده‌اند.
 ```
 
-```{admonition} Example: Coin Flips
+```{admonition} مثال: پرتاب سکه
 :class: dropdown
 
-Consider flipping a coin twice after choosing which coin to use:
-- Let $H_1$ = "first flip is heads"
-- Let $H_2$ = "second flip is heads"
-- Let $C$ = "we chose the fair coin"
+پرتاب سکه دو بار پس از انتخاب اینکه از کدام سکه استفاده شود:
+- $H_1$ = «پرتاب اول شیر باشد»
+- $H_2$ = «پرتاب دوم شیر باشد»
+- $C$ = «سکه منصفانه را انتخاب کرده‌ایم»
 
-Then $P(H_2 \mid H_1, C)$ means: "What is the probability the second flip is heads, given that the first flip was heads AND we chose the fair coin?"
+آنگاه $P(H_2 \mid H_1, C)$ یعنی: «احتمال شیر بودن پرتاب دوم، با فرض اینکه پرتاب اول شیر بوده **و** سکه منصفانه انتخاب شده؟»
 
-For a fair coin, knowing the first flip doesn't help predict the second flip, so:
+برای سکه منصفانه، دانستن پرتاب اول در پیش‌بینی پرتاب دوم کمکی نمی‌کند، پس:
 $$
 P(H_2 \mid H_1, C) = P(H_2 \mid C) = 0.5
 $$
 
-This equation says: "Given we have the fair coin, learning about the first flip gives us no additional information about the second flip." This is an example of conditional independence, which we'll explore in detail below.
+این معادله می‌گوید: «با فرض داشتن سکه منصفانه، یادگیری درباره پرتاب اول اطلاعات اضافی درباره پرتاب دوم نمی‌دهد.» این نمونه‌ای از استقلال شرطی است که در ادامه با جزئیات بررسی می‌کنیم.
 ```
 
-```{admonition} Important: Order doesn't matter
+```{admonition} مهم: ترتیب مهم نیست
 :class: tip
 
-The order of events after the conditioning bar doesn't matter:
+ترتیب واقعه‌ها پس از خط شرط مهم نیست:
 $$
 P(A \mid B, C) = P(A \mid C, B) = P(A \mid B \cap C)
 $$
 ```
 
-#### Formal Definition of Conditional Independence
+#### تعریف رسمی استقلال شرطی
 
-Before we dive into the formal definition, recall that we've already seen independence in Section 4. **Conditional independence** is a related but distinct concept: it's about independence that holds *within* a specific context, even though the events might be dependent overall when contexts are mixed.
+قبل از تعریف رسمی، به‌خاطر بیاورید استقلال را در بخش ۴ دیدیم. **استقلال شرطی** مفهومی مرتبط اما متمایز است: استقلالی که *درون* یک زمینه خاص برقرار است، حتی اگر واقعه‌ها در کل — وقتی زمینه‌ها مخلوط می‌شوند — وابسته باشند.
 
-We use the symbol **$\perp$** (read "is independent of"). We also use the symbol **$\Longleftrightarrow$** (if and only if) to indicate that both statements are equivalent—each implies the other.
+از نماد **$\perp$** («مستقل از») استفاده می‌کنیم. همچنین از **$\Longleftrightarrow$** (اگر و فقط اگر) برای نشان دادن معادل بودن دو گزاره استفاده می‌کنیم — هر کدام دیگری را imply می‌کند.
 
-* **Unconditional independence**
+* **استقلال بدون شرط**
   $$
   A \perp B
   \quad\Longleftrightarrow\quad
   P(A\cap B)=P(A)\,P(B).
   $$
 
-* **Conditional independence**
+* **استقلال شرطی**
   $$
   A \perp B \mid C
   \quad\Longleftrightarrow\quad
@@ -860,13 +860,13 @@ We use the symbol **$\perp$** (read "is independent of"). We also use the symbol
   \qquad P(C)>0.
   $$
 
-**How to read it:** "Within the world where $C$ is known to be true, $A$ and $B$ behave like independent events."
+**نحوه خواندن:** «در دنیایی که $C$ درست بودن آن معلوم است، $A$ و $B$ مانند واقعه‌های مستقل رفتار می‌کنند.»
 
 +++
 
-#### Visual representation: Conditional Independence
+#### نمایش بصری: استقلال شرطی
 
-The Venn diagram below illustrates conditional independence. When we condition on event $C$ having occurred, we restrict our attention to the region $C$. Within that region, events $A$ and $B$ are independent, meaning the overlap of $A$ and $B$ within $C$ equals what we'd expect from the product of their conditional probabilities.
+نمودار ون زیر استقلال شرطی را نشان می‌دهد. وقتی بر وقوع واقعه $C$ شرط می‌گذاریم، توجه را به ناحیه $C$ محدود می‌کنیم. درون آن ناحیه، $A$ و $B$ مستقل‌اند؛ یعنی هم‌پوشانی $A$ و $B$ درون $C$ برابر آنچه از حاصل‌ضرب احتمال‌های شرطی‌شان انتظار داریم است.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -988,103 +988,103 @@ fig.savefig("venn-conditional-independence.svg", format="svg", bbox_inches="tigh
 ```{figure} venn-conditional-independence.svg
 ---
 width: 100%
-:figclass: full-width
+figclass: full-width
 ---
-Three-panel visualization of the conditional independence formula. Left panel: $P(A \mid C)$ highlights all regions in both $A$ and $C$. Middle panel: $P(B \mid C)$ highlights all regions in both $B$ and $C$. Right panel: $P(A \cap B \mid C)$ highlights only the region in all three sets. The formula states these proportions satisfy: $P(A \cap B \mid C) = P(A \mid C) \times P(B \mid C)$.
+مصورسازی سه‌پanelی اجزای فرمول استقلال شرطی. پanel چپ: $P(A \mid C)$ همه نواحی در $A$ و $C$ را برجسته می‌کند. پanel میانی: $P(B \mid C)$ همه نواحی در $B$ و $C$ را برجسته می‌کند. پanel راست: $P(A \cap B \mid C)$ فقط ناحیه در هر سه مجموعه را برجسته می‌کند. فرمول می‌گوید این نسبت‌ها برقرارند: $P(A \cap B \mid C) = P(A \mid C) \times P(B \mid C)$.
 ```
 
-**Key observation from the three panels:**
+**مشاهده کلیدی از سه پanel:**
 
-The three panels above show how each term in the conditional independence formula corresponds to different regions within $C$:
+سه پanel بالا نشان می‌دهند هر جمله در فرمول استقلال شرطی با کدام نواحی درون $C$ متناظر است:
 
-**Breaking down the formula:** $P(A \cap B \mid C) = P(A \mid C) \times P(B \mid C)$
+**تجزیه فرمول:** $P(A \cap B \mid C) = P(A \mid C) \times P(B \mid C)$
 
-* **Left panel - $P(A \mid C)$:** Shows the proportion of region $C$ that lies in $A$
-  * The dark orange regions represent all parts of $A$ that overlap with $C$
+* **پanel چپ — $P(A \mid C)$:** نسبت ناحیه $C$ که در $A$ قرار دارد را نشان می‌دهد
+  * نواحی نارنجی تیره همه بخش‌های $A$ که با $C$ هم‌پوشانی دارند
 
-* **Middle panel - $P(B \mid C)$:** Shows the proportion of region $C$ that lies in $B$
-  * The dark orange regions represent all parts of $B$ that overlap with $C$
+* **پanel میانی — $P(B \mid C)$:** نسبت ناحیه $C$ که در $B$ قرار دارد را نشان می‌دهد
+  * نواحی نارنجی تیره همه بخش‌های $B$ که با $C$ هم‌پوشانی دارند
 
-* **Right panel - $P(A \cap B \mid C)$:** Shows the proportion of region $C$ that lies in *both* $A$ and $B$
-  * The dark orange region is the central intersection of all three sets
+* **پanel راست — $P(A \cap B \mid C)$:** نسبت ناحیه $C$ که در *هر دو* $A$ و $B$ قرار دارد را نشان می‌دهد
+  * ناحیه نارنجی تیره اشتراک مرکزی هر سه مجموعه است
 
-:::{admonition} Important: We're multiplying proportions, not adding areas!
+:::{admonition} مهم: نسبت‌ها را ضرب می‌کنیم، نه مساحت‌ها را جمع!
 :class: warning
 
-Notice that the center region $(A \cap B \cap C)$ appears highlighted in both the left and middle panels. This might look like we're "double counting," but we're not adding these areas—we're **multiplying proportions**.
+توجه کنید ناحیه مرکزی $(A \cap B \cap C)$ در پanel چپ و میانی برجسته شده. ممکن است «شمارش دوباره» به نظر برسد، اما این مساحت‌ها را *جمع* نمی‌کنیم — **نسبت‌ها را ضرب** می‌کنیم.
 
-When we compute $P(A \mid C) \times P(B \mid C)$, we're multiplying two fractions: (orange area in left panel ÷ total $C$ area) × (orange area in middle panel ÷ total $C$ area). This multiplication gives us the proportion shown in the right panel.
+وقتی $P(A \mid C) \times P(B \mid C)$ را محاسبه می‌کنیم، دو کسر را ضرب می‌کنیم: (مساحت نارنجی پanel چپ ÷ کل مساحت $C$) × (مساحت نارنجی پanel میانی ÷ کل مساحت $C$). این ضرب نسبت نشان‌داده‌شده در پanel راست را می‌دهد.
 
-Under conditional independence, this multiplication of proportions equals exactly the proportion of $C$ that lies in both $A$ and $B$. The fact that the center region appears in both left and middle panels is precisely what makes the multiplication work out to match the right panel.
+تحت استقلال شرطی، این ضرب نسبت‌ها دقیقاً برابر نسبت $C$ است که در هر دو $A$ و $B$ قرار دارد. اینکه ناحیه مرکزی در هر دو پanel چپ و میانی ظاهر می‌شود دقیقاً همان چیزی است که ضرب را با پanel راست هم‌خوان می‌کند.
 :::
 
-**The independence relationship:** Conditional independence means that when we restrict our view to region $C$, these proportions satisfy the multiplication rule. The proportion in both $A$ and $B$ (right panel) equals the product of the individual proportions (left panel × middle panel). This is the visual embodiment of $P(A \cap B \mid C) = P(A \mid C) P(B \mid C)$.
+**رابطه استقلال:** استقلال شرطی یعنی وقتی دید خود را به ناحیه $C$ محدود می‌کنیم، این نسبت‌ها قانون ضرب را برآورده می‌کنند. نسبت در هر دو $A$ و $B$ (پanel راست) برابر حاصل‌ضرب نسبت‌های فردی (پanel چپ × پanel میانی) است. این تجسم بصری $P(A \cap B \mid C) = P(A \mid C) P(B \mid C)$ است.
 
-This is different from looking at $A$ and $B$ in the entire sample space, where they might be dependent. Conditional independence means they become independent *once we fix the context* $C$.
+این با نگاه به $A$ و $B$ در کل فضای نمونه — جایی که ممکن است وابسته باشند — متفاوت است. استقلال شرطی یعنی *پس از ثابت کردن زمینه* $C$ مستقل می‌شوند.
 
 +++
 
 ---
 
-:::{admonition} A more intuitive equivalent check (optional, but useful)
+:::{admonition} بررسی معادل شهودی‌تر (اختیاری، اما مفید)
 :class: tip dropdown
 
-If $P(B\cap C)>0$, then
+اگر $P(B\cap C)>0$، آنگاه
 $$
 A \perp B \mid C
 \quad\Longleftrightarrow\quad
 P(A\mid B\cap C)=P(A\mid C).
 $$
 
-Likewise (symmetrically), if $P(A\cap C)>0$ then
+به‌طور متقارن، اگر $P(A\cap C)>0$ آنگاه
 $$
 P(B\mid A\cap C)=P(B\mid C).
 $$
 
-**Interpretation:** once you already know $C$, learning $B$ gives you **no further update** about $A$ (and vice versa).
+**تفسیر:** وقتی $C$ را می‌دانید، یادگیری $B$ **به‌روزرسانی بیشتری** درباره $A$ نمی‌دهد (و بالعکس).
 :::
 
 ---
 
-:::{admonition} Warning: conditional independence is not the same as independence
+:::{admonition} هشدار: استقلال شرطی با استقلال یکی نیست
 :class: warning
 
-**This is a critical point that students often miss:** $A \perp B \mid C$ does **not** imply $A \perp B$.
+**این نکته‌ای حیاتی است که دانشجویان اغلب از دست می‌دهند:** $A \perp B \mid C$ به‌معنای $A \perp B$ **نیست**.
 
-A very common pattern is:
+الگوی بسیار رایج:
 
-* independent **within each fixed** value of $C$
-* dependent **after mixing** (when $C$ is hidden)
+* مستقل **در هر مقدار ثابت** $C$
+* وابسته **پس از مخلوط کردن** (وقتی $C$ پنهان است)
 
-So conditional independence is about what happens **inside** a fixed context, not after you average over contexts.
+پس استقلال شرطی درباره آنچه **درون** یک زمینه ثابت رخ می‌دهد است، نه پس از میانگین‌گیری روی زمینه‌ها.
 :::
 
 ---
 
-### 5.2. A visual mini-example: two flips of a randomly chosen coin
+### ۵.۲. یک مثال کوچک بصری: دو پرتاب سکه انتخاب‌شده تصادفی
 
-To make conditional independence concrete, we’ll use a simple example.
+برای ملموس کردن استقلال شرطی، از یک مثال ساده استفاده می‌کنیم.
 
-We have two coins:
+دو سکه داریم:
 
-* Fair coin (F): $P(H)=0.5$
-* Biased coin (B): $P(H)=0.75$
+* سکه منصفانه (F): $P(H)=0.5$
+* سکه نامتقارن (B): $P(H)=0.75$
 
-Pick a coin uniformly at random, then flip it twice.
+یک سکه به‌طور یکنواخت تصادفی انتخاب کنید، سپس دو بار بیندازید.
 
-Let:
+فرض کنید:
 
-* $H_1$ = “first flip is Heads”
-* $H_2$ = “second flip is Heads”
-* $C$ = “we chose the fair coin” (so $C^c$ = “we chose the biased coin”)
+* $H_1$ = «پرتاب اول شیر باشد»
+* $H_2$ = «پرتاب دوم شیر باشد»
+* $C$ = «سکه منصفانه را انتخاب کرده‌ایم» (پس $C^c$ = «سکه نامتقارن را انتخاب کرده‌ایم»)
 
-#### Part 1: Independence within each context
+#### بخش ۱: استقلال در هر زمینه
 
-First, let's see what happens when we **know which coin we have**. The key insight is that once you fix the context (know the coin), the two flips become independent.
+ابتدا ببینیم وقتی **می‌دانیم کدام سکه را داریم** چه می‌شود. بینش کلیدی: وقتی زمینه را ثابت کنید (سکه را بدانید)، دو پرتاب مستقل می‌شوند.
 
-**What to notice:**
+**آنچه باید توجه کنید:**
 
-If you **fix the coin** (you know $C$ or $C^c$), then the two flips are independent: knowing $H_1$ doesn't change the probability of $H_2$. Mathematically:
+اگر **سکه را ثابت کنید** ($C$ یا $C^c$ را بدانید)، دو پرتاب مستقل‌اند: دانستن $H_1$ احتمال $H_2$ را تغییر نمی‌دهد. به‌صورت ریاضی:
 
 $$
 P(H_2\mid H_1, C) = P(H_2\mid C)
@@ -1092,14 +1092,14 @@ P(H_2\mid H_1, C) = P(H_2\mid C)
 P(H_2\mid H_1, C^c) = P(H_2\mid C^c)
 $$
 
-This means the joint probability factorizes (splits into a product) within each context:
+یعنی احتمال مشترک در هر زمینه فاکتور می‌شود (به حاصل‌ضرب تقسیم می‌شود):
 
 (factorization-formula)=
 $$
 P(H_1\cap H_2\mid C) = P(H_1\mid C)\,P(H_2\mid C)
 $$
 
-and similarly for $C^c$. Let's visualize this:
+و به‌طور مشابه برای $C^c$. آن را مصور کنیم:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1153,43 +1153,43 @@ fig.savefig("conditional-independence-contexts.svg", format="svg", bbox_inches="
 
 :::{figure} conditional-independence-contexts.svg
 :width: 100%
-:figclass: full-width
+figclass: full-width
 
-**Conditional independence within each context.** Each panel fixes the coin type. Within a panel, the shaded overlap represents $P(H_1\cap H_2\mid \text{context})$, and the strip dimensions show $P(H_1\mid \text{context})$ and $P(H_2\mid \text{context})$.
+**استقلال شرطی در هر زمینه.** هر پanel نوع سکه را ثابت می‌کند. درون پanel، هم‌پوشانی سایه‌دار $P(H_1\cap H_2\mid \text{context})$ را نشان می‌دهد و ابعاد نوارها $P(H_1\mid \text{context})$ و $P(H_2\mid \text{context})$ را.
 :::
 
-**Numerical verification:**
+**بررسی عددی:**
 
-For the **fair coin** (left panel):
+برای **سکه منصفانه** (پanel چپ):
 - $P(H_1\mid C) = 0.50$
 - $P(H_2\mid C) = 0.50$
 - $P(H_1\cap H_2\mid C) = 0.25$
-- **Factorization check:** $P(H_1\mid C) \times P(H_2\mid C) = 0.50 \times 0.50 = 0.25$ ✓
+- **بررسی فاکتورسازی:** $P(H_1\mid C) \times P(H_2\mid C) = 0.50 \times 0.50 = 0.25$ ✓
 
-For the **biased coin** (right panel):
+برای **سکه نامتقارن** (پanel راست):
 - $P(H_1\mid C^c) = 0.75$
 - $P(H_2\mid C^c) = 0.75$
 - $P(H_1\cap H_2\mid C^c) = 0.5625$
-- **Factorization check:** $P(H_1\mid C^c) \times P(H_2\mid C^c) = 0.75 \times 0.75 = 0.5625$ ✓
+- **بررسی فاکتورسازی:** $P(H_1\mid C^c) \times P(H_2\mid C^c) = 0.75 \times 0.75 = 0.5625$ ✓
 
-In both panels, the joint probability equals the product of the marginals. This is what independence looks like.
+در هر دو پanel، احتمال مشترک برابر حاصل‌ضرب حاشیه‌ای‌هاست. استقلال همین است.
 
 ---
 
-#### Part 2: What happens when the context is hidden (mixing)
+#### بخش ۲: وقتی زمینه پنهان است (مخلوط‌سازی)
 
-Now comes the surprising part: **when we don't know which coin was chosen**, the flips are no longer independent!
+اکنون بخش شگفت‌انگیز: **وقتی نمی‌دانیم کدام سکه انتخاب شده**، پرتاب‌ها دیگر مستقل نیستند!
 
-**Why dependence emerges:**
+**چرا وابستگی پدید می‌آید:**
 
-If you **don't know the coin**, then observing $H_1$ gives you information about *which coin you probably have*. For example:
-- Seeing Heads on the first flip makes the biased coin more likely
-- This makes Heads on the second flip more likely
-- So $H_1$ and $H_2$ are dependent when the context is hidden
+اگر **سکه را نمی‌دانید**، مشاهده $H_1$ درباره *کدام سکه احتمالاً دارید* اطلاعات می‌دهد. مثلاً:
+- دیدن شیر در پرتاب اول، سکه نامتقارن را محتمل‌تر می‌کند
+- این شیر بودن پرتاب دوم را محتمل‌تر می‌کند
+- پس $H_1$ و $H_2$ وقتی زمینه پنهان است وابسته‌اند
 
-**Mathematical setup:**
+**آماده‌سازی ریاضی:**
 
-To find the overall probability of both flips being heads when we don't know which coin was chosen, we apply the Law of Total Probability using the partition $\{C, C^c\}$:
+برای یافتن احتمال کلی هر دو پرتاب شیر وقتی نمی‌دانیم کدام سکه انتخاب شده، قانون احتمال کل را با پارتیشن $\{C, C^c\}$ به‌کار می‌بریم:
 
 $$
 \begin{align*}
@@ -1198,9 +1198,9 @@ P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) \\
 \end{align*}
 $$
 
-This is the same principle we used earlier for single events (like $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$), but now applied to the intersection $H_1 \cap H_2$. We're splitting the joint event into two mutually exclusive cases (fair coin vs. biased coin) and adding their weighted probabilities.
+این همان اصل قبلی است که برای واقعه‌های تکی به‌کار بردیم (مثل $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$)، اما اکنون روی اشتراک $H_1 \cap H_2$ اعمال شده. واقعه مشترک را به دو حالت ناسازگار (سکه منصفانه در برابر نامتقارن) می‌شکنیم و احتمال‌های وزنی‌شان را جمع می‌کنیم.
 
-Let's visualize how mixing the two contexts creates dependence:
+ببینیم مخلوط کردن دو زمینه چگونه وابستگی می‌سازد:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1250,12 +1250,12 @@ fig.savefig("conditional-independence-mixture.svg", format="svg", bbox_inches="t
 :::{figure} conditional-independence-mixture.svg
 :width: 70%
 
-**The mixing effect.** When we don't know which coin was chosen, we must combine the two contexts (fair and biased) using their probabilities as weights.
+**اثر مخلوط‌سازی.** وقتی نمی‌دانیم کدام سکه انتخاب شده، باید دو زمینه (منصفانه و نامتقارن) را با احتمال‌هایشان به‌عنوان وزن ترکیب کنیم.
 :::
 
-**Understanding the calculation:**
+**درک محاسبه:**
 
-When the context is hidden, we use the **Law of Total Probability** to combine both scenarios, weighting each by how likely it is to occur (note that $P(C) + P(C^c) = 1$):
+وقتی زمینه پنهان است، از **قانون احتمال کل** برای ترکیب هر دو سناریو استفاده می‌کنیم و هر کدام را با احتمال وقوعش وزن می‌دهیم (توجه: $P(C) + P(C^c) = 1$):
 
 $$
 \begin{align*}
@@ -1264,11 +1264,11 @@ P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) \\
 \end{align*}
 $$
 
-**Numerical verification:**
+**بررسی عددی:**
 
-Recall from our setup that we choose each coin with equal probability, so $P(C) = P(C^c) = 0.5$. The fair coin gives heads with probability 0.5, and the biased coin gives heads with probability 0.75. Since each flip has the same probability regardless of whether it's first or second, we have $P(H_1\mid C) = P(H_2\mid C) = 0.5$ and $P(H_1\mid C^c) = P(H_2\mid C^c) = 0.75$.
+از تنظیمات می‌دانیم هر سکه با احتمال یکسان انتخاب می‌شود، پس $P(C) = P(C^c) = 0.5$. سکه منصفانه با احتمال 0.5 و سکه نامتقارن با 0.75 شیر می‌دهد. چون هر پرتاب احتمال یکسانی دارد، $P(H_1\mid C) = P(H_2\mid C) = 0.5$ و $P(H_1\mid C^c) = P(H_2\mid C^c) = 0.75$.
 
-Now let's calculate the individual probabilities:
+اکنون احتمال‌های فردی را محاسبه کنیم:
 
 $$
 \begin{align*}
@@ -1282,9 +1282,9 @@ $$
 P(H_2) = 0.625 \quad \text{(by the same calculation)}
 $$
 
-For the intersection, we combine two ideas:
+برای اشتراک، دو ایده را ترکیب می‌کنیم:
 
-1. **Law of Total Probability** (shown above) gives us the structure:
+1. **قانون احتمال کل** (بالا) ساختار را می‌دهد:
 
    $$
    \begin{align*}
@@ -1293,9 +1293,9 @@ For the intersection, we combine two ideas:
    \end{align*}
    $$
 
-2. **Conditional independence** ([from Part 1](#factorization-formula)) lets us factorize within each context:
+2. **استقلال شرطی** ([از بخش ۱](#factorization-formula)) اجازه فاکتورسازی در هر زمینه را می‌دهد:
 
-   For the fair coin:
+   برای سکه منصفانه:
 
    $$
    \begin{align*}
@@ -1305,7 +1305,7 @@ For the intersection, we combine two ideas:
    \end{align*}
    $$
 
-   For the biased coin:
+   برای سکه نامتقارن:
 
    $$
    \begin{align*}
@@ -1315,7 +1315,7 @@ For the intersection, we combine two ideas:
    \end{align*}
    $$
 
-3. **Putting it together**:
+3. **جمع‌بندی**:
 
    $$
    \begin{align*}
@@ -1326,7 +1326,7 @@ For the intersection, we combine two ideas:
    \end{align*}
    $$
 
-Now let's check for independence:
+اکنون استقلال را بررسی کنیم:
 
 $$
 P(H_1\cap H_2) = 0.40625
@@ -1339,11 +1339,11 @@ P(H_1) \times P(H_2) &= 0.625 \times 0.625 \\
 \end{align*}
 $$
 
-Since $0.40625 \neq 0.390625$, the joint probability does **not** equal the product. This means **the events are dependent** when the context is hidden.
+چون $0.40625 \neq 0.390625$، احتمال مشترک **برابر حاصل‌ضرب نیست**. یعنی **وقتی زمینه پنهان است واقعه‌ها وابسته‌اند**.
 
-**Update check (alternative verification):**
+**بررسی به‌روزرسانی (تأیید جایگزین):**
 
-We can also verify dependence by checking whether observing $H_1$ updates our belief about $H_2$:
+می‌توانیم وابستگی را با بررسی اینکه آیا مشاهده $H_1$ باور ما درباره $H_2$ را به‌روز می‌کند نیز تأیید کنیم:
 
 $$
 \begin{align*}
@@ -1353,16 +1353,16 @@ P(H_2\mid H_1) &= \frac{P(H_1\cap H_2)}{P(H_1)} \\
 \end{align*}
 $$
 
-But $P(H_2) = 0.625$. Since $P(H_2\mid H_1) = 0.65 \neq 0.625 = P(H_2)$, observing $H_1$ **does** update our belief about $H_2$, confirming they are dependent.
+اما $P(H_2) = 0.625$. چون $P(H_2\mid H_1) = 0.65 \neq 0.625 = P(H_2)$، مشاهده $H_1$ باور ما درباره $H_2$ را **به‌روز می‌کند** و وابستگی را تأیید می‌کند.
 
-**The key insight:** The flips are independent within each context, but dependent overall. This is because observing $H_1$ changes our belief about which coin we have, which in turn affects our belief about $H_2$.
+**بینش کلیدی:** پرتاب‌ها در هر زمینه مستقل‌اند، اما در کل وابسته. چون مشاهده $H_1$ باور ما درباره سکه‌ای که داریم را تغییر می‌دهد و این بدون نوبت بر باور ما درباره $H_2$ اثر می‌گذارد.
 
-:::{admonition} Summary of all three scenarios
+:::{admonition} خلاصه هر سه سناریو
 :class: tip dropdown
 
-The calculations above showed what happens when the context is hidden (Scenario 1). Here's a complete summary of all three cases:
+محاسبات بالا نشان داد وقتی زمینه پنهان است (سناریو ۱) چه می‌شود. خلاصه کامل هر سه حالت:
 
-**Scenario 1: Context hidden (we do NOT know which coin)**
+**سناریو ۱: زمینه پنهان (نمی‌دانیم کدام سکه)**
 
 $$
 \begin{align*}
@@ -1373,9 +1373,9 @@ P(H_1)P(H_2) &= 0.390625
 \end{align*}
 $$
 
-Since $P(H_1\cap H_2) \neq P(H_1)P(H_2)$, the events are **not independent** (observing $H_1$ updates belief about $H_2$).
+چون $P(H_1\cap H_2) \neq P(H_1)P(H_2)$، واقعه‌ها **مستقل نیستند** (مشاهده $H_1$ باور درباره $H_2$ را به‌روز می‌کند).
 
-**Scenario 2: We know we chose the fair coin ($C$)**
+**سناریو ۲: می‌دانیم سکه منصفانه انتخاب شده ($C$)**
 
 $$
 \begin{align*}
@@ -1386,9 +1386,9 @@ P(H_1\mid C) \times P(H_2\mid C) &= 0.25
 \end{align*}
 $$
 
-Since $P(H_1\cap H_2\mid C) = P(H_1\mid C) \times P(H_2\mid C)$, the events are **independent** within this context.
+چون $P(H_1\cap H_2\mid C) = P(H_1\mid C) \times P(H_2\mid C)$، واقعه‌ها **در این زمینه مستقل‌اند**.
 
-**Scenario 3: We know we chose the biased coin ($C^c$)**
+**سناریو ۳: می‌دانیم سکه نامتقارن انتخاب شده ($C^c$)**
 
 $$
 \begin{align*}
@@ -1399,81 +1399,81 @@ P(H_1\mid C^c) \times P(H_2\mid C^c) &= 0.5625
 \end{align*}
 $$
 
-Since $P(H_1\cap H_2\mid C^c) = P(H_1\mid C^c) \times P(H_2\mid C^c)$, the events are **independent** within this context.
+چون $P(H_1\cap H_2\mid C^c) = P(H_1\mid C^c) \times P(H_2\mid C^c)$، واقعه‌ها **در این زمینه مستقل‌اند**.
 
-**Conclusion:** $H_1$ and $H_2$ are **conditionally independent** given which coin was chosen ($H_1 \perp H_2 \mid C$), but **not independent** when the coin is unknown.
+**نتیجه:** $H_1$ و $H_2$ **مستقل شرطی‌اند** با فرض اینکه کدام سکه انتخاب شده ($H_1 \perp H_2 \mid C$)، اما **مستقل نیستند** وقتی سکه نامعلوم است.
 :::
 
 ---
 
-**Connecting back to the general principle:**
+**بازگشت به اصل کلی:**
 
-Our coin example perfectly illustrates the key insight from Section 5.1:
-- We have $H_1 \perp H_2 \mid C$ (the flips are conditionally independent given the coin)
-- But we do NOT have $H_1 \perp H_2$ (the flips are dependent overall when the coin is unknown)
+مثال سکه ما بینش کلیدی بخش ۵.۱ را به‌خوبی نشان می‌دهد:
+- $H_1 \perp H_2 \mid C$ داریم (پرتاب‌ها با فرض سکه مستقل شرطی‌اند)
+- اما $H_1 \perp H_2$ **نداریم** (پرتاب‌ها در کل وقتی سکه نامعلوم است وابسته‌اند)
 
-This demonstrates that **conditional independence does not imply unconditional independence**. The dependence emerges when we mix contexts (average over the hidden variable $C$). This pattern appears everywhere in statistics and data analysis: relationships that disappear within subgroups but appear in the overall data, or vice versa.
-
----
-
-### 5.3. Key takeaways and real-world applications
-
-**The core insight in one sentence:**
-
-Conditioning on $C$ "locks in the context"—given $C$, events $A$ and $B$ don't update each other. When $C$ is hidden, mixing contexts can create dependence (or mask independence).
-
-**Why this matters in practice:**
-
-Conditional independence is the idea behind **controlling for confounders** in real experiments and data analysis:
-
-1. **Medical research:** An apparent relationship between a treatment and outcome might weaken, disappear, or even reverse once you control for age, sex, or baseline severity.
-
-2. **Data analysis:** Many "false discoveries" come from ignoring hidden grouping variables. Mixing data from different batches, sites, or time periods can create spurious correlations that look like real effects.
-
-3. **Machine learning:** Understanding when features are conditionally independent given others is crucial for building accurate models and avoiding confounding.
-
-**The practical lesson:** Always ask "what context am I in?" When analyzing relationships between variables, consider whether there's a hidden factor $C$ that, once accounted for, changes the picture entirely. This is one of the most important concepts for moving from probability theory to real-world statistical reasoning.
+این نشان می‌دهد **استقلال شرطی به معنای استقلال بدون شرط نیست**. وابستگی وقتی زمینه‌ها را مخلوط می‌کنیم (میانگین روی متغیر پنهان $C$) پدید می‌آید. این الگو در همه جای آمار و تحلیل داده دیده می‌شود: روابطی که در زیرگروه‌ها ناپدید می‌شوند اما در داده کلی ظاهر می‌شوند، یا بالعکس.
 
 ---
 
+### ۵.۳. نکات کلیدی و کاربردهای واقعی
+
+**بینش اصلی در یک جمله:**
+
+شرط گذاشتن روی $C$ «زمینه را قفل می‌کند» — با فرض $C$، واقعه‌های $A$ و $B$ یکدیگر را به‌روز نمی‌کنند. وقتی $C$ پنهان است، مخلوط کردن زمینه‌ها می‌تواند وابستگی بسازد (یا استقلال را پنهان کند).
+
+**چرا در عمل مهم است:**
+
+استقلال شرطی ایده پشت **کنترل متغیرهای مخدوش‌کننده** در آزمایش‌ها و تحلیل داده واقعی است:
+
+1. **پژوهش پزشکی:** رابطه ظاهری بین درمان و پیامد ممکن است با کنترل سن، جنس یا شدت پایه ضعیف، ناپدید یا حتی معکوس شود.
+
+2. **تحلیل داده:** بسیاری از «کشف‌های کاذب» از نادیده گرفتن متغیرهای گروه‌بندی پنهان می‌آید. مخلوط کردن داده از دسته‌ها، سایت‌ها یا دوره‌های زمانی مختلف می‌تواند همبستگی‌های spurious ایجاد کند که شبیه اثر واقعی به نظر برسند.
+
+3. **یادگیری ماشین:** فهمیدن اینکه ویژگی‌ها با فرض دیگران مستقل شرطی‌اند برای ساخت مدل‌های دقیق و اجتناب از مخدوش‌سازی حیاتی است.
+
+**درس عملی:** همیش بپرسید «در چه زمینه‌ای هستم؟» هنگام تحلیل روابط بین متغیرها، در نظر بگیرید آیا فاکتور پنهان $C$ وجود دارد که پس از لحاظ آن، تصویر کاملاً عوض شود. این یکی از مهم‌ترین مفاهیم برای گذار از نظریه احتمال به استدلال آماری در دنیای واقعی است.
+
+---
+
 +++
 
-## Chapter Summary
+## خلاصه فصل
 
 
-* **Bayes' Theorem** $P(A|B) = \frac{P(B|A) P(A)}{P(B)}$ provides a fundamental rule for updating probabilities (beliefs) based on new evidence.
-* It relates the **posterior probability** $P(A|B)$ to the **prior probability** $P(A)$ and the **likelihood** $P(B|A)$.
-* The term $P(B)$ acts as a normalizing constant and can often be calculated using the **Law of Total Probability**.
-* Bayes' Theorem is crucial in fields like medical diagnosis, machine learning (spam filtering, classification), and scientific reasoning.
-* Two events A and B are **independent** if $P(A \cap B) = P(A)P(B)$, or equivalently, $P(A|B) = P(A)$ (assuming $P(B)>0$). The occurrence of one does not change the probability of the other.
-* Events A and B are **conditionally independent** given C if $P(A \cap B | C) = P(A|C)P(B|C)$. They become independent once the outcome of C is known.
-* Simulation is a valuable tool for building intuition about Bayes' Theorem and independence by observing frequencies in generated data.
-
-+++
-
-In the next part of the book, we will shift our focus from events to **Random Variables** – numerical outcomes of random phenomena – and explore their distributions. This will allow us to model and analyze probabilistic situations in a more structured way.
+* **قضیه بیز** $P(A|B) = \frac{P(B|A) P(A)}{P(B)}$ قانون بنیادی برای به‌روزرسانی احتمال‌ها (باورها) بر اساس شواهد جدید است.
+* آن **احتمال پسین** $P(A|B)$ را به **احتمال پیشین** $P(A)$ و **درست‌نمایی** $P(B|A)$ مرتبط می‌کند.
+* جمله $P(B)$ به‌عنوان ثابت نرمال‌سازی عمل می‌کند و اغلب با **قانون احتمال کل** محاسبه می‌شود.
+* قضیه بیز در زمینه‌هایی مثل تشخیص پزشکی، یادگیری ماشین (فیلتر هرزنامه، طبقه‌بندی) و استدلال علمی حیاتی است.
+* دو واقعه A و B **مستقل**‌اند اگر $P(A \cap B) = P(A)P(B)$، یا به‌طور معادل $P(A|B) = P(A)$ (با فرض $P(B)>0$). وقوع یکی احتمال دیگری را تغییر نمی‌دهد.
+* دو واقعه A و B **مستقل شرطی** با فرض C هستند اگر $P(A \cap B | C) = P(A|C)P(B|C)$. پس از معلوم شدن نتیجه C مستقل می‌شوند.
+* شبیه‌سازی ابزار ارزشمندی برای ساخت شهود درباره قضیه بیز و استقلال با مشاهده فراوانی‌ها در داده تولیدشده است.
 
 +++
 
-## Exercises
+در بخش بعدی کتاب، تمرکز را از واقعه‌ها به **متغیرهای تصادفی** — پیامدهای عددی پدیده‌های تصادفی — منتقل می‌کنیم و توزیع‌هایشان را بررسی می‌کنیم. این به ما اجازه می‌دهد موقعیت‌های احتمالی را ساختاریافته‌تر مدل و تحلیل کنیم.
 
-1.  **Two urns (Bayes):** You pick an urn at random:
++++
 
-    * $U_1$ with probability $0.6$ (contains 3 red, 2 blue)
-    * $U_2$ with probability $0.4$ (contains 1 red, 4 blue)
+## تمرین‌ها
 
-    You draw one ball and it is **red**. What is $P(U_1\mid R)$?
+1.  **دو urn (بیز):** یک urn را به‌طور تصادفی انتخاب می‌کنید:
 
-    ```{admonition} Answer
+    * $U_1$ با احتمال $0.6$ (شامل ۳ قرمز، ۲ آبی)
+    * $U_2$ با احتمال $0.4$ (شامل ۱ قرمز، ۴ آبی)
+
+    یک تو می‌کشید و **قرمز** است. $P(U_1\mid R)$ چقدر است؟
+
+    ```{admonition} پاسخ
     :class: dropdown
 
-    We are given:
+    داده شده:
 
     * $P(U_1)=0.6$, $P(U_2)=0.4$
     * $P(R\mid U_1)=3/5=0.6$
     * $P(R\mid U_2)=1/5=0.2$
 
-    First compute $P(R)$ by total probability:
+    ابتدا $P(R)$ را با احتمال کل محاسبه کنید:
 
     $$
     \begin{align*}
@@ -1483,7 +1483,7 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    Now apply Bayes' theorem:
+    سپس قضیه بیز را به‌کار ببرید:
 
     $$
     \begin{align*}
@@ -1495,17 +1495,17 @@ In the next part of the book, we will shift our focus from events to **Random Va
     $$
     ```
 
-2.  **Diagnostic test (posterior probability):** A disease has prevalence $P(D)=0.005$ (0.5%). A test has:
+2.  **آزمون تشخیصی (احتمال پسین):** بیماری شیوع $P(D)=0.005$ (0.5%) دارد. آزمون:
 
-    * Sensitivity $P(	ext{Pos}\mid D)=0.98$
-    * False positive rate $P(	ext{Pos}\mid D^c)=0.03$
+    * حساسیت $P(\text{Pos}\mid D)=0.98$
+    * نرخ مثبت کاذب $P(\text{Pos}\mid D^c)=0.03$
 
-    If someone tests positive, what is $P(D\mid 	ext{Pos})$?
+    اگر کسی نتیجه مثبت بگیرد، $P(D\mid \text{Pos})$ چقدر است؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    First find $P(	ext{Pos})$:
+    ابتدا $P(\text{Pos})$ را بیابید:
 
     $$
     \begin{align*}
@@ -1517,7 +1517,7 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    Then Bayes' theorem:
+    سپس قضیه بیز:
 
     $$
     \begin{align*}
@@ -1528,21 +1528,21 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    So even with a positive result, the chance of actually having the disease is about **14.1%** (because the disease is rare).
+    پس حتی با نتیجه مثبت، احتمال واقعی بیماری حدود **14.1%** است (چون بیماری نادر است).
     ```
 
-3.  **Spam filter (Bayes):** Suppose 20% of emails are spam:
+3.  **فیلتر هرزنامه (بیز):** فرض کنید 20% ایمیل‌ها هرزنامه‌اند:
 
     * $P(S)=0.20$
-    * The word “FREE” appears in 50% of spam emails: $P(F\mid S)=0.50$
-    * The word “FREE” appears in 2% of non-spam emails: $P(F\mid S^c)=0.02$
+    * کلمه «FREE» در 50% ایمیل‌های هرزنامه ظاهر می‌شود: $P(F\mid S)=0.50$
+    * کلمه «FREE» در 2% ایمیل‌های غیرهرزنامه ظاهر می‌شود: $P(F\mid S^c)=0.02$
 
-    If an email contains “FREE”, what is $P(S\mid F)$?
+    اگر ایمیلی «FREE» داشته باشد، $P(S\mid F)$ چقدر است؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    First compute $P(F)$:
+    ابتدا $P(F)$ را محاسبه کنید:
 
     $$
     \begin{align*}
@@ -1553,7 +1553,7 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    Then Bayes' theorem:
+    سپس قضیه بیز:
 
     $$
     \begin{align*}
@@ -1564,64 +1564,64 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    So $P(S\mid F)\approx 86.2\%$.
+    پس $P(S\mid F)\approx 86.2\%$.
     ```
 
-4.  **Are these events independent?** Roll a fair six-sided die.
+4.  **آیا این واقعه‌ها مستقل‌اند؟** یک تاس منصفانه شش‌وجهی بینندازید.
 
-    * $A$ = “the roll is even” = {2, 4, 6}
-    * $B$ = “the roll is prime” = {2, 3, 5}
+    * $A$ = «عدد زوج باشد» = {2, 4, 6}
+    * $B$ = «عدد اول باشد» = {2, 3, 5}
 
-    Are $A$ and $B$ independent?
+    آیا $A$ و $B$ مستقل‌اند؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    Compute:
+    محاسبه کنید:
 
     * $P(A)=3/6=1/2$
     * $P(B)=3/6=1/2$
     * $A\cap B$ = {2}, so $P(A\cap B)=1/6$
 
-    If $A$ and $B$ were independent, we would have
+    اگر $A$ و $B$ مستقل بودند، باید داشتیم
     $P(A\cap B)=P(A)P(B)=(1/2)(1/2)=1/4$.
 
-    But $1/6 \ne 1/4$, so the events are **not independent**.
+    اما $1/6 \ne 1/4$، پس واقعه‌ها **مستقل نیستند**.
     ```
 
-5.  **Mutually exclusive vs independent:** Roll a fair six-sided die.
+5.  **ناسازگار در برابر مستقل:** یک تاس منصفانه شش‌وجهی بینندازید.
 
-    * $A$ = “the roll is 1”
-    * $B$ = “the roll is 2”
+    * $A$ = «عدد 1 باشد»
+    * $B$ = «عدد 2 باشد»
 
-    Are $A$ and $B$ independent?
+    آیا $A$ و $B$ مستقل‌اند؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    They are **mutually exclusive**: $A\cap B=\emptyset$, so $P(A\cap B)=0$.
+    آن‌ها **ناسازگار**‌اند: $A\cap B=\emptyset$، پس $P(A\cap B)=0$.
 
-    But $P(A)=1/6$ and $P(B)=1/6$, so $P(A)P(B)=1/36$.
+    اما $P(A)=1/6$ و $P(B)=1/6$، پس $P(A)P(B)=1/36$.
 
-    Since $P(A\cap B) \ne P(A)P(B)$, the events are **not independent**.
+    چون $P(A\cap B) \ne P(A)P(B)$، واقعه‌ها **مستقل نیستند**.
     ```
 
-6.  **Conditional independence (coin mixture):** You choose a coin:
+6.  **استقلال شرطی (مخلوط سکه):** یک سکه انتخاب می‌کنید:
 
-    * Fair with probability $P(C)=0.4$ (so $P(H\mid C)=0.5$)
-    * Biased with probability $P(C^c)=0.6$ (so $P(H\mid C^c)=0.8$)
+    * منصفانه با احتمال $P(C)=0.4$ (پس $P(H\mid C)=0.5$)
+    * نامتقارن با احتمال $P(C^c)=0.6$ (پس $P(H\mid C^c)=0.8$)
 
-    Then you flip it twice. Let $H_1$ be “first flip is Heads” and $H_2$ be “second flip is Heads”.
+    سپس دو بار می‌اندازید. $H_1$ «پرتاب اول شیر باشد» و $H_2$ «پرتاب دوم شیر باشد».
 
-    1. Compute $P(H_2)$ and $P(H_2\mid H_1)$ and decide whether $H_1$ and $H_2$ are independent overall.
-    2. Show that $H_1 \perp H_2 \mid C$.
+    1. $P(H_2)$ و $P(H_2\mid H_1)$ را محاسبه کنید و تصمیم بگیرید آیا $H_1$ و $H_2$ در کل مستقل‌اند.
+    2. نشان دهید $H_1 \perp H_2 \mid C$.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    **1) Overall (context hidden).**
+    **1) در کل (زمینه پنهان).**
 
-    By total probability:
+    با احتمال کل:
 
     $$
     \begin{align*}
@@ -1631,7 +1631,7 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    Also,
+    همچنین،
 
     $$
     \begin{align*}
@@ -1643,7 +1643,7 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    So
+    پس
 
     $$
     \begin{align*}
@@ -1653,22 +1653,22 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    Since $P(H_2\mid H_1)\approx 0.712 \ne P(H_2)=0.68$, the flips are **not independent overall**.
+    چون $P(H_2\mid H_1)\approx 0.712 \ne P(H_2)=0.68$، پرتاب‌ها **در کل مستقل نیستند**.
 
-    **2) Within a fixed context.**
+    **2) در یک زمینه ثابت.**
 
-    If you condition on which coin you chose:
+    اگر بر اینکه کدام سکه انتخاب کرده‌اید شرط بگذارید:
 
-    * Given $C$ (fair coin), the flips are independent, so
+    * با فرض $C$ (سکه منصفانه)، پرتاب‌ها مستقل‌اند، پس
       $$
       P(H_2\mid H_1, C)=P(H_2\mid C)=0.5.
       $$
-    * Given $C^c$ (biased coin), similarly,
+    * با فرض $C^c$ (سکه نامتقارن)، به‌طور مشابه،
       $$
       P(H_2\mid H_1, C^c)=P(H_2\mid C^c)=0.8.
       $$
 
-    That is exactly the “no extra update” condition, so
+    این دقیقاً شرط «بدون به‌روزرسانی اضافی» است، پس
 
     $$
     H_1 \perp H_2 \mid C.

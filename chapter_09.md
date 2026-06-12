@@ -13,23 +13,23 @@ downloads:
   - file: notebooks/chapter_09.ipynb
 ---
 
-# Chapter 9: Common Continuous Distributions
+# فصل ۹: توزیع‌های پیوسته رایج
 
-## Introduction
+## مقدمه
 
-In the previous chapter, we explored the fundamental concepts of continuous random variables, including Probability Density Functions (PDFs), Cumulative Distribution Functions (CDFs), expected value, and variance. While those concepts apply to *any* continuous random variable, many real-world phenomena tend to follow specific patterns. Over time, mathematicians and statisticians have identified and characterized several "families" of continuous distributions that appear frequently in practice.
+در فصل قبل، مفاهیم بنیادین متغیرهای تصادفی پیوسته را بررسی کردیم، از جمله توابع چگالی احتمال (PDF)، توابع توزیع تجمعی (CDF)، امید ریاضی و واریانس. اگرچه این مفاهیم برای *هر* متغیر تصادفی پیوسته‌ای صدق می‌کنند، بسیاری از پدیده‌های دنیای واقعی الگوهای مشخصی را دنبال می‌کنند. در طول زمان، ریاضی‌دانان و آمارشناسان چند «خانواده» توزیع پیوسته را که در عمل مکرراً ظاهر می‌شوند شناسایی و مشخصه‌بندی کرده‌اند.
 
-This chapter introduces some of the most common and useful continuous distributions: the Uniform, Exponential, Normal (Gaussian), Gamma, and Beta distributions. For each, we will:
+این فصل برخی از رایج‌ترین و پرکاربردترین توزیع‌های پیوسته را معرفی می‌کند: یکنوا، نمایی، نرمال (Gaussian)، گاما و بتا. برای هر کدام:
 
-1.  Define its PDF and CDF.
-2.  Discuss its key parameters and their interpretation.
-3.  Calculate its expected value and variance.
-4.  Highlight typical applications and characteristic properties.
-5.  Demonstrate how to work with it using Python, primarily the `scipy.stats` module.
+1.  PDF و CDF آن را تعریف می‌کنیم.
+2.  پارامترهای کلیدی و تفسیر آن‌ها را بحث می‌کنیم.
+3.  امید ریاضی و واریانس آن را محاسبه می‌کنیم.
+4.  کاربردهای معمول و ویژگی‌های مشخصه‌بند آن را برجسته می‌کنیم.
+5.  نحوهٔ کار با آن در پایتون، عمدتاً با ماژول `scipy.stats` را نشان می‌دهیم.
 
-Understanding these distributions provides a powerful toolkit for modeling continuous phenomena, from arrival times and lifetimes to measurement errors and proportions. We'll also briefly touch upon the relationships between some of these distributions.
+درک این توزیع‌ها ابزار قدرتمندی برای مدل‌سازی پدیده‌های پیوسته — از زمان‌های ورود و عمر مفید تا خطاهای اندازه‌گیری و نسبت‌ها — فراهم می‌کند. همچنین به‌اختصار به روابط بین برخی از این توزیع‌ها می‌پردازیم.
 
-Let's start by importing the necessary libraries.
+ابتدا کتابخانه‌های لازم را وارد می‌کنیم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -45,22 +45,22 @@ plt.rcParams['figure.figsize'] = (10, 6)
 plt.rcParams['font.size'] = 12
 ```
 
-## 1. Uniform Distribution
+## ۱. توزیع یکنوا (Uniform)
 
-The Uniform distribution is perhaps the simplest continuous distribution. It describes a variable whose outcome is equally likely within a specific interval $[a, b]$.
+توزیع یکنوا شاید ساده‌ترین توزیع پیوسته باشد. متغیری را توصیف می‌کند که پیامد آن در بازهٔ مشخص $[a, b]$ به‌طور مساوی محتمل است.
 
-**Definition:** A random variable $X$ follows a Uniform distribution on the interval $[a, b]$, denoted $X \sim U(a, b)$, if its PDF is constant over the interval and zero elsewhere.
+**تعریف:** متغیر تصادفی $X$ روی بازهٔ $[a, b]$ توزیع یکنوا دارد، با نماد $X \sim U(a, b)$، اگر PDF آن روی بازه ثابت و در جای دیگر صفر باشد.
 
-**PDF (Probability Density Function):**
+**PDF (تابع چگالی احتمال):**
 $$
 f(x; a, b) = \begin{cases}
  \frac{1}{b-a} & \text{for } a \le x \le b \\
  0 & \text{otherwise}
 \end{cases}
 $$
-The total area under the PDF must be 1. Here, the area is simply the area of a rectangle with width $(b-a)$ and height $\frac{1}{b-a}$.
+مساحت کل زیر PDF باید ۱ باشد. اینجا مساحت سادهٔ مستطیلی با عرض $(b-a)$ و ارتفاع $\frac{1}{b-a}$ است.
 
-**CDF (Cumulative Distribution Function):**
+**CDF (تابع توزیع تجمعی):**
 $$
 F(x; a, b) = P(X \le x) = \begin{cases}
  0 & \text{for } x < a \\
@@ -68,26 +68,26 @@ F(x; a, b) = P(X \le x) = \begin{cases}
  1 & \text{for } x > b
 \end{cases}
 $$
-The CDF increases linearly from 0 to 1 over the interval $[a, b]$.
+CDF روی بازهٔ $[a, b]$ به‌صورت خطی از ۰ به ۱ افزایش می‌یابد.
 
-**Parameters:**
-* $a$: Lower bound of the interval.
-* $b$: Upper bound of the interval.
+**پارامترها:**
+* $a$: کران پایین بازه.
+* $b$: کران بالای بازه.
 
-**Expected Value and Variance:**
-* $E[X] = \frac{a+b}{2}$ (The midpoint of the interval)
+**امید ریاضی و واریانس:**
+* $E[X] = \frac{a+b}{2}$ (نقطهٔ میانی بازه)
 * $Var(X) = \frac{(b-a)^2}{12}$
 
-**Applications:**
-* Modeling random number generators.
-* Representing uncertainty when only the range of possible values is known.
-* Situations where any value in an interval is equally plausible (e.g., arrival time of a train within a 1-hour window, assuming it's equally likely to arrive at any minute).
+**کاربردها:**
+* مدل‌سازی مولدهای اعداد تصادفی.
+* نمایش عدم‌قطعیت وقتی فقط محدودهٔ مقادیر ممکن مشخص است.
+* موقعیت‌هایی که هر مقدار در بازه به‌طور مساوی محتمل است (مثلاً زمان ورود قطار در پنجرهٔ یک‌ساعته، با فرض احتمال مساوی برای هر دقیقه).
 
-**Example:** A train is scheduled to arrive at 3:00 PM, but it can arrive uniformly randomly anytime between 2:55 PM and 3:05 PM. Let $X$ be the arrival time in minutes past 2:55 PM. Then $X \sim U(0, 10)$.
+**مثال:** قطاری برای ساعت ۳ بعدازظهر برنامه‌ریزی شده، اما می‌تواند یکنوا و تصادفی بین ۲:۵۵ و ۳:۰۵ برسد. $X$ را زمان ورود بر حسب دقیقه پس از ۲:۵۵ در نظر بگیرید. آنگاه $X \sim U(0, 10)$.
 
-**Python Implementation (`scipy.stats.uniform`):**
+**پیاده‌سازی پایتون (`scipy.stats.uniform`):**
 
-`scipy.stats.uniform` uses `loc` for the start point ($a$) and `scale` for the width ($b-a$).
+`scipy.stats.uniform` از `loc` برای نقطهٔ شروع ($a$) و `scale` برای عرض ($b-a$) استفاده می‌کند.
 
 ```{code-cell} ipython3
 # Define the parameters for the train example: a=0, b=10
@@ -173,13 +173,13 @@ plt.legend()
 plt.show()
 ```
 
-## 2. Exponential Distribution
+## ۲. توزیع نمایی (Exponential)
 
-The Exponential distribution describes the time until an event occurs in a Poisson process (a process where events occur continuously and independently at a constant average rate).
+توزیع نمایی زمان تا وقوع یک رویداد در فرایند پواسون را توصیف می‌کند (فرایندی که رویدادها به‌طور پیوسته و مستقل با نرخ میانگین ثابت رخ می‌دهند).
 
-**Definition:** A random variable $T$ follows an Exponential distribution with rate parameter $\lambda > 0$, denoted $T \sim Exp(\lambda)$, if its PDF describes the waiting time for the first event.
+**تعریف:** متغیر تصادفی $T$ با پارامتر نرخ $\lambda > 0$ توزیع نمایی دارد، با نماد $T \sim Exp(\lambda)$، اگر PDF آن زمان انتظار برای اولین رویداد را توصیف کند.
 
-**PDF (Probability Density Function):**
+**PDF (تابع چگالی احتمال):**
 $$
 f(t; \lambda) = \begin{cases}
  \lambda e^{-\lambda t} & \text{for } t \ge 0 \\
@@ -187,39 +187,39 @@ f(t; \lambda) = \begin{cases}
 \end{cases}
 $$
 
-**CDF (Cumulative Distribution Function):**
+**CDF (تابع توزیع تجمعی):**
 $$
 F(t; \lambda) = P(T \le t) = \begin{cases}
  1 - e^{-\lambda t} & \text{for } t \ge 0 \\
  0 & \text{for } t < 0
 \end{cases}
 $$
-The probability that the event has *not* occurred by time $t$ is $P(T > t) = 1 - F(t) = e^{-\lambda t}$. This is often called the survival function.
+احتمال اینکه رویداد تا زمان $t$ *واقع نشده* باشد برابر $P(T > t) = 1 - F(t) = e^{-\lambda t}$ است. این اغلب تابع بقا نامیده می‌شود.
 
-**Parameter:**
-* $\lambda$: The rate parameter (average number of events per unit of time).
+**پارامتر:**
+* $\lambda$: پارامتر نرخ (میانگین تعداد رویدادها در واحد زمان).
 
-**Expected Value and Variance:**
-* $E[T] = \frac{1}{\lambda}$ (The average waiting time)
+**امید ریاضی و واریانس:**
+* $E[T] = \frac{1}{\lambda}$ (میانگین زمان انتظار)
 * $Var(T) = \frac{1}{\lambda^2}$
 
-**Memoryless Property:**
-A key property of the Exponential distribution is that it is *memoryless*. This means that the probability of the event occurring in the next time interval, given that it hasn't occurred yet, is independent of how long we've already waited. Formally:
+**خاصیت بی‌حافظه (Memoryless):**
+ویژگی کلیدی توزیع نمایی *بی‌حافظه* بودن آن است. یعنی احتمال وقوع رویداد در بازهٔ زمانی بعدی، با فرض اینکه هنوز رخ نداده، به مدت انتظار گذشته وابسته نیست. به‌صورت رسمی:
 $$ P(T > s+t \mid T > s) = P(T > t) $$
-for any $s, t \ge 0$.
+برای هر $s, t \ge 0$.
 
-**Applications:**
-* Modeling the time until the next customer arrives.
-* Modeling the lifetime of electronic components or radioactive decay times (assuming a constant failure rate).
-* Modeling the time between earthquakes or other rare events.
+**کاربردها:**
+* مدل‌سازی زمان تا ورود مشتری بعدی.
+* مدل‌سازی عمر مفید قطعات الکترونیکی یا زمان واپاشی پرتوزا (با فرض نرخ خرابی ثابت).
+* مدل‌سازی فاصلهٔ زمانی بین زلزله‌ها یا رویدادهای نادر دیگر.
 
-**Example:** The lifetime of a certain type of electronic component follows an Exponential distribution. On average, a component lasts 1000 hours. What is the probability that a component lasts more than 1200 hours?
+**مثال:** عمر مفید نوعی قطعهٔ الکترونیکی توزیع نمایی دارد. به‌طور میانگین یک قطعه ۱۰۰۰ ساعت دوام می‌آورد. احتمال اینکه قطعه‌ای بیش از ۱۲۰۰ ساعت دوام بیاورد چقدر است؟
 
-Here, the average lifetime is $E[T] = 1000$. Since $E[T] = 1/\lambda$, the rate parameter is $\lambda = 1/1000$ failures per hour.
+اینجا میانگین عمر $E[T] = 1000$ است. چون $E[T] = 1/\lambda$، پارامتر نرخ $\lambda = 1/1000$ خرابی در ساعت است.
 
-**Python Implementation (`scipy.stats.expon`):**
+**پیاده‌سازی پایتون (`scipy.stats.expon`):**
 
-`scipy.stats.expon` uses `scale` which corresponds to $1/\lambda$. It also has an optional `loc` parameter, which shifts the start of the distribution (default is 0).
+`scipy.stats.expon` از `scale` استفاده می‌کند که معادل $1/\lambda$ است. پارامتر اختیاری `loc` نیز دارد که شروع توزیع را جابه‌جا می‌کند (پیش‌فرض ۰ است).
 
 ```{code-cell} ipython3
 # Define the parameters for the component lifetime example
@@ -318,54 +318,54 @@ plt.legend()
 plt.show()
 ```
 
-## 3. Normal (Gaussian) Distribution
+## ۳. توزیع نرمال (Gaussian)
 
-The Normal distribution, often called the "bell curve," is arguably the most important distribution in probability and statistics. It arises naturally in many situations due to the Central Limit Theorem (which we'll cover later) and is used to model numerous physical, biological, and social phenomena.
+توزیع نرمال که اغلب «منحنی زنگوله‌ای» نامیده می‌شود، شاید مهم‌ترین توزیع در احتمال و آمار باشد. به‌دلیل قضیهٔ حد مرکزی (که بعداً پوشش می‌دهیم) در بسیاری موقعیت‌ها به‌طور طبیعی پدیدار می‌آید و برای مدل‌سازی پدیده‌های فیزیکی، زیستی و اجتماعی متعدد به‌کار می‌رود.
 
-**Definition:** A random variable $X$ follows a Normal distribution with mean $\mu$ and variance $\sigma^2$, denoted $X \sim N(\mu, \sigma^2)$, if its PDF is given by the characteristic bell-shaped curve centered at $\mu$.
+**تعریف:** متغیر تصادفی $X$ با میانگین $\mu$ و واریانس $\sigma^2$ توزیع نرمال دارد، با نماد $X \sim N(\mu, \sigma^2)$، اگر PDF آن منحنی زنگوله‌ای مشخصه‌بند متمرکز در $\mu$ باشد.
 
-**PDF (Probability Density Function):**
+**PDF (تابع چگالی احتمال):**
 $$
 f(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{ - \frac{(x-\mu)^2}{2\sigma^2} }
 $$
-for $-\infty < x < \infty$.
+برای $-\infty < x < \infty$.
 
-**CDF (Cumulative Distribution Function):**
-The CDF, $F(x) = P(X \le x)$, does not have a simple closed-form expression in terms of elementary functions. It's typically calculated using numerical methods or tables involving the standard normal distribution. The CDF is often denoted by $\Phi(z)$ for the standard normal case.
+**CDF (تابع توزیع تجمعی):**
+CDF یعنی $F(x) = P(X \le x)$ بیان بستهٔ ساده‌ای با توابع ابتدایی ندارد. معمولاً با روش‌های عددی یا جداول مربوط به توزیع نرمال استاندارد محاسبه می‌شود. CDF اغلب برای حالت استاندارد با $\Phi(z)$ نمایش داده می‌شود.
 
-**Parameters:**
-* $\mu$: The mean (or expected value), which determines the center of the distribution.
-* $\sigma^2$: The variance ($\sigma$ is the standard deviation), which determines the spread or width of the distribution.
+**پارامترها:**
+* $\mu$: میانگین (یا امید ریاضی) که مرکز توزیع را تعیین می‌کند.
+* $\sigma^2$: واریانس ($\sigma$ انحراف معیار است) که گسترش یا عرض توزیع را تعیین می‌کند.
 
-**Expected Value and Variance:**
+**امید ریاضی و واریانس:**
 * $E[X] = \mu$
 * $Var(X) = \sigma^2$
 
-**Standard Normal Distribution:**
-A special case is the **Standard Normal Distribution**, denoted $Z \sim N(0, 1)$, where $\mu = 0$ and $\sigma^2 = 1$. Any Normal random variable $X \sim N(\mu, \sigma^2)$ can be *standardized* into a standard normal variable $Z$ using the transformation:
+**توزیع نرمال استاندارد:**
+حالت ویژه **توزیع نرمال استاندارد** است، با نماد $Z \sim N(0, 1)$، که $\mu = 0$ و $\sigma^2 = 1$. هر متغیر نرمال $X \sim N(\mu, \sigma^2)$ را می‌توان با تبدیل زیر *استاندارد* کرد:
 $$ Z = \frac{X - \mu}{\sigma} $$
-This transformation is crucial for calculations, as probabilities for any Normal distribution can be found using the CDF of the Standard Normal distribution. $P(X \le x) = P\left(\frac{X-\mu}{\sigma} \le \frac{x-\mu}{\sigma}\right) = P(Z \le z)$, where $z = (x-\mu)/\sigma$.
+این تبدیل برای محاسبات حیاتی است، زیرا احتمال‌های هر توزیع نرمالی را می‌توان با CDF توزیع نرمال استاندارد یافت. $P(X \le x) = P\left(\frac{X-\mu}{\sigma} \le \frac{x-\mu}{\sigma}\right) = P(Z \le z)$، که $z = (x-\mu)/\sigma$.
 
-**Empirical Rule (68-95-99.7 Rule):** For any Normal distribution:
-* Approx. 68% of values lie within 1 standard deviation of the mean ($\mu \pm \sigma$).
-* Approx. 95% of values lie within 2 standard deviations of the mean ($\mu \pm 2\sigma$).
-* Approx. 99.7% of values lie within 3 standard deviations of the mean ($\mu \pm 3\sigma$).
+**قاعدهٔ تجربی (۶۸-۹۵-۹۹٫۷):** برای هر توزیع نرمال:
+* تقریباً ۶۸٪ مقادیر در ۱ انحراف معیار از میانگین ($\mu \pm \sigma$) قرار دارند.
+* تقریباً ۹۵٪ مقادیر در ۲ انحراف معیار از میانگین ($\mu \pm 2\sigma$) قرار دارند.
+* تقریباً ۹۹٫۷٪ مقادیر در ۳ انحراف معیار از میانگین ($\mu \pm 3\sigma$) قرار دارند.
 
-**Applications:**
-* Modeling heights, weights, and other biological measurements.
-* Modeling measurement errors in experiments.
-* Modeling standardized test scores (like IQ or SAT).
-* Financial modeling (e.g., stock returns, though often with caveats).
-* Approximation for other distributions (e.g., Binomial, Poisson) under certain conditions (due to CLT).
+**کاربردها:**
+* مدل‌سازی قد، وزن و سایر اندازه‌گیری‌های زیستی.
+* مدل‌سازی خطاهای اندازه‌گیری در آزمایش‌ها.
+* مدل‌سازی نمرات آزمون‌های استاندارد (مانند IQ یا SAT).
+* مدل‌سازی مالی (مثلاً بازده سهام، اگرچه اغلب با محدودیت‌ها).
+* تقریب توزیع‌های دیگر (مثلاً دوجمله‌ای، پواسون) در شرایط معین (به‌دلیل CLT).
 
-**Example:** Suppose IQ scores in a population are Normally distributed with a mean ($\mu$) of 100 and a standard deviation ($\sigma$) of 15. $X \sim N(100, 15^2)$.
-1. What is the probability a randomly selected person has an IQ score between 85 and 115?
-2. What is the probability a randomly selected person has an IQ score above 130?
-3. What IQ score marks the 95th percentile?
+**مثال:** فرض کنید نمرات IQ در جمعیتی به‌صورت نرمال با میانگین ($\mu$) ۱۰۰ و انحراف معیار ($\sigma$) ۱۵ توزیع شده‌اند. $X \sim N(100, 15^2)$.
+1. احتمال اینکه فردی انتخاب‌شده به‌صورت تصادفی نمرهٔ IQ بین ۸۵ و ۱۱۵ داشته باشد چقدر است؟
+2. احتمال اینکه نمرهٔ IQ بالاتر از ۱۳۰ باشد چقدر است؟
+3. چه نمرهٔ IQ صدک ۹۵ام را مشخص می‌کند؟
 
-**Python Implementation (`scipy.stats.norm`):**
+**پیاده‌سازی پایتون (`scipy.stats.norm`):**
 
-`scipy.stats.norm` uses `loc` for the mean ($\mu$) and `scale` for the standard deviation ($\sigma$).
+`scipy.stats.norm` از `loc` برای میانگین ($\mu$) و `scale` برای انحراف معیار ($\sigma$) استفاده می‌کند.
 
 ```{code-cell} ipython3
 # Define the parameters for the IQ score example
@@ -468,55 +468,55 @@ plt.legend()
 plt.show()
 ```
 
-## 4. Gamma Distribution
+## ۴. توزیع گاما (Gamma)
 
-The Gamma distribution is a flexible distribution defined for non-negative values. It is related to the Exponential distribution and the Chi-squared distribution. It arises naturally as the waiting time until the $k$-th event occurs in a Poisson process.
+توزیع گاما توزیعی انعطاف‌پذیر برای مقادیر نامنفی است. با توزیع نمایی و خی‌دو مرتبط است و به‌طور طبیعی زمان انتظار تا وقوع رویداد $k$-ام در فرایند پواسون پدید می‌آید.
 
-**Definition:** A random variable $X$ follows a Gamma distribution with shape parameter $k > 0$ and rate parameter $\lambda > 0$ (or scale parameter $\theta = 1/\lambda$), denoted $X \sim Gamma(k, \lambda)$ or $X \sim Gamma(k, \theta)$, if its PDF involves the Gamma function $\Gamma(k)$.
+**تعریف:** متغیر تصادفی $X$ با پارامتر شکل $k > 0$ و پارامتر نرخ $\lambda > 0$ (یا پارامتر مقیاس $\theta = 1/\lambda$) توزیع گاما دارد، با نماد $X \sim Gamma(k, \lambda)$ یا $X \sim Gamma(k, \theta)$، اگر PDF آن شامل تابع گاما $\Gamma(k)$ باشد.
 
-The Gamma function is defined as $\Gamma(k) = \int_0^\infty x^{k-1} e^{-x} dx$. For positive integers $k$, $\Gamma(k) = (k-1)!$.
+تابع گاما به‌صورت $\Gamma(k) = \int_0^\infty x^{k-1} e^{-x} dx$ تعریف می‌شود. برای اعداد صحیح مثبت $k$، $\Gamma(k) = (k-1)!$.
 
-**PDF (Probability Density Function):**
-Using shape $k$ and rate $\lambda$:
+**PDF (تابع چگالی احتمال):**
+با شکل $k$ و نرخ $\lambda$:
 $$
 f(x; k, \lambda) = \frac{\lambda^k x^{k-1} e^{-\lambda x}}{\Gamma(k)} \quad \text{for } x \ge 0
 $$
-Using shape $k$ and scale $\theta = 1/\lambda$:
+با شکل $k$ و مقیاس $\theta = 1/\lambda$:
 $$
 f(x; k, \theta) = \frac{1}{\Gamma(k)\theta^k} x^{k-1} e^{-x/\theta} \quad \text{for } x \ge 0
 $$
 
-**CDF (Cumulative Distribution Function):**
-The CDF involves the lower incomplete gamma function and doesn't have a simple closed form. It is usually computed numerically.
+**CDF (تابع توزیع تجمعی):**
+CDF شامل تابع گامای ناقص پایین است و بیان بستهٔ ساده‌ای ندارد. معمولاً به‌صورت عددی محاسبه می‌شود.
 
-**Parameters:**
-* $k$ (or $\alpha$): The shape parameter. It influences the peakedness of the distribution.
-* $\lambda$ (or $\beta$): The rate parameter.
-* $\theta = 1/\lambda$ (or $\beta$): The scale parameter. It stretches or compresses the distribution horizontally.
-(Note: Parameterization can vary! `scipy.stats.gamma` uses shape `a` and `scale` $1/\lambda$).
+**پارامترها:**
+* $k$ (یا $\alpha$): پارامتر شکل. بر تیز بودن توزیع اثر می‌گذارد.
+* $\lambda$ (یا $\beta$): پارامتر نرخ.
+* $\theta = 1/\lambda$ (یا $\beta$): پارامتر مقیاس. توزیع را در افق کشیده یا فشرده می‌کند.
+(توجه: پارامتردهی ممکن است متفاوت باشد! `scipy.stats.gamma` از شکل `a` و مقیاس `scale` یعنی $1/\lambda$ استفاده می‌کند).
 
-**Expected Value and Variance:**
+**امید ریاضی و واریانس:**
 * $E[X] = \frac{k}{\lambda} = k\theta$
 * $Var(X) = \frac{k}{\lambda^2} = k\theta^2$
 
-**Relationship to Exponential:**
-* The Exponential distribution is a special case of the Gamma distribution with shape parameter $k=1$. $Exp(\lambda) = Gamma(1, \lambda)$.
-* The sum of $k$ independent $Exp(\lambda)$ random variables follows a $Gamma(k, \lambda)$ distribution. This connects to the idea of waiting time for the $k$-th event.
+**رابطه با توزیع نمایی:**
+* توزیع نمایی حالت ویژهٔ توزیع گاما با پارامتر شکل $k=1$ است. $Exp(\lambda) = Gamma(1, \lambda)$.
+* مجموع $k$ متغیر مستقل $Exp(\lambda)$ توزیع $Gamma(k, \lambda)$ را دنبال می‌کند. این به ایدهٔ زمان انتظار برای رویداد $k$-ام مربوط است.
 
-**Applications:**
-* Modeling waiting times until multiple events occur (e.g., time until the 5th customer arrives).
-* Reliability analysis and lifetime modeling (more flexible than Exponential).
-* Queueing theory.
-* Modeling rainfall amounts or insurance claims.
-* Plays a role in Bayesian statistics (as a conjugate prior for the precision of a Normal distribution).
+**کاربردها:**
+* مدل‌سازی زمان انتظار تا وقوع چند رویداد (مثلاً زمان تا ورود مشتری پنجم).
+* تحلیل قابلیت اطمینان و مدل‌سازی عمر مفید (انعطاف‌پذیرتر از نمایی).
+* نظریهٔ صف.
+* مدل‌سازی مقدار بارندگی یا خسارت بیمه.
+* نقش در آمار بیزی (به‌عنوان توزیع مزدوج پیشین برای دقت توزیع نرمال).
 
-**Example:** Customers arrive at a store according to a Poisson process with an average rate of $\lambda = 2$ customers per minute. What is the probability that we have to wait between 1 and 3 minutes for the 5th customer to arrive?
+**مثال:** مشتریان طبق فرایند پواسون با نرخ میانگین $\lambda = 2$ مشتری در دقیقه به فروشگاه می‌آیند. احتمال اینکه بین ۱ تا ۳ دقیقه برای ورود مشتری پنجم منتظر بمانیم چقدر است؟
 
-The waiting time $T_5$ for the 5th customer follows a Gamma distribution with shape $k=5$ and rate $\lambda=2$. So $T_5 \sim Gamma(k=5, \lambda=2)$.
+زمان انتظار $T_5$ برای مشتری پنجم توزیع گاما با شکل $k=5$ و نرخ $\lambda=2$ دارد. پس $T_5 \sim Gamma(k=5, \lambda=2)$.
 
-**Python Implementation (`scipy.stats.gamma`):**
+**پیاده‌سازی پایتون (`scipy.stats.gamma`):**
 
-`scipy.stats.gamma` uses `a` for the shape parameter ($k$) and `scale` for the scale parameter ($\theta = 1/\lambda$). It also has an optional `loc` parameter (default 0).
+`scipy.stats.gamma` از `a` برای پارامتر شکل ($k$) و `scale` برای پارامتر مقیاس ($\theta = 1/\lambda$) استفاده می‌کند. پارامتر اختیاری `loc` نیز دارد (پیش‌فرض ۰).
 
 ```{code-cell} ipython3
 # Define parameters for the customer arrival example
@@ -596,49 +596,49 @@ plt.ylim(bottom=0)
 plt.show()
 ```
 
-## 5. Beta Distribution
+## ۵. توزیع بتا (Beta)
 
-The Beta distribution is defined on the interval $[0, 1]$, making it ideal for modeling probabilities, proportions, or percentages. Its shape is highly flexible, controlled by two positive shape parameters, $\alpha$ and $\beta$.
+توزیع بتا روی بازهٔ $[0, 1]$ تعریف شده و برای مدل‌سازی احتمال‌ها، نسبت‌ها یا درصدها ایده‌آل است. شکل آن بسیار انعطاف‌پذیر است و با دو پارامتر شکل مثبت $\alpha$ و $\beta$ کنترل می‌شود.
 
-**Definition:** A random variable $X$ follows a Beta distribution with shape parameters $\alpha > 0$ and $\beta > 0$, denoted $X \sim Beta(\alpha, \beta)$, if its PDF involves the Beta function $B(\alpha, \beta)$.
+**تعریف:** متغیر تصادفی $X$ با پارامترهای شکل $\alpha > 0$ و $\beta > 0$ توزیع بتا دارد، با نماد $X \sim Beta(\alpha, \beta)$، اگر PDF آن شامل تابع بتا $B(\alpha, \beta)$ باشد.
 
-The Beta function is defined as $B(\alpha, \beta) = \int_0^1 t^{\alpha-1} (1-t)^{\beta-1} dt = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$.
+تابع بتا به‌صورت $B(\alpha, \beta) = \int_0^1 t^{\alpha-1} (1-t)^{\beta-1} dt = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$ تعریف می‌شود.
 
-**PDF (Probability Density Function):**
+**PDF (تابع چگالی احتمال):**
 $$
 f(x; \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1} = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1} (1-x)^{\beta-1}
 $$
-for $0 \le x \le 1$.
+برای $0 \le x \le 1$.
 
-**CDF (Cumulative Distribution Function):**
-The CDF is the regularized incomplete beta function, $I_x(\alpha, \beta)$. It does not have a simple closed form but is computed numerically.
+**CDF (تابع توزیع تجمعی):**
+CDF تابع بتا ناقص منظم‌شده $I_x(\alpha, \beta)$ است. بیان بستهٔ ساده‌ای ندارد اما به‌صورت عددی محاسبه می‌شود.
 
-**Parameters:**
-* $\alpha$: First positive shape parameter.
-* $\beta$: Second positive shape parameter.
-The shapes can vary greatly depending on the values of $\alpha$ and $\beta$:
-* $\alpha = 1, \beta = 1$: Uniform distribution on $[0, 1]$.
-* $\alpha > 1, \beta > 1$: Unimodal (bell-shaped, but can be skewed).
-* $\alpha < 1, \beta < 1$: U-shaped (higher probability near 0 and 1).
-* $\alpha = 1, \beta > 1$: Strictly decreasing.
-* $\alpha > 1, \beta = 1$: Strictly increasing.
-* $\alpha = \beta$: Symmetric around 0.5.
+**پارامترها:**
+* $\alpha$: پارامتر شکل اول.
+* $\beta$: پارامتر شکل دوم.
+شکل‌ها بسته به مقادیر $\alpha$ و $\beta$ بسیار متفاوت‌اند:
+* $\alpha = 1, \beta = 1$: توزیع یکنوا روی $[0, 1]$.
+* $\alpha > 1, \beta > 1$: تک‌مدی (زنگوله‌ای، اما ممکن است چوله باشد).
+* $\alpha < 1, \beta < 1$: U-شکل (احتمال بیشتر نزدیک ۰ و ۱).
+* $\alpha = 1, \beta > 1$: به‌طور یکنوا نزولی.
+* $\alpha > 1, \beta = 1$: به‌طور یکنوا صعودی.
+* $\alpha = \beta$: متقارن حول ۰٫۵.
 
-**Expected Value and Variance:**
+**امید ریاضی و واریانس:**
 * $E[X] = \frac{\alpha}{\alpha + \beta}$
 * $Var(X) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}$
 
-**Applications:**
-* Modeling probabilities or proportions (e.g., click-through rate of an ad, percentage of defective items in a batch).
-* Representing uncertainty about a probability value in Bayesian inference (often used as a prior distribution for the parameter of a Binomial/Bernoulli distribution).
-* Project management (PERT analysis).
-* Order statistics.
+**کاربردها:**
+* مدل‌سازی احتمال‌ها یا نسبت‌ها (مثلاً نرخ کلیک تبلیغ، درصد اقلام معیوب در دسته).
+* نمایش عدم‌قطعیت دربارهٔ مقدار احتمال در استنتاج بیزی (اغلب به‌عنوان توزیع پیشین برای پارامتر دوجمله‌ای/Bernoulli).
+* مدیریت پروژه (تحلیل PERT).
+* آماره‌های ترتیبی.
 
-**Example:** Suppose we are modeling the click-through rate (CTR) of a new website banner ad. Based on prior experience with similar ads, we model the CTR ($p$) using a Beta distribution with $\alpha = 2$ and $\beta = 8$. This suggests a CTR that is likely low (since $\beta > \alpha$), centered around $E[p] = 2/(2+8) = 0.2$. What is the probability that the CTR is between 0.1 and 0.3?
+**مثال:** فرض کنید نرخ کلیک (CTR) بنر تبلیغاتی وب‌سایت جدید را مدل می‌کنیم. بر اساس تجربهٔ قبلی با تبلیغات مشابه، CTR ($p$) را با توزیع بتا با $\alpha = 2$ و $\beta = 8$ مدل می‌کنیم. این CTR احتمالاً پایین را پیشنهاد می‌کند (چون $\beta > \alpha$)، متمرکز حول $E[p] = 2/(2+8) = 0.2$. احتمال اینکه CTR بین ۰٫۱ و ۰٫۳ باشد چقدر است؟
 
-**Python Implementation (`scipy.stats.beta`):**
+**پیاده‌سازی پایتون (`scipy.stats.beta`):**
 
-`scipy.stats.beta` uses `a` for the first shape parameter ($\alpha$) and `b` for the second shape parameter ($\beta$). It also has optional `loc` and `scale` parameters to transform the distribution from $[0, 1]$ to $[loc, loc+scale]$, but the default is the standard $[0, 1]$ interval.
+`scipy.stats.beta` از `a` برای پارامتر شکل اول ($\alpha$) و `b` برای پارامتر شکل دوم ($\beta$) استفاده می‌کند. پارامترهای اختیاری `loc` و `scale` نیز دارد تا توزیع را از $[0, 1]$ به $[loc, loc+scale]$ تبدیل کند، اما پیش‌فرض بازهٔ استاندارد $[0, 1]$ است.
 
 ```{code-cell} ipython3
 # Define parameters for the CTR example
@@ -721,51 +721,51 @@ plt.grid(True)
 plt.show()
 ```
 
-## 6. Relationships Between Distributions
+## ۶. روابط بین توزیع‌ها
 
-It's useful to be aware of the connections between these common distributions:
+آگاهی از ارتباط بین این توزیع‌های رایج مفید است:
 
-1.  **Exponential and Gamma:** As mentioned, the Exponential distribution is a special case of the Gamma distribution where the shape parameter $k=1$.
+1.  **نمایی و گاما:** همان‌طور که گفته شد، توزیع نمایی حالت ویژهٔ توزیع گاما با پارامتر شکل $k=1$ است.
     * $Exp(\lambda) \equiv Gamma(k=1, \lambda)$
-    * The sum of $k$ independent $Exp(\lambda)$ variables follows a $Gamma(k, \lambda)$ distribution.
+    * مجموع $k$ متغیر مستقل $Exp(\lambda)$ توزیع $Gamma(k, \lambda)$ را دنبال می‌کند.
 
-2.  **Uniform and Beta:** The standard Uniform distribution $U(0, 1)$ is a special case of the Beta distribution where $\alpha = 1$ and $\beta = 1$.
+2.  **یکنوا و بتا:** توزیع یکنوای استاندارد $U(0, 1)$ حالت ویژهٔ توزیع بتا با $\alpha = 1$ و $\beta = 1$ است.
     * $U(0, 1) \equiv Beta(\alpha=1, \beta=1)$
 
-3.  **Normal Approximation (via Central Limit Theorem):** While not a direct equivalence, the Normal distribution can often approximate other distributions under certain conditions, most notably:
-    * **Binomial Approximation:** A Binomial($n, p$) distribution can be approximated by $N(np, np(1-p))$ when $n$ is large and $p$ is not too close to 0 or 1 (rules of thumb like $np > 5$ and $n(1-p) > 5$ are common).
-    * **Poisson Approximation:** A Poisson($\lambda$) distribution can be approximated by $N(\lambda, \lambda)$ when $\lambda$ is large (e.g., $\lambda > 10$ or $20$).
-    * **Gamma Approximation:** A Gamma($k, \lambda$) distribution becomes more symmetric and bell-shaped (approaching Normal) as the shape parameter $k$ increases.
-    (We will explore the Central Limit Theorem in detail in Chapter 15).
+3.  **تقریب نرمال (از طریق قضیهٔ حد مرکزی):** اگرچه معادل مستقیم نیست، توزیع نرمال اغلب می‌تواند توزیع‌های دیگر را در شرایط معین تقریب بزند، به‌ویژه:
+    * **تقریب دوجمله‌ای:** توزیع دوجمله‌ای($n, p$) را می‌توان با $N(np, np(1-p))$ تقریب زد وقتی $n$ بزرگ و $p$ نه خیلی نزدیک ۰ یا ۱ باشد (قواعد عملی مانند $np > 5$ و $n(1-p) > 5$ رایج است).
+    * **تقریب پواسون:** توزیع پواسون($\lambda$) را می‌توان با $N(\lambda, \lambda)$ تقریب زد وقتی $\lambda$ بزرگ باشد (مثلاً $\lambda > 10$ یا $20$).
+    * **تقریب گاما:** توزیع گاما($k, \lambda$) با افزایش پارامتر شکل $k$ متقارن‌تر و زنگوله‌ای‌تر می‌شود (به نرمال نزدیک می‌شود).
+    (قضیهٔ حد مرکزی را در فصل ۱۵ به‌تفصیل بررسی می‌کنیم).
 
-4.  **Chi-Squared Distribution:** The Chi-Squared distribution with $k$ degrees of freedom, $\chi^2(k)$, is a special case of the Gamma distribution: $\chi^2(k) \equiv Gamma(k/2, \text{rate}=1/2)$ or $Gamma(\text{shape}=k/2, \text{scale}=2)$. It arises frequently in statistical testing.
+4.  **توزیع خی‌دو:** توزیع خی‌دو با $k$ درجهٔ آزادی، $\chi^2(k)$، حالت ویژهٔ توزیع گاما است: $\chi^2(k) \equiv Gamma(k/2, \text{rate}=1/2)$ یا $Gamma(\text{shape}=k/2, \text{scale}=2)$. در آزمون‌های آماری مکرراً ظاهر می‌شود.
 
-Understanding these relationships helps build intuition and allows leveraging properties from one distribution to understand another.
+درک این روابط به ساخت شهود کمک می‌کند و امکان بهره‌برداری از ویژگی‌های یک توزیع برای درک دیگری را می‌دهد.
 
 +++
 
-## 7. Working with `scipy.stats` Continuous Distributions
+## ۷. کار با توزیع‌های پیوسته `scipy.stats`
 
-The `scipy.stats` module provides a consistent interface for working with these (and many other) distributions. For a continuous distribution object `dist` created from `stats.<distribution_name>()`:
+ماژول `scipy.stats` رابط یکنواختی برای کار با این (و بسیاری توزیع‌های دیگر) فراهم می‌کند. برای شیء توزیع پیوسته `dist` ساخته‌شده از `stats.<distribution_name>()`:
 
-* `dist.pdf(x)`: Probability Density Function at value(s) `x`.
-* `dist.cdf(x)`: Cumulative Distribution Function up to value(s) `x`, $P(X \le x)$.
-* `dist.sf(x)`: Survival Function, $1 - CDF(x)$, $P(X > x)$.
-* `dist.ppf(q)`: Percent Point Function (Inverse CDF, Quantile Function). Finds $x$ such that $P(X \le x) = q$.
-* `dist.isf(q)`: Inverse Survival Function. Finds $x$ such that $P(X > x) = q$.
-* `dist.rvs(size=n)`: Generates `n` random samples (variates) from the distribution.
-* `dist.mean()`: Returns the theoretical mean $E[X]$.
-* `dist.median()`: Returns the theoretical median (50th percentile).
-* `dist.var()`: Returns the theoretical variance $Var(X)$.
-* `dist.std()`: Returns the theoretical standard deviation $\sqrt{Var(X)}$.
-* `dist.stats(moments='mvsk')`: Returns mean ('m'), variance ('v'), skewness ('s'), kurtosis ('k').
+* `dist.pdf(x)`: تابع چگالی احتمال در مقدار(های) `x`.
+* `dist.cdf(x)`: تابع توزیع تجمعی تا مقدار(های) `x`، $P(X \le x)$.
+* `dist.sf(x)`: تابع بقا، $1 - CDF(x)$، $P(X > x)$.
+* `dist.ppf(q)`: تابع نقطهٔ صدک (وارون CDF، تابع کمیت). $x$ را می‌یابد به‌گونه‌ای که $P(X \le x) = q$.
+* `dist.isf(q)`: تابع بقای وارون. $x$ را می‌یابد به‌گونه‌ای که $P(X > x) = q$.
+* `dist.rvs(size=n)`: `n` نمونهٔ تصادفی (متغیر تصادفی) از توزیع تولید می‌کند.
+* `dist.mean()`: میانگین نظری $E[X]$ را برمی‌گرداند.
+* `dist.median()`: میانهٔ نظری (صدک ۵۰ام) را برمی‌گرداند.
+* `dist.var()`: واریانس نظری $Var(X)$ را برمی‌گرداند.
+* `dist.std()`: انحراف معیار نظری $\sqrt{Var(X)}$ را برمی‌گرداند.
+* `dist.stats(moments='mvsk')`: میانگین ('m')، واریانس ('v')، چولگی ('s')، کشیدگی ('k') را برمی‌گرداند.
 
-**Key Parameters:**
-* `loc`: Generally used for the location parameter (e.g., $a$ in Uniform, $\mu$ in Normal). Shifts the distribution.
-* `scale`: Generally used for the scale parameter (e.g., $b-a$ in Uniform, $1/\lambda$ in Exponential, $\sigma$ in Normal, $\theta=1/\lambda$ in Gamma). Stretches/compresses the distribution.
-* **Shape Parameters:** Distributions like Gamma (`a`) and Beta (`a`, `b`) have additional shape parameters specific to them.
+**پارامترهای کلیدی:**
+* `loc`: عموماً پارامتر مکان (مثلاً $a$ در یکنوا، $\mu$ در نرمال). توزیع را جابه‌جا می‌کند.
+* `scale`: عموماً پارامتر مقیاس (مثلاً $b-a$ در یکنوا، $1/\lambda$ در نمایی، $\sigma$ در نرمال، $\theta=1/\lambda$ در گاما). توزیع را می‌کشد/فشرده می‌کند.
+* **پارامترهای شکل:** توزیع‌هایی مانند گاما (`a`) و بتا (`a`، `b`) پارامترهای شکل اضافی مخصوص خود دارند.
 
-Always check the documentation (`help(stats.<distribution_name>)`) for the specific parameter names and definitions used by SciPy, as they might differ slightly from textbook notations (especially rate vs. scale).
+همیشه مستندات (`help(stats.<distribution_name>)`) را برای نام‌ها و تعاریف پارامترهای SciPy بررسی کنید، زیرا ممکن است کمی با نمادگذاری کتاب‌های درسی متفاوت باشند (به‌ویژه نرخ در برابر مقیاس).
 
 ```{code-cell} ipython3
 # %%
@@ -788,57 +788,57 @@ print(f"The central 95% interval for N({mu}, {sigma**2}) is [{lower_bound:.2f}, 
 print(f"Theoretical interval [mu - 1.96*sigma, mu + 1.96*sigma]: [{mu - 1.96*sigma:.2f}, {mu + 1.96*sigma:.2f}]")
 ```
 
-## Chapter Summary
+## خلاصهٔ فصل
 
-This chapter introduced five fundamental continuous probability distributions:
+این فصل پنج توزیع احتمال پیوستهٔ بنیادین را معرفی کرد:
 
-* **Uniform $U(a, b)$:** Equal probability over a fixed range $[a, b]$. Modeled using `stats.uniform(loc=a, scale=b-a)`.
-* **Exponential $Exp(\lambda)$:** Waiting time for a single event in a Poisson process; memoryless property. Modeled using `stats.expon(scale=1/lambda)`.
-* **Normal $N(\mu, \sigma^2)$:** Ubiquitous bell curve, central to statistics (CLT). Modeled using `stats.norm(loc=mu, scale=sigma)`.
-* **Gamma $Gamma(k, \lambda)$:** Flexible distribution for non-negative values; waiting time for $k$ events. Modeled using `stats.gamma(a=k, scale=1/lambda)`.
-* **Beta $Beta(\alpha, \beta)$:** Defined on $[0, 1]$, ideal for probabilities/proportions; very flexible shape. Modeled using `stats.beta(a=alpha, b=beta)`.
+* **یکنوا $U(a, b)$:** احتمال مساوی روی بازهٔ ثابت $[a, b]$. با `stats.uniform(loc=a, scale=b-a)` مدل می‌شود.
+* **نمایی $Exp(\lambda)$:** زمان انتظار برای یک رویداد در فرایند پواسون؛ خاصیت بی‌حافظه. با `stats.expon(scale=1/lambda)` مدل می‌شود.
+* **نرمال $N(\mu, \sigma^2)$:** منحنی زنگوله‌ای فراوان‌گیر، محوری در آمار (CLT). با `stats.norm(loc=mu, scale=sigma)` مدل می‌شود.
+* **گاما $Gamma(k, \lambda)$:** توزیع انعطاف‌پذیر برای مقادیر نامنفی؛ زمان انتظار برای $k$ رویداد. با `stats.gamma(a=k, scale=1/lambda)` مدل می‌شود.
+* **بتا $Beta(\alpha, \beta)$:** روی $[0, 1]$ تعریف شده، ایده‌آل برای احتمال‌ها/نسبت‌ها؛ شکل بسیار انعطاف‌پذیر. با `stats.beta(a=alpha, b=beta)` مدل می‌شود.
 
-We explored their PDFs, CDFs, parameters, moments (mean, variance), and typical applications. Crucially, we learned how to use the `scipy.stats` module to calculate probabilities, find percentiles, generate random samples, and visualize these distributions in Python. Understanding these common distributions provides a robust foundation for modeling a wide variety of continuous phenomena encountered in data analysis and probabilistic modeling.
-
-+++
-
-## Exercises
-
-1.  **Uniform Wait Time:** A bus is scheduled to arrive every 20 minutes starting at the hour (e.g., 6:00, 6:20, 6:40...). You arrive at a random time. Assume your arrival time relative to the scheduled bus departure is uniformly distributed over the 20-minute interval.
-    a. Define the random variable and the parameters of its distribution.
-    b. What is the probability you wait less than 5 minutes for the next bus?
-    c. What is the probability you wait between 10 and 15 minutes?
-    d. What is the expected waiting time? Use `scipy.stats.uniform`.
-
-2.  **Exponential Service Time:** The time it takes a bank teller to serve a customer follows an Exponential distribution with a mean service time of 3 minutes.
-    a. What is the rate parameter $\lambda$?
-    b. What is the probability a customer's service takes more than 5 minutes?
-    c. What is the probability a customer's service takes less than 2 minutes?
-    d. Given that a customer has already been served for 4 minutes, what is the probability their service will take at least 2 more minutes? (Hint: Memoryless property). Use `scipy.stats.expon`.
-
-3.  **Normal Heights:** Assume adult male heights in a certain country are Normally distributed with a mean of 175 cm and a standard deviation of 7 cm. $X \sim N(175, 7^2)$.
-    a. What percentage of men are taller than 185 cm?
-    b. What percentage of men have heights between 170 cm and 180 cm?
-    c. What height corresponds to the 90th percentile?
-    d. Generate 5000 random samples from this distribution and plot a histogram. Overlay the theoretical PDF. Use `scipy.stats.norm`.
-
-4.  **Gamma Repair Time:** The time (in hours) to repair a machine follows a Gamma distribution with shape parameter $k=3$ and scale parameter $\theta=2$ (rate $\lambda=0.5$).
-    a. What is the expected repair time and the standard deviation?
-    b. What is the probability that the repair takes less than 5 hours?
-    c. What is the probability that the repair takes more than 10 hours? Use `scipy.stats.gamma`.
-
-5.  **Beta Proportion:** A chemical process yields a product whose proportion of impurity $P$ is modeled by a $Beta(2, 5)$ distribution.
-    a. What is the expected proportion of impurity?
-    b. What is the probability that the impurity proportion is less than 0.1?
-    c. What is the probability that the impurity proportion is greater than 0.5?
-    d. Plot the PDF of this distribution. Use `scipy.stats.beta`.
+PDF، CDF، پارامترها، گشتاورها (میانگین، واریانس) و کاربردهای معمول آن‌ها را بررسی کردیم. مهم‌تر از همه آموختیم چگونه با ماژول `scipy.stats` احتمال‌ها را محاسبه کنیم، صدک‌ها را بیابیم، نمونهٔ تصادفی تولید کنیم و این توزیع‌ها را در پایتون مصور کنیم. درک این توزیع‌های رایج پایه‌ای محکم برای مدل‌سازی انواع گسترده‌ای از پدیده‌های پیوسته در تحلیل داده و مدل‌سازی احتمالاتی فراهم می‌کند.
 
 +++
 
-Example Solution Structure for Exercise 1 (Students would fill this in)
+## تمرین‌ها
+
+1.  **زمان انتظار یکنوا:** اتوبوسی هر ۲۰ دقیقه از سر ساعت حرکت می‌کند (مثلاً ۶:۰۰، ۶:۲۰، ۶:۴۰...). در زمان تصادفی می‌رسید. فرض کنید زمان رسیدن شما نسبت به حرکت برنامه‌ریزی‌شدهٔ اتوبوس یکنوا روی بازهٔ ۲۰ دقیقه‌ای توزیع شده است.
+    a. متغیر تصادفی و پارامترهای توزیع آن را تعریف کنید.
+    b. احتمال اینکه کمتر از ۵ دقیقه برای اتوبوس بعدی منتظر بمانید چقدر است؟
+    c. احتمال انتظار بین ۱۰ تا ۱۵ دقیقه چقدر است؟
+    d. زمان انتظار مورد انتظار چقدر است؟ از `scipy.stats.uniform` استفاده کنید.
+
+2.  **زمان خدمت نمایی:** زمان خدمت‌دهی صندوقدار بانک توزیع نمایی با میانگین ۳ دقیقه دارد.
+    a. پارامتر نرخ $\lambda$ چقدر است؟
+    b. احتمال اینکه خدمت مشتری بیش از ۵ دقیقه طول بکشد چقدر است؟
+    c. احتمال اینکه خدمت کمتر از ۲ دقیقه طول بکشد چقدر است؟
+    d. با فرض اینکه مشتری ۴ دقیقه خدمت گرفته، احتمال اینکه حداقل ۲ دقیقهٔ دیگر طول بکشد چقدر است؟ (راهنما: خاصیت بی‌حافظه). از `scipy.stats.expon` استفاده کنید.
+
+3.  **قد نرمال:** فرض کنید قد مردان بالغ در کشوری خاص به‌صورت نرمال با میانگین ۱۷۵ سانتی‌متر و انحراف معیار ۷ سانتی‌متر توزیع شده است. $X \sim N(175, 7^2)$.
+    a. چند درصد مردان قدبلندتر از ۱۸۵ سانتی‌متر هستند؟
+    b. چند درصد مردان قدی بین ۱۷۰ تا ۱۸۰ سانتی‌متر دارند؟
+    c. چه قدی صدک ۹۰ام را مشخص می‌کند؟
+    d. ۵۰۰۰ نمونهٔ تصادفی از این توزیع تولید کنید و هیستوگرام رسم کنید. PDF نظری را روی آن قرار دهید. از `scipy.stats.norm` استفاده کنید.
+
+4.  **زمان تعمیر گاما:** زمان تعمیر دستگاه (بر حسب ساعت) توزیع گاما با پارامتر شکل $k=3$ و پارامتر مقیاس $\theta=2$ (نرخ $\lambda=0.5$) دارد.
+    a. زمان تعمیر مورد انتظار و انحراف معیار چقدر است؟
+    b. احتمال اینکه تعمیر کمتر از ۵ ساعت طول بکشد چقدر است؟
+    c. احتمال اینکه تعمیر بیش از ۱۰ ساعت طول بکشد چقدر است؟ از `scipy.stats.gamma` استفاده کنید.
+
+5.  **نسبت بتا:** فرایند شیمیایی محصولی تولید می‌کند که نسبت ناخالصی $P$ آن با توزیع $Beta(2, 5)$ مدل می‌شود.
+    a. نسبت ناخالصی مورد انتظار چقدر است؟
+    b. احتمال اینکه نسبت ناخالصی کمتر از ۰٫۱ باشد چقدر است؟
+    c. احتمال اینکه نسبت ناخالصی بیش از ۰٫۵ باشد چقدر است؟
+    d. PDF این توزیع را رسم کنید. از `scipy.stats.beta` استفاده کنید.
+
++++
+
+ساختار نمونهٔ پاسخ برای تمرین ۱ (دانشجویان این را تکمیل می‌کنند)
 
 ```{code-cell} ipython3
-# Exercise 1: Uniform Wait Time
+# تمرین ۱: زمان انتظار یکنواخت
 wait_interval_max = 20
 uniform_wait = stats.uniform(loc=0, scale=wait_interval_max)
 ```
@@ -867,4 +867,4 @@ expected_wait = uniform_wait.mean()
 print(f"d. E[X] = {expected_wait:.2f} minutes")
 ```
 
-(Students would add code for Exercises 2-5 similarly)
+(دانشجویان به‌همین شکل کد تمرین‌های ۲ تا ۵ را اضافه می‌کنند)

@@ -13,72 +13,73 @@ downloads:
   - file: notebooks/chapter_03.ipynb
 ---
 
-# Chapter 3: Counting Techniques: Permutations and Combinations
+# فصل ۳: روش‌های شمارش: جایگشت‌ها و ترکیب‌ها
 
-Welcome to Chapter 3! In the previous chapter, we established the fundamental language of probability using sets and explored the basic axioms and rules. Now, we dive into a crucial skill for calculating probabilities, especially when dealing with equally likely outcomes: **counting**.
+به فصل ۳ خوش آمدید! در فصل قبل، زبان بنیادی احتمال را با مجموعه‌ها استوار کردیم و اصول و قواعد پایه را بررسی کردیم. اکنون به مهارتی حیاتی برای محاسبهٔ احتمال، به‌ویژه وقتی پیامدها هم‌احتمال‌اند، می‌پردازیم: **شمارش**.
 
-Often, calculating a probability boils down to answering two questions:
-1.  How many total possible outcomes are there in our sample space?
-2.  How many of those outcomes correspond to the event we're interested in?
+اغلب محاسبهٔ احتمال به پاسخ دو سؤال خلاصه می‌شود:
+1.  در فضای نمونه چند پیامد ممکن در کل وجود دارد؟
+2.  چند پیامد از آن‌ها با رویداد مورد نظر ما مطابقت دارند؟
 
-If all outcomes are equally likely, the probability is simply the ratio of these two counts. While this sounds simple, counting the number of possibilities can become complex very quickly. Imagine trying to list every possible 5-card poker hand!
+اگر همهٔ پیامدها هم‌احتمال باشند، احتمال به‌سادگی نسبت این دو شمارش است. اگرچه ساده به نظر می‌رسد، شمارش امکانات می‌تواند خیلی سریع پیچیده شود. تصور کنید بخواهید هر دست پنج‌کارتی ممکن در پوکر را فهرست کنید!
 
-This chapter introduces systematic methods for counting outcomes: the Multiplication Principle, Permutations, and Combinations. We'll see how these techniques allow us to tackle problems that would be tedious or impossible to solve by simple enumeration. We'll also use Python's `math` and `scipy.special` libraries to perform these calculations efficiently.
+این فصل روش‌های نظام‌مند شمارش پیامدها را معرفی می‌کند: اصل ضرب، جایگشت‌ها و ترکیب‌ها. خواهیم دید این روش‌ها چگونه مسائلی را حل می‌کنند که با شمارش ساده خسته‌کننده یا غیرممکن می‌شوند. همچنین از کتابخانه‌های `math` و `scipy.special` پایتون برای انجام کارآمد این محاسبات استفاده می‌کنیم.
 
-Let's start counting!
+بیایید شمارش را شروع کنیم!
 
-:::{admonition} Understanding "without repetition" vs "with repetition"
+:::{admonition} درک «بدون تکرار» در برابر «با تکرار»
 :class: note
 
-Throughout this chapter, you'll encounter the terms **"without repetition"** and **"with repetition"**. These phrases often confuse students because they sound like they describe **sampling methods** (like drawing balls from a bag with or without replacement), but they actually describe something different: **whether objects can occupy multiple positions**.
+در این فصل با عبارات **«بدون تکرار»** و **«با تکرار»** روبه‌رو می‌شوید. این عبارات اغلب گیج‌کننده‌اند چون انگار **روش‌های نمونه‌گیری** (مثل کشیدن توپ از کیسه با یا بدون بازگرداندن) را توصیف می‌کنند، اما در واقع چیز دیگری را بیان می‌کنند: **آیا اشیاء می‌توانند چند جایگاه را اشغال کنند**.
 
-**What "without repetition" actually means:**
-- Each object can only occupy **one position** in the arrangement or selection
-- You don't use the same object multiple times
-- Think: "each object appears at most once"
+**«بدون تکرار» واقعاً یعنی چه:**
+- هر شیء فقط می‌تواند **یک جایگاه** در چینش یا انتخاب اشغال کند
+- همان شیء را چند بار استفاده نمی‌کنید
+- به‌اختصار: «هر شیء حداکثر یک بار ظاهر می‌شود»
 
-**What "with repetition" actually means:**
-- The same object (or type of object) can occupy **multiple positions**
-- Objects can be reused
-- Think: "objects can appear more than once"
+**«با تکرار» واقعاً یعنی چه:**
+- همان شیء (یا نوع شیء) می‌تواند **چند جایگاه** را اشغال کند
+- اشیاء قابل استفادهٔ مجدد هستند
+- به‌اختصار: «اشیاء می‌توانند بیش از یک بار ظاهر شوند»
 
-**Common confusion to avoid:**
-- ❌ "Without repetition" does NOT mean "we're running out of objects to choose from"
-- ❌ It's NOT the same as "sampling without replacement" from probability
-- ✓ It means "each object is used in at most one position"
+**سردرگمی رایجی که باید از آن پرهیز کنید:**
+- ❌ «بدون تکرار» به معنای «اشیاء برای انتخاب تمام می‌شوند» *نیست*
+- ❌ همان «نمونه‌گیری بدون بازگرداندن» در احتمال *نیست*
+- ✓ یعنی «هر شیء در حداکثر یک جایگاه استفاده می‌شود»
 
-**Simple examples:**
-- **Without repetition:** Awarding 3 medals to 8 runners — each runner gets at most one medal (can't give Gold AND Silver to same person)
-- **With repetition:** A license plate with 3 letters — the same letter can appear multiple times (like AAA)
-- **Without repetition:** Choosing 3 people for a committee from 10 — each person is either on the committee or not
-- **With repetition:** Choosing 3 donuts from 4 flavors — you can choose chocolate 3 times
+**مثال‌های ساده:**
+- **بدون تکرار:** اعطای ۳ مدال به ۸ دونده — هر دونده حداکثر یک مدال می‌گیرد (نمی‌توان طلا *و* نقره را به یک نفر داد)
+- **با تکرار:** پلاک با ۳ حرف — همان حرف می‌تواند چند بار بیاید (مثل AAA)
+- **بدون تکرار:** انتخاب ۳ نفر برای کمیته از ۱۰ نفر — هر نفر یا در کمیته است یا نیست
+- **با تکرار:** انتخاب ۳ دونات از ۴ طعم — می‌توانید ۳ بار شکلاتی بگیرید
 
-The sections below will show how this concept applies specifically to permutations and combinations, but the core idea remains the same: it's about whether objects can occupy multiple positions.
+بخش‌های بعد نشان می‌دهند این مفهوم چگونه به‌طور خاص در جایگشت‌ها و ترکیب‌ها اعمال می‌شود، اما ایدهٔ اصلی ثابت می‌ماند: آیا اشیاء می‌توانند چند جایگاه را اشغال کنند.
+
 :::
 
 +++
 
-## The Multiplication Principle
+## اصل ضرب
 
-The most fundamental counting technique is the **Multiplication Principle** (also known as the rule of product).
+بنیادی‌ترین روش شمارش **اصل ضرب** (که قاعدهٔ حاصل‌ضرب نیز نامیده می‌شود) است.
 
-**Principle:** If a procedure can be broken down into a sequence of $k$ steps, and
-* there are $n_1$ ways to perform the first step,
-* there are $n_2$ ways to perform the second step (regardless of the outcome of the first step),
+**اصل:** اگر یک رویه را بتوان به دنباله‌ای از $k$ گام شکست و
+* $n_1$ روش برای انجام گام اول وجود داشته باشد،
+* $n_2$ روش برای گام دوم (صرف‌نظر از نتیجهٔ گام اول) وجود داشته باشد،
 * ...
-* there are $n_k$ ways to perform the $k$-th step (regardless of the outcomes of the previous steps),
+* $n_k$ روش برای گام $k$-ام (صرف‌نظر از نتایج گام‌های قبلی) وجود داشته باشد،
 
-then the total number of ways to perform the entire procedure is the product $n_1 \times n_2 \times \dots \times n_k$.
+آنگاه تعداد کل روش‌های انجام کل رویه برابر حاصل‌ضرب $n_1 \times n_2 \times \dots \times n_k$ است.
 
-**Example:** A restaurant offers a fixed-price dinner menu with 3 choices for starters, 4 choices for the main course, and 2 choices for dessert. How many different meal combinations are possible?
+**مثال:** رستورانی منوی شام با قیمت ثابت دارد: ۳ انتخاب برای پیش‌غذا، ۴ انتخاب برای غذای اصلی و ۲ انتخاب برای دسر. چند ترکیب غذایی مختلف ممکن است؟
 
-* Step 1: Choose a starter ($n_1 = 3$ ways)
-* Step 2: Choose a main course ($n_2 = 4$ ways)
-* Step 3: Choose a dessert ($n_3 = 2$ ways)
+* گام ۱: انتخاب پیش‌غذا ($n_1 = 3$ روش)
+* گام ۲: انتخاب غذای اصلی ($n_2 = 4$ روش)
+* گام ۳: انتخاب دسر ($n_3 = 2$ روش)
 
-According to the Multiplication Principle, the total number of different meal combinations is $3 \times 4 \times 2$.
+بر اساس اصل ضرب، تعداد کل ترکیب‌های غذایی $3 \times 4 \times 2$ است.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Using Python for the meal combination example
 num_starters = 3
@@ -90,74 +91,74 @@ print(f"Total number of meal combinations: {total_combinations}")
 ```
 :::
 
-This principle is the foundation upon which permutations and combinations are built.
+این اصل پایه‌ای است که جایگشت‌ها و ترکیب‌ها بر آن بنا شده‌اند.
 
 +++
 
-## Permutations: When Order Matters
+## جایگشت‌ها: وقتی ترتیب مهم است
 
-A **permutation** is an arrangement of objects in a specific order. Consider arranging books on a shelf – swapping two books creates a different arrangement.
+**جایگشت** چینشی از اشیاء در ترتیب مشخص است. چینش کتاب‌ها روی قفسه را در نظر بگیرید — جابه‌جایی دو کتاب چینش متفاوتی می‌سازد.
 
-### Permutations without Repetition
+### جایگشت بدون تکرار
 
-This is the most common type of permutation. It involves arranging $k$ distinct objects chosen from a set of $n$ distinct objects, where order matters and objects cannot be reused.
+رایج‌ترین نوع جایگشت است. $k$ شیء متمایز از مجموعه‌ای از $n$ شیء متمایز را می‌چیند، جایی که ترتیب مهم است و اشیاء قابل استفادهٔ مجدد نیستند.
 
-:::{admonition} Applying "without repetition" to permutations
+:::{admonition} اعمال «بدون تکرار» در جایگشت‌ها
 :class: tip
 
-Recall from the chapter introduction: "without repetition" means each object occupies at most one position.
+از مقدمهٔ فصل به یاد آورید: «بدون تکرار» یعنی هر شیء حداکثر یک جایگاه را اشغال می‌کند.
 
-**In permutations, this means:**
-- Each object can only be used once in the arrangement
-- For medals: each runner gets at most one medal (can't give Gold AND Silver to the same person)
-- For arranging books: each book appears only once on the shelf
+**در جایگشت‌ها این یعنی:**
+- هر شیء فقط یک بار در چینش استفاده می‌شود
+- برای مدال‌ها: هر دونده حداکثر یک مدال می‌گیرد (نمی‌توان طلا *و* نقره را به یک نفر داد)
+- برای چینش کتاب‌ها: هر کتاب فقط یک بار روی قفسه است
 
-**Key point:** Since order matters in permutations, Runner A getting Gold ≠ Runner A getting Silver. We're counting different **arrangements**, where both the identity AND position matter.
+**نکتهٔ کلیدی:** چون در جایگشت‌ها ترتیب مهم است، طلای دوندهٔ A ≠ نقرهٔ دوندهٔ A. **چینش‌های** مختلف را می‌شماریم که هم هویت و هم جایگاه اهمیت دارند.
 :::
 
-#### Building Intuition: The Multiplication Principle Approach
+#### ساخت شهود: رویکرد اصل ضرب
 
-Before we introduce the general formula, let's understand permutations through the **Multiplication Principle** we learned earlier.
+پیش از معرفی فرمول عمومی، جایگشت‌ها را از طریق **اصل ضرب** که قبلاً آموختیم درک کنیم.
 
-**Example:** In a race with 8 runners, how many different ways can the 1st, 2nd, and 3rd place medals be awarded?
+**مثال:** در مسابقه‌ای با ۸ دونده، چند روش مختلف برای اعطای مدال‌های رتبهٔ ۱، ۲ و ۳ وجود دارد؟
 
-Let's think through this step-by-step:
-- **Step 1:** Choose who gets the Gold medal (1st place): 8 choices
-- **Step 2:** Choose who gets the Silver medal (2nd place): 7 choices (can't give it to the Gold winner)
-- **Step 3:** Choose who gets the Bronze medal (3rd place): 6 choices (can't give it to Gold or Silver winners)
+گام‌به‌گام فکر کنیم:
+- **گام ۱:** انتخاب گیرندهٔ مدال طلا (رتبهٔ ۱): ۸ انتخاب
+- **گام ۲:** انتخاب گیرندهٔ مدال نقره (رتبهٔ ۲): ۷ انتخاب (نمی‌توان به برندهٔ طلا داد)
+- **گام ۳:** انتخاب گیرندهٔ مدال برنز (رتبهٔ ۳): ۶ انتخاب (نمی‌توان به برندگان طلا یا نقره داد)
 
-By the Multiplication Principle:
+بر اساس اصل ضرب:
 $$\text{Total ways} = 8 \times 7 \times 6 = 336$$
 
-This is a **permutation** problem because:
-1. Order matters (Gold ≠ Silver ≠ Bronze)
-2. We can't reuse runners (each runner gets at most one medal)
+این مسئلهٔ **جایگشت** است زیرا:
+1. ترتیب مهم است (طلا ≠ نقره ≠ برنز)
+2. نمی‌توان دونده‌ها را دوباره استفاده کرد (هر دونده حداکثر یک مدال)
 
-**Key insight:** Notice the pattern:
-- We start with $n = 8$ runners
-- We choose $k = 3$ medals
-- The calculation is: $8 \times 7 \times 6$ — we multiply $k$ consecutive descending integers starting from $n$
+**بینش کلیدی:** الگو را توجه کنید:
+- با $n = 8$ دونده شروع می‌کنیم
+- $k = 3$ مدال انتخاب می‌کنیم
+- محاسبه: $8 \times 7 \times 6$ — $k$ عدد صحیح متوالی نزولی از $n$ را در هم ضرب می‌کنیم
 
-#### The General Formula
+#### فرمول عمومی
 
-This multiplication pattern holds for all permutation problems. The number of permutations of $n$ distinct objects taken $k$ at a time is denoted by $P(n, k)$, $_nP_k$, or $P^n_k$ and is calculated as:
+این الگوی ضرب برای همهٔ مسائل جایگشت برقرار است. تعداد جایگشت‌های $n$ شیء متمایز که $k$ تا انتخاب شوند با $P(n, k)$، $_nP_k$ یا $P^n_k$ نمایش داده می‌شود و چنین محاسبه می‌شود:
 
 $ P(n, k) = n \times (n-1) \times (n-2) \times \dots \times (n-k+1) $
 
-This can be written more compactly using factorials:
+فشرده‌تر با فاکتوریل:
 
 $ P(n, k) = \frac{n!}{(n-k)!} $
 
-where $n!$ (read "n factorial") is the product of all positive integers up to $n$ (i.e., $n! = n \times (n-1) \times \dots \times 2 \times 1$), and $0! = 1$ by definition.
+که $n!$ (خوانده می‌شود «فاکتوریل n») حاصل‌ضرب همهٔ اعداد صحیح مثبت تا $n$ است (یعنی $n! = n \times (n-1) \times \dots \times 2 \times 1$)، و به‌تعریف $0! = 1$.
 
-**Why does this work?** The factorial formula gives us:
+**چرا درست است؟** فرمول فاکتوریل به ما می‌دهد:
 $$P(8, 3) = \frac{8!}{(8-3)!} = \frac{8!}{5!} = \frac{8 \times 7 \times 6 \times \cancel{5 \times 4 \times 3 \times 2 \times 1}}{\cancel{5 \times 4 \times 3 \times 2 \times 1}} = 8 \times 7 \times 6$$
 
-The $(n-k)!$ in the denominator cancels out the unwanted terms, leaving us with exactly $k$ consecutive descending integers starting from $n$.
+$(n-k)!$ در مخرج جملات ناخواسته را حذف می‌کند و دقیقاً $k$ عدد صحیح متوالی نزولی از $n$ باقی می‌ماند.
 
-Let's calculate this using Python.
+بیایید با پایتون محاسبه کنیم.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 import math
 from scipy.special import perm
@@ -180,127 +181,128 @@ print(f"Direct calculation: {p_8_3_direct}")
 ```
 :::
 
-**Special Case:** The number of ways to arrange all $n$ distinct objects is $P(n, n) = \frac{n!}{(n-n)!} = \frac{n!}{0!} = n!$. For example, there are $3! = 3 \times 2 \times 1 = 6$ ways to arrange the letters A, B, C: (ABC, ACB, BAC, BCA, CAB, CBA).
+**حالت ویژه:** تعداد روش‌های چینش همهٔ $n$ شیء متمایز برابر $P(n, n) = \frac{n!}{(n-n)!} = \frac{n!}{0!} = n!$ است. مثلاً $3! = 3 \times 2 \times 1 = 6$ روش برای چینش حروف A، B، C وجود دارد: (ABC, ACB, BAC, BCA, CAB, CBA).
 
 +++
 
-### Permutations with Repetition (Multinomial Coefficients)
+(permutations-of-identical-objects)=
+### جایگشت با تکرار (ضرایب چندجمله‌ای)
 
-Sometimes we need to arrange objects where some are identical.
+گاهی باید اشیایی را بچینیم که برخی یکسان‌اند.
 
-:::{admonition} Applying "with repetition" to permutations
+:::{admonition} اعمال «با تکرار» در جایگشت‌ها
 :class: tip
 
-Recall from the chapter introduction: "with repetition" means the same object (or type) can occupy multiple positions.
+از مقدمهٔ فصل: «با تکرار» یعنی همان شیء (یا نوع) می‌تواند چند جایگاه را اشغال کند.
 
-**In this type of permutation, "with repetition" means:**
-- We have **multiple identical copies** of the same object type
-- Example: In "MISSISSIPPI", we have 4 identical I's, 4 identical S's, etc.
-- These identical objects can occupy different positions (the 4 I's appear in positions 2, 5, 8, and 11)
-- The challenge: How many **distinct arrangements** exist when some objects look the same?
+**در این نوع جایگشت، «با تکرار» یعنی:**
+- **چند نسخهٔ یکسان** از همان نوع شیء داریم
+- مثال: در «MISSISSIPPI»، ۴ I یکسان، ۴ S یکسان و غیره داریم
+- این اشیاء یکسان می‌توانند جایگاه‌های مختلف را اشغال کنند (۴ I در جایگاه‌های ۲، ۵، ۸ و ۱۱)
+- پرسش: وقتی برخی اشیاء یکسان‌اند، چند **چینش متمایز** وجود دارد؟
 
-**Important:** This is different from permutations **without** repetition, where every object is unique and distinguishable.
+**مهم:** این با جایگشت **بدون** تکرار فرق دارد، جایی که هر شیء منحصربه‌فرد و قابل تشخیص است.
 :::
 
-:::{admonition} Terminology: Key terms in this section
+:::{admonition} اصطلاحات: واژگان کلیدی این بخش
 :class: note
 
-**Distinguishable vs. Distinct:**
-- **Distinguishable objects**: Objects that can be told apart (like A₁ vs A₂). When we label identical objects with subscripts, we're treating them as distinguishable.
-- **Distinct arrangements**: Unique arrangements that look different from each other (like AAB vs ABA vs BAA).
+**قابل تشخیص در برابر متمایز:**
+- **اشیاء قابل تشخیص**: اشیایی که می‌توان آن‌ها را از هم تشخیص داد (مثل A₁ در برابر A₂). وقتی اشیاء یکسان را با اندیس برچسب می‌زنیم، آن‌ها را قابل تشخیص می‌گیریم.
+- **چینش‌های متمایز**: چینش‌های یکتایی که از هم متفاوت به نظر می‌رسند (مثل AAB در برابر ABA در برابر BAA).
 
-**Multinomial Coefficient:**
-- The formula $\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$ is called the **multinomial coefficient**
-- We explain why it has this name later in the section
+**ضریب چندجمله‌ای:**
+- فرمول $\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$ **ضریب چندجمله‌ای** نامیده می‌شود
+- دلیل این نام را بعداً در همین بخش توضیح می‌دهیم
 
-The key question: How many **distinct arrangements** can we make when some objects are identical (not distinguishable)?
+سؤال کلیدی: وقتی برخی اشیاء یکسان (غیرقابل تشخیص) هستند، چند **چینش متمایز** می‌توان ساخت؟
 :::
 
-#### Building Intuition: Starting Simple
+#### ساخت شهود: از ساده شروع کنیم
 
-**Simple Example:** How many distinct ways can you arrange the letters in "AAB"?
+**مثال ساده:** چند روش متمایز برای چینش حروف «AAB» وجود دارد؟
 
-Let's list all possible arrangements:
+همهٔ چینش‌های ممکن را فهرست کنیم:
 1. **AAB**
 2. **ABA**
 3. **BAA**
 
-Only **3 distinct arrangements**!
+فقط **۳ چینش متمایز**!
 
-**But wait** – if all letters were distinguishable (say, A₁A₂B), how many arrangements would there be?
+**اما صبر کنید** — اگر همهٔ حروف قابل تشخیص بودند (مثلاً A₁A₂B)، چند چینش داشتیم؟
 
-We'd have $3! = 6$ arrangements:
+$3! = 6$ چینش داشتیم:
 1. A₁A₂B
 2. A₁BA₂
-3. A₂A₁B ← looks the same as arrangement 1 when A's are identical
-4. A₂BA₁ ← looks the same as arrangement 2 when A's are identical
+3. A₂A₁B ← وقتی Aها یکسان‌اند شبیه چینش ۱ است
+4. A₂BA₁ ← وقتی Aها یکسان‌اند شبیه چینش ۲ است
 5. BA₁A₂
-6. BA₂A₁ ← looks the same as arrangement 5 when A's are identical
+6. BA₂A₁ ← وقتی Aها یکسان‌اند شبیه چینش ۵ است
 
-**Key insight:**
-- When the two A's are **distinguishable**, we get 6 arrangements
-- When the two A's are **identical**, arrangements 1&3 look the same (AAB), 2&4 look the same (ABA), and 5&6 look the same (BAA)
-- Each distinct arrangement appears $2! = 2$ times (the number of ways to arrange the two identical A's)
-- Therefore: Distinct arrangements = $\frac{3!}{2!} = \frac{6}{2} = 3$ ✓
+**بینش کلیدی:**
+- وقتی دو A **قابل تشخیص** هستند، ۶ چینش داریم
+- وقتی دو A **یکسان** هستند، چینش‌های ۱ و ۳ یکسان‌اند (AAB)، ۲ و ۴ یکسان‌اند (ABA)، ۵ و ۶ یکسان‌اند (BAA)
+- هر چینش متمایز $2! = 2$ بار ظاهر می‌شود (تعداد روش‌های چینش دو A یکسان)
+- بنابراین: چینش‌های متمایز = $\frac{3!}{2!} = \frac{6}{2} = 3$ ✓
 
-**The pattern:**
+**الگو:**
 $$\text{Distinct arrangements} = \frac{\text{Total if all were distinguishable}}{\text{Ways to rearrange identical objects}}$$
 
-#### Scaling Up: MISSISSIPPI
+#### بزرگ‌نمایی: MISSISSIPPI
 
-Now let's apply this reasoning to a more complex problem: How many distinct ways can the letters in "MISSISSIPPI" be arranged?
+اکنون این استدلال را به مسئلهٔ پیچیده‌تر اعمال کنیم: چند روش متمایز برای چینش حروف «MISSISSIPPI» وجود دارد؟
 
-**Step 1: Count the letters**
-* Total letters: $n = 11$
-* M: 1 (appears once)
-* I: 4 (appears 4 times)
-* S: 4 (appears 4 times)
-* P: 2 (appears 2 times)
+**گام ۱: شمارش حروف**
+* کل حروف: $n = 11$
+* M: 1 (یک بار)
+* I: 4 (چهار بار)
+* S: 4 (چهار بار)
+* P: 2 (دو بار)
 
-Check: $1 + 4 + 4 + 2 = 11$ ✓
+بررسی: $1 + 4 + 4 + 2 = 11$ ✓
 
-**Step 2: Apply the pattern**
+**گام ۲: اعمال الگو**
 
-If all 11 letters were distinguishable, we'd have $11!$ arrangements.
+اگر هر ۱۱ حرف قابل تشخیص بودند، $11!$ چینش داشتیم.
 
-But we're overcounting because:
-- The 4 I's can be rearranged among themselves in $4!$ ways without creating a new word
-- The 4 S's can be rearranged among themselves in $4!$ ways without creating a new word
-- The 2 P's can be rearranged among themselves in $2!$ ways without creating a new word
-- The 1 M appears only once ($1! = 1$, no overcounting)
+اما بیش‌شمارش می‌کنیم زیرا:
+- ۴ I را می‌توان در $4!$ روش بدون ساخت کلمهٔ جدید جابه‌جا کرد
+- ۴ S را در $4!$ روش
+- ۲ P را در $2!$ روش
+- ۱ M فقط یک بار ($1! = 1$، بدون بیش‌شمارش)
 
-Each distinct word is being counted $1! \times 4! \times 4! \times 2!$ times.
+هر کلمهٔ متمایز $1! \times 4! \times 4! \times 2!$ بار شمارش می‌شود.
 
-**Step 3: Calculate**
+**گام ۳: محاسبه**
 
 $$\text{Distinct arrangements} = \frac{11!}{1! \times 4! \times 4! \times 2!}$$
 
-#### The General Formula
+#### فرمول عمومی
 
-This pattern holds for all permutation-with-repetition problems. The number of distinct permutations of $n$ objects where there are $n_1$ identical objects of type 1, $n_2$ identical objects of type 2, ..., and $n_k$ identical objects of type k (where $n_1 + n_2 + \dots + n_k = n$) is:
+این الگو برای همهٔ مسائل جایگشت با تکرار برقرار است. تعداد جایگشت‌های متمایز $n$ شیء که $n_1$ شیء یکسان از نوع ۱، $n_2$ از نوع ۲، ... و $n_k$ از نوع k داریم ($n_1 + n_2 + \dots + n_k = n$) برابر است با:
 
 $$\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$$
 
-This is also called the **multinomial coefficient**.
+این **ضریب چندجمله‌ای** نیز نامیده می‌شود.
 
-:::{admonition} Why "multinomial coefficient"?
+:::{admonition} چرا «ضریب چندجمله‌ای»؟
 :class: note
 
-The name has two parts to understand:
+نام دو بخش دارد:
 
-**"Multinomial"** means "many terms" (from Latin *multi* = many, *nomen* = name/term):
-- We're dealing with **multiple types** of identical objects ($k$ different types)
-- This generalizes the **binomial coefficient** $\binom{n}{k} = \frac{n!}{k!(n-k)!}$, which handles just **two types** (selected vs. not selected)
-- For example, in MISSISSIPPI we have 4 types of letters (M, I, S, P), making this a truly "multi-nomial" problem
+**«چندجمله‌ای»** یعنی «چند جمله» (از لاتین *multi* = بسیار، *nomen* = نام/جمله):
+- با **چند نوع** شیء یکسان ($k$ نوع مختلف) سروکار داریم
+- **ضریب دوجمله‌ای** $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ را تعمیم می‌دهد که فقط **دو نوع** (انتخاب‌شده در برابر انتخاب‌نشده) را پوشش می‌دهد
+- مثلاً در MISSISSIPPI ۴ نوع حرف (M، I، S، P) داریم — مسئلهٔ واقعاً «چندجمله‌ای»
 
-**"Coefficient"** refers to its role in algebra:
-- A coefficient is a number that multiplies a term in an algebraic expression
-- These values appear as the **coefficients in the multinomial theorem**: When you expand $(x_1 + x_2 + \dots + x_k)^n$, each term has a coefficient of the form $\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$
-- For example, in $(a + b + c)^3$, the coefficient of $a^2bc$ is $\frac{3!}{2! \times 1! \times 1!} = 3$, meaning the term is $3a^2bc$
-- So we call it a "coefficient" because it literally serves as a coefficient in polynomial expansions!
+**«ضریب»** به نقش جبری آن اشاره دارد:
+- ضریب عددی است که یک جمله در عبارت جبری را ضرب می‌کند
+- این مقادیر **ضرایب در قضیهٔ چندجمله‌ای** هستند: وقتی $(x_1 + x_2 + \dots + x_k)^n$ را باز می‌کنید، هر جمله ضریبی از شکل $\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$ دارد
+- مثلاً در $(a + b + c)^3$، ضریب $a^2bc$ برابر $\frac{3!}{2! \times 1! \times 1!} = 3$ است، یعنی جمله $3a^2bc$ است
+- پس «ضریب» می‌نامیمش چون در بسط چندجمله‌ها واقعاً ضریب است!
 :::
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Calculate distinct arrangements of MISSISSIPPI
 n = 11
@@ -317,81 +319,82 @@ print(f"Number of distinct arrangements of 'MISSISSIPPI': {distinct_arrangements
 ```
 :::
 
-## Combinations: When Order Doesn't Matter
+(combinations-when-order-doesnt-matter)=
+## ترکیب‌ها: وقتی ترتیب مهم نیست
 
-A **combination** is a selection of objects where the order of selection does not matter. Consider choosing members for a committee – selecting Alice then Bob is the same as selecting Bob then Alice.
+**ترکیب** انتخابی از اشیاء است که ترتیب انتخاب اهمیت ندارد. انتخاب اعضای کمیته را در نظر بگیرید — انتخاب آلیس سپس باب همان انتخاب باب سپس آلیس است.
 
-### Combinations without Repetition
+### ترکیب بدون تکرار
 
-This involves selecting $k$ distinct objects from a set of $n$ distinct objects, where order *does not* matter and objects cannot be reused.
+$k$ شیء متمایز از مجموعه‌ای از $n$ شیء متمایز انتخاب می‌شود، جایی که ترتیب *مهم نیست* و اشیاء قابل استفادهٔ مجدد نیستند.
 
-:::{admonition} Applying "without repetition" to combinations
+:::{admonition} اعمال «بدون تکرار» در ترکیب‌ها
 :class: tip
 
-Recall from the chapter introduction: "without repetition" means each object occupies at most one position.
+از مقدمهٔ فصل: «بدون تکرار» یعنی هر شیء حداکثر یک جایگاه را اشغال می‌کند.
 
-**In combinations, this means:**
-- Each object can only be selected once in the group
-- For committees: each person is either on the committee or not (can't select Alice twice)
-- For coin flips: we choose which **positions** get heads, and each position can only be chosen once
+**در ترکیب‌ها این یعنی:**
+- هر شیء فقط یک بار در گروه انتخاب می‌شود
+- برای کمیته‌ها: هر نفر یا در کمیته است یا نیست (نمی‌توان آلیس را دو بار انتخاب کرد)
+- برای پرتاب سکه: انتخاب می‌کنیم کدام **جایگاه‌ها** شیر باشند و هر جایگاه فقط یک بار انتخاب می‌شود
 
-**Key point:** Since order doesn't matter in combinations, {Alice, Bob, Carol} = {Carol, Alice, Bob}. We're counting **selections**, where only the identity matters, not the arrangement.
+**نکتهٔ کلیدی:** چون در ترکیب‌ها ترتیب مهم نیست، {Alice, Bob, Carol} = {Carol, Alice, Bob}. **انتخاب‌ها** را می‌شماریم که فقط هویت مهم است، نه چینش.
 :::
 
-#### Building Intuition: From Permutations to Combinations
+#### ساخت شهود: از جایگشت به ترکیب
 
-Before we introduce the general formula, let's understand combinations by building on what we learned about permutations.
+پیش از فرمول عمومی، ترکیب‌ها را بر آنچه دربارهٔ جایگشت‌ها آموختیم بنا کنیم.
 
-**Example:** How many ways can a committee of 3 people be chosen from a group of 10 people?
+**مثال:** چند روش برای انتخاب کمیتهٔ ۳ نفره از گروه ۱۰ نفره وجود دارد؟
 
-Let's think through this step-by-step:
+گام‌به‌گام:
 
-**Step 1: What if order mattered?**
+**گام ۱: اگر ترتیب مهم بود؟**
 
-Imagine we were choosing a President, Vice President, and Secretary (3 different roles):
-- Using permutations: $P(10, 3) = 10 \times 9 \times 8 = 720$ ways
+فرض کنید رئیس، معاون و منشی (۳ نقش مختلف) انتخاب می‌کنیم:
+- با جایگشت: $P(10, 3) = 10 \times 9 \times 8 = 720$ روش
 
-**Step 2: But order doesn't matter for a committee**
+**گام ۲: اما برای کمیته ترتیب مهم نیست**
 
-For a committee, these are all the **same selection**:
-- Choose Alice, then Bob, then Carol
-- Choose Alice, then Carol, then Bob
-- Choose Bob, then Alice, then Carol
-- Choose Bob, then Carol, then Alice
-- Choose Carol, then Alice, then Bob
-- Choose Carol, then Bob, then Alice
+برای کمیته همهٔ این‌ها **همان انتخاب** هستند:
+- انتخاب آلیس، سپس باب، سپس کارول
+- انتخاب آلیس، سپس کارول، سپس باب
+- انتخاب باب، سپس آلیس، سپس کارول
+- انتخاب باب، سپس کارول، سپس آلیس
+- انتخاب کارول، سپس آلیس، سپس باب
+- انتخاب کارول، سپس باب، سپس آلیس
 
-All 6 of these represent the committee {Alice, Bob, Carol}.
+هر ۶ مورد کمیتهٔ {Alice, Bob, Carol} را نمایش می‌دهند.
 
-**Step 3: How many ways can we arrange the same 3 people?**
+**گام ۳: هر گروه ۳ نفره را چند روش می‌توان مرتب کرد؟**
 
-Any group of 3 people can be ordered in $3! = 3 \times 2 \times 1 = 6$ different ways.
+هر گروه ۳ نفره را می‌توان در $3! = 3 \times 2 \times 1 = 6$ روش مختلف مرتب کرد.
 
-**Step 4: Remove the overcounting**
+**گام ۴: حذف بیش‌شمارش**
 
-Since each committee is being counted 6 times in our permutation count, we divide:
+از آنجا که هر کمیته ۶ بار در شمارش جایگشت شمرده می‌شود، تقسیم می‌کنیم:
 
 $$\text{Total committees} = \frac{P(10, 3)}{3!} = \frac{720}{6} = 120$$
 
-**Key insight:** To convert from permutations (where order matters) to combinations (where order doesn't matter), we divide by $k!$ to eliminate all the different orderings of the same selection.
+**بینش کلیدی:** برای تبدیل جایگشت (ترتیب مهم) به ترکیب (ترتیب مهم نیست)، بر $k!$ تقسیم می‌کنیم تا همهٔ ترتیب‌های مختلف همان انتخاب حذف شوند.
 
-#### The General Formula
+#### فرمول عمومی
 
-This pattern holds for all combination problems. The number of combinations of $n$ distinct objects taken $k$ at a time is denoted by $C(n, k)$, $_nC_k$, $C^n_k$, or $\binom{n}{k}$ (read "n choose k") and is calculated as:
+این الگو برای همهٔ مسائل ترکیب برقرار است. تعداد ترکیب‌های $n$ شیء متمایز که $k$ تا انتخاب شوند با $C(n, k)$، $_nC_k$، $C^n_k$ یا $\binom{n}{k}$ (خوانده می‌شود «n انتخاب k») نمایش داده می‌شود و چنین محاسبه می‌شود:
 
 $ C(n, k) = \binom{n}{k} = \frac{P(n, k)}{k!} = \frac{n!}{k!(n-k)!} $
 
-**Why does this work?** Starting from the relationship to permutations:
+**چرا درست است؟** از رابطه با جایگشت:
 
 $$C(10, 3) = \frac{P(10, 3)}{3!} = \frac{10 \times 9 \times 8}{3 \times 2 \times 1} = \frac{720}{6} = 120$$
 
-Or using the factorial formula:
+یا با فرمول فاکتوریل:
 
 $$C(10, 3) = \frac{10!}{3!(10-3)!} = \frac{10!}{3! \times 7!} = \frac{10 \times 9 \times 8 \times \cancel{7!}}{3 \times 2 \times 1 \times \cancel{7!}} = \frac{720}{6} = 120$$
 
-Let's calculate this using Python.
+بیایید با پایتون محاسبه کنیم.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 import math
 from scipy.special import comb
@@ -414,80 +417,80 @@ print(f"Direct calculation: {c_10_3_direct}")
 ```
 :::
 
-### Combinations with Repetition
+### ترکیب با تکرار
 
-This involves selecting $k$ objects from $n$ types of objects, where order doesn't matter and we can choose multiple objects of the same type (repetition is allowed). This is sometimes called "multiset coefficient" or "stars and bars" problem.
+$k$ شیء از $n$ نوع شیء انتخاب می‌شود، جایی که ترتیب مهم نیست و می‌توان چند شیء از همان نوع انتخاب کرد (تکرار مجاز است). گاهی «ضریب multiset» یا مسئلهٔ «ستاره و میله» نامیده می‌شود.
 
-:::{admonition} Applying "with repetition" to combinations
+:::{admonition} اعمال «با تکرار» در ترکیب‌ها
 :class: tip
 
-Recall from the chapter introduction: "with repetition" means the same object (or type) can occupy multiple positions.
+از مقدمهٔ فصل: «با تکرار» یعنی همان شیء (یا نوع) می‌تواند چند جایگاه را اشغال کند.
 
-**In combinations with repetition, this means:**
-- We can **select the same type multiple times** in our group
-- Example: Choosing 12 donuts from 4 flavors — we can choose chocolate 5 times, plain 3 times, etc.
-- Example: Rolling a die 3 times and getting {6, 6, 2} — the outcome 6 appears twice
-- The challenge: How many ways can we make selections when the same type can appear multiple times?
+**در ترکیب با تکرار این یعنی:**
+- می‌توان **همان نوع را چند بار** در گروه انتخاب کرد
+- مثال: انتخاب ۱۲ دونات از ۴ طعم — می‌توان ۵ بار شکلاتی، ۳ بار ساده و غیره گرفت
+- مثال: ۳ بار انداختن تاس و گرفتن {6, 6, 2} — پیامد ۶ دو بار ظاهر می‌شود
+- پرسش: وقتی همان نوع می‌تواند چند بار بیاید، چند روش انتخاب وجود دارد؟
 
-**Key point:** Order still doesn't matter {chocolate, chocolate, plain} = {plain, chocolate, chocolate}, but unlike combinations **without** repetition, we can now select the same item multiple times.
+**نکتهٔ کلیدی:** ترتیب هنوز مهم نیست {chocolate, chocolate, plain} = {plain, chocolate, chocolate}، اما برخلاف ترکیب **بدون** تکرار، اکنون می‌توان همان مورد را چند بار انتخاب کرد.
 :::
 
-#### Building Intuition: The "Stars and Bars" Visual Method
+#### ساخت شهود: روش بصری «ستاره و میله»
 
-This is one of the most surprising formulas in counting, but there's a beautiful visual way to understand it! Let's start with a concrete example.
+این یکی از شگفت‌انگیزترین فرمول‌های شمارش است، اما راه بصری زیبایی برای درک آن وجود دارد! با مثال ملموس شروع کنیم.
 
-**Example:** A bakery offers 4 types of donuts (plain, chocolate, glazed, jelly). How many different ways can you select a dozen (12) donuts?
+**مثال:** نانوایی ۴ نوع دونات (ساده، شکلاتی، گلیز، مربایی) دارد. چند روش مختلف برای انتخاب یک دوجین (۱۲) دونات وجود دارد؟
 
-Here, $n=4$ (types of donuts) and we're choosing $k=12$ donuts. Order doesn't matter (choosing chocolate then plain is the same as plain then chocolate), and we can choose multiple donuts of the same type.
+اینجا $n=4$ (انواع دونات) و $k=12$ دونات انتخاب می‌کنیم. ترتیب مهم نیست (شکلاتی سپس ساده همان ساده سپس شکلاتی است) و می‌توان چند دونات از همان نوع گرفت.
 
-**Visual representation:** We can represent any selection using **stars** (★) for donuts and **bars** (|) as dividers between types.
+**نمایش بصری:** هر انتخاب را با **ستاره** (★) برای دونات و **میله** (|) به‌عنوان جداکننده بین انواع نشان می‌دهیم.
 
-For example, this arrangement:
+مثلاً این چینش:
 ```
 ★★|★★★★|★★★★★|★
 ```
 
-Represents this selection:
-- Type 1 (plain): **2** donuts (stars before the first bar)
-- Type 2 (chocolate): **4** donuts (stars between first and second bar)
-- Type 3 (glazed): **5** donuts (stars between second and third bar)
-- Type 4 (jelly): **1** donut (stars after the third bar)
-- Total: 2 + 4 + 5 + 1 = 12 ✓
+این انتخاب را نمایش می‌دهد:
+- نوع ۱ (ساده): **۲** دونات (ستاره‌ها قبل از اولین میله)
+- نوع ۲ (شکلاتی): **۴** دونات (ستاره‌ها بین میلهٔ اول و دوم)
+- نوع ۳ (گلیز): **۵** دونات (ستاره‌ها بین میلهٔ دوم و سوم)
+- نوع ۴ (مربایی): **۱** دونات (ستاره‌ها بعد از میلهٔ سوم)
+- مجموع: 2 + 4 + 5 + 1 = 12 ✓
 
-**The counting problem becomes:** How many ways can we arrange 12 stars and 3 bars?
+**مسئلهٔ شمارش می‌شود:** چند روش برای چینش ۱۲ ستاره و ۳ میله وجود دارد؟
 
-Let's analyze this:
-- We have $k = 12$ stars (the donuts we're choosing)
-- We need $n-1 = 3$ bars to create $n = 4$ sections (one for each type)
-- Total objects to arrange: $12 + 3 = 15$
+تحلیل:
+- $k = 12$ ستاره (دونات‌های انتخابی) داریم
+- به $n-1 = 3$ میله برای $n = 4$ بخش (هر نوع) نیاز داریم
+- کل اشیاء برای چینش: $12 + 3 = 15$
 
-**Key insight:** Any arrangement of these 15 objects represents a valid donut selection! We just need to choose which 12 positions (out of 15 total) will have stars (the remaining 3 positions automatically get bars).
+**بینش کلیدی:** هر چینش از این ۱۵ شیء یک انتخاب معتبر دونات را نمایش می‌دهد! فقط باید ۱۲ جایگاه (از ۱۵) را برای ستاره انتخاب کنیم (۳ جایگاه باقی‌مانده خودکار میله می‌گیرند).
 
-This is a **combination without repetition** problem we already know how to solve:
+این مسئلهٔ **ترکیب بدون تکرار** است که می‌دانیم چگونه حل کنیم:
 
 $$\text{Number of ways} = \binom{15}{12} = \binom{15}{3}$$
 
-We can choose either the 12 star positions or the 3 bar positions — the result is the same!
+می‌توان ۱۲ جایگاه ستاره یا ۳ جایگاه میله را انتخاب کرد — نتیجه یکسان است!
 
-**Generalizing the pattern:**
-- $n = 4$ types → need $(n-1) = 3$ bars
-- $k = 12$ objects → need $k = 12$ stars
-- Total positions: $n + k - 1 = 4 + 12 - 1 = 15$
-- Choose positions for stars: $\binom{n+k-1}{k} = \binom{15}{12}$
+**تعمیم الگو:**
+- $n = 4$ نوع → به $(n-1) = 3$ میله نیاز داریم
+- $k = 12$ شیء → به $k = 12$ ستاره نیاز داریم
+- کل جایگاه‌ها: $n + k - 1 = 4 + 12 - 1 = 15$
+- انتخاب جایگاه برای ستاره‌ها: $\binom{n+k-1}{k} = \binom{15}{12}$
 
-#### The General Formula
+#### فرمول عمومی
 
-This pattern holds for all combinations-with-repetition problems. The number of combinations with repetition of $n$ types of objects taken $k$ at a time is:
+این الگو برای همهٔ مسائل ترکیب با تکرار برقرار است. تعداد ترکیب با تکرار $n$ نوع شیء که $k$ تا انتخاب شوند:
 
 $$\binom{n+k-1}{k} = \frac{(n+k-1)!}{k!(n-1)!}$$
 
-**Why this formula?** We're arranging $k$ stars and $(n-1)$ bars, for a total of $(n+k-1)$ objects. We choose which $k$ positions get stars (or equivalently, which $(n-1)$ positions get bars).
+**چرا این فرمول؟** $k$ ستاره و $(n-1)$ میله را می‌چینیم، در مجموع $(n+k-1)$ شیء. $k$ جایگاه برای ستاره (یا معادلاً $(n-1)$ جایگاه برای میله) انتخاب می‌کنیم.
 
-**Calculating our donut example:**
+**محاسبهٔ مثال دونات:**
 
 $$\binom{4+12-1}{12} = \binom{15}{12} = \frac{15!}{12! \times 3!} = \frac{15 \times 14 \times 13}{3 \times 2 \times 1} = \frac{2730}{6} = 455$$
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Calculate combinations with repetition - donut selection
 n_types = 4
@@ -503,38 +506,38 @@ print(f"Direct calculation: {c_15_12_direct}")
 ```
 :::
 
-Note: 
-- scipy.special.comb can also take repetition=True argument for this
+توجه: 
+- `scipy.special.comb` می‌تواند برای این کار آرگومان `repetition=True` بگیرد
 
 ```{code-cell} ipython3
 # combinations_with_repetition_scipy = comb(n_types, k_donuts, exact=True, repetition=True)
 # print(f"Using scipy.special.comb with repetition=True: {combinations_with_repetition_scipy}")
 ```
 
-^^ Uncomment the above lines if your SciPy version supports repetition=True (relatively recent addition)
+^^ اگر نسخهٔ SciPy شما repetition=True را پشتیبانی می‌کند (افزودهٔ نسبتاً اخیر)، خطوط بالا را از حالت کامنت خارج کنید
 
 +++
 
-## Applications to Probability Problems
+## کاربرد در مسائل احتمال
 
-Counting techniques are essential for calculating probabilities in scenarios with equally likely outcomes, often found in games of chance, sampling, and more.
+روش‌های شمارش برای محاسبهٔ احتمال در موقعیت‌های با پیامدهای هم‌احتمال، اغلب در بازی‌های شانس، نمونه‌گیری و موارد مشابه، ضروری‌اند.
 
-The basic formula is:
+فرمول پایه:
 
 $ P(\text{Event}) = \frac{\text{Number of outcomes favorable to the event}}{\text{Total number of possible outcomes}} $
 
-Both the numerator and the denominator often require permutations or combinations to calculate.
+هم صورت و هم مخرج اغلب به جایگشت یا ترکیب نیاز دارند.
 
-**Example: UK National Lottery**
+**مثال: لاتاری ملی بریتانیا**
 
-In the UK National Lottery's main "Lotto" game (as of early 2020s), a player chooses 6 distinct numbers from 1 to 59. The lottery machine then randomly selects 6 distinct numbers. What is the probability of winning the jackpot (matching all 6 numbers)?
+در بازی اصلی «Lotto» لاتاری ملی بریتانیا (اوایل دههٔ ۲۰۲۰)، بازیکن ۶ عدد متمایز از ۱ تا ۵۹ انتخاب می‌کند. دستگاه لاتاری سپس ۶ عدد متمایز را به‌صورت تصادفی انتخاب می‌کند. احتمال برد جک‌پات (تطابق هر ۶ عدد) چقدر است؟
 
-1.  **Total number of possible outcomes:** This is the number of ways to choose 6 distinct numbers from 59, where order doesn't matter. This is a combination problem: $C(59, 6)$.
-2.  **Number of favorable outcomes:** There is only 1 way to match the specific 6 numbers drawn by the machine.
+1.  **تعداد کل پیامدهای ممکن:** تعداد روش‌های انتخاب ۶ عدد متمایز از ۵۹، جایی که ترتیب مهم نیست. مسئلهٔ ترکیب: $C(59, 6)$.
+2.  **تعداد پیامدهای مطلوب:** فقط ۱ روش برای تطابق ۶ عدد مشخص کشیده‌شده توسط دستگاه وجود دارد.
 
-The probability is $P(\text{Jackpot}) = \frac{1}{C(59, 6)}$.
+احتمال برابر $P(\text{Jackpot}) = \frac{1}{C(59, 6)}$ است.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # UK National Lottery - jackpot probability
 n_lotto = 59  # Total numbers to choose from
@@ -552,22 +555,22 @@ print(f"Probability (scientific notation): {prob_jackpot:e}")
 ```
 :::
 
-**Example: Poker Hand Probability (Four of a Kind)**
+**مثال: احتمال دست پوکر (چهارتا از یک نوع)**
 
-What is the probability of being dealt "Four of a Kind" in a standard 5-card poker hand from a 52-card deck? (Four cards of one rank, plus one other card of a different rank).
+احتمال گرفتن «چهارتا از یک نوع» در دست پنج‌کارتی استاندارد از دستهٔ ۵۲ کارتی چقدر است؟ (چهار کارت از یک رتبه، به‌علاوه یک کارت دیگر از رتبهٔ متفاوت).
 
-1.  **Total number of possible outcomes:** The total number of ways to choose 5 cards from 52, where order doesn't matter. This is $C(52, 5)$.
+1.  **تعداد کل پیامدهای ممکن:** تعداد روش‌های انتخاب ۵ کارت از ۵۲، جایی که ترتیب مهم نیست. این $C(52, 5)$ است.
 
-2.  **Number of favorable outcomes (Four of a Kind):** We can use the Multiplication Principle to count this:
-    * Step 1: Choose the rank for the four cards (e.g., four Aces, four Kings). There are $C(13, 1) = 13$ ways.
-    * Step 2: Choose the four cards of that rank. There is only $C(4, 4) = 1$ way (you must take all four suits).
-    * Step 3: Choose the rank for the fifth card (it must be different from the rank in Step 1). There are $C(12, 1) = 12$ remaining ranks.
-    * Step 4: Choose the suit for the fifth card. There are $C(4, 1) = 4$ ways.
-    Total favorable outcomes = $13 \times 1 \times 12 \times 4$.
+2.  **تعداد پیامدهای مطلوب (چهارتا از یک نوع):** با اصل ضرب می‌شماریم:
+    * گام ۱: انتخاب رتبه برای چهار کارت (مثلاً چهار آس، چهار شاه). $C(13, 1) = 13$ روش.
+    * گام ۲: انتخاب چهار کارت آن رتبه. فقط $C(4, 4) = 1$ روش (باید هر چهار خال را بگیرید).
+    * گام ۳: انتخاب رتبه برای کارت پنجم (باید با گام ۱ متفاوت باشد). $C(12, 1) = 12$ رتبه باقی‌مانده.
+    * گام ۴: انتخاب خال برای کارت پنجم. $C(4, 1) = 4$ روش.
+    مجموع پیامدهای مطلوب = $13 \times 1 \times 12 \times 4$.
 
-The probability is $P(\text{Four of a Kind}) = \frac{13 \times 1 \times 12 \times 4}{C(52, 5)}$.
+احتمال برابر $P(\text{Four of a Kind}) = \frac{13 \times 1 \times 12 \times 4}{C(52, 5)}$ است.
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Poker: Four of a Kind probability
 n_deck = 52
@@ -593,33 +596,33 @@ print(f"Approximately 1 in {1/prob_4kind:,.0f}")
 ```
 :::
 
-## Hands-on: Using Python for Counting
+## تمرین عملی: استفاده از پایتون برای شمارش
 
-We've already seen how `math.factorial`, `scipy.special.perm`, and `scipy.special.comb` can be used. Let's solidify this.
+قبلاً دیدیم `math.factorial`، `scipy.special.perm` و `scipy.special.comb` چگونه به‌کار می‌روند. بیایید تثبیت کنیم.
 
-**Key Functions:**
-* `math.factorial(n)`: Computes $n!$. Requires `n` to be a non-negative integer.
-* `scipy.special.perm(n, k, exact=True)`: Computes $P(n, k) = \frac{n!}{(n-k)!}$. `exact=True` is recommended for integer results.
-* `scipy.special.comb(n, k, exact=True, repetition=False)`: Computes $C(n, k) = \binom{n}{k} = \frac{n!}{k!(n-k)!}$. `exact=True` is recommended. Set `repetition=True` for combinations with repetition.
+**توابع کلیدی:**
+* `math.factorial(n)`: $n!$ را محاسبه می‌کند. نیاز دارد `n` عدد صحیح نامنفی باشد.
+* `scipy.special.perm(n, k, exact=True)`: $P(n, k) = \frac{n!}{(n-k)!}$ را محاسبه می‌کند. `exact=True` برای نتایج صحیح توصیه می‌شود.
+* `scipy.special.comb(n, k, exact=True, repetition=False)`: $C(n, k) = \binom{n}{k} = \frac{n!}{k!(n-k)!}$ را محاسبه می‌کند. `exact=True` توصیه می‌شود. برای ترکیب با تکرار `repetition=True` بگذارید.
 
-**Remember to import them:**
+**یادآوری وارد کردن:**
 ```python
 import math
 from scipy.special import perm, comb
 ```
 
-**Exercise Idea:** Calculate the probability of getting a "Full House" (three cards of one rank, two cards of another rank) in a 5-card poker hand.
+**ایدهٔ تمرین:** احتمال گرفتن «فول‌هاوس» (سه کارت از یک رتبه، دو کارت از رتبهٔ دیگر) در دست پنج‌کارتی پوکر را محاسبه کنید.
 
-*Hint:*
-1.  Total hands: $C(52, 5)$ (calculated above).
-2.  Favorable outcomes:
-    * Choose the rank for the three cards: $C(13, 1)$ ways.
-    * Choose 3 suits for that rank: $C(4, 3)$ ways.
-    * Choose the rank for the two cards: $C(12, 1)$ ways (must be different from the first rank).
-    * Choose 2 suits for that second rank: $C(4, 2)$ ways.
-    * Use the Multiplication Principle.*
+*راهنما:*
+1.  کل دست‌ها: $C(52, 5)$ (محاسبه‌شده بالا).
+2.  پیامدهای مطلوب:
+    * انتخاب رتبه برای سه کارت: $C(13, 1)$ روش.
+    * انتخاب ۳ خال برای آن رتبه: $C(4, 3)$ روش.
+    * انتخاب رتبه برای دو کارت: $C(12, 1)$ روش (باید با رتبهٔ اول متفاوت باشد).
+    * انتخاب ۲ خال برای رتبهٔ دوم: $C(4, 2)$ روش.
+    * از اصل ضرب استفاده کنید.*
 
-:::{dropdown} Python Implementation
+:::{dropdown} پیاده‌سازی پایتون
 ```{code-cell} ipython3
 # Poker: Full House probability
 # Total hands (already calculated)
@@ -646,102 +649,102 @@ print(f"Approximately 1 in {1/prob_fullhouse:,.0f}")
 
 +++
 
-## Quick Reference: Which Counting Technique Should I Use?
+## مرجع سریع: از کدام روش شمارش استفاده کنم؟
 
-One of the most common challenges is deciding which formula to apply. Use this decision guide:
+یکی از رایج‌ترین چالش‌ها انتخاب فرمول مناسب است. از این راهنمای تصمیم استفاده کنید:
 
-### Decision Questions
+### سؤالات تصمیم‌گیری
 
-**START HERE:** I need to count arrangements or selections
+**از اینجا شروع کنید:** باید چینش‌ها یا انتخاب‌ها را بشمارم
 
-1. **Does ORDER matter?**
-   - **YES** → Use **PERMUTATIONS**
-     - Can items repeat? (e.g., same person in multiple positions?)
-       - NO → Permutation without repetition: $P(n,k) = \frac{n!}{(n-k)!}$
-       - YES → Permutation with repetition: $n^k$ or multinomial coefficient
-   - **NO** → Use **COMBINATIONS**
-     - Can items repeat? (e.g., multiple items of same type?)
-       - NO → Combination without repetition: $C(n,k) = \binom{n}{k} = \frac{n!}{k!(n-k)!}$
-       - YES → Combination with repetition: $\binom{n+k-1}{k}$
+1. **آیا ترتیب مهم است؟**
+   - **بله** → **جایگشت** استفاده کنید
+     - آیا اقلام تکرار می‌شوند؟ (مثلاً همان فرد در چند جایگاه؟)
+       - خیر → جایگشت بدون تکرار: $P(n,k) = \frac{n!}{(n-k)!}$
+       - بله → جایگشت با تکرار: $n^k$ یا ضریب چندجمله‌ای
+   - **خیر** → **ترکیب** استفاده کنید
+     - آیا اقلام تکرار می‌شوند؟ (مثلاً چند مورد از همان نوع؟)
+       - خیر → ترکیب بدون تکرار: $C(n,k) = \binom{n}{k} = \frac{n!}{k!(n-k)!}$
+       - بله → ترکیب با تکرار: $\binom{n+k-1}{k}$
 
-### Quick Reference Table
+### جدول مرجع سریع
 
-| Scenario | Order? | Repeat? | Technique | Formula |
+| سناریو | ترتیب؟ | تکرار؟ | روش | فرمول |
 |----------|--------|---------|-----------|---------|
-| Race podium (1st, 2nd, 3rd from 8 runners) | YES | NO | Permutation | $P(8,3) = \frac{8!}{5!}$ |
-| Committee of 3 from 10 people | NO | NO | Combination | $\binom{10}{3}$ |
-| Arranging MISSISSIPPI | YES | YES | Perm. with rep. | $\frac{11!}{1!4!4!2!}$ |
-| Choosing 12 donuts from 4 types | NO | YES | Comb. with rep. | $\binom{15}{12}$ |
-| 5-card poker hand from 52 cards | NO | NO | Combination | $\binom{52}{5}$ |
-| License plate: 3 letters, 4 digits | YES | YES | Multiplication | $26^3 \times 10^4$ |
+| سکوی مسابقه (رتبه ۱، ۲، ۳ از ۸ دونده) | بله | خیر | جایگشت | $P(8,3) = \frac{8!}{5!}$ |
+| کمیتهٔ ۳ نفره از ۱۰ نفر | خیر | خیر | ترکیب | $\binom{10}{3}$ |
+| چینش MISSISSIPPI | بله | بله | جایگشت با تکرار | $\frac{11!}{1!4!4!2!}$ |
+| انتخاب ۱۲ دونات از ۴ نوع | خیر | بله | ترکیب با تکرار | $\binom{15}{12}$ |
+| دست پنج‌کارتی پوکر از ۵۲ کارت | خیر | خیر | ترکیب | $\binom{52}{5}$ |
+| پلاک: ۳ حرف، ۴ رقم | بله | بله | اصل ضرب | $26^3 \times 10^4$ |
 
-### Common Examples by Type
+### مثال‌های رایج بر اساس نوع
 
-**Permutations (order matters):**
-- Arranging books on a shelf
-- Assigning people to different roles/positions
-- Creating a password where position matters
-- Race results (who finishes 1st, 2nd, 3rd)
+**جایگشت (ترتیب مهم است):**
+- چینش کتاب روی قفسه
+- انتساب افراد به نقش‌ها/جایگاه‌های مختلف
+- ساخت رمز عبور که جایگاه اهمیت دارد
+- نتایج مسابقه (چه کسی اول، دوم، سوم می‌شود)
 
-**Combinations (order doesn't matter):**
-- Selecting a committee or team
-- Choosing lottery numbers
-- Dealing poker hands
-- Selecting pizza toppings
+**ترکیب (ترتیب مهم نیست):**
+- انتخاب کمیته یا تیم
+- انتخاب اعداد لاتاری
+- پخش دست پوکر
+- انتخاب topping پیتزا
 
-**With repetition:**
-- Rolling dice multiple times
-- Choosing items where you can pick the same type multiple times
-- Drawing cards with replacement
+**با تکرار:**
+- چند بار انداختن تاس
+- انتخاب اقلامی که می‌توان همان نوع را چند بار گرفت
+- کشیدن کارت با بازگرداندن
 
-**Without repetition:**
-- Dealing cards (can't deal same card twice)
-- Choosing distinct committee members
-- Assigning people to positions (one person per position)
+**بدون تکرار:**
+- پخش کارت (نمی‌توان همان کارت را دوبار داد)
+- انتخاب اعضای متمایز کمیته
+- انتساب افراد به جایگاه‌ها (یک نفر در هر جایگاه)
 
 +++
 
-## Chapter Summary
+## خلاصهٔ فصل
 
-### Key Takeaways
+### نکات کلیدی
 
-**The core insight:** Systematic counting techniques transform complex probability problems into manageable calculations. When outcomes are equally likely, $P(E) = \frac{|E|}{|S|}$ — but determining $|E|$ and $|S|$ requires methodical counting.
+**بینش اصلی:** روش‌های نظام‌مند شمارش مسائل پیچیدهٔ احتمال را به محاسبات قابل مدیریت تبدیل می‌کنند. وقتی پیامدها هم‌احتمال‌اند، $P(E) = \frac{|E|}{|S|}$ — اما تعیین $|E|$ و $|S|$ به شمارش منظم نیاز دارد.
 
-**The fundamental techniques:**
+**روش‌های بنیادی:**
 
-1. **Multiplication Principle:** Sequential choices multiply
-   - If task has $k$ steps with $n_1, n_2, \ldots, n_k$ options each, total ways = $n_1 \times n_2 \times \cdots \times n_k$
-   - Foundation for all other counting methods
+1. **اصل ضرب:** انتخاب‌های متوالی در هم ضرب می‌شوند
+   - اگر کار $k$ گام با $n_1, n_2, \ldots, n_k$ گزینه در هر گام دارد، کل روش‌ها = $n_1 \times n_2 \times \cdots \times n_k$
+   - پایهٔ همهٔ روش‌های دیگر شمارش
 
-2. **Permutations** ($P(n,k) = \frac{n!}{(n-k)!}$): **Order matters**, no repetition
-   - Race podiums, passwords with distinct characters, arranging books
-   - Special case: $P(n,n) = n!$ for arranging all $n$ objects
+2. **جایگشت** ($P(n,k) = \frac{n!}{(n-k)!}$): **ترتیب مهم است**، بدون تکرار
+   - سکوی مسابقه، رمز با کاراکترهای متمایز، چینش کتاب
+   - حالت ویژه: $P(n,n) = n!$ برای چینش همهٔ $n$ شیء
 
-3. **Combinations** ($\binom{n}{k} = \frac{n!}{k!(n-k)!}$): **Order doesn't matter**, no repetition
-   - Committees, lottery numbers, poker hands
-   - Related to permutations: $C(n,k) = \frac{P(n,k)}{k!}$ (divide out ordering)
+3. **ترکیب** ($\binom{n}{k} = \frac{n!}{k!(n-k)!}$): **ترتیب مهم نیست**، بدون تکرار
+   - کمیته‌ها، اعداد لاتاری، دست پوکر
+   - مرتبط با جایگشت: $C(n,k) = \frac{P(n,k)}{k!}$ (حذف ترتیب‌ها)
 
-4. **With Repetition:**
-   - **Permutations with repetition:** Multinomial coefficients for identical objects (MISSISSIPPI)
-   - **Combinations with repetition:** Stars and bars method for choosing with replacement
+4. **با تکرار:**
+   - **جایگشت با تکرار:** ضرایب چندجمله‌ای برای اشیاء یکسان (MISSISSIPPI)
+   - **ترکیب با تکرار:** روش ستاره و میله برای انتخاب با بازگرداندن
 
-### Why This Matters
+### چرا مهم است
 
-Counting techniques are essential for:
+روش‌های شمارش برای موارد زیر ضروری‌اند:
 
-- **Games and gambling:** Computing odds in poker, lottery, dice games
-- **Cryptography:** Calculating keyspace sizes and brute-force attack complexity
-- **Data science:** Understanding sample sizes, bootstrap methods, combinatorial optimization
-- **Everyday decisions:** Evaluating risks when outcomes are equally likely
+- **بازی و قمار:** محاسبهٔ شانس در پوکر، لاتاری، بازی تاس
+- **رمزنگاری:** محاسبهٔ اندازهٔ فضای کلید و پیچیدگی حملهٔ نیروی brute-force
+- **علم داده:** درک اندازهٔ نمونه، روش‌های bootstrap، بهینه‌سازی ترکیبی
+- **تصمیم‌های روزمره:** ارزیابی ریسک وقتی پیامدها هم‌احتمال‌اند
 
-### Common Pitfalls to Avoid
+### اشتباهات رایج
 
-1. **Confusing permutations and combinations:** Always ask "does order matter?"
-2. **Misunderstanding "without repetition":** It means distinct positions/slots, not sampling without replacement
-3. **Forgetting to divide by k!:** When converting permutations to combinations
-4. **Overlooking repeated elements:** MISSISSIPPI needs multinomial, not simple $n!$
+1. **اشتباه گرفتن جایگشت و ترکیب:** همیشه بپرسید «آیا ترتیب مهم است؟»
+2. **سوءفهم «بدون تکرار»:** یعنی جایگاه‌ها/اسلات‌های متمایز، نه نمونه‌گیری بدون بازگرداندن
+3. **فراموش کردن تقسیم بر k!:** هنگام تبدیل جایگشت به ترکیب
+4. **نادیده گرفتن عناصر تکراری:** MISSISSIPPI به ضریب چندجمله‌ای نیاز دارد، نه $n!$ ساده
 
-### Python Tools
+### ابزارهای پایتون
 
 ```python
 import math
@@ -753,90 +756,90 @@ comb(n, k, exact=True)            # C(n,k)
 comb(n+k-1, k, exact=True)        # Combinations with repetition
 ```
 
-Mastering these counting techniques provides a powerful toolkit for tackling a wide range of probability problems. In the next chapter, we will move on to exploring probabilities when events are not independent, introducing the concept of Conditional Probability.
+تسلط بر این روش‌های شمارش ابزار قدرتمندی برای طیف گسترده‌ای از مسائل احتمال فراهم می‌کند. در فصل بعد، وقتی رویدادها مستقل نیستند، احتمال شرطی را بررسی می‌کنیم.
 
 +++
 
-## Exercises
+## تمرین‌ها
 
-1. **Multiplication Principle:** A password must contain:
-   - 3 letters (26 choices each, case-insensitive)
-   - 2 digits (0-9)
-   - 1 special character (!  @, #, $, %)
+1. **اصل ضرب:** یک رمز عبور باید شامل باشد:
+   - ۳ حرف (هر کدام ۲۶ انتخاب، بدون حساسیت به بزرگی/کوچکی)
+   - ۲ رقم (۰-۹)
+   - ۱ کاراکتر ویژه (!  @, #, $, %)
 
-   How many different passwords are possible if:
-   a) Characters can repeat
-   b) All characters must be distinct
+   چند رمز عبور مختلف ممکن است اگر:
+   الف) کاراکترها تکرار شوند
+   ب) همهٔ کاراکترها متمایز باشند
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   **a) With repetition allowed:**
+   **الف) با تکرار مجاز:**
 
-   Using the Multiplication Principle:
-   - Letters: $26 \times 26 \times 26 = 26^3$
-   - Digits: $10 \times 10 = 10^2$
-   - Special char: $5$ choices
+   با اصل ضرب:
+   - حروف: $26 \times 26 \times 26 = 26^3$
+   - رقم‌ها: $10 \times 10 = 10^2$
+   - کاراکتر ویژه: $5$ انتخاب
 
-   Total: $26^3 \times 10^2 \times 5 = 17{,}576 \times 100 \times 5 = 8{,}788{,}000$
+   مجموع: $26^3 \times 10^2 \times 5 = 17{,}576 \times 100 \times 5 = 8{,}788{,}000$
 
-   **b) All distinct:**
+   **ب) همه متمایز:**
 
-   - First letter: 26 choices
-   - Second letter: 25 choices (can't reuse first)
-   - Third letter: 24 choices
-   - First digit: 10 choices
-   - Second digit: 9 choices (can't reuse first digit)
-   - Special char: 5 choices
+   - حرف اول: ۲۶ انتخاب
+   - حرف دوم: ۲۵ انتخاب (نمی‌توان اول را دوباره استفاده کرد)
+   - حرف سوم: ۲۴ انتخاب
+   - رقم اول: ۱۰ انتخاب
+   - رقم دوم: ۹ انتخاب (نمی‌توان رقم اول را دوباره استفاده کرد)
+   - کاراکتر ویژه: ۵ انتخاب
 
-   Total: $26 \times 25 \times 24 \times 10 \times 9 \times 5 = 7{,}020{,}000$
+   مجموع: $26 \times 25 \times 24 \times 10 \times 9 \times 5 = 7{,}020{,}000$
    ```
 
-2. **Permutations:** A class has 12 students. In how many ways can:
-   a) A president, vice president, and secretary be chosen (different roles)?
-   b) An unordered committee of 3 students be formed?
-   c) Verify that your answer to (a) equals your answer to (b) multiplied by 3!
+2. **جایگشت:** کلاسی ۱۲ دانشجو دارد. چند روش برای:
+   الف) انتخاب رئیس، معاون و منشی (نقش‌های مختلف)؟
+   ب) تشکیل کمیتهٔ بدون ترتیب ۳ نفره؟
+   ج) تأیید کنید پاسخ (الف) برابر پاسخ (ب) ضربدر ۳! است!
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   **a) Ordered selection (different roles) — Permutation:**
+   **الف) انتخاب مرتب (نقش‌های مختلف) — جایگشت:**
 
    $$P(12, 3) = \frac{12!}{(12-3)!} = \frac{12!}{9!} = 12 \times 11 \times 10 = 1{,}320$$
 
-   **b) Unordered selection (committee) — Combination:**
+   **ب) انتخاب بدون ترتیب (کمیته) — ترکیب:**
 
    $$C(12, 3) = \binom{12}{3} = \frac{12!}{3! \cdot 9!} = \frac{12 \times 11 \times 10}{3 \times 2 \times 1} = \frac{1{,}320}{6} = 220$$
 
-   **c) Verification:**
+   **ج) تأیید:**
 
    $C(12, 3) \times 3! = 220 \times 6 = 1{,}320 = P(12, 3)$ ✓
 
-   This confirms that $P(n,k) = C(n,k) \times k!$ — permutations count all orderings of each combination.
+   این تأیید می‌کند $P(n,k) = C(n,k) \times k!$ — جایگشت همهٔ ترتیب‌های هر ترکیب را می‌شمارد.
    ```
 
-3. **Permutations with Repetition:** How many distinct arrangements can be made from the letters in:
-   a) STATISTICS
-   b) PROBABILITY
+3. **جایگشت با تکرار:** چند چینش متمایز از حروف در:
+   الف) STATISTICS
+   ب) PROBABILITY
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   **a) STATISTICS:**
+   **الف) STATISTICS:**
 
-   Total letters: 10
+   کل حروف: 10
    - S: 3
    - T: 3
    - A: 1
    - I: 2
    - C: 1
 
-   Number of distinct arrangements:
+   تعداد چینش‌های متمایز:
    $$\frac{10!}{3! \cdot 3! \cdot 1! \cdot 2! \cdot 1!} = \frac{3{,}628{,}800}{6 \times 6 \times 1 \times 2 \times 1} = \frac{3{,}628{,}800}{72} = 50{,}400$$
 
-   **b) PROBABILITY:**
+   **ب) PROBABILITY:**
 
-   Total letters: 11
+   کل حروف: 11
    - P: 1
    - R: 1
    - O: 1
@@ -847,81 +850,81 @@ Mastering these counting techniques provides a powerful toolkit for tackling a w
    - T: 1
    - Y: 1
 
-   Number of distinct arrangements:
+   تعداد چینش‌های متمایز:
    $$\frac{11!}{1! \cdot 1! \cdot 1! \cdot 2! \cdot 1! \cdot 2! \cdot 1! \cdot 1! \cdot 1!} = \frac{39{,}916{,}800}{2 \times 2} = \frac{39{,}916{,}800}{4} = 9{,}979{,}200$$
    ```
 
-4. **Combinations:** A standard deck has 52 cards. How many different 5-card poker hands:
-   a) Are possible in total?
-   b) Contain all hearts?
-   c) Contain exactly 2 aces?
+4. **ترکیب:** یک دستهٔ استاندارد ۵۲ کارت دارد. چند دست پنج‌کارتی پوکر:
+   الف) در کل ممکن است؟
+   ب) همهٔ دل دارند؟
+   ج) دقیقاً ۲ آس دارند؟
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   **a) Total 5-card hands:**
+   **الف) کل دست‌های پنج‌کارتی:**
 
    $$\binom{52}{5} = \frac{52!}{5! \cdot 47!} = \frac{52 \times 51 \times 50 \times 49 \times 48}{120} = 2{,}598{,}960$$
 
-   **b) All hearts:**
+   **ب) همه دل:**
 
-   Choose 5 from 13 hearts:
+   انتخاب ۵ از ۱۳ دل:
    $$\binom{13}{5} = \frac{13!}{5! \cdot 8!} = \frac{13 \times 12 \times 11 \times 10 \times 9}{120} = 1{,}287$$
 
-   **c) Exactly 2 aces:**
+   **ج) دقیقاً ۲ آس:**
 
-   - Choose 2 aces from 4: $\binom{4}{2}$
-   - Choose 3 non-aces from 48: $\binom{48}{3}$
+   - انتخاب ۲ آس از ۴: $\binom{4}{2}$
+   - انتخاب ۳ غیرآس از ۴۸: $\binom{48}{3}$
 
    $$\binom{4}{2} \times \binom{48}{3} = 6 \times \frac{48 \times 47 \times 46}{6} = 6 \times 17{,}296 = 103{,}776$$
    ```
 
-5. **Combinations with Repetition:** An ice cream shop offers 8 flavors. How many ways can you order:
-   a) 3 scoops if each must be a different flavor?
-   b) 3 scoops if flavors can repeat (stars and bars)?
-   c) If you order 3 chocolate scoops, which formula applies?
+5. **ترکیب با تکرار:** بستنی‌فروشی ۸ طعم دارد. چند روش برای سفارش:
+   الف) ۳ اسکوپ اگر هر کدام طعم متفاوت باشد؟
+   ب) ۳ اسکوپ اگر طعم‌ها تکرار شوند (ستاره و میله)؟
+   ج) اگر ۳ اسکوپ شکلاتی سفارش دهید، کدام فرمول اعمال می‌شود؟
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   **a) All different flavors (without repetition):**
+   **الف) همه طعم‌های متفاوت (بدون تکرار):**
 
-   Choose 3 flavors from 8 (order doesn't matter for scoops):
+   انتخاب ۳ طعم از ۸ (برای اسکوپ‌ها ترتیب مهم نیست):
    $$\binom{8}{3} = \frac{8!}{3! \cdot 5!} = \frac{8 \times 7 \times 6}{6} = 56$$
 
-   **b) Flavors can repeat (with repetition):**
+   **ب) طعم‌ها تکرار شوند (با تکرار):**
 
-   Using stars and bars: $n = 8$ flavors, $k = 3$ scoops
+   با ستاره و میله: $n = 8$ طعم، $k = 3$ اسکوپ
    $$\binom{n+k-1}{k} = \binom{8+3-1}{3} = \binom{10}{3} = \frac{10 \times 9 \times 8}{6} = 120$$
 
-   **c) Three chocolate scoops:**
+   **ج) سه اسکوپ شکلاتی:**
 
-   This is counted in (b) as one of the 120 possibilities. The "combinations with repetition" formula applies because we're choosing 3 items from 8 types where the same type can be chosen multiple times.
+   این در (ب) یکی از ۱۲۰ حالت است. فرمول «ترکیب با تکرار» اعمال می‌شود چون ۳ مورد از ۸ نوع انتخاب می‌کنیم و همان نوع می‌تواند چند بار انتخاب شود.
    ```
 
-6. **Mixed Application:** You roll a fair die 4 times. What is the probability of getting exactly 2 sixes?
+6. **کاربرد ترکیبی:** یک تاس منصفانه ۴ بار انداخته می‌شود. احتمال دقیقاً ۲ شش چقدر است؟
 
-   *Hint: First count favorable outcomes using combinations to choose which 2 rolls are sixes, then calculate probability.*
+   *راهنما: ابتدا پیامدهای مطلوب را با ترکیب برای انتخاب اینکه کدام ۲ پرتاب شش باشند بشمارید، سپس احتمال را محاسبه کنید.*
 
-   ```{admonition} Answer
+   ```{admonition} پاسخ
    :class: dropdown
 
-   **Step 1: Count favorable outcomes**
+   **گام ۱: شمارش پیامدهای مطلوب**
 
-   - Choose which 2 of the 4 rolls are sixes: $\binom{4}{2} = 6$ ways
-   - For each choice:
-     - The 2 chosen positions must be 6: probability $(1/6)^2$
-     - The 2 other positions must not be 6: probability $(5/6)^2$
+   - انتخاب اینکه کدام ۲ از ۴ پرتاب شش باشند: $\binom{4}{2} = 6$ روش
+   - برای هر انتخاب:
+     - ۲ جایگاه انتخاب‌شده باید ۶ باشند: احتمال $(1/6)^2$
+     - ۲ جایگاه دیگر نباید ۶ باشند: احتمال $(5/6)^2$
 
-   **Step 2: Calculate probability**
+   **گام ۲: محاسبهٔ احتمال**
 
-   Each specific sequence with exactly 2 sixes has probability:
+   هر دنبالهٔ مشخص با دقیقاً ۲ شش احتمال دارد:
    $$\left(\frac{1}{6}\right)^2 \times \left(\frac{5}{6}\right)^2 = \frac{1 \times 25}{36 \times 36} = \frac{25}{1{,}296}$$
 
-   There are $\binom{4}{2} = 6$ such sequences, so:
+   $\binom{4}{2} = 6$ چنین دنباله‌ای وجود دارد، پس:
    $$P(\text{exactly 2 sixes}) = 6 \times \frac{25}{1{,}296} = \frac{150}{1{,}296} = \frac{75}{648} = \frac{25}{216} \approx 0.1157$$
 
-   **Interpretation:** This uses combinations without repetition to choose which positions are sixes (positions 1,2 vs 1,3 vs 1,4 etc. are different), not because we're sampling without replacement.
+   **تفسیر:** این از ترکیب بدون تکرار برای انتخاب جایگاه‌های شش (جایگاه ۱,۲ در برابر ۱,۳ در برابر ۱,۴ و غیره متفاوت‌اند) استفاده می‌کند، نه به‌خاطر نمونه‌گیری بدون بازگرداندن.
    ```
 
 ```{code-cell} ipython3

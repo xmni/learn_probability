@@ -14,65 +14,65 @@ downloads:
   - file: notebooks/chapter_14.ipynb
 ---
 
-# Chapter 14: The Law of Large Numbers (LLN)
+# فصل ۱۴: قانون اعداد بزرگ (LLN)
 
 +++
 
-## Introduction
+## مقدمه
 
-In the previous chapters, we explored individual random variables and their distributions, as well as how multiple variables interact. Now, we venture into the fascinating realm of *limit theorems*. These theorems describe the long-term behavior of sequences of random variables, forming the theoretical bedrock for many statistical methods and simulations.
+در فصول پیشین، متغیرهای تصادفی تکی و توزیع‌های آن‌ها و همچنین نحوه تعامل چند متغیر را بررسی کردیم. اکنون وارد حوزهٔ جذاب *قضایای حدی* می‌شویم. این قضایا رفتار بلندمدت دنباله‌های متغیرهای تصادفی را توصیف می‌کنند و پایهٔ نظری بسیاری از روش‌های آماری و شبیه‌سازی را تشکیل می‌دهند.
 
-The first major limit theorem we'll explore is the **Law of Large Numbers (LLN)**. Intuitively, the LLN tells us that if we repeat an experiment independently many times, the average of the outcomes will tend to get closer and closer to the theoretical expected value of the experiment. This aligns with our everyday understanding – flip a fair coin enough times, and the proportion of heads will likely be very close to 50%. The LLN provides the mathematical justification for this intuition and is fundamental to why simulation methods, like Monte Carlo, work.
+نخستین قضیای حدی مهمی که بررسی می‌کنیم **قانون اعداد بزرگ (LLN)** است. به‌صورت شهودی، LLN می‌گوید اگر یک آزمایش را به‌صورت مستقل بارها تکرار کنیم، میانگین پیامدها به‌تدریج به امید ریاضی نظری آن آزمایش نزدیک‌تر می‌شود. این با درک روزمرهٔ ما همخوان است — اگر یک سکهٔ منصفانه را به‌اندازهٔ کافی پرتاب کنیم، سهم شیرها احتمالاً بسیار نزدیک به ۵۰٪ خواهد بود. LLN توجیه ریاضی این شهود را فراهم می‌کند و بنیادی است برای اینکه چرا روش‌های شبیه‌سازی مانند مونت‌کارلو کار می‌کنند.
 
-In this chapter, we will:
-1.  Introduce **Chebyshev's Inequality**, a tool that provides a bound on how likely a random variable is to deviate far from its mean.
-2.  Define and explain the **Weak Law of Large Numbers (WLLN)**, focusing on convergence in probability.
-3.  Discuss the conceptual difference with the **Strong Law of Large Numbers (SLLN)**.
-4.  Illustrate the practical implications, particularly how the LLN justifies **Monte Carlo simulations**.
-5.  Use Python simulations to visualize the convergence described by the LLN.
+در این فصل:
+1.  **نابرابری چبی‌شف** را معرفی می‌کنیم؛ ابزاری که کران بالایی برای احتمال دور شدن یک متغیر تصادفی از میانگینش می‌دهد.
+2.  **قانون ضعیف اعداد بزرگ (WLLN)** را تعریف و توضیح می‌دهیم و بر همگرایی در احتمال تمرکز می‌کنیم.
+3.  تفاوت مفهومی با **قانون قوی اعداد بزرگ (SLLN)** را بررسی می‌کنیم.
+4.  پیامدهای کاربردی را، به‌ویژه چگونگی توجیه **شبیه‌سازی‌های مونت‌کارلو** توسط LLN، نشان می‌دهیم.
+5.  با شبیه‌سازی پایتون، همگرایی توصیف‌شده توسط LLN را مصور می‌کنیم.
 
-Let's begin by looking at an inequality that helps us quantify deviations from the mean.
+با نگاهی به نابرابری‌ای که به کمی‌سازی انحراف از میانگین کمک می‌کند آغاز می‌کنیم.
 
 +++
 
-## Chebyshev's Inequality
+## نابرابری چبی‌شف
 
-Chebyshev's Inequality provides a way to estimate the probability that a random variable takes a value far from its mean, using only its mean ($\mu$) and variance ($\sigma^2$). It's powerful because it applies regardless of the specific distribution of the random variable, as long as the mean and variance are finite.
+نابرابری چبی‌شف راهی برای برآورد احتمالی است که یک متغیر تصادفی مقداری دور از میانگینش بگیرد، تنها با استفاده از میانگین ($\mu$) و واریانس ($\sigma^2$). قدرت آن در این است که صرف‌نظر از توزیع خاص متغیر تصادفی اعمال می‌شود، به‌شرطی که میانگین و واریانس متناهی باشند.
 
-**Theorem (Chebyshev's Inequality):** Let $X$ be a random variable with finite mean $\mu = E[X]$ and finite variance $\sigma^2 = Var(X)$. Then, for any real number $\epsilon > 0$:
+**قضیه (نابرابری چبی‌شف):** فرض کنید $X$ متغیر تصادفی با میانگین متناهی $\mu = E[X]$ و واریانس متناهی $\sigma^2 = Var(X)$ باشد. آنگاه برای هر عدد حقیقی $\epsilon > 0$:
 
 $$P(|X - \mu| \ge \epsilon) \le \frac{Var(X)}{\epsilon^2} = \frac{\sigma^2}{\epsilon^2}$$
 
-Alternatively, letting $\epsilon = k\sigma$ for some $k > 0$, the inequality can be written as:
+به‌صورت معادل، با قرار دادن $\epsilon = k\sigma$ برای برخی $k > 0$، نابرابری را می‌توان نوشت:
 
 $$P(|X - \mu| \ge k\sigma) \le \frac{1}{k^2}$$
 
-This second form states that the probability of $X$ being $k$ or more standard deviations away from its mean is at most $1/k^2$.
+این شکل دوم می‌گوید احتمال اینکه $X$ به اندازهٔ $k$ انحراف معیار یا بیشتر از میانگینش فاصله داشته باشد، حداکثر $1/k^2$ است.
 
-* For $k=2$, the probability of being 2 or more standard deviations away is at most $1/4 = 0.25$.
-* For $k=3$, the probability of being 3 or more standard deviations away is at most $1/9 \approx 0.11$.
+* برای $k=2$، احتمال دور بودن به اندازهٔ ۲ انحراف معیار یا بیشتر حداکثر $1/4 = 0.25$ است.
+* برای $k=3$، احتمال دور بودن به اندازهٔ ۳ انحراف معیار یا بیشتر حداکثر $1/9 \approx 0.11$ است.
 
-**Interpretation:** Chebyshev's inequality gives us a *guaranteed upper bound* on the probability of large deviations. This bound is often quite loose (i.e., the actual probability might be much smaller), especially if we know more about the distribution (like if it's Normal). However, its universality makes it very useful in theoretical contexts.
+**تفسیر:** نابرابری چبی‌شف *کران بالای تضمین‌شده* برای احتمال انحرافات بزرگ می‌دهد. این کران اغلب نسبتاً شل است (یعنی احتمال واقعی ممکن است بسیار کوچک‌تر باشد)، به‌ویژه اگر دربارهٔ توزیع اطلاعات بیشتری داشته باشیم (مثلاً اگر نرمال باشد). با این حال، عمومیت آن در زمینه‌های نظری بسیار مفید است.
 
-**Example:** Suppose the average daily return of a stock ($\mu$) is 0.05% and the standard deviation ($\sigma$) is 1%. What is the maximum probability that the return on a given day is outside the range [-1.95%, 2.05%]?
-This range corresponds to being $k\sigma$ away from the mean, where $k\sigma = 2\%$, so $k = 2\% / 1\% = 2$.
-Using Chebyshev's inequality with $k=2$:
+**مثال:** فرض کنید میانگین بازده روزانه یک سهم ($\mu$) برابر ۰٫۰۵٪ و انحراف معیار ($\sigma$) برابر ۱٪ باشد. بیشینهٔ احتمال بازده در یک روز مشخص خارج از بازهٔ [-1.95%, 2.05%] چقدر است؟
+این بازه معادل فاصلهٔ $k\sigma$ از میانگین است، که در آن $k\sigma = 2\%$، پس $k = 2\% / 1\% = 2$.
+با استفاده از نابرابری چبی‌شف برای $k=2$:
 $P(|X - 0.05\%| \ge 2 \times 1\%) \le \frac{1}{2^2} = \frac{1}{4} = 0.25$.
-So, there's at most a 25% chance that the daily return falls outside the [-1.95%, 2.05%] range, regardless of the specific distribution shape (as long as mean and variance are as stated).
+پس حداکثر ۲۵٪ احتمال وجود دارد که بازده روزانه خارج از بازهٔ [-1.95%, 2.05%] بیفتد، صرف‌نظر از شکل توزیع خاص (به‌شرطی که میانگین و واریانس همان‌طور که گفته شد باشند).
 
 +++
 
-### Hands-on: Illustrating Chebyshev's Bound
+### عملی: نمایش کران چبی‌شف
 
-Let's consider a Binomial random variable, say $X \sim Binomial(n=100, p=0.5)$.
-We know $E[X] = np = 100 \times 0.5 = 50$.
-And $Var(X) = np(1-p) = 100 \times 0.5 \times 0.5 = 25$, so $\sigma = \sqrt{25} = 5$.
+یک متغیر تصادفی دوجمله‌ای در نظر بگیریم، مثلاً $X \sim Binomial(n=100, p=0.5)$.
+می‌دانیم $E[X] = np = 100 \times 0.5 = 50$.
+و $Var(X) = np(1-p) = 100 \times 0.5 \times 0.5 = 25$، پس $\sigma = \sqrt{25} = 5$.
 
-Let's check the probability of being $k=2$ standard deviations away from the mean. That is, $P(|X - 50| \ge 2 \times 5) = P(|X - 50| \ge 10)$. This means we want $P(X \le 40 \text{ or } X \ge 60)$.
+احتمال دور بودن به اندازهٔ $k=2$ انحراف معیار از میانگین را بررسی می‌کنیم. یعنی $P(|X - 50| \ge 2 \times 5) = P(|X - 50| \ge 10)$. این یعنی می‌خواهیم $P(X \le 40 \text{ or } X \ge 60)$ را بیابیم.
 
-Chebyshev's inequality states: $P(|X - 50| \ge 10) \le \frac{1}{2^2} = 0.25$.
+نابرابری چبی‌شف می‌گوید: $P(|X - 50| \ge 10) \le \frac{1}{2^2} = 0.25$.
 
-Let's calculate the actual probability using `scipy.stats`.
+احتمال واقعی را با `scipy.stats` محاسبه می‌کنیم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -131,107 +131,107 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
 ```
 
-As we can see, the actual probability (around 0.0569) is much smaller than the Chebyshev bound (0.25). This illustrates that while the inequality always holds, it might not be very precise for specific, well-behaved distributions like the Binomial (which is close to Normal for these parameters).
+همان‌طور که می‌بینیم، احتمال واقعی (حدود ۰٫۰۵۶۹) بسیار کوچک‌تر از کران چبی‌شف (۰٫۲۵) است. این نشان می‌دهد که اگرچه نابرابری همیشه برقرار است، ممکن است برای توزیع‌های خاص و خوش‌رفتار مانند دوجمله‌ای (که برای این پارامترها به نرمال نزدیک است) چندان دقیق نباشد.
 
 +++
 
-## The Law of Large Numbers (LLN)
+## قانون اعداد بزرگ (LLN)
 
-Chebyshev's inequality provides a foundation for proving one version of the Law of Large Numbers. The LLN formalizes the idea that sample averages converge to the population mean as the sample size increases.
+نابرابری چبی‌شف پایه‌ای برای اثبات یکی از نسخه‌های قانون اعداد بزرگ فراهم می‌کند. LLN ایدهٔ همگرایی میانگین‌های نمونه به میانگین جامعه با افزایش اندازهٔ نمونه را رسمی می‌کند.
 
-Let $X_1, X_2, ..., X_n$ be a sequence of independent and identically distributed (i.i.d.) random variables, each with the same finite mean $\mu = E[X_i]$ and finite variance $\sigma^2 = Var(X_i)$.
+فرض کنید $X_1, X_2, ..., X_n$ دنباله‌ای از متغیرهای تصادفی مستقل و همتوزیع (i.i.d.) باشند که هر کدام میانگین متناهی یکسان $\mu = E[X_i]$ و واریانس متناهی $\sigma^2 = Var(X_i)$ دارند.
 
-Let $\bar{X}_n$ be the sample mean (average) of the first $n$ variables:
+$\bar{X}_n$ میانگین نمونه (میانگین) $n$ متغیر نخست باشد:
 $$\bar{X}_n = \frac{X_1 + X_2 + ... + X_n}{n}$$
 
-The LLN describes the behavior of $\bar{X}_n$ as $n \to \infty$. There are two main versions:
+LLN رفتار $\bar{X}_n$ را با $n \to \infty$ توصیف می‌کند. دو نسخهٔ اصلی وجود دارد:
 
 +++
 
-### 1. Weak Law of Large Numbers (WLLN)
+### ۱. قانون ضعیف اعداد بزرگ (WLLN)
 
-The WLLN states that the sample mean $\bar{X}_n$ **converges in probability** to the true mean $\mu$.
+WLLN می‌گوید میانگین نمونه $\bar{X}_n$ **در احتمال** به میانگین واقعی $\mu$ همگرا می‌شود.
 
-**Definition (Convergence in Probability):** A sequence of random variables $Y_n$ converges in probability to a constant $c$ (written $Y_n \xrightarrow{P} c$) if, for every $\epsilon > 0$:
+**تعریف (همگرایی در احتمال):** دنباله‌ای از متغیرهای تصادفی $Y_n$ در احتمال به ثابت $c$ همگرا می‌شود (نوشته می‌شود $Y_n \xrightarrow{P} c$) اگر برای هر $\epsilon > 0$:
 $$\lim_{n\to\infty} P(|Y_n - c| \ge \epsilon) = 0$$
-In words: As $n$ gets larger, the probability that $Y_n$ is significantly different from $c$ becomes arbitrarily small.
+به زبان ساده: با بزرگ‌تر شدن $n$، احتمال اینکه $Y_n$ به‌طور معنادار از $c$ متفاوت باشد، به‌طور دلخواه کوچک می‌شود.
 
-**Theorem (Weak Law of Large Numbers):** If $X_1, X_2, ...$ are i.i.d. with finite mean $\mu$ and finite variance $\sigma^2$, then the sample mean $\bar{X}_n$ converges in probability to $\mu$:
+**قضیه (قانون ضعیف اعداد بزرگ):** اگر $X_1, X_2, ...$ i.i.d. با میانگین متناهی $\mu$ و واریانس متناهی $\sigma^2$ باشند، آنگاه میانگین نمونه $\bar{X}_n$ در احتمال به $\mu$ همگرا می‌شود:
 $$\bar{X}_n \xrightarrow{P} \mu \quad \text{as } n \to \infty$$
-That is, for any $\epsilon > 0$:
+یعنی برای هر $\epsilon > 0$:
 $$\lim_{n\to\infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0$$
 
-**Proof using Chebyshev's Inequality:**
-We need the properties of expected value and variance for the sample mean $\bar{X}_n$:
+**اثبات با استفاده از نابرابری چبی‌شف:**
+به ویژگی‌های امید ریاضی و واریانس میانگین نمونه $\bar{X}_n$ نیاز داریم:
 1.  $E[\bar{X}_n] = E\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n}\sum_{i=1}^n \mu = \frac{n\mu}{n} = \mu$.
-    (The expected value of the sample mean is the true mean).
+    (امید ریاضی میانگین نمونه برابر میانگین واقعی است).
 2.  $Var(\bar{X}_n) = Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2} Var\left(\sum_{i=1}^n X_i\right)$.
-    Since the $X_i$ are independent:
+    از آنجا که $X_i$ها مستقل‌اند:
     $Var(\bar{X}_n) = \frac{1}{n^2} \sum_{i=1}^n Var(X_i) = \frac{1}{n^2} \sum_{i=1}^n \sigma^2 = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}$.
-    (The variance of the sample mean decreases as $n$ increases).
+    (واریانس میانگین نمونه با افزایش $n$ کاهش می‌یابد).
 
-Now, apply Chebyshev's Inequality to the random variable $\bar{X}_n$, which has mean $\mu$ and variance $\sigma^2/n$:
+اکنون نابرابری چبی‌شف را برای متغیر تصادفی $\bar{X}_n$ که میانگین $\mu$ و واریانس $\sigma^2/n$ دارد اعمال می‌کنیم:
 $$P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{Var(\bar{X}_n)}{\epsilon^2} = \frac{\sigma^2/n}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2}$$
-Taking the limit as $n \to \infty$:
+با گرفتن حد وقتی $n \to \infty$:
 $$\lim_{n\to\infty} P(|\bar{X}_n - \mu| \ge \epsilon) \le \lim_{n\to\infty} \frac{\sigma^2}{n\epsilon^2} = 0$$
-Since probability cannot be negative, the limit must be exactly 0. This proves the WLLN under the condition of finite variance. (Note: The WLLN holds even if only the mean is finite, but the proof is more complex).
+از آنجا که احتمال نمی‌تواند منفی باشد، حد باید دقیقاً ۰ باشد. این WLLN را در شرط واریانس متناهی اثبات می‌کند. (توجه: WLLN حتی اگر فقط میانگین متناهی باشد نیز برقرار است، اما اثبات پیچیده‌تر است).
 
-**Intuition:** The WLLN tells us that for a *sufficiently large sample size n*, the probability that the sample average $\bar{X}_n$ deviates from the true mean $\mu$ by more than any small amount $\epsilon$ is very low.
+**شهود:** WLLN می‌گوید برای *اندازهٔ نمونهٔ $n$ به‌اندازهٔ کافی بزرگ*، احتمال اینکه میانگین نمونه $\bar{X}_n$ بیش از هر مقدار کوچک $\epsilon$ از میانگین واقعی $\mu$ منحرف شود، بسیار کم است.
 
 +++
 
-### 2. Strong Law of Large Numbers (SLLN)
+### ۲. قانون قوی اعداد بزرگ (SLLN)
 
-The SLLN makes a stronger statement about the convergence of the sample mean. It states that $\bar{X}_n$ converges **almost surely** to $\mu$.
+SLLN گزارهٔ قوی‌تری دربارهٔ همگرایی میانگین نمونه می‌دهد. می‌گوید $\bar{X}_n$ **تقریباً مطمئن** به $\mu$ همگرا می‌شود.
 
-**Definition (Almost Sure Convergence):** A sequence of random variables $Y_n$ converges almost surely to a constant $c$ (written $Y_n \xrightarrow{a.s.} c$) if:
+**تعریف (همگرایی تقریباً مطمئن):** دنباله‌ای از متغیرهای تصادفی $Y_n$ تقریباً مطمئن به ثابت $c$ همگرا می‌شود (نوشته می‌شود $Y_n \xrightarrow{a.s.} c$) اگر:
 $$P\left( \lim_{n\to\infty} Y_n = c \right) = 1$$
-In words: The probability that the sequence of values $Y_n$ eventually converges to and stays at $c$ is 1. This means that for any *specific realization* (sequence of outcomes) of the random process, the sample average will converge to the true mean, except possibly for a set of outcomes with zero probability.
+به زبان ساده: احتمال اینکه دنبالهٔ مقادیر $Y_n$ در نهایت به $c$ همگرا شود و در آن بماند برابر ۱ است. این یعنی برای هر *تحقق مشخص* (دنبالهٔ پیامدها) از فرایند تصادفی، میانگین نمونه به میانگین واقعی همگرا می‌شود، به‌جز شاید برای مجموعه‌ای از پیامدها با احتمال صفر.
 
-**Theorem (Strong Law of Large Numbers - Kolmogorov):** If $X_1, X_2, ...$ are i.i.d. with finite mean $\mu = E[X_i]$, then the sample mean $\bar{X}_n$ converges almost surely to $\mu$:
+**قضیه (قانون قوی اعداد بزرگ — کولموگوروف):** اگر $X_1, X_2, ...$ i.i.d. با میانگین متناهی $\mu = E[X_i]$ باشند، آنگاه میانگین نمونه $\bar{X}_n$ تقریباً مطمئن به $\mu$ همگرا می‌شود:
 $$\bar{X}_n \xrightarrow{a.s.} \mu \quad \text{as } n \to \infty$$
 $$P\left( \lim_{n\to\infty} \bar{X}_n = \mu \right) = 1$$
-*(Note: The condition for the SLLN only requires finite mean, not finite variance, unlike our proof of the WLLN using Chebyshev).*
+*(توجه: شرط SLLN فقط میانگین متناهی را می‌طلبد، نه واریانس متناهی، برخلاف اثبات WLLN با چبی‌شف).*
 
-**WLLN vs SLLN:**
-* WLLN concerns the probability of deviation for a *specific large n*. It doesn't guarantee that convergence will happen for a *particular sequence* of outcomes.
-* SLLN concerns the behavior of the *entire sequence* of sample averages. It guarantees that the sample average will *eventually* converge to the true mean for almost every possible sequence of outcomes.
+**WLLN در برابر SLLN:**
+* WLLN به احتمال انحراف برای یک *$n$ بزرگ مشخص* مربوط است. تضمین نمی‌کند که همگرایی برای یک *دنبالهٔ خاص* از پیامدها رخ دهد.
+* SLLN به رفتار *کل دنباله* میانگین‌های نمونه مربوط است. تضمین می‌کند میانگین نمونه *در نهایت* به میانگین واقعی همگرا شود برای تقریباً هر دنبالهٔ ممکن از پیامدها.
 
-For most practical applications in simulation and statistics, the intuition provided by either law is similar: **the sample average is a reliable estimator of the true expected value for large sample sizes.**
+برای بیشتر کاربردهای عملی در شبیه‌سازی و آمار، شهود ارائه‌شده توسط هر یک از این قوانین مشابه است: **میانگین نمونه برای اندازه‌های نمونهٔ بزرگ، برآوردگر قابل‌اعتمادی از امید ریاضی واقعی است.**
 
 +++
 
-## Applications: Justification for Monte Carlo Methods
+## کاربردها: توجیه روش‌های مونت‌کارلو
 
-The Law of Large Numbers is the cornerstone of **Monte Carlo simulation**. Monte Carlo methods use repeated random sampling to obtain numerical results, often when analytical solutions are intractable.
+قانون اعداد بزرگ سنگ‌بنای **شبیه‌سازی مونت‌کارلو** است. روش‌های مونت‌کارلو از نمونه‌گیری تصادفی تکراری برای به‌دست آوردن نتایج عددی استفاده می‌کنند، اغلب وقتی راه‌حل‌های تحلیلی دشوار یا غیرممکن‌اند.
 
-Consider estimating a probability $p$ of some event $A$. We can perform $n$ independent trials of the relevant experiment. Let $X_i$ be an indicator random variable for the $i$-th trial:
-$X_i = 1$ if event $A$ occurs on trial $i$,
-$X_i = 0$ if event $A$ does not occur on trial $i$.
+برآورد احتمال $p$ وقوع واقعه‌ای $A$ را در نظر بگیرید. می‌توانیم $n$ آزمایش مستقل از آزمایش مربوطه انجام دهیم. $X_i$ متغیر شاخص تصادفی برای آزمایش $i$-ام باشد:
+$X_i = 1$ اگر واقعه $A$ در آزمایش $i$ رخ دهد،
+$X_i = 0$ اگر واقعه $A$ در آزمایش $i$ رخ ندهد.
 
-Then $E[X_i] = 1 \cdot P(X_i=1) + 0 \cdot P(X_i=0) = P(A) = p$.
-The sample mean $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ represents the proportion of times event $A$ occurred in the $n$ trials (the empirical probability).
+آنگاه $E[X_i] = 1 \cdot P(X_i=1) + 0 \cdot P(X_i=0) = P(A) = p$.
+میانگین نمونه $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ سهم دفعاتی که واقعه $A$ در $n$ آزمایش رخ داده (احتمال تجربی) را نشان می‌دهد.
 
-By the LLN (either Weak or Strong), as $n \to \infty$:
+طبق LLN (ضعیف یا قوی)، با $n \to \infty$:
 $$\bar{X}_n \longrightarrow E[X_i] = p$$
-So, the proportion of successes in a large number of trials converges to the true probability of success. This justifies using the observed frequency from a large simulation to estimate an unknown probability.
+پس سهم موفقیت‌ها در تعداد زیادی آزمایش به احتمال واقعی موفقیت همگرا می‌شود. این توجیه می‌کند که از فراوانی مشاهده‌شده در یک شبیه‌سازی بزرگ برای برآورد احتمال ناشناخته استفاده کنیم.
 
-Similarly, if we want to estimate the expected value $E[g(Y)]$ for some random variable $Y$ and function $g$, we can generate many i.i.d. samples $Y_1, Y_2, ..., Y_n$ from the distribution of $Y$. Let $Z_i = g(Y_i)$. Then $E[Z_i] = E[g(Y)]$. The sample mean of the transformed variables is:
+به‌طور مشابه، اگر بخواهیم امید ریاضی $E[g(Y)]$ را برای متغیر تصادفی $Y$ و تابع $g$ برآورد کنیم، می‌توانیم نمونه‌های i.i.d. زیادی $Y_1, Y_2, ..., Y_n$ از توزیع $Y$ تولید کنیم. $Z_i = g(Y_i)$ باشد. آنگاه $E[Z_i] = E[g(Y)]$. میانگین نمونه متغیرهای تبدیل‌شده:
 $$\bar{Z}_n = \frac{1}{n} \sum_{i=1}^n g(Y_i)$$
-By the LLN, as $n \to \infty$:
+طبق LLN، با $n \to \infty$:
 $$\bar{Z}_n \longrightarrow E[Z_i] = E[g(Y)]$$
-Thus, the average of $g(Y_i)$ over many simulations converges to the true expected value $E[g(Y)]$. This is the basis for Monte Carlo integration and estimating expected values of complex systems.
+بنابراین میانگین $g(Y_i)$ در شبیه‌سازی‌های زیاد به امید ریاضی واقعی $E[g(Y)]$ همگرا می‌شود. این مبنای انتگرال‌گیری مونت‌کارلو و برآورد امید ریاضی سامانه‌های پیچیده است.
 
 +++
 
-## Hands-on: Simulating the Law of Large Numbers
+## عملی: شبیه‌سازی قانون اعداد بزرگ
 
-Let's visualize the LLN by simulating the rolling of a fair six-sided die.
-The random variable $X$ is the outcome of a single roll. The sample space is $\{1, 2, 3, 4, 5, 6\}$.
-The true mean (expected value) is:
+LLN را با شبیه‌سازی پرتاب یک تاس منصفانه شش‌وجهی مصور می‌کنیم.
+متغیر تصادفی $X$ پیامد یک پرتاب تکی است. فضای نمونه $\{1, 2, 3, 4, 5, 6\}$ است.
+میانگین واقعی (امید ریاضی):
 $$E[X] = \sum_{k=1}^6 k \cdot P(X=k) = \sum_{k=1}^6 k \cdot \frac{1}{6} = \frac{1+2+3+4+5+6}{6} = \frac{21}{6} = 3.5$$
 
-We will simulate $N$ die rolls, calculate the running sample average after each roll, and plot how it converges towards the theoretical mean of 3.5.
+$N$ پرتاب تاس را شبیه‌سازی می‌کنیم، میانگین نمونهٔ تجمعی پس از هر پرتاب را محاسبه می‌کنیم و نحوهٔ همگرایی آن به سمت میانگین نظری ۳٫۵ را رسم می‌کنیم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -293,31 +293,31 @@ print(f"Final sample average after {num_rolls} rolls: {running_average[-1]:.4f}"
 print(f"Difference from true mean: {abs(running_average[-1] - true_mean):.4f}")
 ```
 
-The plots clearly demonstrate the LLN in action. Initially, the sample average fluctuates significantly. However, as the number of rolls increases, the sample average stabilizes and gets progressively closer to the true expected value of 3.5. The final average after 5000 rolls is very close to the theoretical mean. This convergence is exactly what the LLN predicts.
+نمودارها به‌وضوح LLN را در عمل نشان می‌دهند. در ابتدا، میانگین نمونه نوسانات قابل‌توجهی دارد. اما با افزایش تعداد پرتاب‌ها، میانگین نمونه پایدار می‌شود و به‌تدریج به امید ریاضی واقعی ۳٫۵ نزدیک‌تر می‌شود. میانگین نهایی پس از ۵۰۰۰ پرتاب بسیار نزدیک به میانگین نظری است. این همگرایی دقیقاً همان چیزی است که LLN پیش‌بینی می‌کند.
 
 +++
 
-## Chapter Summary
+## خلاصهٔ فصل
 
-* **Chebyshev's Inequality** provides a distribution-independent upper bound on the probability that a random variable deviates from its mean by a certain amount: $P(|X - \mu| \ge \epsilon) \le \frac{\sigma^2}{\epsilon^2}$. While often loose, it's universally applicable given finite mean and variance.
-* **The Law of Large Numbers (LLN)** describes the convergence of the sample average ($\bar{X}_n$) of i.i.d. random variables to the population mean ($\mu$) as the sample size ($n$) grows.
-* **Weak Law of Large Numbers (WLLN):** States that $\bar{X}_n$ converges *in probability* to $\mu$. This means $P(|\bar{X}_n - \mu| \ge \epsilon) \to 0$ as $n \to \infty$. It can be proven using Chebyshev's inequality (if variance is finite).
-* **Strong Law of Large Numbers (SLLN):** States that $\bar{X}_n$ converges *almost surely* to $\mu$. This means $P(\lim_{n\to\infty} \bar{X}_n = \mu) = 1$. It's a stronger condition, implying convergence for almost every specific sequence of outcomes.
-* **Applications:** The LLN is the fundamental justification for **Monte Carlo methods**, ensuring that averages calculated from large simulations reliably estimate true probabilities and expected values.
-* **Simulation:** We visualized the LLN by plotting the running average of simulated die rolls, observing its convergence towards the theoretical mean of 3.5.
+* **نابرابری چبی‌شف** کران بالای مستقل از توزیع برای احتمال انحراف یک متغیر تصادفی از میانگینش به میزان مشخصی می‌دهد: $P(|X - \mu| \ge \epsilon) \le \frac{\sigma^2}{\epsilon^2}$. اگرچه اغلب شل است، با میانگین و واریانس متناهی به‌طور عمومی قابل‌اعمال است.
+* **قانون اعداد بزرگ (LLN)** همگرایی میانگین نمونه ($\bar{X}_n$) متغیرهای تصادفی i.i.d. به میانگین جامعه ($\mu$) را با رشد اندازهٔ نمونه ($n$) توصیف می‌کند.
+* **قانون ضعیف اعداد بزرگ (WLLN):** می‌گوید $\bar{X}_n$ *در احتمال* به $\mu$ همگرا می‌شود. یعنی $P(|\bar{X}_n - \mu| \ge \epsilon) \to 0$ با $n \to \infty$. با نابرابری چبی‌شف قابل اثبات است (اگر واریانس متناهی باشد).
+* **قانون قوی اعداد بزرگ (SLLN):** می‌گوید $\bar{X}_n$ *تقریباً مطمئن* به $\mu$ همگرا می‌شود. یعنی $P(\lim_{n\to\infty} \bar{X}_n = \mu) = 1$. شرط قوی‌تری است و همگرایی را برای تقریباً هر دنبالهٔ خاص از پیامدها تضمین می‌کند.
+* **کاربردها:** LLN توجیه بنیادی **روش‌های مونت‌کارلو** است و تضمین می‌کند میانگین‌های محاسبه‌شده از شبیه‌سازی‌های بزرگ، احتمال‌ها و امیدهای ریاضی واقعی را به‌طور قابل‌اعتماد برآورد می‌کنند.
+* **شبیه‌سازی:** LLN را با رسم میانگین تجمعی پرتاب‌های تاس شبیه‌سازی‌شده مصور کردیم و همگرایی آن به سمت میانگین نظری ۳٫۵ را مشاهده کردیم.
 
-The LLN tells us *where* the sample average converges (to the population mean). Our next topic, the Central Limit Theorem (CLT), will tell us about the *shape of the distribution* of the sample average around that mean for large sample sizes.
+LLN می‌گوید میانگین نمونه *به کجا* همگرا می‌شود (به میانگین جامعه). موضوع بعدی ما، قضیه حد مرکزی (CLT)، دربارهٔ *شکل توزیع* میانگین نمونه حول آن میانگین برای اندازه‌های نمونهٔ بزرگ خواهد گفت.
 
 +++
 
-## Exercises
+## تمرین‌ها
 
-1.  **Chebyshev vs. Reality (Exponential):** Let $X \sim Exponential(\lambda=1)$. Recall $E[X] = 1/\lambda = 1$ and $Var(X) = 1/\lambda^2 = 1$.
-    a. Use Chebyshev's inequality to find an upper bound for $P(|X - 1| \ge 2)$. (Here $\mu=1, \sigma=1$, so $k=2$).
-    b. Calculate the exact probability $P(|X - 1| \ge 2) = P(X \ge 3)$ using the CDF of the Exponential distribution ($F(x) = 1 - e^{-\lambda x}$ for $x \ge 0$).
-    c. Compare the bound from (a) with the exact value from (b).
-2.  **Simulating LLN for Bernoulli:** Consider a Bernoulli trial with $p=0.3$ (probability of success). The true mean is $\mu = p = 0.3$.
-    a. Simulate 10,000 Bernoulli trials with $p=0.3$.
-    b. Calculate and plot the running average of the outcomes (which represents the empirical probability of success).
-    c. Verify visually that the running average converges towards 0.3.
-3.  **Convergence Rate:** In the proof of WLLN using Chebyshev, we found $P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\sigma^2}{n\epsilon^2}$. If we want to ensure this probability bound is less than 0.01 for $\epsilon=0.1$, how large does $n$ need to be for the die roll example ($Var(X) = E[X^2] - (E[X])^2 = (1^2+2^2+3^2+4^2+5^2+6^2)/6 - 3.5^2 = 91/6 - 12.25 \approx 15.167 - 12.25 = 2.917$)? Does this seem like a practical sample size based on the simulation?
+1.  **چبی‌شف در برابر واقعیت (نمایی):** فرض کنید $X \sim Exponential(\lambda=1)$. به‌خاطر بیاورید $E[X] = 1/\lambda = 1$ و $Var(X) = 1/\lambda^2 = 1$.
+    الف. با نابرابری چبی‌شف کران بالایی برای $P(|X - 1| \ge 2)$ بیابید. (اینجا $\mu=1, \sigma=1$، پس $k=2$).
+    ب. احتمال دقیق $P(|X - 1| \ge 2) = P(X \ge 3)$ را با استفاده از CDF توزیع نمایی ($F(x) = 1 - e^{-\lambda x}$ برای $x \ge 0$) محاسبه کنید.
+    ج. کران (الف) را با مقدار دقیق (ب) مقایسه کنید.
+2.  **شبیه‌سازی LLN برای برنولی:** یک آزمایش برنولی با $p=0.3$ (احتمال موفقیت) در نظر بگیرید. میانگین واقعی $\mu = p = 0.3$ است.
+    الف. ۱۰٬۰۰۰ آزمایش برنولی با $p=0.3$ شبیه‌سازی کنید.
+    ب. میانگین تجمعی پیامدها (که احتمال تجربی موفقیت را نشان می‌دهد) را محاسبه و رسم کنید.
+    ج. به‌صورت بصری تأیید کنید که میانگین تجمعی به سمت ۰٫۳ همگرا می‌شود.
+3.  **نرخ همگرایی:** در اثبات WLLN با چبی‌شف، $P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\sigma^2}{n\epsilon^2}$ به‌دست آوردیم. اگر بخواهیم این کران احتمال کمتر از ۰٫۰۱ باشد برای $\epsilon=0.1$، $n$ برای مثال پرتاب تاس ($Var(X) = E[X^2] - (E[X])^2 = (1^2+2^2+3^2+4^2+5^2+6^2)/6 - 3.5^2 = 91/6 - 12.25 \approx 15.167 - 12.25 = 2.917$) چقدر باید باشد؟ آیا این اندازهٔ نمونه بر اساس شبیه‌سازی عملی به نظر می‌رسد؟

@@ -13,12 +13,12 @@ downloads:
   - file: notebooks/chapter_05_lab.ipynb
 ---
 
-# Chapter 5: Bayes' Theorem and Independence
+# فصل ۵: قضیهٔ بیز و استقلال
 
-## Exercise 5.1: Implementing Bayes' Theorem for Disease Test
+## تمرین ۵.۱: پیاده‌سازی قضیهٔ بیز برای آزمون بیماری
 
 
-Let's verify the disease test calculation using Python. Define variables for the prior probability, sensitivity, and specificity, then implement the calculation for $P(D|Pos)$.
+بیایید محاسبهٔ آزمون بیماری را با پایتون تأیید کنیم. متغیرهایی برای احتمال پیشین، حساسیت و اختصاصیت تعریف کنید، سپس محاسبهٔ $P(D|Pos)$ را پیاده‌سازی کنید.
 
 ```{code-cell} ipython3
 # Parameters
@@ -58,11 +58,11 @@ print(f"Posterior P(Disease|Neg): {p_disease_given_neg:.4f}")
 print(f"Posterior P(No Disease|Neg) = {1 - p_disease_given_neg:.4f}")
 ```
 
-## Exercise 5.2: Simulating Bayesian Updates
+## تمرین ۵.۲: شبیه‌سازی به‌روزرسانی‌های بیزی
 
 +++
 
-Let's simulate the disease test scenario to build intuition. We'll create a population reflecting the disease prevalence, simulate their test results based on sensitivity/specificity, and then calculate the conditional probability directly from the simulated data.
+بیایید سناریوی آزمون بیماری را شبیه‌سازی کنیم تا شهود بسازیم. جمعیتی مطابق شیوع بیماری می‌سازیم، نتایج آزمون را بر اساس حساسیت/اختصاصیت شبیه‌سازی می‌کنیم و سپس احتمال شرطی را مستقیماً از دادهٔ شبیه‌سازی‌شده محاسبه می‌کنیم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -115,25 +115,25 @@ print(f"Simulated P(Disease | Positive): {simulated_p_disease_given_pos:.4f}")
 print(f"Theoretical P(Disease | Positive): {p_disease_given_pos:.4f}")
 ```
 
-As the `population_size` increases, the simulated probability should converge to the theoretical probability calculated using Bayes' Theorem. This demonstrates how the theorem accurately reflects the underlying frequencies in a large population.
+با افزایش `population_size`، احتمال شبیه‌سازی‌شده باید به احتمال نظری محاسبه‌شده با قضیهٔ بیز همگرا شود. این نشان می‌دهد قضیه چگونه فراوانی‌های زیربنایی را در جمعیت بزرگ به‌درستی منعکس می‌کند.
 
 +++
 
-## Exercise 5.3: Testing Independence from Data
+## تمرین ۵.۳: آزمون استقلال از روی داده
 
 +++
 
-Let's simulate rolling two fair dice and check if the events "first die is even" and "sum is 7" are independent.
+بیایید پرتاب دو تاس منصفانه را شبیه‌سازی کنیم و بررسی کنیم آیا رویدادهای «تاس اول زوج است» و «مجموع برابر ۷ است» مستقل‌اند.
 
-* Event A: First die is even. $P(A) = 1/2$.
-* Event B: Sum is 7. The pairs are (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). $P(B) = 6/36 = 1/6$.
-* Event $A \cap B$: First die is even AND sum is 7. The pairs are (2,5), (4,3), (6,1). $P(A \cap B) = 3/36 = 1/12$.
+* رویداد A: تاس اول زوج است. $P(A) = 1/2$.
+* رویداد B: مجموع برابر ۷ است. جفت‌ها: (1,6)، (2,5)، (3,4)، (4,3)، (5,2)، (6,1). $P(B) = 6/36 = 1/6$.
+* رویداد $A \cap B$: تاس اول زوج است *و* مجموع ۷ است. جفت‌ها: (2,5)، (4,3)، (6,1). $P(A \cap B) = 3/36 = 1/12$.
 
-Theoretical Check: Is $P(A \cap B) = P(A)P(B)$?
+بررسی نظری: آیا $P(A \cap B) = P(A)P(B)$؟
 $1/12 \stackrel{?}{=} (1/2) \times (1/6)$
-$1/12 = 1/12$. Yes, they are theoretically independent.
+$1/12 = 1/12$. بله، از نظر نظری مستقل‌اند.
 
-Now, let's check using simulation.
+اکنون با شبیه‌سازی بررسی می‌کنیم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -178,6 +178,6 @@ else:
     print("\nCannot calculate P(A|B) as P(B) is zero in simulation.")
 ```
 
-The simulation results should be close to the theoretical values, confirming the independence of these events. Small discrepancies are expected due to random sampling variation.
+نتایج شبیه‌سازی باید به مقادیر نظری نزدیک باشند و استقلال این رویدادها را تأیید کنند. اختلاف‌های کوچک به‌خاطر تغییرپذیری نمونه‌گیری تصادفی مورد انتظار است.
 
 +++

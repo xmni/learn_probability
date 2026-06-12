@@ -13,66 +13,66 @@ downloads:
   - file: notebooks/chapter_18.ipynb
 ---
 
-# Chapter 18: Monte Carlo Methods
+# فصل ۱۸: روش‌های Monte Carlo
 
 +++
 
-Welcome to Chapter 18! In this chapter, we delve into a powerful class of computational algorithms that rely on repeated random sampling to obtain numerical results: **Monte Carlo methods**. The underlying concept is remarkably simple yet profoundly effective: use randomness to solve problems that might be deterministic in principle but are too complex to solve analytically.
+به فصل ۱۸ خوش آمدید! در این فصل به کلاسی قدرتمند از الگوریتم‌های محاسباتی می‌پردازیم که برای به‌دست آوردن نتایج عددی بر نمونه‌گیری تصادفی مکرر تکیه می‌کنند: **روش‌های Monte Carlo**. ایدهٔ زیربنایی به‌شکل قابل‌توجهی ساده و در عین حال عمیقاً مؤثر است: از تصادف برای حل مسائلی استفاده کنیم که در اصل ممکن است قطعی باشند، اما حل تحلیلی آن‌ها بسیار دشوار است.
 
 +++
 
-## The Core Idea: Using Random Sampling
+## ایدهٔ اصلی: استفاده از نمونه‌گیری تصادفی
 
 +++
 
-At its heart, the Monte Carlo method leverages the **Law of Large Numbers (LLN)**. We learned that the average of results obtained from a large number of trials should be close to the expected value and will tend to become closer as more trials are performed.
+در هستهٔ خود، روش Monte Carlo از **قانون اعداد بزرگ (LLN)** بهره می‌برد. آموختیم که میانگین نتایج حاصل از تعداد زیادی آزمایش باید به مقدار مورد انتظار نزدیک باشد و با افزایش تعداد آزمایش‌ها به آن نزدیک‌تر می‌شود.
 
-Monte Carlo methods apply this principle to estimate quantities that are difficult to calculate directly. If we can express a quantity of interest as the expected value of some random variable, we can estimate it by:
-1.  Simulating many random samples (realizations) of the random variable.
-2.  Calculating the sample mean of these realizations.
+روش‌های Monte Carlo این اصل را برای برآورد کمیت‌هایی به‌کار می‌برند که محاسبهٔ مستقیم آن‌ها دشوار است. اگر بتوانیم کمیت مورد نظر را به‌صورت امید ریاضی یک متغیر تصادفی بیان کنیم، می‌توانیم آن را با این روش برآورد کنیم:
+1.  شبیه‌سازی تعداد زیادی نمونهٔ تصادفی (تحقق) از متغیر تصادفی.
+2.  محاسبهٔ میانگین نمونه‌ای این تحقق‌ها.
 
-**Why use them?**
-* **Complexity:** They can tackle problems with complex geometries, high dimensionality, or intricate dependencies where analytical solutions are intractable.
-* **Simulation:** They allow simulating complex systems (like queues, financial markets, physical processes) to understand their behavior and estimate key metrics.
-* **Flexibility:** They can be adapted to a wide range of problems in physics, engineering, finance, statistics, and more.
-
-+++
-
-**Example: Estimating Average Wait Time in a Queue**
-
-Imagine a complex queueing system (e.g., a call center with variable call arrival rates, different agent skill levels, and complex routing rules). Calculating the exact average customer wait time analytically might be impossible. 
-
-With Monte Carlo:
-1.  **Model:** Define probability distributions for customer arrivals (e.g., Poisson process) and service times (e.g., Exponential distribution).
-2.  **Simulate:** Run a simulation of the call center for a 'day' many times (e.g., 10,000 times). In each simulation run, track the wait time for each simulated customer.
-3.  **Estimate:** Calculate the average wait time within each simulated day. Then, average these daily averages across all 10,000 simulations. By the LLN, this overall average will be a good estimate of the true long-run average wait time.
+**چرا از آن‌ها استفاده کنیم؟**
+* **پیچیدگی:** می‌توانند مسائلی با هندسهٔ پیچیده، بعد بالا یا وابستگی‌های پیچیده را حل کنند که در آن‌ها راه‌حل‌های تحلیلی عملی نیستند.
+* **شبیه‌سازی:** امکان شبیه‌سازی سامانه‌های پیچیده (مانند صف‌ها، بازارهای مالی، فرایندهای فیزیکی) را برای درک رفتار آن‌ها و برآورد معیارهای کلیدی فراهم می‌کنند.
+* **انعطاف‌پذیری:** می‌توان آن‌ها را برای طیف گسترده‌ای از مسائل در فیزیک، مهندسی، مالی، آمار و غیره تطبیق داد.
 
 +++
 
-## Estimating Probabilities and Expected Values
+**مثال: برآورد میانگین زمان انتظار در یک صف**
+
+یک سامانهٔ صف پیچیده را تصور کنید (مثلاً مرکز تماس با نرخ‌های متغیر ورود تماس، سطوح مهارت متفاوت اپراتورها و قواعد مسیریابی پیچیده). محاسبهٔ دقیق میانگین زمان انتظار مشتری به‌صورت تحلیلی ممکن است غیرممکن باشد.
+
+با Monte Carlo:
+1.  **مدل:** توزیع‌های احتمالی برای ورود مشتریان (مثلاً فرایند پواسون) و زمان‌های سرویس (مثلاً توزیع نمایی) تعریف کنید.
+2.  **شبیه‌سازی:** شبیه‌سازی مرکز تماس برای یک «روز» را بارها اجرا کنید (مثلاً ۱۰٬۰۰۰ بار). در هر اجرای شبیه‌سازی، زمان انتظار هر مشتری شبیه‌سازی‌شده را ردیابی کنید.
+3.  **برآورد:** میانگین زمان انتظار در هر روز شبیه‌سازی‌شده را محاسبه کنید. سپس این میانگین‌های روزانه را در همهٔ ۱۰٬۰۰۰ شبیه‌سازی میانگین بگیرید. بر اساس LLN، این میانگین کلی برآورد خوبی از میانگین بلندمدت واقعی زمان انتظار خواهد بود.
 
 +++
 
-Monte Carlo methods are particularly useful for estimating probabilities and expected values that arise from complex processes.
+## برآورد احتمال‌ها و مقادیر مورد انتظار
 
 +++
 
-### Estimating Probabilities
-
-To estimate the probability $P(A)$ of an event $A$, we can:
-1.  Run $N$ independent simulations of the underlying random experiment.
-2.  Count the number of times, $N_A$, that event $A$ occurs in the simulations.
-3.  Estimate $P(A) \approx \frac{N_A}{N}$.
-
-This is essentially calculating the empirical frequency of the event, which converges to the true probability as $N \to \infty$ by the LLN.
+روش‌های Monte Carlo به‌ویژه برای برآورد احتمال‌ها و مقادیر مورد انتظاری که از فرایندهای پیچیده ناشی می‌شوند مفیدند.
 
 +++
 
-**Example: Estimating the Probability of Winning in Craps**
+### برآورد احتمال‌ها
 
-Craps is a dice game with somewhat complex rules for winning. We can simulate the game many times to estimate the overall probability of the 'shooter' winning.
+برای برآورد احتمال $P(A)$ یک واقعهٔ $A$ می‌توانیم:
+1.  $N$ شبیه‌سازی مستقل از آزمایش تصادفی زیربنایی اجرا کنیم.
+2.  تعداد دفعاتی که واقعهٔ $A$ در شبیه‌سازی‌ها رخ می‌دهد، $N_A$، را بشماریم.
+3.  $P(A) \approx \frac{N_A}{N}$ را برآورد کنیم.
 
-**(Conceptual Code Structure)**
+این در اصل محاسبهٔ بسامد تجربی واقعه است که بر اساس LLN با $N \to \infty$ به احتمال واقعی همگرا می‌شود.
+
++++
+
+**مثال: برآورد احتمال برد در بازی Craps**
+
+Craps بازی تاس با قواعد نسبتاً پیچیده برای برد است. می‌توانیم بازی را بارها شبیه‌سازی کنیم تا احتمال کلی برد «شوت‌کننده» را برآورد کنیم.
+
+**(ساختار مفهومی کد)**
 ```python
 def play_craps():
     # Roll dice, check rules (come-out roll: 7, 11 win; 2, 3, 12 lose)
@@ -88,18 +88,18 @@ for _ in range(N):
 estimated_prob_win = wins / N
 print(f"Estimated P(Win) in Craps: {estimated_prob_win:.4f}")
 ```
-(The actual probability is known to be approximately 244/495 ≈ 0.4929)
+(احتمال واقعی تقریباً ۲۴۴/۴۹۵ ≈ ۰٫۴۹۲۹ است)
 
 +++
 
-### Estimating Expected Values
+### برآورد مقادیر مورد انتظار
 
-To estimate the expected value $E[g(X)]$ of a function $g$ of a random variable $X$:
-1.  Generate $N$ independent random samples $X_1, X_2, ..., X_N$ from the distribution of $X$.
-2.  Calculate $g(X_i)$ for each sample.
-3.  Estimate $E[g(X)] \approx \frac{1}{N} \sum_{i=1}^{N} g(X_i)$.
+برای برآورد مقدار مورد انتظار $E[g(X)]$ تابع $g$ از متغیر تصادفی $X$:
+1.  $N$ نمونهٔ تصادفی مستقل $X_1, X_2, ..., X_N$ از توزیع $X$ تولید کنید.
+2.  $g(X_i)$ را برای هر نمونه محاسبه کنید.
+3.  $E[g(X)] \approx \frac{1}{N} \sum_{i=1}^{N} g(X_i)$ را برآورد کنید.
 
-This again relies on the LLN, where the sample mean of $g(X_i)$ converges to $E[g(X)]$. This is extremely powerful when the distribution of $X$ or the function $g$ makes analytical calculation of the expectation difficult or impossible.
+این نیز بر LLN تکیه دارد؛ میانگین نمونه‌ای $g(X_i)$ به $E[g(X)]$ همگرا می‌شود. وقتی توزیع $X$ یا تابع $g$ محاسبهٔ تحلیلی امید را دشوار یا غیرممکن می‌کند، این روش بسیار قدرتمند است.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -124,23 +124,23 @@ print(f"Estimated E[e^X] where X ~ N(0, 1): {estimated_expectation:.4f}")
 print(f"Analytical E[e^X]: {np.exp(0.5):.4f}")
 ```
 
-## Monte Carlo Integration
+## انتگرال‌گیری Monte Carlo
 
 +++
 
-Monte Carlo methods provide a way to estimate definite integrals, especially useful in high dimensions where other numerical integration methods (like quadrature) become computationally expensive (the "curse of dimensionality").
+روش‌های Monte Carlo راهی برای برآورد انتگرال‌های معین فراهم می‌کنند؛ به‌ویژه در ابعاد بالا که روش‌های عددی دیگر انتگرال‌گیری (مانند روش‌های چندجمله‌ای) از نظر محاسباتی پرهزینه می‌شوند («نفرین ابعاد»).
 
 +++
 
-### Method 1: Hit-or-Miss (Estimating Area)
+### روش ۱: برخورد یا عدم برخورد (برآورد مساحت)
 
-This method is intuitive for estimating the area of a region $A$ within a larger region $B$ of known area $Area(B)$.
-1.  Generate $N$ random points uniformly within the larger region $B$.
-2.  Count the number of points, $N_{hit}$, that fall inside region $A$.
-3.  The proportion of points falling inside $A$ approximates the ratio of the areas: $\frac{N_{hit}}{N} \approx \frac{Area(A)}{Area(B)}$.
-4.  Estimate $Area(A) \approx Area(B) \times \frac{N_{hit}}{N}$.
+این روش برای برآورد مساحت ناحیه‌ای $A$ درون ناحیهٔ بزرگ‌تری $B$ با مساحت شناخته‌شدهٔ $Area(B)$ شهودی است.
+1.  $N$ نقطهٔ تصادفی یکنواخت در ناحیهٔ بزرگ‌تر $B$ تولید کنید.
+2.  تعداد نقاطی که داخل ناحیهٔ $A$ می‌افتند، $N_{hit}$، را بشمارید.
+3.  نسبت نقاط داخل $A$ نسبت مساحت‌ها را تقریب می‌زند: $\frac{N_{hit}}{N} \approx \frac{Area(A)}{Area(B)}$.
+4.  $Area(A) \approx Area(B) \times \frac{N_{hit}}{N}$ را برآورد کنید.
 
-A classic example is estimating $\pi$.
+مثال کلاسیک برآورد $\pi$ است.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -186,20 +186,20 @@ plt.grid(True)
 plt.show()
 ```
 
-### Method 2: Using Expected Values
+### روش ۲: استفاده از مقادیر مورد انتظار
 
-We often want to compute $I = \int_a^b g(x) dx$. We can rewrite this integral in terms of an expected value. Let $X$ be a random variable uniformly distributed on $[a, b]$. The PDF of $X$ is $f(x) = \frac{1}{b-a}$ for $x \in [a, b]$ and 0 otherwise.
+اغلب می‌خواهیم $I = \int_a^b g(x) dx$ را محاسبه کنیم. می‌توانیم این انتگرال را به‌صورت امید ریاضی بازنویسی کنیم. فرض کنید $X$ متغیر تصادفی یکنواخت روی $[a, b]$ باشد. تابع چگالی احتمال $X$ برابر است با $f(x) = \frac{1}{b-a}$ برای $x \in [a, b]$ و در غیر این صورت ۰.
 
-Then, the expected value of $\frac{g(X)}{f(X)}$ is:
+آنگاه امید ریاضی $\frac{g(X)}{f(X)}$ برابر است با:
 $$ E\left[\frac{g(X)}{f(X)}\right] = \int_a^b \frac{g(x)}{f(x)} f(x) dx = \int_a^b g(x) dx = I $$
 
-Since $f(x) = \frac{1}{b-a}$ is constant, we have $\frac{g(X)}{f(X)} = (b-a)g(X)$. So,
+از آنجا که $f(x) = \frac{1}{b-a}$ ثابت است، داریم $\frac{g(X)}{f(X)} = (b-a)g(X)$. پس:
 $$ I = E[(b-a)g(X)] = (b-a) E[g(X)] $$
 
-Therefore, we can estimate $I$ by:
-1.  Generating $N$ samples $X_1, ..., X_N$ from $Uniform(a, b)$.
-2.  Calculating $g(X_i)$ for each sample.
-3.  Estimating $I \approx (b-a) \times \frac{1}{N} \sum_{i=1}^{N} g(X_i)$.
+بنابراین می‌توانیم $I$ را با این روش برآورد کنیم:
+1.  $N$ نمونه $X_1, ..., X_N$ از $Uniform(a, b)$ تولید کنید.
+2.  $g(X_i)$ را برای هر نمونه محاسبه کنید.
+3.  $I \approx (b-a) \times \frac{1}{N} \sum_{i=1}^{N} g(X_i)$ را برآورد کنید.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -230,34 +230,34 @@ analytical_integral, error = integrate.quad(g, a, b)
 print(f"SciPy quad estimate of integral: {analytical_integral:.5f} (error < {error:.1e})")
 ```
 
-## Generating Random Variables
+## تولید متغیرهای تصادفی
 
 +++
 
-Monte Carlo methods rely heavily on our ability to generate random numbers following specific probability distributions. While libraries like `numpy.random` provide generators for many common distributions, sometimes we need to generate variables from less common or custom distributions.
+روش‌های Monte Carlo به‌شدت به توانایی ما در تولید اعداد تصادفی مطابق توزیع‌های احتمالی مشخص وابسته‌اند. در حالی که کتابخانه‌هایی مانند `numpy.random` مولدهایی برای بسیاری از توزیع‌های رایج فراهم می‌کنند، گاهی باید متغیرهایی از توزیع‌های کم‌رایج‌تر یا سفارشی تولید کنیم.
 
-Two common techniques are the Inverse Transform Method and the Acceptance-Rejection Method.
+دو روش رایج روش تبدیل معکوس و روش پذیرش-رد هستند.
 
 +++
 
-### Inverse Transform Method
+### روش تبدیل معکوس
 
-This method is applicable if the Cumulative Distribution Function (CDF), $F(x) = P(X \le x)$, is known and its inverse, $F^{-1}(u)$, can be computed.
+این روش در صورتی قابل استفاده است که تابع توزیع تجمعی (CDF)، $F(x) = P(X \le x)$، شناخته شده و معکوس آن $F^{-1}(u)$ قابل محاسبه باشد.
 
-**Theorem:** If $U$ is a random variable following a Uniform(0, 1) distribution, then the random variable $X = F^{-1}(U)$ has the CDF $F(x)$.
+**قضیه:** اگر $U$ متغیر تصادفی با توزیع $Uniform(0, 1)$ باشد، آنگاه متغیر تصادفی $X = F^{-1}(U)$ دارای CDF برابر $F(x)$ است.
 
-**Algorithm:**
-1.  Generate a random number $u$ from Uniform(0, 1).
-2.  Compute $x = F^{-1}(u)$. This $x$ is a random sample from the distribution with CDF $F(x)$.
+**الگوریتم:**
+1.  عدد تصادفی $u$ از $Uniform(0, 1)$ تولید کنید.
+2.  $x = F^{-1}(u)$ را محاسبه کنید. این $x$ یک نمونهٔ تصادفی از توزیع با CDF برابر $F(x)$ است.
 
-**Example: Generating from Exponential($\lambda$)**
-The CDF is $F(x) = 1 - e^{-\lambda x}$ for $x \ge 0$. To find the inverse:
-Let $u = 1 - e^{-\lambda x}$.
+**مثال: تولید از توزیع نمایی ($\lambda$)**
+CDF برابر است با $F(x) = 1 - e^{-\lambda x}$ برای $x \ge 0$. برای یافتن معکوس:
+بگذارید $u = 1 - e^{-\lambda x}$.
 $1 - u = e^{-\lambda x}$
 $\ln(1 - u) = -\lambda x$
 $x = -\frac{1}{\lambda} \ln(1 - u)$
-So, $F^{-1}(u) = -\frac{1}{\lambda} \ln(1 - u)$.
-(Note: Since $U \sim Uniform(0, 1)$, then $1-U$ also follows $Uniform(0, 1)$. Therefore, we can often simplify and use $x = -\frac{1}{\lambda} \ln(u)$ instead.)
+پس $F^{-1}(u) = -\frac{1}{\lambda} \ln(1 - u)$.
+(توجه: از آنجا که $U \sim Uniform(0, 1)$، آنگاه $1-U$ نیز $Uniform(0, 1)$ است. بنابراین اغلب می‌توان ساده‌سازی کرد و از $x = -\frac{1}{\lambda} \ln(u)$ استفاده کرد.)
 
 ```{code-cell} ipython3
 import numpy as np
@@ -306,25 +306,25 @@ plt.tight_layout()
 plt.show()
 ```
 
-### Acceptance-Rejection Method
+### روش پذیرش-رد
 
-This method is useful when the inverse CDF is hard to compute, but we can easily evaluate the target PDF $f(x)$. It also requires a proposal distribution $g(x)$ (from which we *can* easily sample) and a constant $c$ such that $f(x) \le c \cdot g(x)$ for all $x$.
+این روش وقتی مفید است که محاسبهٔ CDF معکوس دشوار باشد، اما بتوانیم تابع چگالی هدف $f(x)$ را به‌راحتی ارزیابی کنیم. همچنین به توزیع پیشنهادی $g(x)$ (که از آن *می‌توان* به‌راحتی نمونه گرفت) و ثابت $c$ نیاز دارد به‌طوری که $f(x) \le c \cdot g(x)$ برای همهٔ $x$ برقرار باشد.
 
-**Algorithm:**
-1.  Generate a candidate sample $y$ from the proposal distribution $g(x)$.
-2.  Generate a random number $u$ from Uniform(0, 1).
-3.  Check if $u \le \frac{f(y)}{c \cdot g(y)}$.
-    * If yes, **accept** $y$ as a sample from $f(x)$.
-    * If no, **reject** $y$ and return to step 1.
+**الگوریتم:**
+1.  نمونهٔ کاندید $y$ از توزیع پیشنهادی $g(x)$ تولید کنید.
+2.  عدد تصادفی $u$ از $Uniform(0, 1)$ تولید کنید.
+3.  بررسی کنید آیا $u \le \frac{f(y)}{c \cdot g(y)}$.
+    * اگر بله، $y$ را به‌عنوان نمونه از $f(x)$ **بپذیرید**.
+    * اگر نه، $y$ را **رد** کنید و به گام ۱ بازگردید.
 
-The efficiency depends on the choice of $g(x)$ and $c$. The closer $c \cdot g(x)$ is to $f(x)$, the higher the acceptance probability (which is $1/c$).
+کارایی به انتخاب $g(x)$ و $c$ بستگی دارد. هرچه $c \cdot g(x)$ به $f(x)$ نزدیک‌تر باشد، احتمال پذیرش (که $1/c$ است) بالاتر است.
 
-**Example: Sampling from a truncated Normal distribution**
-Suppose we want to sample from $N(0, 1)$ but restricted to the interval $[0, 2]$.
-- Target PDF $f(x)$ is proportional to the standard Normal PDF within $[0, 2]$ and 0 otherwise.
-- Proposal distribution $g(x)$ can be $Uniform(0, 2)$. The PDF is $g(x) = 1/2$ for $x \in [0, 2]$.
-- We need $c$ such that $f(x) \le c \cdot g(x)$. The maximum of the standard Normal PDF is at $x=0$, which is $1/\sqrt{2\pi}$. So we need $ (1/\sqrt{2\pi}) \le c \cdot (1/2)$. We can choose $c = 2 / \sqrt{2\pi}$.
-- The acceptance condition becomes $u \le \frac{f(y)}{c \cdot g(y)} = \frac{NormalPDF(y)}{ (2 / \sqrt{2\pi}) \cdot (1/2)} = \sqrt{2\pi} \cdot NormalPDF(y) = e^{-y^2/2}$.
+**مثال: نمونه‌گیری از توزیع نرمال کوتاه‌شده**
+فرض کنید می‌خواهیم از $N(0, 1)$ نمونه بگیریم اما محدود به بازهٔ $[0, 2]$.
+- تابع چگالی هدف $f(x)$ متناسب با PDF نرمال استاندارد در $[0, 2]$ و در غیر این صورت ۰ است.
+- توزیع پیشنهادی $g(x)$ می‌تواند $Uniform(0, 2)$ باشد. PDF برابر است با $g(x) = 1/2$ برای $x \in [0, 2]$.
+- به $c$ نیاز داریم به‌طوری که $f(x) \le c \cdot g(x)$. بیشینهٔ PDF نرمال استاندارد در $x=0$ است که برابر $1/\sqrt{2\pi}$ است. پس باید $(1/\sqrt{2\pi}) \le c \cdot (1/2)$. می‌توانیم $c = 2 / \sqrt{2\pi}$ را انتخاب کنیم.
+- شرط پذیرش می‌شود $u \le \frac{f(y)}{c \cdot g(y)} = \frac{NormalPDF(y)}{ (2 / \sqrt{2\pi}) \cdot (1/2)} = \sqrt{2\pi} \cdot NormalPDF(y) = e^{-y^2/2}$.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -390,29 +390,29 @@ plt.grid(True)
 plt.show()
 ```
 
-## Hands-on Examples & Exercises
+## مثال‌های عملی و تمرین‌ها
 
 +++
 
-### Example 1: Buffon's Needle Problem
+### مثال ۱: مسئلهٔ سوزن بوفون
 
-This classic problem uses Monte Carlo simulation to estimate $\pi$. Imagine dropping needles of length $L$ onto a floor with parallel lines spaced $D$ units apart ($L \le D$). What is the probability that a randomly dropped needle crosses one of the lines?
+این مسئلهٔ کلاسیک از شبیه‌سازی Monte Carlo برای برآورد $\pi$ استفاده می‌کند. سوزن‌هایی به طول $L$ را روی کف با خطوط موازی به فاصلهٔ $D$ واحد ($L \le D$) بیندازید. احتمال عبور یک سوزن تصادفی از یکی از خطوط چقدر است؟
 
-The analytical answer is $P(\text{cross}) = \frac{2L}{\pi D}$. We can estimate this probability via simulation and then solve for $\pi$.
+پاسخ تحلیلی $P(\text{cross}) = \frac{2L}{\pi D}$ است. می‌توانیم این احتمال را با شبیه‌سازی برآورد کنیم و سپس $\pi$ را به‌دست آوریم.
 
-**Simulation Setup:**
-1.  Consider the position of the center of the needle $(y)$ relative to the nearest line below it. $y$ is uniformly distributed in $[0, D/2]$.
-2.  Consider the angle $(\theta)$ the needle makes with the parallel lines. $\theta$ is uniformly distributed in $[0, \pi/2]$.
-3.  The needle crosses a line if the vertical distance from its center to its tip ($ (L/2) \sin \theta $) is greater than the distance to the nearest line ($y$). That is, cross if $y \le (L/2) \sin \theta$.
+**تنظیم شبیه‌سازی:**
+1.  موقعیت مرکز سوزن $(y)$ نسبت به نزدیک‌ترین خط پایین‌تر را در نظر بگیرید. $y$ یکنواخت روی $[0, D/2]$ توزیع شده است.
+2.  زاویهٔ $(\theta)$ سوزن نسبت به خطوط موازی را در نظر بگیرید. $\theta$ یکنواخت روی $[0, \pi/2]$ توزیع شده است.
+3.  سوزن از خطی عبور می‌کند اگر فاصلهٔ عمودی از مرکز آن تا نوک ($ (L/2) \sin \theta $) از فاصله تا نزدیک‌ترین خط ($y$) بیشتر باشد. یعنی عبور اگر $y \le (L/2) \sin \theta$.
 
-**Algorithm:**
-1.  Set $L$ and $D$ (e.g., $L=1, D=2$).
-2.  Run $N$ simulations:
-    a. Generate $y \sim Uniform(0, D/2)$.
-    b. Generate $\theta \sim Uniform(0, \pi/2)$.
-    c. Check if $y \le (L/2) \sin \theta$. Count as a 'hit' if true.
-3.  Estimate $P(\text{cross}) \approx \frac{N_{hits}}{N}$.
-4.  Estimate $\pi \approx \frac{2L}{D \times P(\text{cross})}$. (If $L=1, D=2$, then $\pi \approx \frac{1}{P(\text{cross})}$).
+**الگوریتم:**
+1.  $L$ و $D$ را تنظیم کنید (مثلاً $L=1, D=2$).
+2.  $N$ شبیه‌سازی اجرا کنید:
+    a. $y \sim Uniform(0, D/2)$ تولید کنید.
+    b. $\theta \sim Uniform(0, \pi/2)$ تولید کنید.
+    c. بررسی کنید آیا $y \le (L/2) \sin \theta$. در صورت برقراری به‌عنوان «برخورد» بشمارید.
+3.  $P(\text{cross}) \approx \frac{N_{hits}}{N}$ را برآورد کنید.
+4.  $\pi \approx \frac{2L}{D \times P(\text{cross})}$ را برآورد کنید. (اگر $L=1, D=2$، آنگاه $\pi \approx \frac{1}{P(\text{cross})}$.)
 
 ```{code-cell} ipython3
 import numpy as np
@@ -460,23 +460,23 @@ if pi_estimate is not None:
     print(f"Absolute Error: {abs(pi_estimate - math.pi):.5f}")
 ```
 
-### Exercises
+### تمرین‌ها
 
-1.  **Poker Probability:** Write a simulation to estimate the probability of being dealt a "flush" (five cards of the same suit) from a standard 52-card deck. Compare your estimate to the known analytical probability.
-2.  **Monte Carlo Integration:** Estimate the value of $\int_0^\pi \sin(x) dx$ using the expected value method (Method 2). The analytical answer is 2. How does the accuracy change as you increase the number of samples $N$?
-3.  **Custom Distribution:** Use the Acceptance-Rejection method to generate samples from a distribution whose PDF is proportional to $f(x) = 1 + \sin(2\pi x)$ for $x \in [0, 1]$. Use $Uniform(0, 1)$ as the proposal distribution. Plot a histogram of your samples.
-
-+++
-
-## Chapter Summary
+1.  **احتمال پوکر:** شبیه‌سازی‌ای بنویسید که احتمال دریافت «فلاش» (پنج کارت از یک خال) از یک دستهٔ استاندارد ۵۲ کارتی را برآورد کند. برآورد خود را با احتمال تحلیلی شناخته‌شده مقایسه کنید.
+2.  **انتگرال‌گیری Monte Carlo:** مقدار $\int_0^\pi \sin(x) dx$ را با روش مقدار مورد انتظار (روش ۲) برآورد کنید. پاسخ تحلیلی ۲ است. دقت با افزایش تعداد نمونه‌ها $N$ چگونه تغییر می‌کند؟
+3.  **توزیع سفارشی:** از روش پذیرش-رد برای تولید نمونه از توزیعی که PDF آن متناسب با $f(x) = 1 + \sin(2\pi x)$ برای $x \in [0, 1]$ است استفاده کنید. $Uniform(0, 1)$ را به‌عنوان توزیع پیشنهادی به‌کار ببرید. هیستوگرام نمونه‌های خود را رسم کنید.
 
 +++
 
-Monte Carlo methods are a versatile and powerful set of techniques based on random sampling.
-* They leverage the **Law of Large Numbers** to approximate quantities of interest.
-* They are particularly effective for **estimating probabilities and expected values** in complex scenarios where analytical solutions are difficult.
-* **Monte Carlo Integration** provides a way to estimate definite integrals, especially valuable in high dimensions or for complex integrands.
-* Generating random variables from specific distributions is crucial. Techniques like the **Inverse Transform Method** (when the inverse CDF is available) and the **Acceptance-Rejection Method** (when the PDF is known) allow us to sample from custom distributions.
-* The accuracy of Monte Carlo estimates generally improves as the number of simulations ($N$) increases, typically scaling with $1/\sqrt{N}$.
+## خلاصهٔ فصل
 
-These methods form the foundation for many advanced simulation techniques used across science, engineering, and finance.
++++
+
+روش‌های Monte Carlo مجموعه‌ای چندمنظوره و قدرتمند از تکنیک‌ها بر پایهٔ نمونه‌گیری تصادفی هستند.
+* از **قانون اعداد بزرگ** برای تقریب کمیت‌های مورد نظر بهره می‌برند.
+* به‌ویژه برای **برآورد احتمال‌ها و مقادیر مورد انتظار** در سناریوهای پیچیده‌ای که راه‌حل‌های تحلیلی دشوارند مؤثرند.
+* **انتگرال‌گیری Monte Carlo** راهی برای برآورد انتگرال‌های معین فراهم می‌کند؛ به‌ویژه در ابعاد بالا یا برای انتگرال‌پذیرهای پیچیده ارزشمند است.
+* تولید متغیرهای تصادفی از توزیع‌های مشخص حیاتی است. تکنیک‌هایی مانند **روش تبدیل معکوس** (وقتی CDF معکوس در دسترس است) و **روش پذیرش-رد** (وقتی PDF شناخته شده است) امکان نمونه‌گیری از توزیع‌های سفارشی را می‌دهند.
+* دقت برآوردهای Monte Carlo معمولاً با افزایش تعداد شبیه‌سازی‌ها ($N$) بهبود می‌یابد و معمولاً با $1/\sqrt{N}$ مقیاس می‌شود.
+
+این روش‌ها پایهٔ بسیاری از تکنیک‌های پیشرفتهٔ شبیه‌سازی در علوم، مهندسی و مالی هستند.

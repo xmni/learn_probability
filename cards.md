@@ -1,80 +1,80 @@
-Problem 1: Probability of Drawing a Specific Card First
-* Question: If you shuffle a standard 52-card deck and draw just one card, what is the probability that it is the Ace of Spades (A♠)? * Thinking Process:
-   * How many possible outcomes are there? (How many different cards could you draw?)
-     * There are 52 cards in the deck, so there are 52 possible outcomes.
-   * How many of those outcomes match what we want (the Ace of Spades)?
-     * There is only 1 Ace of Spades in the deck. So, there is 1 favorable outcome.
-   * Probability = (Favorable Outcomes) / (Total Possible Outcomes)
- * Calculation:
+مسئله ۱: احتمال کشیدن یک کارت مشخص در اولین بار
+* سؤال: اگر یک دستهٔ استاندارد ۵۲ کارتی را بُر بزنید و فقط یک کارت بکشید، احتمال اینکه آس پیک (A♠) باشد چقدر است؟ * فرایند تفکر:
+   * چند پیامد ممکن وجود دارد؟ (چند کارت متفاوت می‌توانید بکشید؟)
+     * در دسته ۵۲ کارت وجود دارد، پس ۵۲ پیامد ممکن داریم.
+   * چند پیامد از این‌ها با آنچه می‌خواهیم (آس پیک) مطابقت دارند؟
+     * فقط ۱ آس پیک در دسته وجود دارد. پس ۱ پیامد مطلوب داریم.
+   * احتمال = (پیامدهای مطلوب) / (کل پیامدهای ممکن)
+ * محاسبه:
    * Probability (A♠) = 1 / 52
- * Result: The probability of drawing the Ace of Spades first is 1 in 52, or about 1.92%.
+ * نتیجه: احتمال کشیدن آس پیک در اولین بار ۱ از ۵۲، یا حدود ۱٫۹۲٪ است.
   
-Problem 2: Probability of Drawing Any Card of a Specific Rank First
- * Question: If you draw just one card from a standard 52-card deck, what is the probability that it is any Ace?
- * Thinking Process:
-   * Total possible outcomes are still 52 (any card in the deck).
-   * How many outcomes match what we want (any Ace)?
-     * There are 4 Aces in the deck (A♥, A♦, A♣, A♠). So, there are 4 favorable outcomes.
-   * Probability = (Favorable Outcomes) / (Total Possible Outcomes)
- * Calculation:
+مسئله ۲: احتمال کشیدن هر کارتی از یک رتبهٔ مشخص در اولین بار
+ * سؤال: اگر فقط یک کارت از یک دستهٔ استاندارد ۵۲ کارتی بکشید، احتمال اینکه هر آس باشد چقدر است؟
+ * فرایند تفکر:
+   * کل پیامدهای ممکن همچنان ۵۲ است (هر کارتی در دسته).
+   * چند پیامد با آنچه می‌خواهیم (هر آس) مطابقت دارند؟
+     * در دسته ۴ آس وجود دارد (A♥، A♦، A♣، A♠). پس ۴ پیامد مطلوب داریم.
+   * احتمال = (پیامدهای مطلوب) / (کل پیامدهای ممکن)
+ * محاسبه:
    * Probability (Any Ace) = 4 / 52
- * Simplifying: The fraction 4/52 simplifies to 1/13.
- * Result: The probability of drawing any Ace first is 4 in 52 (or 1 in 13), which is about 7.69%.
+ * ساده‌سازی: کسر ۴/۵۲ به ۱/۱۳ ساده می‌شود.
+ * نتیجه: احتمال کشیدن هر آس در اولین بار ۴ از ۵۲ (یا ۱ از ۱۳) است که حدود ۷٫۶۹٪ می‌شود.
    
-Problem 3: Probability of Getting a Pair in a 2-Card Hand
- * Question: Now, let's draw just two cards from the deck. What is the probability that those two cards form a pair (e.g., two Kings, two 3s)?
- * Thinking Process: This requires combinations.
-   * Total Possible Outcomes: How many different ways can you draw 2 cards from 52? Since the order doesn't matter ({K♥, 7♦} is the same as {7♦, K♥}), we use combinations.
-     * Total 2-card hands = C(52, 2) = \binom{52}{2} = \frac{52!}{2!(52-2)!} = \frac{52 \times 51}{2 \times 1} = 1326.
-     * There are 1,326 possible unique 2-card hands. This is our denominator.
-   * Favorable Outcomes (Ways to get a Pair): How many of those 1,326 hands are pairs? Let's figure this out step-by-step:
-     * Step 2a: Choose the rank for the pair.
-       * Concept: We need to determine what kind of pair we could form. What are the possibilities for the rank? A pair could be Aces, or Kings, or Queens, and so on, down to Twos.
-       * Listing the Types:
-         * A pair of Aces
-         * A pair of Kings
-         * A pair of Queens
-         * ... (etc.) ...
-         * A pair of 2s
-       * Counting the Types: How many different categories of pairs are there based on rank? There are exactly 13, one for each rank.
-       * Meaning: This step represents deciding which of these 13 categories of pair we are considering. When counting all possible pairs, we need to account for all 13 of these rank possibilities.
-       * Result: There are 13 ways to choose the rank for the pair.
-     * Step 2b: Choose the 2 specific cards of that rank.
-       * Concept: Once we've decided on a rank (say, we decided on 'Sevens' in Step 2a), we need to figure out how many ways we can actually make a pair of Sevens using the cards in the deck.
-       * Available Cards: There are 4 cards of each rank (e.g., 7♥, 7♦, 7♣, 7♠).
-       * Choosing the Pair: We need to choose exactly 2 of these 4 cards. Since order doesn't matter ({7♥, 7♦} is the same pair as {7♦, 7♥}), we use combinations.
-       * Calculation: Ways to choose 2 cards from 4 = C(4, 2) = \binom{4}{2} = \frac{4!}{2!(4-2)!} = \frac{4 \times 3}{2 \times 1} = 6.
-       * Meaning: For any rank chosen in Step 2a, there are 6 specific combinations of 2 cards that form a pair of that rank. (e.g., the 6 possible pairs of Sevens are {7♥, 7♦}, {7♥, 7♣}, {7♥, 7♠}, {7♦, 7♣}, {7♦, 7♠}, {7♣, 7♠}).
-       * Result: There are 6 ways to choose the 2 specific cards, once the rank is known.
-     * Total Ways to Form a Pair: Now we use the Multiplication Principle. For each of the 13 possible ranks (Step 2a), there are 6 ways to form the actual pair (Step 2b).
-       * Ways = (Ways to choose rank) \times (Ways to choose the 2 cards)
+مسئله ۳: احتمال گرفتن جفت در یک دست ۲ کارتی
+ * سؤال: حالا فقط دو کارت از دسته می‌کشیم. احتمال اینکه آن دو کارت یک جفت تشکیل دهند (مثلاً دو شاه، دو ۳) چقدر است؟
+ * فرایند تفکر: این مسئله به ترکیب‌ها نیاز دارد.
+   * کل پیامدهای ممکن: چند روش متفاوت برای کشیدن ۲ کارت از ۵۲ وجود دارد؟ چون ترتیب مهم نیست ({K♥، 7♦} همان {7♦، K♥} است)، از ترکیب استفاده می‌کنیم.
+     * کل دست‌های ۲ کارتی = C(52, 2) = \binom{52}{2} = \frac{52!}{2!(52-2)!} = \frac{52 \times 51}{2 \times 1} = 1326.
+     * ۱٬۳۲۶ دست ۲ کارتی یکتا ممکن است. این مخرج ماست.
+   * پیامدهای مطلوب (روش‌های گرفتن جفت): چند تا از این ۱٬۳۲۶ دست جفت هستند؟ گام‌به‌گام محاسبه می‌کنیم:
+     * گام ۲الف: انتخاب رتبه برای جفت.
+       * مفهوم: باید تعیین کنیم چه نوع جفتی می‌توانیم بسازیم. احتمالات رتبه چیست؟ جفت می‌تواند آس، شاه، بیبی، و تا دو باشد.
+       * فهرست انواع:
+         * جفت آس
+         * جفت شاه
+         * جفت بیبی
+         * ... (و غیره) ...
+         * جفت ۲
+       * شمارش انواع: چند دستهٔ متفاوت جفت بر اساس رتبه وجود دارد؟ دقیقاً ۱۳، یکی برای هر رتبه.
+       * معنا: این گام یعنی تصمیم بگیریم کدام یک از این ۱۳ دستهٔ جفت را در نظر می‌گیریم. هنگام شمارش همهٔ جفت‌های ممکن، باید هر ۱۳ احتمال رتبه را لحاظ کنیم.
+       * نتیجه: ۱۳ روش برای انتخاب رتبهٔ جفت وجود دارد.
+     * گام ۲ب: انتخاب ۲ کارت مشخص از آن رتبه.
+       * مفهوم: وقتی رتبه را انتخاب کردیم (مثلاً در گام ۲الف «۷» را انتخاب کردیم)، باید ببینیم چند روش می‌توانیم جفت ۷ با کارت‌های دسته بسازیم.
+       * کارت‌های موجود: از هر رتبه ۴ کارت وجود دارد (مثلاً 7♥، 7♦، 7♣، 7♠).
+       * انتخاب جفت: باید دقیقاً ۲ کارت از این ۴ کارت را انتخاب کنیم. چون ترتیب مهم نیست ({7♥، 7♦} همان جفت {7♦، 7♥} است)، از ترکیب استفاده می‌کنیم.
+       * محاسبه: روش‌های انتخاب ۲ کارت از ۴ = C(4, 2) = \binom{4}{2} = \frac{4!}{2!(4-2)!} = \frac{4 \times 3}{2 \times 1} = 6.
+       * معنا: برای هر رتبه‌ای که در گام ۲الف انتخاب شود، ۶ ترکیب مشخص از ۲ کارت وجود دارد که جفت آن رتبه را می‌سازند. (مثلاً ۶ جفت ممکن از ۷ها: {7♥، 7♦}، {7♥، 7♣}، {7♥، 7♠}، {7♦، 7♣}، {7♦، 7♠}، {7♣، 7♠}).
+       * نتیجه: وقتی رتبه مشخص است، ۶ روش برای انتخاب ۲ کارت مشخص وجود دارد.
+     * کل روش‌های تشکیل جفت: حالا از اصل ضرب استفاده می‌کنیم. برای هر ۱۳ رتبهٔ ممکن (گام ۲الف)، ۶ روش برای ساخت جفت واقعی (گام ۲ب) وجود دارد.
+       * Ways = (روش‌های انتخاب رتبه) \times (روش‌های انتخاب ۲ کارت)
        * Ways = 13 \times 6 = 78.
-       * There are 78 different possible pairs you can draw in a 2-card hand. This is our numerator.
-   * Calculate Probability:
-     * Probability (Pair in 2 cards) = (Ways to get a Pair) / (Total Possible 2-card hands)
+       * ۷۸ جفت متفاوت ممکن در یک دست ۲ کارتی وجود دارد. این صورت ماست.
+   * محاسبهٔ احتمال:
+     * Probability (Pair in 2 cards) = (روش‌های گرفتن جفت) / (کل دست‌های ۲ کارتی ممکن)
      * Probability = 78 / 1326
- * Simplifying: The fraction simplifies to 1 / 17.
- * Result: The probability of drawing a pair when you draw just two cards is 1 in 17, or about 5.88%.
+ * ساده‌سازی: کسر به 1 / 17 ساده می‌شود.
+ * نتیجه: احتمال کشیدن جفت وقتی فقط دو کارت می‌کشید ۱ از ۱۷، یا حدود ۵٫۸۸٪ است.
    
-Problem 4: Probability of Getting Four of a Kind (in a 5-card hand)
- * Question: Let's go back to 5-card hands. What is the probability of being dealt Four of a Kind (e.g., four Jacks and a Seven)?
- * Thinking Process: We use the same principles: combinations and the multiplication principle, but now for a 5-card hand.
-   * Total Possible Hands: We need the total number of unique 5-card hands.
-     * Total Hands = C(52, 5) = 2,598,960. (Denominator)
-   * Favorable Outcomes (Ways to get Four of a Kind): Build the hand step-by-step.
-     * Step 4a: Choose the rank for the four cards. (Which rank will you have 4 of?)
-       * There are 13 ranks. \mathbf{13} ways (C(13, 1)=13).
-     * Step 4b: Choose the four specific cards of that rank. (If you chose Jacks, you need J♥, J♦, J♣, J♠).
-       * You must choose all 4. There's only \mathbf{1} way (C(4, 4)=1).
-     * Step 4c: Choose the fifth card (the "kicker"). This card can be any card not of the rank chosen in Step 4a.
-       * There are 52 - 4 = 48 cards remaining in the deck that don't match the rank of the four-of-a-kind. We need to choose 1 of these.
-       * There are \mathbf{48} ways (C(48, 1)=48).
-     * Total Ways for Four of a Kind: Use the multiplication principle.
-       * Ways = (Ways to choose rank) \times (Ways to choose 4 cards) \times (Ways to choose 5th card)
-       * Ways = 13 \times 1 \times 48 = 624. (Numerator)
-   * Calculate Probability:
-     * Probability (Four of a Kind) = (Ways to get Four of a Kind) / (Total Possible Hands)
+مسئله ۴: احتمال گرفتن چهار یکسان (در یک دست ۵ کارتی)
+ * سؤال: به دست‌های ۵ کارتی برگردیم. احتمال داده شدن چهار یکسان (مثلاً چهار سرباز و یک ۷) چقدر است؟
+ * فرایند تفکر: از همان اصول استفاده می‌کنیم: ترکیب‌ها و اصل ضرب، اما این بار برای دست ۵ کارتی.
+   * کل دست‌های ممکن: به تعداد دست‌های ۵ کارتی یکتا نیاز داریم.
+     * Total Hands = C(52, 5) = 2,598,960. (مخرج)
+   * پیامدهای مطلوب (روش‌های گرفتن چهار یکسان): دست را گام‌به‌گام می‌سازیم.
+     * گام ۴الف: انتخاب رتبه برای چهار کارت. (کدام رتبه را ۴ تا دارید؟)
+       * ۱۳ رتبه وجود دارد. \mathbf{13} روش (C(13, 1)=13).
+     * گام ۴ب: انتخاب چهار کارت مشخص از آن رتبه. (اگر سرباز انتخاب کردید، به J♥، J♦، J♣، J♠ نیاز دارید).
+       * باید هر ۴ را انتخاب کنید. فقط \mathbf{1} روش (C(4, 4)=1).
+     * گام ۴ج: انتخاب کارت پنجم («کیکر»). این کارت می‌تواند هر کارتی غیر از رتبهٔ انتخاب‌شده در گام ۴الف باشد.
+       * 52 - 4 = 48 کارت باقی‌مانده در دسته با رتبهٔ متفاوت از چهار یکسان. باید ۱ کارت از این‌ها را انتخاب کنیم.
+       * \mathbf{48} روش (C(48, 1)=48).
+     * کل روش‌های چهار یکسان: از اصل ضرب استفاده می‌کنیم.
+       * Ways = (روش‌های انتخاب رتبه) \times (روش‌های انتخاب ۴ کارت) \times (روش‌های انتخاب کارت پنجم)
+       * Ways = 13 \times 1 \times 48 = 624. (صورت)
+   * محاسبهٔ احتمال:
+     * Probability (Four of a Kind) = (روش‌های گرفتن چهار یکسان) / (کل دست‌های ممکن)
      * Probability = 624 / 2,598,960
- * Simplifying: This fraction simplifies to 1 / 4165.
- * Result: The probability of getting Four of a Kind is 624 in 2,598,960 (or 1 in 4,165), which is about 0.024%.
-We've successfully calculated the probability for a simple pair in a 2-card draw, and for the much rarer Four of a Kind in a 5-card hand. Both used the ideas of choosing ranks and choosing specific cards. The Full House calculation will combine these ideas. Are you ready to tackle the Full House problem now?
+ * ساده‌سازی: این کسر به 1 / 4165 ساده می‌شود.
+ * نتیجه: احتمال گرفتن چهار یکسان ۶۲۴ از ۲٬۵۹۸٬۹۶۰ (یا ۱ از ۴٬۱۶۵) است که حدود ۰٫۰۲۴٪ می‌شود.
+با موفقیت احتمال جفت ساده در کشیدن ۲ کارتی و چهار یکسان نادرتر در دست ۵ کارتی را محاسبه کردیم. هر دو از ایده‌های انتخاب رتبه و انتخاب کارت‌های مشخص استفاده کردند. محاسبهٔ فول‌هاوس این ایده‌ها را ترکیب خواهد کرد. آماده‌اید مسئلهٔ فول‌هاوس را حل کنید؟

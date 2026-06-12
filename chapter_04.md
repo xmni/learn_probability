@@ -13,33 +13,33 @@ downloads:
   - file: notebooks/chapter_04.ipynb
 ---
 
-# Chapter 4: Conditional Probability
+# فصل ۴: احتمال شرطی
 
-In the previous chapters, we laid the groundwork for probability, exploring sample spaces, events, and counting techniques. Now, we venture into one of the most fundamental and powerful concepts in probability theory: **conditional probability**.
+در فصول پیشین، مبانی احتمال را گذاشتیم و فضای نمونه، واقعه‌ها و روش‌های شمارش را بررسی کردیم. اکنون به یکی از بنیادی‌ترین و قدرتمندترین مفاهیم نظریه احتمال وارد می‌شویم: **احتمال شرطی**.
 
-Often, we are interested in the probability of an event occurring *given that* another event has already happened. Our knowledge or assumptions about one event can change our assessment of the probability of another. This is the essence of conditional probability. It allows us to update our beliefs in the face of new information.
+اغلب به احتمال وقوع یک واقعه *با فرض اینکه* واقعه دیگری از قبل رخ داده است علاقه‌مندیم. دانش یا فرضیات ما درباره یک واقعه می‌تواند ارزیابی احتمال واقعه دیگر را تغییر دهد. این همان جوهر احتمال شرطی است. این مفهوم به ما اجازه می‌دهد با دریافت اطلاعات جدید، باورهای خود را به‌روز کنیم.
 
 
-## 1. Definition and Intuition
+## ۱. تعریف و شهود
 
-**Conditional Probability** measures the probability of an event $A$ occurring given that another event $B$ has already occurred (or is known to have occurred). We denote this as $P(A|B)$, read as "the probability of A given B".
+**احتمال شرطی** احتمال وقوع واقعه $A$ را با فرض اینکه واقعه دیگر $B$ از قبل رخ داده است (یا معلوم است که رخ داده) می‌سنجد. آن را با $P(A|B)$ نمایش می‌دهیم و «احتمال $A$ با فرض $B$» می‌خوانیم.
 
-**Intuition:** Imagine the entire sample space $S$. When we know that event $B$ has occurred, our focus effectively narrows down from the entire sample space $S$ to just the outcomes within $B$. We are now interested in the probability that $A$ occurs *within this new, reduced sample space* $B$. The outcomes favourable to "A given B" are those that belong to both $A$ and $B$, i.e., $A \cap B$.
+**شهود:** کل فضای نمونه $S$ را در نظر بگیرید. وقتی می‌دانیم واقعه $B$ رخ داده است، تمرکز ما عملاً از کل فضای نمونه $S$ به فقط پیامدهای داخل $B$ محدود می‌شود. اکنون به احتمال وقوع $A$ *در این فضای نمونه جدید و کوچک‌شده* $B$ علاقه‌مندیم. پیامدهای مطلوب برای «$A$ با فرض $B$» پیامدهایی هستند که هم به $A$ و هم به $B$ تعلق دارند، یعنی $A \cap B$.
 
-**Formal Definition:**
-For any two events $A$ and $B$ from a sample space $S$, where $P(B) > 0$, the conditional probability of $A$ given $B$ is defined as:
+**تعریف رسمی:**
+برای هر دو واقعه $A$ و $B$ از فضای نمونه $S$، به‌شرط $P(B) > 0$، احتمال شرطی $A$ با فرض $B$ به‌صورت زیر تعریف می‌شود:
 
 $$ P(A|B) = \frac{P(A \cap B)}{P(B)} $$
 
-where:
-* $P(A \cap B)$ is the probability that both events $A$ and $B$ occur.
-* $P(B)$ is the probability that event $B$ occurs.
+که در آن:
+* $P(A \cap B)$ احتمال وقوع هم‌زمان هر دو واقعه $A$ و $B$ است.
+* $P(B)$ احتمال وقوع واقعه $B$ است.
 
 +++
 
-### 1.1. Visual representation
+### ۱.۱. نمایش بصری
 
-The Venn diagram below shows the general structure of conditional probability. When we condition on event $B$ having occurred, we restrict our attention to the circle $B$. Within that circle, $P(A|B)$ represents the proportion of $B$ that overlaps with $A$.
+نمودار ون زیر ساختار کلی احتمال شرطی را نشان می‌دهد. وقتی بر وقوع واقعه $B$ شرط می‌گذاریم، توجه خود را به دایره $B$ محدود می‌کنیم. درون آن دایره، $P(A|B)$ سهم $B$ را که با $A$ هم‌پوشانی دارد نشان می‌دهد.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -87,7 +87,7 @@ fig.savefig("venn-conditional-generic.svg", format="svg", bbox_inches="tight")
 ---
 width: 80%
 ---
-Generic Venn diagram: $P(A|B)$ is the overlap relative to $B$.
+نمودار ون کلی: $P(A|B)$ نسبت هم‌پوشانی به $B$ است.
 ```
 
 %
@@ -138,32 +138,32 @@ fig.savefig("venn-dice-a-given-b.svg", format="svg", bbox_inches="tight")
 % 
 
 
-:::{admonition} Example
+:::{admonition} مثال
 :class: tip dropdown
 
-**Two Dice — “At least one 3” given “sum is 9”**
+**دو تاس — «حداقل یک ۳» با فرض «مجموع برابر ۹»**
 
-Roll two fair six‑sided dice.
+دو تاس منصفانه شش‌وجهی بیندازید.
 
-- Let **A** be the event *“at least one die shows a 3”*.
-- Let **B** be the event *“the sum of the two dice is 9”*.
+- **A** را واقعه *«حداقل یکی از تاس‌ها ۳ نشان دهد»* در نظر بگیرید.
+- **B** را واقعه *«مجموع دو تاس برابر ۹ باشد»* در نظر بگیرید.
 
-We want the conditional probability $P(A\mid B)$.
+احتمال شرطی $P(A\mid B)$ را می‌خواهیم.
 
-**Step 1 — List the outcomes in $B$**
-The outcomes (ordered pairs) that sum to 9 are:
+**گام ۱ — فهرست کردن پیامدهای $B$**
+پیامدهای (جفت‌های مرتب) که مجموعشان ۹ می‌شود:
 $$B = \{(3,6),(4,5),(5,4),(6,3)\}.$$
-So $|B|=4$ and therefore $P(B)=4/36$.
+پس $|B|=4$ و بنابراین $P(B)=4/36$.
 
-**Step 2 — Find which of those outcomes also lie in $A$**
-Within $B$, the outcomes that include a 3 are:
+**گام ۲ — یافتن پیامدهایی که هم در $A$ هستند**
+درون $B$، پیامدهایی که شامل ۳ هستند:
 $$A\cap B = \{(3,6),(6,3)\}.$$
-So $|A\cap B|=2$ and therefore $P(A\cap B)=2/36$.
+پس $|A\cap B|=2$ و بنابراین $P(A\cap B)=2/36$.
 
-**Step 3 — Apply the definition**
+**گام ۳ — به‌کارگیری تعریف**
 $$P(A\mid B)=\frac{P(A\cap B)}{P(B)} = \frac{2/36}{4/36}=\frac12.$$
 
-**Intuition:** once we’re told $B$ happened, the “new sample space” is just the 4 outcomes in $B$. In that restricted space, 2 of the 4 outcomes satisfy $A$, so $P(A\mid B)=2/4=1/2$.
+**شهود:** وقتی به ما گفته می‌شود $B$ رخ داده است، «فضای نمونه جدید» فقط همان ۴ پیامد در $B$ است. در این فضای محدودشده، ۲ پیامد از ۴ پیامد $A$ را برآورده می‌کنند، پس $P(A\mid B)=2/4=1/2$.
 
 
 ```{figure} venn-dice-a-given-b.svg
@@ -173,31 +173,31 @@ $$P(A\mid B)=\frac{P(A\cap B)}{P(B)} = \frac{2/36}{4/36}=\frac12.$$
 
 +++
 
-## 2. The Multiplication Rule for Conditional Probability
+## ۲. قانون ضرب برای احتمال شرطی
 
-Rearranging the definition of conditional probability gives us the **General Multiplication Rule**, which is useful for calculating the probability of the intersection of two events:
+بازآرایی تعریف احتمال شرطی **قانون ضرب عمومی** را به ما می‌دهد که برای محاسبه احتمال اشتراک دو واقعه مفید است:
 
 $$ P(A \cap B) = P(A|B) P(B) $$
 
-Similarly, if $P(A) > 0$, we can write:
+به‌طور مشابه، اگر $P(A) > 0$ باشد، می‌توانیم بنویسیم:
 
 $$ P(A \cap B) = P(B|A) P(A) $$
 
-This rule is particularly helpful when dealing with sequential events, where the outcome of the first event affects the probability of the second.
+این قانون به‌ویژه وقتی مفید است که با واقعه‌های پیاپی سر و کار داریم؛ جایی که پیامد واقعه اول بر احتمال واقعه دوم اثر می‌گذارد.
 
 
-:::{admonition} Example
+:::{admonition} مثال
 :class: tip dropdown
-**Probability of drawing two Kings**
+**احتمال کشیدن دو شاه**
 
-Probability of drawing two Kings from a standard 52-card deck without replacement.
-Let $A$ be the event "the first card drawn is a King" and $B$ be the event "the second card drawn is a King".
-We want to find $P(A \cap B)$.
-Using the multiplication rule: $P(A \cap B) = P(B|A) P(A)$.
-* $P(A)$: There are 4 Kings in 52 cards, so $P(A) = \frac{4}{52}$.
-* $P(B|A)$: *Given* that the first card was a King, there are now 3 Kings left in the remaining 51 cards. So, $P(B|A) = \frac{3}{51}$.
+احتمال کشیدن دو شاه از یک دسته استاندارد ۵۲ کارتی بدون بازگرداندن.
+$A$ را واقعه «کارت اول کشیده‌شده شاه باشد» و $B$ را واقعه «کارت دوم کشیده‌شده شاه باشد» در نظر بگیرید.
+می‌خواهیم $P(A \cap B)$ را بیابیم.
+با استفاده از قانون ضرب: $P(A \cap B) = P(B|A) P(A)$.
+* $P(A)$: ۴ شاه در ۵۲ کارت وجود دارد، پس $P(A) = \frac{4}{52}$.
+* $P(B|A)$: *با فرض* اینکه کارت اول شاه بوده است، اکنون ۳ شاه در ۵۱ کارت باقی‌مانده وجود دارد. پس $P(B|A) = \frac{3}{51}$.
 
-Therefore,
+بنابراین،
 
 $$
 \begin{align*}
@@ -211,50 +211,50 @@ $$
 
 :::
 
-The multiplication rule can be extended to more than two events. For three events $A, B, C$:
+قانون ضرب را می‌توان به بیش از دو واقعه تعمیم داد. برای سه واقعه $A, B, C$:
 
 $$ P(A \cap B \cap C) = P(C | A \cap B) P(B | A) P(A) $$
 
-:::{admonition} Derivation: The Chain Rule for Three Events
+:::{admonition} اثبات: قانون زنجیره‌ای برای سه واقعه
 :class: tip dropdown
 
-To find $P(A \cap B \cap C)$, we apply the multiplication rule in two stages:
+برای یافتن $P(A \cap B \cap C)$، قانون ضرب را در دو مرحله به‌کار می‌بریم:
 
-**Step 1: Treat $(A \cap B)$ as a single event** Think of the first two events as one block. According to the standard multiplication rule:
+**گام ۱: $(A \cap B)$ را به‌عنوان یک واقعه واحد در نظر بگیرید** دو واقعه اول را یک بلوک فرض کنید. طبق قانون ضرب استاندارد:
 $$P((A \cap B) \cap C) = P(A \cap B) \cdot P(C | A \cap B)$$
-*(Logic: For all three to occur, the first two must happen, and then $C$ must happen given that $A$ and $B$ already occurred.)*
+*(منطق: برای وقوع هر سه، دو واقعه اول باید رخ دهند و سپس $C$ باید با فرض وقوع $A$ و $B$ رخ دهد.)*
 
-**Step 2: Break down the first block $P(A \cap B)$** Now, we apply the multiplication rule again to just the $A$ and $B$ part:
+**گام ۲: بلوک اول $P(A \cap B)$ را تجزیه کنید** اکنون قانون ضرب را دوباره فقط برای بخش $A$ و $B$ به‌کار می‌بریم:
 $$P(A \cap B) = P(A) \cdot P(B | A)$$
 
-**Step 3: Combine the parts** Substitute the expression from Step 2 into the equation from Step 1:
+**گام ۳: بخش‌ها را ترکیب کنید** عبارت گام ۲ را در معادله گام ۱ جایگذاری کنید:
 $$P(A \cap B \cap C) = \underbrace{P(A) \cdot P(B | A)}_{P(A \cap B)} \cdot P(C | A \cap B)$$
 
-**Final Result:**
+**نتیجه نهایی:**
 $$P(A \cap B \cap C) = P(A) \cdot P(B | A) \cdot P(C | A \cap B)$$
 :::
 
 +++
 
-## 3. The Law of Total Probability
+## ۳. قانون احتمال کل
 
-Sometimes, calculating the probability of an event $A$ directly is difficult. However, we might know the conditional probabilities of $A$ occurring under various **mutually exclusive** and **exhaustive** scenarios. The **Law of Total Probability** lets us combine those scenario-based probabilities into one overall probability.
+گاهی محاسبه مستقیم احتمال واقعه $A$ دشوار است. با این حال، ممکن است احتمال‌های شرطی $A$ را در سناریوهای **دو به دو ناسازگار** و **فراگیر** مختلف بدانیم. **قانون احتمال کل** به ما اجازه می‌دهد آن احتمال‌های مبتنی بر سناریو را در یک احتمال کلی ترکیب کنیم.
 
-### 3.1 Definition
+### ۳.۱ تعریف
 
-Let $B_1, B_2, \ldots, B_n$ be a **partition** of the sample space $S$. This means:
+$B_1, B_2, \ldots, B_n$ را **پارتیشن** فضای نمونه $S$ در نظر بگیرید. یعنی:
 
-1. $B_i \cap B_j = \emptyset$ for all $i \neq j$ (the events are mutually exclusive),
-2. $B_1 \cup B_2 \cup \cdots \cup B_n = S$ (they cover the whole sample space),
-3. $P(B_i) > 0$ for all $i$ (so the conditional probabilities are well-defined).
+1. $B_i \cap B_j = \emptyset$ برای همه $i \neq j$ (واقعه‌ها دو به دو ناسازگارند)،
+2. $B_1 \cup B_2 \cup \cdots \cup B_n = S$ (کل فضای نمونه را می‌پوشانند)،
+3. $P(B_i) > 0$ برای همه $i$ (تا احتمال‌های شرطی به‌درستی تعریف شوند).
 
-Then, for any event $A$ in $S$, the Law of Total Probability states:
+آنگاه برای هر واقعه $A$ در $S$، قانون احتمال کل می‌گوید:
 
 $$
 P(A) = \sum_{i=1}^{n} P(A \mid B_i)\,P(B_i).
 $$
 
-Equivalently, written as an expanded sum:
+به‌صورت معادل، به‌صورت مجموع بازشده:
 
 $$
 \begin{align*}
@@ -265,48 +265,44 @@ P(A) ={}& P(A\mid B_1)P(B_1) \\
 \end{align*}
 $$
 
-### 3.2 Why it works
+### ۳.۲ چرا درست است
 
-The key idea is that the partition breaks $A$ into **disjoint pieces**:
+ایده کلیدی این است که پارتیشن، $A$ را به **قطعات ناسازگار** می‌شکند:
 
 $$
 A = (A\cap B_1)\ \cup\ (A\cap B_2)\ \cup\ \cdots\ \cup\ (A\cap B_n),
 $$
 
-and these pieces do not overlap because the $B_i$ do not overlap.
+و این قطعات هم‌پوشانی ندارند چون $B_i$ها هم‌پوشانی ندارند.
 
-So we can add their probabilities:
+پس می‌توانیم احتمال‌هایشان را جمع کنیم:
 
 $$
 P(A) = \sum_{i=1}^n P(A\cap B_i).
 $$
 
-Finally, apply the multiplication rule $P(A\cap B_i)=P(A\mid B_i)P(B_i)$ to each term:
+در پایان، قانون ضرب $P(A\cap B_i)=P(A\mid B_i)P(B_i)$ را برای هر جمله به‌کار ببرید:
 
 $$
 P(A) = \sum_{i=1}^n P(A\mid B_i)P(B_i).
 $$
 
-### 3.3 Intuition
+### ۳.۳ شهود
 
-Think of the $B_i$ as “which scenario we are in.” First, one scenario $B_i$ happens (with probability $P(B_i)$). Then, within that scenario, $A$ happens with probability $P(A\mid B_i)$. The overall probability $P(A)$ is a **weighted average** of the conditional probabilities $P(A\mid B_i)$, weighted by how likely each scenario is.
+$B_i$ها را «سناریویی که در آن هستیم» در نظر بگیرید. ابتدا یک سناریو $B_i$ رخ می‌دهد (با احتمال $P(B_i)$). سپس درون آن سناریو، $A$ با احتمال $P(A\mid B_i)$ رخ می‌دهد. احتمال کلی $P(A)$ یک **میانگین وزنی** از احتمال‌های شرطی $P(A\mid B_i)$ است که وزن‌ها برابر با احتمال هر سناریو هستند.
 
-### 3.4 Visual intuition: area model
+### ۳.۴ شهود بصری: مدل مساحتی
 
-**How to read the diagram**
+**نحوه خواندن نمودار**
 
-- The sample space $S$ is split into disjoint strips $B_1,\dots,B_n$ (a partition), so exactly one $B_i$ occurs.
-- Each strip’s **width** represents $P(B_i)$.
-- The shaded piece inside strip $i$ represents the piece of $A$ that lies in that strip, i.e. $A\cap B_i$.
-- The (true) area of that piece is $P(A\cap B_i)=P(A\mid B_i)P(B_i)$.
-- Adding the disjoint shaded pieces gives $P(A)$.
+- فضای نمونه $S$ به نوارهای ناسازگار $B_1,\dots,B_n$ (یک پارتیشن) تقسیم شده است؛ پس دقیقاً یک $B_i$ رخ می‌دهد.
+- **عرض** هر نوار نشان‌دهنده $P(B_i)$ است.
+- قطعه سایه‌دار داخل نوار $i$ بخشی از $A$ را که در آن نوار قرار دارد نشان می‌دهد، یعنی $A\cap B_i$.
+- مساحت (واقعی) آن قطعه برابر است با $P(A\cap B_i)=P(A\mid B_i)P(B_i)$.
+- جمع قطعات سایه‌دار ناسازگار، $P(A)$ را می‌دهد.
 
 ```{code-cell} ipython3
----
-tags: [remove-input, remove-output]
-jupyter:
-  source_hidden: true
----
+:tags: [remove-input, remove-output]
 # create and save visualisation total-probability-area.svg
 
 from pathlib import Path
@@ -527,12 +523,12 @@ save_total_probability_svg(
 width: 100%
 figclass: full-width
 ---
-Area model: $P(A)$ is the sum of the disjoint pieces $A\cap B_i$.
+مدل مساحتی: $P(A)$ مجموع قطعات ناسازگار $A\cap B_i$ است.
 ````
 
-### 3.5 Visual intuition: probability tree (same idea, different view)
+### ۳.۵ شهود بصری: درخت احتمال (همان ایده، نمای دیگر)
 
-A tree diagram shows the same logic: first choose which scenario $B_i$ occurs, then (within that scenario) whether $A$ occurs. (See [section 4](tree-diagrams) for more detail on tree diagrams.)
+نمودار درختی همان منطق را نشان می‌دهد: ابتدا مشخص می‌کنیم کدام سناریو $B_i$ رخ می‌دهد، سپس (درون آن سناریو) آیا $A$ رخ می‌دهد یا نه. (برای جزئیات بیشتر درباره نمودارهای درختی به [بخش ۴](tree-diagrams) مراجعه کنید.)
 
 ```{mermaid}
 graph TD
@@ -550,26 +546,26 @@ graph TD
 ```
 
 
-On the branch $S \to B_i \to A$, the probability is the product $P(B_i),P(A\mid B_i)$. Summing those “$A$” leaves over all scenarios gives $P(A)$.
+در شاخه $S \to B_i \to A$، احتمال حاصل‌ضرب $P(B_i),P(A\mid B_i)$ است. جمع برگ‌های «$A$» روی همه سناریوها، $P(A)$ را می‌دهد.
 
-:::{admonition} Example
+:::{admonition} مثال
 :class: tip dropdown
 
-**Two manufacturing lines**
+**دو خط تولید**
 
-A factory makes parts on two lines:
+یک کارخانه قطعات را روی دو خط تولید می‌سازد:
 
-- Let $A$ be the event *“the part is defective”*.
-- Let $B_1$ be the event *“the part came from Line 1”*.
-- Let $B_2$ be the event *“the part came from Line 2”*.
+- $A$ را واقعه *«قطعه معیوب باشد»* در نظر بگیرید.
+- $B_1$ را واقعه *«قطعه از خط ۱ آمده باشد»* در نظر بگیرید.
+- $B_2$ را واقعه *«قطعه از خط ۲ آمده باشد»* در نظر بگیرید.
 
-Suppose:
+فرض کنید:
 
-* $P(B_1)=0.6$, $P(B_2)=0.4$
-* $P(A\mid B_1)=0.02$ (2% defective on Line 1)
-* $P(A\mid B_2)=0.05$ (5% defective on Line 2)
+* $P(B_1)=0.6$، $P(B_2)=0.4$
+* $P(A\mid B_1)=0.02$ (۲٪ معیوب در خط ۱)
+* $P(A\mid B_2)=0.05$ (۵٪ معیوب در خط ۲)
 
-Then:
+آنگاه:
 
 $$
 \begin{align*}
@@ -580,25 +576,25 @@ P(A) &= P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2) \\
 \end{align*}
 $$
 
-So about **3.2%** of all parts are defective overall.
+پس در مجموع حدود **۳.۲٪** از همه قطعات معیوبند.
 
 :::
 
 +++
 
-## 4. Tree Diagrams
+## ۴. نمودارهای درختی
 
-Tree diagrams are a useful visualization tool for problems involving sequences of events, especially when conditional probabilities are involved.
+نمودارهای درختی ابزار بصری مفیدی برای مسائل شامل دنباله‌ای از واقعه‌ها هستند، به‌ویژه وقتی احتمال‌های شرطی در میان باشند.
 
-* Each branch represents an event.
-* The probability of each event is written on the branch.
-* Branches emanating from a single point represent mutually exclusive outcomes of a stage, and their probabilities should sum to 1.
-* The probability of reaching a specific endpoint (a sequence of events) is found by multiplying the probabilities along the path leading to that endpoint (using the Multiplication Rule).
-* The probability of an event that can occur via multiple paths is found by summing the probabilities of those paths (related to the Law of Total Probability).
+* هر شاخه یک واقعه را نشان می‌دهد.
+* احتمال هر واقعه روی شاخه نوشته می‌شود.
+* شاخه‌هایی که از یک نقطه منشأ می‌گیرند، پیامدهای ناسازگار یک مرحله را نشان می‌دهند و احتمال‌هایشان باید جمعشان ۱ شود.
+* احتمال رسیدن به یک نقطه پایانی مشخص (یک دنباله از واقعه‌ها) با ضرب احتمال‌ها در امتداد مسیر منتهی به آن نقطه پایانی (با استفاده از قانون ضرب) به‌دست می‌آید.
+* احتمال واقعه‌ای که می‌تواند از چند مسیر رخ دهد، با جمع احتمال آن مسیرها به‌دست می‌آید (مرتبط با قانون احتمال کل).
 
-### 4.1. Generic tree structure
+### ۴.۱. ساختار کلی درخت
 
-Before looking at a specific example, let's see the general pattern. Suppose we have a partition $B_1, B_2, \ldots, B_n$ of the sample space, and we're interested in whether event $A$ occurs. The tree diagram below shows how we first "choose" which scenario $B_i$ happens, then (within that scenario) whether $A$ occurs or not.
+قبل از دیدن یک مثال خاص، الگوی کلی را ببینیم. فرض کنید پارتیشن $B_1, B_2, \ldots, B_n$ از فضای نمونه داریم و می‌خواهیم بدانیم آیا واقعه $A$ رخ می‌دهد یا نه. نمودار درختی زیر نشان می‌دهد چگونه ابتدا «انتخاب» می‌کنیم کدام سناریو $B_i$ رخ دهد، سپس (درون آن سناریو) آیا $A$ رخ می‌دهد یا نه.
 
 ```{mermaid}
 graph TD
@@ -619,22 +615,22 @@ graph TD
     Bn -- "P(A̅|Bₙ)" --> NAn["A̅"]
 ```
 
-**Reading the tree:**
-* The first level shows the partition: exactly one of $B_1, B_2, \ldots, B_n$ occurs.
-* Each second-level branch shows whether $A$ occurs (or doesn't occur) given that particular scenario.
-* The probability of any complete path is the product of probabilities along that path. For example, the path Start → $B_1$ → $A$ has probability $P(B_1) \times P(A|B_1) = P(A \cap B_1)$.
-* To find $P(A)$, we sum the probabilities of all paths that end in $A$:
+**خواندن درخت:**
+* سطح اول پارتیشن را نشان می‌دهد: دقیقاً یکی از $B_1, B_2, \ldots, B_n$ رخ می‌دهد.
+* هر شاخه سطح دوم نشان می‌دهد آیا $A$ (یا عدم $A$) با فرض آن سناریوی خاص رخ می‌دهد یا نه.
+* احتمال هر مسیر کامل حاصل‌ضرب احتمال‌ها در امتداد آن مسیر است. مثلاً مسیر Start → $B_1$ → $A$ احتمال $P(B_1) \times P(A|B_1) = P(A \cap B_1)$ دارد.
+* برای یافتن $P(A)$، احتمال همه مسیرهایی که به $A$ ختم می‌شوند را جمع می‌کنیم:
 
 $$
 P(A) = P(A|B_1)P(B_1) + P(A|B_2)P(B_2) + \cdots + P(A|B_n)P(B_n)
 $$
 
-This is exactly the **Law of Total Probability** from section 3, just visualized as a tree instead of an area model.
+این دقیقاً همان **قانون احتمال کل** بخش ۳ است، فقط به‌صورت درخت به‌جای مدل مساحتی.
 
-:::{admonition} Example
+:::{admonition} مثال
 :class: tip dropdown
-Visualizing the probabilities of outcomes in a sequence of two potentially biased coin flips.
-Suppose a coin has $P(\text{Heads}) = 0.6$ and $P(\text{Tails}) = 0.4$. We flip it twice. The outcomes are independent.
+مصورسازی احتمال پیامدها در دنباله‌ای از دو پرتاب احتمالاً نامتقارن سکه.
+فرض کنید سکه‌ای داریم که $P(\text{Heads}) = 0.6$ و $P(\text{Tails}) = 0.4$. آن را دو بار می‌اندازیم. پیامدها مستقلند.
 
 ```{mermaid}
 graph TD
@@ -662,7 +658,7 @@ graph TD
     end
 ```
 
-* **Path 1 (HH):** 
+* **مسیر ۱ (HH):** 
 
 $$
 \begin{align*}
@@ -675,13 +671,13 @@ $$
 \text{(Since flips are independent, } P(H_2|H_1) = P(H_2) = 0.6 \text{)}
 $$
 
-* **Path 2 (HT):** $P(\text{H on 1st} \cap \text{T on 2nd}) = 0.6 \times 0.4 = 0.24$.
-* **Path 3 (TH):** $P(\text{T on 1st} \cap \text{H on 2nd}) = 0.4 \times 0.6 = 0.24$.
-* **Path 4 (TT):** $P(\text{T on 1st} \cap \text{T on 2nd}) = 0.4 \times 0.4 = 0.16$.
+* **مسیر ۲ (HT):** $P(\text{H on 1st} \cap \text{T on 2nd}) = 0.6 \times 0.4 = 0.24$.
+* **مسیر ۳ (TH):** $P(\text{T on 1st} \cap \text{H on 2nd}) = 0.4 \times 0.6 = 0.24$.
+* **مسیر ۴ (TT):** $P(\text{T on 1st} \cap \text{T on 2nd}) = 0.4 \times 0.4 = 0.16$.
 
-Note that the probabilities of all possible outcomes sum to 1: $0.36 + 0.24 + 0.24 + 0.16 = 1.0$.
+توجه کنید احتمال همه پیامدهای ممکن جمعشان ۱ می‌شود: $0.36 + 0.24 + 0.24 + 0.16 = 1.0$.
 
-We can use this to find probabilities of combined events, e.g., 
+می‌توانیم از این برای یافتن احتمال واقعه‌های ترکیبی استفاده کنیم، مثلاً
 
 $$
 \begin{align*}
@@ -695,194 +691,192 @@ $$
 
 +++
 
-## 5. Tips for differentiating between $P(A \cap B)$ and $P(A | B)$
+## ۵. نکاتی برای تمایز $P(A \cap B)$ و $P(A | B)$
 
-It can be challenging to differentiate between $P(A \cap B)$ and $P(A | B)$ in probability problems.
+تمایز $P(A \cap B)$ و $P(A | B)$ در مسائل احتمال می‌تواند دشوار باشد.
 
-**$P(A \cap B)$** represents the **probability that both event A AND event B occur**. Look for keywords like "**and**," "**both**," or phrases indicating a direct overlap between two characteristics. For example, "the probability that a student is an engineering major **and** is female."
+**$P(A \cap B)$** **احتمال وقوع هم‌زمان واقعه A و واقعه B** را نشان می‌دهد. به کلیدواژه‌هایی مثل «**و**»، «**هر دو**» یا عباراتی که هم‌پوشانی مستقیم دو ویژگی را نشان می‌دهند توجه کنید. مثلاً «احتمال اینکه یک دانشجو هم رشته مهندسی باشد **و** هم زن باشد».
 
-**$P(A | B)$** signifies the **probability of event A occurring GIVEN that event B has already occurred**. This is a **conditional probability**, focusing on a subset of the population. Phrases such as "**given that**," "**of those who**," or "**if a [characteristic B] is selected**" are strong indicators. For instance, "Of the students who study engineering, 20% are female" is an example of $P(\text{Female} | \text{Engineering})$.
+**$P(A | B)$** **احتمال وقوع واقعه A با فرض اینکه واقعه B از قبل رخ داده است** را نشان می‌دهد. این یک **احتمال شرطی** است که روی زیرمجموعه‌ای از جامعه تمرکز می‌کند. عباراتی مثل «**با فرض اینکه**»، «**از میان کسانی که**» یا «**اگر یک [ویژگی B] انتخاب شود**» نشانه‌های قوی هستند. مثلاً «از دانشجویانی که مهندسی می‌خوانند، ۲۰٪ زن هستند» نمونه‌ای از $P(\text{Female} | \text{Engineering})$ است.
 
-The key distinction lies in whether the problem describes the likelihood of two events happening simultaneously (intersection) or the likelihood of one event happening *under the condition* that another event has already happened (conditional).
+تمایز کلیدی در این است که آیا مسئله احتمال وقوع هم‌زمان دو واقعه (اشتراک) را توصیف می‌کند یا احتمال وقوع یک واقعه *تحت شرط* رخ دادن واقعه دیگر (شرطی).
 
 +++
 
-## Chapter Summary
+## خلاصه فصل
 
-### Key Takeaways
+### نکات کلیدی
 
-**The core insight:** Conditional probability $P(A|B)$ represents our updated belief about event $A$ given that we know event $B$ has occurred. It restricts the sample space to only outcomes where $B$ is true.
+**بینش اصلی:** احتمال شرطی $P(A|B)$ باور به‌روزشده ما درباره واقعه $A$ را با فرض اینکه واقعه $B$ رخ داده است نشان می‌دهد. فضای نمونه را فقط به پیامدهایی که $B$ در آن‌ها درست است محدود می‌کند.
 
-**The fundamental concepts:**
+**مفاهیم بنیادی:**
 
-1. **Conditional Probability** $P(A|B) = \frac{P(A \cap B)}{P(B)}$, provided $P(B) > 0$
-   - Represents probability of $A$ **given** $B$ has occurred
-   - Restricts sample space from $S$ to just the outcomes in $B$
-   - **Key distinction:** $P(A|B) \neq P(A \cap B)$ — conditioning vs. intersection!
+1. **احتمال شرطی** $P(A|B) = \frac{P(A \cap B)}{P(B)}$، به‌شرط $P(B) > 0$
+   - احتمال $A$ را **با فرض** وقوع $B$ نشان می‌دهد
+   - فضای نمونه را از $S$ به فقط پیامدهای $B$ محدود می‌کند
+   - **تمایز کلیدی:** $P(A|B) \neq P(A \cap B)$ — شرطی‌سازی در برابر اشتراک!
 
-2. **Multiplication Rule:** $P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)$
-   - Fundamental for computing joint probabilities
-   - Can chain for multiple events: $P(A \cap B \cap C) = P(A) \cdot P(B|A) \cdot P(C|A \cap B)$
+2. **قانون ضرب:** $P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)$
+   - بنیادی برای محاسبه احتمال‌های مشترک
+   - برای چند واقعه زنجیره‌ای می‌شود: $P(A \cap B \cap C) = P(A) \cdot P(B|A) \cdot P(C|A \cap B)$
 
-3. **Law of Total Probability:** If $B_1, B_2, \ldots, B_n$ partition the sample space, then:
+3. **قانون احتمال کل:** اگر $B_1, B_2, \ldots, B_n$ فضای نمونه را پارتیشن کنند، آنگاه:
    $$P(A) = \sum_{i=1}^n P(A|B_i) \cdot P(B_i)$$
-   - Breaks complex probability into simpler conditional pieces
-   - Essential for scenarios with multiple pathways or stages
-   - Foundation for Bayes' Theorem (next chapter)
+   - احتمال پیچیده را به قطعات شرطی ساده‌تر می‌شکند
+   - برای سناریوها با مسیرها یا مراحل متعدد ضروری است
+   - پایه قضیه بیز (فصل بعد)
 
-4. **Tree Diagrams:** Visual tool for organizing sequential or staged probabilities
-   - Branches represent conditional probabilities
-   - Path probabilities multiply along branches
-   - Final outcome probabilities sum across relevant paths
+4. **نمودارهای درختی:** ابزار بصری برای سازمان‌دهی احتمال‌های پیاپی یا مرحله‌ای
+   - شاخه‌ها احتمال‌های شرطی را نشان می‌دهند
+   - احتمال مسیرها در امتداد شاخه‌ها ضرب می‌شود
+   - احتمال پیامد نهایی با جمع مسیرهای مربوط به‌دست می‌آید
 
-### Why This Matters
+### چرا این مهم است
 
-Conditional probability is fundamental to:
+احتمال شرطی بنیادی است برای:
 
-- **Medical diagnosis:** $P(\text{disease}|\text{positive test})$ vs. $P(\text{positive test}|\text{disease})$
-- **Machine learning:** Training models by learning $P(\text{label}|\text{features})$
-- **Risk assessment:** Updating probabilities based on new information or evidence
-- **Decision making:** How new data should change our beliefs and actions
-- **Scientific reasoning:** Hypothesis testing and Bayesian inference
+- **تشخیص پزشکی:** $P(\text{disease}|\text{positive test})$ در برابر $P(\text{positive test}|\text{disease})$
+- **یادگیری ماشین:** آموزش مدل‌ها با یادگیری $P(\text{label}|\text{features})$
+- **ارزیابی ریسک:** به‌روزرسانی احتمال‌ها بر اساس اطلاعات یا شواهد جدید
+- **تصمیم‌گیری:** چگونه داده‌های جدید باید باورها و اقدامات ما را تغییر دهند
+- **استدلال علمی:** آزمون فرضیه و استنتاج بیزی
 
-### Common Pitfalls to Avoid
+### خطاهای رایج که باید از آن‌ها پرهیز کرد
 
-1. **Confusing $P(A|B)$ with $P(A \cap B)$:**
-   - $P(A|B)$ is a proportion: "out of times B occurs, how often does A also occur?"
-   - $P(A \cap B)$ is absolute: "how often do both A and B occur?"
-   - Visual check: $P(A|B)$ uses $B$ as the "whole", $P(A \cap B)$ uses full sample space $S$
+1. **اشتباه گرفتن $P(A|B)$ با $P(A \cap B)$:**
+   - $P(A|B)$ یک نسبت است: «از دفعاتی که B رخ می‌دهد، چند بار A هم رخ می‌دهد؟»
+   - $P(A \cap B)$ مطلق است: «چند بار هر دو A و B رخ می‌دهند؟»
+   - بررسی بصری: $P(A|B)$ از $B$ به‌عنوان «کل» استفاده می‌کند، $P(A \cap B)$ از کل فضای نمونه $S$
 
-2. **Reversing the conditioning (the prosecutor's fallacy):**
-   - $P(A|B) \neq P(B|A)$ in general!
-   - Example: $P(\text{positive test}|\text{disease}) \neq P(\text{disease}|\text{positive test})$
-   - Need Bayes' Theorem to flip conditioning (Chapter 5)
+2. **معکوس کردن شرط (مغالطه دادستان):**
+   - $P(A|B) \neq P(B|A)$ به‌طور کلی!
+   - مثال: $P(\text{positive test}|\text{disease}) \neq P(\text{disease}|\text{positive test})$
+   - برای معکوس کردن شرط به قضیه بیز نیاز داریم (فصل ۵)
 
-3. **Forgetting to partition completely:**
-   - For Law of Total Probability, events $B_i$ must be mutually exclusive and exhaustive
-   - Missing a partition element leads to incorrect totals
+3. **فراموش کردن پارتیشن کامل:**
+   - برای قانون احتمال کل، واقعه‌های $B_i$ باید دو به دو ناسازگار و فراگیر باشند
+   - از دست دادن یک عنصر پارتیشن به مجموع‌های نادرست منجر می‌شود
 
-4. **Misreading tree diagrams:**
-   - Branches show conditional probabilities, not joint probabilities
-   - Multiply along paths, sum across paths
+4. **برداشت نادرست نمودارهای درختی:**
+   - شاخه‌ها احتمال‌های شرطی را نشان می‌دهند، نه احتمال‌های مشترک
+   - در امتداد مسیر ضرب کنید، روی مسیرها جمع کنید
 
-### Visual Mnemonics
+### یادگیرهای بصری
 
-**Conditional probability:** Zoom into region $B$, see what fraction is also in $A$
+**احتمال شرطی:** روی ناحیه $B$ بزرگ‌نمایی کنید، ببینید چه کسری از آن در $A$ هم هست
 
-**Multiplication Rule:** Path probability = product of conditional steps along the path
+**قانون ضرب:** احتمال مسیر = حاصل‌ضرب گام‌های شرطی در امتداد مسیر
 
-**Law of Total Probability:** Weighted average over all possible "routes" to $A$
+**قانون احتمال کل:** میانگین وزنی روی همه «مسیرهای» ممکن به $A$
 
-### Next Steps
+### گام‌های بعدی
 
-In Chapter 5, we'll build on conditional probability to explore:
-- **Bayes' Theorem:** Flipping conditional probabilities
-- **Independence:** When conditioning doesn't change probabilities
-- **Conditional independence:** Independence within contexts
+در فصل ۵، بر احتمال شرطی بنا می‌گذاریم و این موارد را بررسی می‌کنیم:
+- **قضیه بیز:** معکوس کردن احتمال‌های شرطی
+- **استقلال:** وقتی شرطی‌سازی احتمال‌ها را تغییر نمی‌دهد
+- **استقلال شرطی:** استقلال درون زمینه‌ها
 
 +++
 
-## Exercises
+## تمرین‌ها
 
-1.  **Two Dice:** If you roll two fair six-sided dice, what is the conditional probability that the sum is 8, given that the first die shows a 3? What is the conditional probability that the first die shows a 3, given that the sum is 8?
+1.  **دو تاس:** اگر دو تاس منصفانه شش‌وجهی بینندازید، احتمال شرطی اینکه مجموع ۸ باشد با فرض اینکه تاس اول ۳ نشان دهد چقدر است؟ احتمال شرطی اینکه تاس اول ۳ نشان دهد با فرض اینکه مجموع ۸ باشد چقدر است؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    Let D1 be the result of the first die and D2 be the result of the second die. The total number of possible outcomes when rolling two fair six-sided dice is $6 \times 6 = 36$. Each outcome (D1, D2) is equally likely.
+    D1 را نتیجه تاس اول و D2 را نتیجه تاس دوم در نظر بگیرید. تعداد کل پیامدهای ممکن هنگام انداختن دو تاس منصفانه شش‌وجهی $6 \times 6 = 36$ است. هر پیامد (D1, D2) به‌طور یکسان محتمل است.
 
-    **Part 1: Conditional probability that the sum is 8, given that the first die shows a 3.**
-    Let A be the event that the sum is 8.
-    Let B be the event that the first die shows a 3.
-    We want to find $P(A | B)$.
+    **بخش ۱: احتمال شرطی اینکه مجموع ۸ باشد با فرض اینکه تاس اول ۳ نشان دهد.**
+    A را واقعه «مجموع ۸ باشد» و B را واقعه «تاس اول ۳ نشان دهد» در نظر بگیرید.
+    می‌خواهیم $P(A | B)$ را بیابیم.
 
-    The outcomes for event B (first die is 3) are:
-    {(3,1), (3,2), (3,3), (3,4), (3,5), (3,6)}. There are 6 such outcomes.
-    Given that the first die is 3, for the sum to be 8, the second die (D2) must be $8 - 3 = 5$.
-    So, the only outcome where the first die is 3 and the sum is 8 is (3,5).
-    Thus, within the reduced sample space where the first die is 3, there is 1 outcome where the sum is 8.
-    Therefore, $P(\text{Sum}=8 | \text{First die}=3) = 1/6$.
+    پیامدهای واقعه B (تاس اول ۳ است):
+    {(3,1), (3,2), (3,3), (3,4), (3,5), (3,6)}. ۶ پیامد از این نوع وجود دارد.
+    با فرض اینکه تاس اول ۳ است، برای اینکه مجموع ۸ شود، تاس دوم (D2) باید $8 - 3 = 5$ باشد.
+    پس تنها پیامدی که تاس اول ۳ و مجموع ۸ است، (3,5) است.
+    بنابراین در فضای نمونه کاهش‌یافته‌ای که تاس اول ۳ است، ۱ پیامد وجود دارد که مجموع ۸ می‌شود.
+    پس $P(\text{Sum}=8 | \text{First die}=3) = 1/6$.
 
-    Alternatively, using the formula $P(A | B) = P(A \cap B) / P(B)$:
+    به‌طور جایگزین، با استفاده از فرمول $P(A | B) = P(A \cap B) / P(B)$:
     $P(B) = 6/36 = 1/6$.
-    $P(A \cap B)$ (sum is 8 and first die is 3) corresponds to the outcome (3,5), so $P(A \cap B) = 1/36$.
+    $P(A \cap B)$ (مجموع ۸ و تاس اول ۳) متناظر با پیامد (3,5) است، پس $P(A \cap B) = 1/36$.
     $P(A | B) = (1/36) / (6/36) = 1/6$.
 
-    **Part 2: Conditional probability that the first die shows a 3, given that the sum is 8.**
-    Let A be the event that the sum is 8.
-    Let B be the event that the first die shows a 3.
-    We want to find $P(B | A)$.
+    **بخش ۲: احتمال شرطی اینکه تاس اول ۳ نشان دهد با فرض اینکه مجموع ۸ باشد.**
+    A را واقعه «مجموع ۸ باشد» و B را واقعه «تاس اول ۳ نشان دهد» در نظر بگیرید.
+    می‌خواهیم $P(B | A)$ را بیابیم.
 
-    The outcomes for event A (sum is 8) are:
-    {(2,6), (3,5), (4,4), (5,3), (6,2)}. There are 5 such outcomes.
-    Given that the sum is 8, we look for outcomes where the first die is 3. The only such outcome is (3,5).
-    Thus, within the reduced sample space where the sum is 8, there is 1 outcome where the first die is 3.
-    Therefore, $P(\text{First die}=3 | \text{Sum}=8) = 1/5$.
+    پیامدهای واقعه A (مجموع ۸):
+    {(2,6), (3,5), (4,4), (5,3), (6,2)}. ۵ پیامد از این نوع وجود دارد.
+    با فرض اینکه مجموع ۸ است، به دنبال پیامدهایی می‌گردیم که تاس اول ۳ باشد. تنها پیامد (3,5) است.
+    بنابراین در فضای نمونه کاهش‌یافته‌ای که مجموع ۸ است، ۱ پیامد وجود دارد که تاس اول ۳ است.
+    پس $P(\text{First die}=3 | \text{Sum}=8) = 1/5$.
 
-    Alternatively, using the formula $P(B | A) = P(B \cap A) / P(A)$:
+    به‌طور جایگزین، با استفاده از فرمول $P(B | A) = P(B \cap A) / P(A)$:
     $P(A) = 5/36$.
-    $P(B \cap A)$ (first die is 3 and sum is 8) corresponds to the outcome (3,5), so $P(B \cap A) = 1/36$.
+    $P(B \cap A)$ (تاس اول ۳ و مجموع ۸) متناظر با پیامد (3,5) است، پس $P(B \cap A) = 1/36$.
     $P(B | A) = (1/36) / (5/36) = 1/5$.
     ```
 
-2.  **Medical Test:** A disease affects 1 in 1000 people. A test for the disease is 99% accurate (i.e., P(Positive | Disease) = 0.99) and has a 2% false positive rate (i.e., P(Positive | No Disease) = 0.02). Use the Law of Total Probability to calculate the overall probability that a randomly selected person tests positive. (We will revisit this in the Bayes' Theorem chapter).
+2.  **آزمون پزشکی:** بیماری ۱ از هر ۱۰۰۰ نفر را تحت تأثیر قرار می‌دهد. آزمونی برای بیماری ۹۹٪ دقیق است (یعنی P(Positive | Disease) = 0.99) و نرخ مثبت کاذب ۲٪ دارد (یعنی P(Positive | No Disease) = 0.02). از قانون احتمال کل برای محاسبه احتمال کلی اینکه یک فرد تصادفی نتیجه مثبت بگیرد استفاده کنید. (در فصل قضیه بیز دوباره به این موضوع برمی‌گردیم).
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    Let D be the event that a person has the disease, and $\neg D$ be the event that a person does not have the disease.
-    Let + be the event that a person tests positive.
+    D را واقعه «فرد بیمار باشد» و $\neg D$ را واقعه «فرد بیمار نباشد» در نظر بگیرید.
+    + را واقعه «فرد نتیجه مثبت بگیرد» در نظر بگیرید.
 
-    We are given:
+    داده شده:
     * $P(D) = 1/1000 = 0.001$
-    * $P(\text{Positive} | D) = P(+|D) = 0.99$ (test accuracy for those with the disease)
-    * $P(\text{Positive} | \neg D) = P(+|\neg D) = 0.02$ (false positive rate)
+    * $P(\text{Positive} | D) = P(+|D) = 0.99$ (دقت آزمون برای بیماران)
+    * $P(\text{Positive} | \neg D) = P(+|\neg D) = 0.02$ (نرخ مثبت کاذب)
 
-    From $P(D)$, we can find $P(\neg D)$:
+    از $P(D)$ می‌توانیم $P(\neg D)$ را بیابیم:
     * $P(\neg D) = 1 - P(D) = 1 - 0.001 = 0.999$
 
-    We need to calculate the overall probability that a randomly selected person tests positive, $P(+)$. We use the Law of Total Probability:
+    باید احتمال کلی اینکه یک فرد تصادفی نتیجه مثبت بگیرد، یعنی $P(+)$ را محاسبه کنیم. از قانون احتمال کل استفاده می‌کنیم:
     $P(+) = P(+|D) \cdot P(D) + P(+|\neg D) \cdot P(\neg D)$
     $P(+) = (0.99 \cdot 0.001) + (0.02 \cdot 0.999)$
     $P(+) = 0.00099 + 0.01998$
     $P(+) = 0.02097$
 
-    So, the overall probability that a randomly selected person tests positive is 0.02097, or about 2.097%.
+    پس احتمال کلی اینکه یک فرد تصادفی نتیجه مثبت بگیرد 0.02097 است، یعنی حدود 2.097٪.
     ```
 
-3.  **Two Cards — Same Rank:** Draw two cards from a standard 52-card deck **without replacement**. What is the probability that the two cards have the **same rank** (e.g., two 7s, two Kings)?
+3.  **دو کارت — رتبه یکسان:** دو کارت از یک دسته استاندارد ۵۲ کارتی **بدون بازگرداندن** بکشید. احتمال اینکه دو کارت **رتبه یکسان** داشته باشند (مثلاً دو ۷ یا دو شاه) چقدر است؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    Let $M$ be the event "the two cards have the same rank."
+    $M$ را واقعه «دو کارت رتبه یکسان داشته باشند» در نظر بگیرید.
 
-    **Conditional probability approach (matches the hint):**
-    - The first card can be anything; after drawing it, its rank is fixed.
-    - In a 52-card deck there are 4 cards of each rank.
-    - After drawing the first card, there are **3** remaining cards of that same rank.
-    - There are **51** cards left in total.
+    **رویکرد احتمال شرطی (مطابق راهنما):**
+    - کارت اول می‌تواند هر چیزی باشد؛ پس از کشیدن آن، رتبه‌اش ثابت می‌شود.
+    - در یک دسته ۵۲ کارتی، از هر رتبه ۴ کارت وجود دارد.
+    - پس از کشیدن کارت اول، **۳** کارت از همان رتبه باقی مانده است.
+    - در مجموع **۵۱** کارت باقی مانده است.
 
-    So,
+    پس،
 
     $$
     P(M)=P(\text{2nd card has same rank as 1st}\mid \text{1st card drawn}).
     $$
 
-    Recall the definition of conditional probability:
+    تعریف احتمال شرطی را به‌خاطر بیاورید:
 
     $$
     P(A\mid B)=\frac{P(A\cap B)}{P(B)} \quad (P(B)>0).
     $$
 
-    To make this concrete, let $B$ be the event "the first card is an Ace" and let $C$ be the event "the second card is an Ace".
-    Then $C\cap B$ is the event "the first two cards are both Aces".
+    برای ملموس‌تر شدن، $B$ را واقعه «کارت اول آس باشد» و $C$ را واقعه «کارت دوم آس باشد» در نظر بگیرید.
+    آنگاه $C\cap B$ واقعه «دو کارت اول هر دو آس باشند» است.
 
-    We have:
+    داریم:
     - $P(B)=\frac{4}{52}=\frac{1}{13}$.
     - $P(C\cap B)=\frac{4}{52}\cdot\frac{3}{51}$.
 
-    So,
+    پس،
 
     $$
     P(C\mid B)=\frac{P(C\cap B)}{P(B)}
@@ -891,11 +885,11 @@ In Chapter 5, we'll build on conditional probability to explore:
     =\frac{1}{17}\approx 0.0588.
     $$
 
-    By symmetry (the same calculation works for any rank), this equals $P(M)$.
+    به‌دلیل تقارن (همان محاسبه برای هر رتبه درست است)، این برابر $P(M)$ است.
 
-    **(Optional check using counting)**
-    - Total 2-card hands: $\binom{52}{2}$.
-    - Favourable hands: choose the rank (13 ways), then choose 2 suits out of 4: $13\binom{4}{2}$.
+    **(بررسی اختیاری با شمارش)**
+    - کل دست‌های ۲ کارتی: $\binom{52}{2}$.
+    - دست‌های مطلوب: انتخاب رتبه (۱۳ روش)، سپس انتخاب ۲ خال از ۴: $13\binom{4}{2}$.
 
     $$
     P(M)=\frac{13\binom{4}{2}}{\binom{52}{2}}
@@ -906,59 +900,59 @@ In Chapter 5, we'll build on conditional probability to explore:
 
     ```
 
-4.  **Choosing a Coin — Total Probability:** A bag contains **two fair coins** and **one biased coin**.
-    - If a coin is fair, \(P(H)=0.5\).
-    - If a coin is biased, \(P(H)=0.8\).
-    You randomly pick **one** coin from the bag and flip it **twice**. What is the probability of getting **exactly one Head**?
+4.  **انتخاب سکه — احتمال کل:** کیفی **دو سکه منصفانه** و **یک سکه نامتقارن** دارد.
+    - اگر سکه منصفانه باشد، \(P(H)=0.5\).
+    - اگر سکه نامتقارن باشد، \(P(H)=0.8\).
+    شما **یک** سکه را به‌طور تصادفی از کیف برمی‌دارید و **دو بار** می‌اندازید. احتمال **دقیقاً یک شیر** چقدر است؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    Let:
-    - \(A\) be the event "exactly one Head in two flips."
-    - \(B_1\) be "a fair coin was chosen."
-    - \(B_2\) be "the biased coin was chosen."
+    فرض کنید:
+    - \(A\) واقعه «دقیقاً یک شیر در دو پرتاب» باشد.
+    - \(B_1\) «سکه منصفانه انتخاب شده باشد».
+    - \(B_2\) «سکه نامتقارن انتخاب شده باشد».
 
-    These form a partition: you choose either a fair coin or the biased coin.
+    این‌ها یک پارتیشن می‌سازند: یا سکه منصفانه یا نامتقارن انتخاب می‌شود.
 
-    **Step 1 — Probabilities of the scenarios**
-    There are 3 coins total, 2 are fair:
+    **گام ۱ — احتمال سناریوها**
+    ۳ سکه در مجموع، ۲ تا منصفانه:
 
     $$
     P(B_1)=\frac{2}{3}, \qquad P(B_2)=\frac{1}{3}.
     $$
 
-    **Step 2 — Compute the conditional probabilities**
-    - Given a fair coin, exactly one Head can happen as HT or TH:
+    **گام ۲ — محاسبه احتمال‌های شرطی**
+    - با فرض سکه منصفانه، دقیقاً یک شیر می‌تواند HT یا TH باشد:
 
       $$
       P(A\mid B_1)=P(HT)+P(TH)=(0.5)(0.5)+(0.5)(0.5)=0.5.
       $$
 
-    - Given the biased coin, $P(H)=0.8$ and $P(T)=0.2$:
+    - با فرض سکه نامتقارن، $P(H)=0.8$ و $P(T)=0.2$:
 
       $$
       P(A\mid B_2)=P(HT)+P(TH)=(0.8)(0.2)+(0.2)(0.8)=0.32.
       $$
 
-    **Step 3 — Apply the Law of Total Probability**
+    **گام ۳ — به‌کارگیری قانون احتمال کل**
 
     $$
     P(A)=P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2)
         =(0.5)\left(\frac{2}{3}\right)+(0.32)\left(\frac{1}{3}\right).
     $$
 
-    Compute:
+    محاسبه:
     $$
     (0.5)\left(\frac{2}{3}\right)=\frac{1}{3}, \qquad
     (0.32)\left(\frac{1}{3}\right)=\frac{0.32}{3}=\frac{8}{75}.
     $$
 
-    So,
+    پس،
 
     $$
     P(A)=\frac{1}{3}+\frac{8}{75}=\frac{25}{75}+\frac{8}{75}=\frac{33}{75}=\frac{11}{25}=0.44.
     $$
 
-    **Answer:** $P(\text{exactly one Head})=\frac{11}{25}=0.44$.
+    **پاسخ:** $P(\text{exactly one Head})=\frac{11}{25}=0.44$.
     ```

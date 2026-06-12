@@ -14,9 +14,9 @@ downloads:
 ---
 
 
-# Chapter 4: Conditional Probability
+# فصل ۴: احتمال شرطی
 
-Let's use Python to explore the concepts of conditional probability. We'll need libraries like `numpy` for numerical operations and random sampling, and potentially `pandas` for handling data.
+بیایید با پایتون مفاهیم احتمال شرطی را کاوش کنیم. به کتابخانه‌هایی مانند `numpy` برای عملیات عددی و نمونه‌گیری تصادفی و احتمالاً `pandas` برای کار با داده نیاز داریم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -24,38 +24,38 @@ import pandas as pd
 import random
 ```
 
-### Simulating Conditional Events: Drawing Cards
+### شبیه‌سازی رویدادهای شرطی: کشیدن کارت
 
-Let's simulate drawing two cards from a standard 52-card deck *without replacement* and verify the conditional probability $P(\text{2nd is King} | \text{1st is King})$. We expect this to be $3/51$.
+بیایید کشیدن دو کارت از یک دست ۵۲ کارتی استاندارد *بدون جایگزینی* را شبیه‌سازی کنیم و احتمال شرطی $P(\text{2nd is King} | \text{1st is King})$ را تأیید کنیم. انتظار داریم $3/51$ باشد.
 
-```{admonition} Explanation
+```{admonition} توضیح
 :class: dropdown
-**Conditional Probability: $P(\text{2nd is King} | \text{1st is King}) = 3/51$**
+**احتمال شرطی: $P(\text{2nd is King} | \text{1st is King}) = 3/51$**
 
-Imagine you've already drawn one card, and it's a King. Since we're drawing *without replacement*, that King is now out of the deck.
+تصور کنید یک کارت کشیده‌اید و شاه است. چون *بدون جایگزینی* می‌کشیم، آن شاه دیگر در دست نیست.
 
-* **Remaining Cards:** After drawing one King, there are now $52 - 1 = 51$ cards left in the deck.
-* **Remaining Kings:** Since one King has been removed, there are now $4 - 1 = 3$ Kings remaining.
+* **کارت‌های باقی‌مانده:** پس از کشیدن یک شاه، اکنون $52 - 1 = 51$ کارت در دست باقی مانده است.
+* **شاه‌های باقی‌مانده:** چون یک شاه برداشته شده، اکنون $4 - 1 = 3$ شاه باقی مانده است.
 
-Therefore, the probability that the second card you draw is a King, *given* that the first card was a King, is the number of remaining Kings divided by the total number of remaining cards, which is $\frac{3}{51}$.
+بنابراین احتمال اینکه کارت دوم شاه باشد، *با فرض* اینکه کارت اول شاه بود، تعداد شاه‌های باقی‌مانده تقسیم بر کل کارت‌های باقی‌مانده است، یعنی $\frac{3}{51}$.
 ```
 
-We can also estimate the overall probability $P(\text{2nd is King})$. By symmetry or using the Law of Total Probability, this should be $4/52$.
+همچنین می‌توانیم احتمال کل $P(\text{2nd is King})$ را برآورد کنیم. با تقارن یا قانون احتمال کل، این باید $4/52$ باشد.
 
-```{admonition} Explanation
+```{admonition} توضیح
 :class: dropdown
-**Overall Probability: $P(\text{2nd is King}) = 4/52$**
+**احتمال کل: $P(\text{2nd is King}) = 4/52$**
 
-Now, let's think about the probability of the second card being a King without knowing anything about the first card. There are a couple of ways to see why this is $4/52$:
+اکنون به احتمال شاه بودن کارت دوم بدون دانستن چیزی دربارهٔ کارت اول فکر کنیم. چند راه برای دیدن اینکه چرا $4/52$ است وجود دارد:
 
-1.  **Symmetry:** Consider each of the 52 cards in the deck. Each card has an equal chance of being in the second position of the draw. Since there are 4 Kings in the deck, the probability that the card in the second position is a King must be the same as the probability that the card in the first position is a King, which is $\frac{4}{52}$.
+1.  **تقارن:** هر یک از ۵۲ کارت دست را در نظر بگیرید. هر کارت شانس برابر دارد در موقعیت دوم قرار گیرد. چون ۴ شاه در دست هست، احتمال شاه بودن کارت در موقعیت دوم باید با احتمال شاه بودن کارت در موقعیت اول، یعنی $\frac{4}{52}$، یکسان باشد.
 
-2.  **Law of Total Probability (Implicitly):** We can think about the two possibilities for the first card:
+2.  **قانون احتمال کل (ضمنی):** می‌توانیم دو حالت ممکن برای کارت اول را در نظر بگیریم:
 
-    * **Case 1: The first card is a King.** The probability of this is $P(\text{1st is King}) = \frac{4}{52}$. In this case, the probability of the second card being a King is $P(\text{2nd is King} | \text{1st is King}) = \frac{3}{51}$.
-    * **Case 2: The first card is not a King.** The probability of this is $P(\text{1st is not King}) = \frac{48}{52}$. In this case, there are still 4 Kings left in the remaining 51 cards, so the probability of the second card being a King is $P(\text{2nd is King} | \text{1st is not King}) = \frac{4}{51}$.
+    * **حالت ۱: کارت اول شاه است.** احتمال این $P(\text{1st is King}) = \frac{4}{52}$ است. در این حالت، احتمال شاه بودن کارت دوم $P(\text{2nd is King} | \text{1st is King}) = \frac{3}{51}$ است.
+    * **حالت ۲: کارت اول شاه نیست.** احتمال این $P(\text{1st is not King}) = \frac{48}{52}$ است. در این حالت، هنوز ۴ شاه در ۵۱ کارت باقی‌مانده هست، پس احتمال شاه بودن کارت دوم $P(\text{2nd is King} | \text{1st is not King}) = \frac{4}{51}$ است.
 
-    Using the Law of Total Probability:
+    با استفاده از قانون احتمال کل:
 
 
     $$
@@ -75,7 +75,7 @@ Now, let's think about the probability of the second card being a King without k
     $$
 ```
 
-So, both our intuition and a more formal application of probability rules confirm these results! Now, are you ready to simulate this?
+پس هم شهود ما و هم کاربرد رسمی‌تر قواعد احتمال این نتایج را تأیید می‌کنند! اکنون آمادهٔ شبیه‌سازی هستید؟
 
 ```{code-cell} ipython3
 # Represent the deck
@@ -161,19 +161,19 @@ print(f"Estimated P(Both Kings): {prob_both_king_sim:.6f}")
 print(f"Estimated P(2nd is King | 1st is King): {prob_second_given_first_sim:.6f}")
 ```
 
-The simulation results should be very close to the theoretical values, demonstrating how simulation can approximate probabilistic calculations. The larger `num_simulations`, the closer the estimates will typically be.
+نتایج شبیه‌سازی باید به مقادیر نظری بسیار نزدیک باشند و نشان دهند شبیه‌سازی چگونه می‌تواند محاسبات احتمالی را تقریب بزند. هرچه `num_simulations` بزرگ‌تر باشد، برآوردها معمولاً نزدیک‌ترند.
 
 +++
 
-### Calculating Conditional Probabilities from Data
+### محاسبهٔ احتمال‌های شرطی از روی داده
 
-Imagine we have data about website visitors, including whether they made a purchase and whether they visited a specific product page first. We can use Pandas to calculate conditional probabilities from this data.
+تصور کنید داده‌ای دربارهٔ بازدیدکنندگان وب‌سایت داریم، از جمله اینکه خرید کرده‌اند یا نه و آیا ابتدا صفحهٔ محصول خاصی را دیده‌اند. می‌توانیم با Pandas احتمال‌های شرطی را از این داده محاسبه کنیم.
 
 +++
 
-#### Sample Data
+#### دادهٔ نمونه
 
-A DataFrame is created with data on website visitors, including whether they visited a specific product page and whether they made a purchase.
+یک DataFrame با دادهٔ بازدیدکنندگان، شامل اینکه صفحهٔ محصول خاص را دیده‌اند و خرید کرده‌اند، ساخته می‌شود.
 
 ```{code-cell} ipython3
 import pandas as pd
@@ -190,13 +190,13 @@ display(df)
 print("\n")
 ```
 
-#### Approach 1: Calculated Conditional Probability
+#### رویکرد ۱: احتمال شرطی محاسبه‌شده
 
 +++
 
-First calculate basic probabilities:
+ابتدا احتمال‌های پایه را محاسبه کنید:
 
-- **Basic Probabilities**: The total number of visitors, visitors who visited the product page, visitors who made a purchase, and visitors who both visited the product page and made a purchase are calculated. These are used to compute the basic probabilities:
+- **احتمال‌های پایه**: تعداد کل بازدیدکنندگان، کسانی که صفحهٔ محصول را دیده‌اند، کسانی که خرید کرده‌اند، و کسانی که هر دو را انجام داده‌اند محاسبه می‌شود. از این‌ها برای محاسبهٔ احتمال‌های پایه استفاده می‌شود:
   - $ P(\text{Visited Page}) $
   - $ P(\text{Purchased}) $
   - $ P(\text{Visited and Purchased}) $
@@ -218,13 +218,13 @@ print(f"P(Visited and Purchased) = {P_visited_and_purchased:.2f}")
 print("\n")
 ```
 
-Next calculate conditional probabilities:
+سپس احتمال‌های شرطی را محاسبه کنید:
 
-- **Definition**: This approach uses the fundamental rules of probability to derive conditional probabilities.
-- **Calculations**:
-  - **$ P(\text{Purchased} \mid \text{Visited Page}) $**: Calculated using the formula $ P(A \mid B) = \frac{P(A \cap B)}{P(B)} $, where $ A $ is "Purchased" and $ B $ is "Visited Page".
-  - **$ P(\text{Visited Page} \mid \text{Purchased}) $**: Similarly calculated using the same probability rule.
-- **Advantage**: This method is useful when you already have the probabilities $ P(A \cap B) $ and $ P(B) $ and want to use them to find the conditional probability. It's also helpful for understanding the theoretical underpinnings of conditional probability.
+- **تعریف**: این رویکرد از قواعد بنیادین احتمال برای استخراج احتمال‌های شرطی استفاده می‌کند.
+- **محاسبات**:
+  - **$ P(\text{Purchased} \mid \text{Visited Page}) $**: با فرمول $ P(A \mid B) = \frac{P(A \cap B)}{P(B)} $ محاسبه می‌شود، که $ A $ «خرید کرده» و $ B $ «صفحه را دیده» است.
+  - **$ P(\text{Visited Page} \mid \text{Purchased}) $**: به‌طور مشابه با همان قاعده محاسبه می‌شود.
+- **مزیت**: وقتی $ P(A \cap B) $ و $ P(B) $ را دارید و می‌خواهید احتمال شرطی را بیابید مفید است. برای درک بنیادهای نظری احتمال شرطی نیز کمک‌کننده است.
 
 ```{code-cell} ipython3
 # Calculate Conditional Probability: P(Purchase | Visited Page)
@@ -300,29 +300,29 @@ plt.title(
 plt.show()
 ```
 
-This Venn diagram visually clarifies how different probabilities are related:
+این نمودار ون به‌صورت بصری نشان می‌دهد احتمال‌های مختلف چگونه مرتبط‌اند:
 
-* **Specific Outcomes:** The values inside each distinct segment of the diagram show the probability of that particular, unique scenario occurring. For example:
-    * $P(V \cap \neg P)$ represents the probability of a visitor 'Visiting the Page but Not Purchasing'.
-    * $P(V \cap P)$ represents the probability of a visitor 'Visiting the Page AND Purchasing'.
+* **پیامدهای مشخص:** مقادیر داخل هر بخش مجزای نمودار احتمال وقوع آن سناریوی خاص را نشان می‌دهند. مثلاً:
+    * $P(V \cap \neg P)$ احتمال بازدیدکننده‌ای که «صفحه را دیده اما خرید نکرده» را نشان می‌دهد.
+    * $P(V \cap P)$ احتمال بازدیدکننده‌ای که «صفحه را دیده *و* خرید کرده» را نشان می‌دهد.
 
-* **Total Event Probabilities:** The total probability for an entire event (like 'Visited Page', denoted as $P(V)$) is found by summing the probabilities of all the individual segments that make up that event.
-    * For instance, $P(V) = P(V \cap \neg P) + P(V \cap P)$.
+* **احتمال کل رویداد:** احتمال کل یک رویداد (مثل «صفحه دیده شده»، نماد $P(V)$) با جمع احتمال همهٔ بخش‌های تشکیل‌دهندهٔ آن به‌دست می‌آید.
+    * مثلاً $P(V) = P(V \cap \neg P) + P(V \cap P)$.
 
-* **Components for Conditional Probability:** This total probability (e.g., $P(V)$), along with the probability of the intersection (e.g., $P(V \cap P)$), are the essential values used in the formula for conditional probability.
-    * For example, $P(\text{Purchased} | \text{Visited Page}) = P(V \cap P) / P(V)$.
+* **مؤلفه‌های احتمال شرطی:** این احتمال کل (مثلاً $P(V)$) همراه احتمال اشتراک (مثلاً $P(V \cap P)$) مقادیر ضروری فرمول احتمال شرطی‌اند.
+    * مثلاً $P(\text{Purchased} | \text{Visited Page}) = P(V \cap P) / P(V)$.
 
-* **Visualizing the Sample Space:** The diagram effectively helps to see how the entire circle of the conditioning event (e.g., the 'Visited Page' circle, representing the total $P(V)$) becomes the new, reduced sample space when calculating a conditional probability.
+* **مصورسازی فضای نمونه:** نمودار به‌خوبی نشان می‌دهد چگونه کل دایرهٔ رویداد شرط (مثلاً دایرهٔ «صفحه دیده شده»، نمایانگر $P(V)$) هنگام محاسبهٔ احتمال شرطی فضای نمونهٔ جدید و کوچک‌شده می‌شود.
 
 +++
 
-#### Approach 2: Direct Conditional Probability
+#### رویکرد ۲: احتمال شرطی مستقیم
 
-- **Definition**: This approach involves filtering the data to directly calculate the conditional probabilities from the relevant subset of data.
-- **Calculations**:
-  - **$ P(\text{Purchased} \mid \text{Visited Page}) $**: The DataFrame is filtered to include only visitors who visited the product page. The number of these visitors who made a purchase is then divided by the total number of visitors who visited the page.
-  - **$ P(\text{Visited Page} \mid \text{Purchased}) $**: The DataFrame is filtered to include only visitors who made a purchase. The number of these visitors who visited the product page is then divided by the total number of visitors who made a purchase.
-- **Advantage**: This method is straightforward and intuitive because it directly uses the relevant subset of data.
+- **تعریف**: این رویکرد داده را فیلتر می‌کند تا احتمال شرطی مستقیماً از زیرمجموعهٔ مرتبط محاسبه شود.
+- **محاسبات**:
+  - **$ P(\text{Purchased} \mid \text{Visited Page}) $**: DataFrame فقط به بازدیدکنندگانی که صفحه را دیده‌اند فیلتر می‌شود. سپس تعداد خریداران تقسیم بر کل کسانی که صفحه را دیده‌اند می‌شود.
+  - **$ P(\text{Visited Page} \mid \text{Purchased}) $**: DataFrame فقط به خریداران فیلتر می‌شود. سپس تعداد کسانی که صفحه را دیده‌اند تقسیم بر کل خریداران می‌شود.
+- **مزیت**: این روش مستقیم و شهودی است چون مستقیماً از زیرمجموعهٔ مرتبط داده استفاده می‌کند.
 
 ```{code-cell} ipython3
 # Direct calculation from counts: P(Purchase | Visited Page)
@@ -406,34 +406,34 @@ plt.tight_layout()
 plt.show()
 ```
 
-This tree diagram illustrates the direct approach to conditional probability by visually segmenting the visitor population based on a sequence of events or conditions. To find $P(\text{Purchased} | \text{Visited Page})$, for instance, you first follow the branch representing 'Visited Page', effectively filtering the data, and then observe the proportion of those visitors who subsequently 'Made Purchase'. The diagram clearly shows how the initial condition narrows the focus to a specific subgroup before the probability of the second event is determined within that subgroup.
+این نمودار درختی رویکرد مستقیم احتمال شرطی را با تقسیم‌بندی بصری جمعیت بازدیدکنندگان بر اساس توالی رویدادها یا شرایط نشان می‌دهد. برای یافتن $P(\text{Purchased} | \text{Visited Page})$، مثلاً ابتدا شاخهٔ «صفحه دیده شده» را دنبال می‌کنید و داده را فیلتر می‌کنید، سپس سهم کسانی که بعداً «خرید کرده‌اند» را می‌بینید. نمودار به‌وضوح نشان می‌دهد شرط اولیه چگونه تمرکز را به زیرگروه مشخص محدود می‌کند.
 
 +++
 
-#### Summary
+#### خلاصه
 
-- **Calculated Approach**: Uses probability rules to derive conditional probabilities from known probabilities.
-- **Direct Approach**: Filters the data to the condition and performs the calculation on the filtered data.
+- **رویکرد محاسباتی**: از قواعد احتمال برای استخراج احتمال شرطی از احتمال‌های شناخته‌شده استفاده می‌کند.
+- **رویکرد مستقیم**: داده را به شرط فیلتر کرده و محاسبه را روی دادهٔ فیلترشده انجام می‌دهد.
 
-Both approaches should yield the same results if done correctly, and the choice between them can depend on the context and what data or probabilities you already have at hand.
-
-+++
-
-This example shows how to compute conditional probabilities directly from observed data, a common task in data analysis. $P(\text{Purchased} | \text{Visited Page})$ tells us the likelihood of a purchase *among those who visited the specific page*, while $P(\text{Visited Page} | \text{Purchased})$ tells us the likelihood that someone who *did* purchase had previously visited that page. These can be very different values!
+هر دو رویکرد در صورت درست انجام شدن باید نتیجهٔ یکسان بدهند و انتخاب بین آن‌ها به زمینه و داده یا احتمال‌های در دسترس بستگی دارد.
 
 +++
 
-### Applying the Law of Total Probability
+این مثال نشان می‌دهد چگونه احتمال شرطی را مستقیماً از دادهٔ مشاهده‌شده — کار رایج در تحلیل داده — محاسبه کنیم. $P(\text{Purchased} | \text{Visited Page})$ احتمال خرید *در میان کسانی که آن صفحه را دیده‌اند* را می‌گوید، در حالی که $P(\text{Visited Page} | \text{Purchased})$ احتمال اینکه کسی که *خرید کرده* قبلاً آن صفحه را دیده باشد. این‌ها می‌توانند بسیار متفاوت باشند!
 
-Let's use the Law of Total Probability with a manufacturing example. Suppose a factory has two machines, M1 and M2, producing widgets.
-* Machine M1 produces 60% of the widgets ($P(M1) = 0.6$).
-* Machine M2 produces 40% of the widgets ($P(M2) = 0.4$).
-* 2% of widgets from M1 are defective ($P(D|M1) = 0.02$).
-* 5% of widgets from M2 are defective ($P(D|M2) = 0.05$).
++++
 
-What is the overall probability that a randomly selected widget is defective ($P(D)$)?
+### کاربرد قانون احتمال کل
 
-The events M1 (widget produced by M1) and M2 (widget produced by M2) form a partition of the sample space (all widgets). Using the Law of Total Probability:
+بیایید قانون احتمال کل را با مثال تولید به کار ببریم. فرض کنید کارخانه‌ای دو ماشین M1 و M2 برای تولید ویجت دارد.
+* ماشین M1، ۶۰٪ ویجت‌ها را تولید می‌کند ($P(M1) = 0.6$).
+* ماشین M2، ۴۰٪ ویجت‌ها را تولید می‌کند ($P(M2) = 0.4$).
+* ۲٪ ویجت‌های M1 معیوب‌اند ($P(D|M1) = 0.02$).
+* ۵٪ ویجت‌های M2 معیوب‌اند ($P(D|M2) = 0.05$).
+
+احتمال کل اینکه ویجتی تصادفی معیوب باشد ($P(D)$) چقدر است؟
+
+رویدادهای M1 (ویجت تولید M1) و M2 (ویجت تولید M2) تجزیه‌ای از فضای نمونه (همهٔ ویجت‌ها) می‌سازند. با قانون احتمال کل:
 
 $P(D) = P(D|M1)P(M1) + P(D|M2)P(M2)$
 
@@ -459,9 +459,9 @@ print("\n")
 print(f"Overall Probability of a Defective Widget P(D) = ({P_D_given_M1} * {P_M1}) + ({P_D_given_M2} * {P_M2}) = {P_D:.4f}")
 ```
 
-So, the overall probability of finding a defective widget is 3.2%. This weighted average reflects that while M2 produces more defective items proportionatly, M1 produces more items overall.
+پس احتمال کل یافتن ویجت معیوب ۳٫۲٪ است. این میانگین وزنی نشان می‌دهد M2 سهم معیوب بیشتری دارد اما M1 در کل تولید بیشتری دارد.
 
-We could also simulate this:
+می‌توانیم این را هم شبیه‌سازی کنیم:
 
 ```{code-cell} ipython3
 num_widgets_sim = 100000
@@ -493,13 +493,13 @@ print(f"\n--- Simulation Results ({num_widgets_sim} widgets) ---")
 print(f"Estimated overall P(Defective): {P_D_sim:.4f}")
 ```
 
-Again, the simulation provides an estimate very close to the calculated value.
+باز هم شبیه‌سازی برآوردی بسیار نزدیک به مقدار محاسبه‌شده می‌دهد.
 
 ---
 
-This chapter introduced conditional probability, the multiplication rule, the law of total probability, and tree diagrams. These concepts are crucial for reasoning under uncertainty and form the basis for more advanced topics like Bayes' Theorem, which we will explore in the next chapter. The hands-on examples demonstrated how to calculate and simulate these probabilities using Python.
+این فصل احتمال شرطی، قاعدهٔ ضرب، قانون احتمال کل و نمودارهای درختی را معرفی کرد. این مفاهیم برای استدلال در برابر عدم‌قطعیت حیاتی‌اند و پایهٔ موضوعات پیشرفته‌تر مانند قضیهٔ بیز — که در فصل بعد کاوش می‌کنیم — را می‌سازند. مثال‌های عملی نشان دادند چگونه این احتمال‌ها را با پایتون محاسبه و شبیه‌سازی کنیم.
 
 +++
 
-Okay, here is the entire "Exercises" section with the questions followed by their respective dropdown explanations:
+در اینجا بخش «تمرین‌ها» با سؤالات و توضیحات کشویی مربوط به هر کدام آمده است:
 

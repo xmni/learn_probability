@@ -13,157 +13,157 @@ downloads:
   - file: notebooks/chapter_16.ipynb
 ---
 
-# Chapter 16: Introduction to Bayesian Inference
+# فصل ۱۶: مقدمه‌ای بر استنتاج بیزی
 
-Welcome to Chapter 16! In Part 2, we encountered Bayes' Theorem as a way to update the probability of an *event* given new evidence. Now, we'll extend this powerful idea to update our beliefs about the *parameters* of probability distributions themselves. This is the core concept behind **Bayesian Inference**: using observed data to systematically update our understanding (represented as a probability distribution) of an unknown quantity.
+به فصل ۱۶ خوش آمدید! در بخش ۲، قضیه بیز را به‌عنوان راهی برای به‌روزرسانی احتمال یک *واقعه* با شواهد جدید دیدیم. اکنون این ایدهٔ قدرتمند را گسترش می‌دهیم تا باورهایمان دربارهٔ *پارامترهای* توزیع‌های احتمال خود را به‌روز کنیم. این مفهوم اصلی **استنتاج بیزی** است: استفاده از داده‌های مشاهده‌شده برای به‌روزرسانی نظام‌مند درک ما (که به‌صورت توزیع احتمال بیان می‌شود) از یک کمیت ناشناخته.
 
-Instead of asking "What is the probability of observing this data given a fixed parameter?", Bayesian inference asks "What is the probability distribution of the parameter given the observed data?". This shift in perspective allows us to incorporate prior knowledge and express uncertainty about parameters in a natural, probabilistic way.
+به‌جای پرسیدن «احتمال مشاهده این داده با پارامتر ثابت چقدر است؟»، استنتاج بیزی می‌پرسد «توزیع احتمال پارامتر با توجه به داده‌های مشاهده‌شده چیست؟». این تغییر دیدگاه به ما اجازه می‌دهد دانش پیشین را وارد کنیم و عدم‌قطعیت دربارهٔ پارامترها را به‌صورت طبیعی و احتمالاتی بیان کنیم.
 
-**Learning Objectives:**
-1.  Understand how Bayes' Theorem applies to updating probability distributions (prior to posterior).
-2.  Learn about conjugate priors and their computational convenience (e.g., Beta-Binomial).
-3.  Calculate point estimates from the posterior distribution (MAP, Posterior Mean).
-4.  Understand and compute Bayesian credible intervals.
-5.  Implement Bayesian updates using Python, including grid approximation for non-conjugate cases.
+**اهداف یادگیری:**
+1.  درک نحوهٔ اعمال قضیه بیز برای به‌روزرسانی توزیع‌های احتمال (از پیشین به پسین).
+2.  آشنایی با پیشین‌های همراه و سهولت محاسباتی آن‌ها (مثلاً بتا–دوجمله‌ای).
+3.  محاسبهٔ برآوردهای نقطه‌ای از توزیع پسین (MAP، میانگین پسین).
+4.  درک و محاسبهٔ بازه‌های باور بیزی.
+5.  پیاده‌سازی به‌روزرسانی‌های بیزی با پایتون، از جمله تقریب شبکه‌ای برای موارد غیرهمراه.
 
-**Examples in this Chapter:**
-* Updating our belief about the fairness of a coin (represented by a Beta distribution for the probability of heads, $\theta$) after observing a series of flips (Binomial likelihood).
-* Estimating a website's click-through rate (CTR) using a Beta prior and observed click data.
-* Finding the most likely value (MAP) and the average value (Posterior Mean) for the coin's fairness parameter $\theta$.
-* Determining a 95% credible interval for the CTR, representing a range where we are 95% certain the true CTR lies.
+**مثال‌های این فصل:**
+* به‌روزرسانی باورمان دربارهٔ منصفانه بودن سکه (با توزیع بتا برای احتمال شیر، $\theta$) پس از مشاهدهٔ سری پرتاب‌ها (درست‌نمایی دوجمله‌ای).
+* برآورد نرخ کلیک (CTR) یک وب‌سایت با پیشین بتا و داده‌های کلیک مشاهده‌شده.
+* یافتن محتمل‌ترین مقدار (MAP) و مقدار میانگین (میانگین پسین) برای پارامتر منصفانه بودن سکه $\theta$.
+* تعیین بازهٔ باور ۹۵٪ برای CTR که بازه‌ای است که با اطمینان ۹۵٪ CTR واقعی در آن قرار دارد.
 
 +++
 
-## 15.1 Revisiting Bayes' Theorem for Distributions
+## ۱۶.۱ مرور قضیه بیز برای توزیع‌ها
 
-Recall Bayes' Theorem from Chapter 5:
+قضیه بیز را از فصل ۵ به‌خاطر بیاورید:
 
 $ P(A|B) = \frac{P(B|A) P(A)}{P(B)} $
 
-In Bayesian inference, we adapt this to work with probability distributions for an unknown parameter, often denoted by $\theta$ (theta). We observe some data, $D$.
+در استنتاج بیزی، این را برای کار با توزیع‌های احتمال برای پارامتر ناشناخته، که اغلب با $\theta$ (تتا) نمایش داده می‌شود، تطبیق می‌دهیم. داده‌ای $D$ مشاهده می‌کنیم.
 
-* $P(A)$ becomes $p(\theta)$: The **Prior Distribution**. This represents our belief about $\theta$ *before* observing any data. It could be based on previous studies, expert opinion, or simply be a non-informative guess (like a uniform distribution).
-* $P(B|A)$ becomes $p(D|\theta)$: The **Likelihood**. This is the probability of observing the data $D$ *given* a specific value of the parameter $\theta$. We've worked extensively with likelihoods when defining distributions (e.g., the Binomial PMF gives the probability of $k$ successes given $n$ trials and a success probability $\theta$).
-* $P(A|B)$ becomes $p(\theta|D)$: The **Posterior Distribution**. This is the updated belief about $\theta$ *after* observing the data $D$. It represents the combination of our prior beliefs and the evidence from the data.
-* $P(B)$ becomes $p(D)$: The **Evidence** (or Marginal Likelihood). This is the overall probability of observing the data $D$, averaged over all possible values of $\theta$. It's calculated by integrating (or summing, in the discrete case) the product of the likelihood and the prior over the entire parameter space:
-    $ p(D) = \int p(D|\theta) p(\theta) d\theta $ (for continuous $\theta$)
-    $ p(D) = \sum_{\theta} p(D|\theta) p(\theta) $ (for discrete $\theta$)
+* $P(A)$ به $p(\theta)$ تبدیل می‌شود: **توزیع پیشین**. این باور ما دربارهٔ $\theta$ *قبل از* مشاهدهٔ هر داده‌ای را نشان می‌دهد. می‌تواند بر اساس مطالعات قبلی، نظر کارشناس یا صرفاً حدس غیراطلاعاتی (مثل توزیع یکنواخت) باشد.
+* $P(B|A)$ به $p(D|\theta)$ تبدیل می‌شود: **درست‌نمایی**. این احتمال مشاهدهٔ داده $D$ *با فرض* مقدار مشخص پارامتر $\theta$ است. با درست‌نمایی‌ها هنگام تعریف توزیع‌ها زیاد کار کرده‌ایم (مثلاً PMF دوجمله‌ای احتمال $k$ موفقیت با $n$ آزمایش و احتمال موفقیت $\theta$ را می‌دهد).
+* $P(A|B)$ به $p(\theta|D)$ تبدیل می‌شود: **توزیع پسین**. این باور به‌روزشده دربارهٔ $\theta$ *پس از* مشاهدهٔ داده $D$ است. ترکیب باورهای پیشین و شواهد داده را نشان می‌دهد.
+* $P(B)$ به $p(D)$ تبدیل می‌شود: **شواهد** (یا درست‌نمایی حاشیه‌ای). این احتمال کلی مشاهدهٔ داده $D$ است، میانگین‌گرفته بر همهٔ مقادیر ممکن $\theta$. با انتگرال‌گیری (یا جمع در حالت گسسته) حاصل‌ضرب درست‌نمایی و پیشین بر کل فضای پارامتر محاسبه می‌شود:
+    $ p(D) = \int p(D|\theta) p(\theta) d\theta $ (برای $\theta$ پیوسته)
+    $ p(D) = \sum_{\theta} p(D|\theta) p(\theta) $ (برای $\theta$ گسسته)
 
-The evidence $p(D)$ acts as a normalization constant, ensuring that the posterior distribution $p(\theta|D)$ integrates (or sums) to 1.
+شواهد $p(D)$ به‌عنوان ثابت نرمال‌سازی عمل می‌کند و تضمین می‌کند توزیع پسین $p(\theta|D)$ انتگرال (یا جمع) برابر ۱ دارد.
 
-So, Bayes' Theorem for distributions becomes:
+پس قضیه بیز برای توزیع‌ها می‌شود:
 
 $$ p(\theta | D) = \frac{p(D | \theta) p(\theta)}{p(D)} $$
 
-Often, we focus on the numerator, as the evidence $p(D)$ doesn't depend on $\theta$ and just scales the result:
+اغلب بر صورت تمرکز می‌کنیم، چون شواهد $p(D)$ به $\theta$ وابسته نیست و فقط نتیجه را مقیاس می‌دهد:
 
 $$ \underbrace{p(\theta | D)}_{\text{Posterior}} \propto \underbrace{p(D | \theta)}_{\text{Likelihood}} \times \underbrace{p(\theta)}_{\text{Prior}} $$
 
-This reads: "The posterior distribution is proportional to the likelihood times the prior distribution."
+این می‌خواند: «توزیع پسین متناسب با حاصل‌ضرب درست‌نمایی و توزیع پیشین است.»
 
 +++
 
-**Example: The Coin Flip**
+**مثال: پرتاب سکه**
 
-Let $\theta$ be the unknown probability of getting heads for a potentially biased coin. We want to estimate $\theta$ based on observed flips.
+$\theta$ احتمال ناشناختهٔ آمدن شیر برای سکه‌ای بالقوه نامتقارن باشد. می‌خواهیم $\theta$ را بر اساس پرتاب‌های مشاهده‌شده برآورد کنیم.
 
-* **Parameter:** $\theta$, where $0 \le \theta \le 1$.
-* **Prior:** What's our initial belief about $\theta$? If we know nothing, we might assume $\theta$ is equally likely to be any value between 0 and 1. This corresponds to a Uniform distribution, $p(\theta) = \text{Uniform}(0, 1)$. Interestingly, this is also a Beta distribution: $\text{Beta}(\alpha=1, \beta=1)$.
-* **Data:** Suppose we flip the coin $n$ times and observe $k$ heads. Let $D = (n, k)$.
-* **Likelihood:** Given a specific $\theta$, the probability of observing $k$ heads in $n$ flips is given by the Binomial PMF: $p(D|\theta) = \binom{n}{k} \theta^k (1-\theta)^{n-k}$.
-* **Posterior:** Using the proportionality relationship:
+* **پارامتر:** $\theta$، که $0 \le \theta \le 1$.
+* **پیشین:** باور اولیهٔ ما دربارهٔ $\theta$ چیست؟ اگر چیزی نمی‌دانیم، ممکن است فرض کنیم $\theta$ به‌طور یکسان احتمال دارد هر مقداری بین ۰ و ۱ باشد. این متناظر با توزیع یکنواخت، $p(\theta) = \text{Uniform}(0, 1)$ است. جالب است که این همان توزیع بتا است: $\text{Beta}(\alpha=1, \beta=1)$.
+* **داده:** فرض کنید سکه را $n$ بار پرتاب می‌کنیم و $k$ شیر مشاهده می‌کنیم. $D = (n, k)$ باشد.
+* **درست‌نمایی:** با فرض $\theta$ مشخص، احتمال مشاهدهٔ $k$ شیر در $n$ پرتاب با PMF دوجمله‌ای داده می‌شود: $p(D|\theta) = \binom{n}{k} \theta^k (1-\theta)^{n-k}$.
+* **پسین:** با استفاده از رابطهٔ تناسب:
     $p(\theta | D) \propto p(D|\theta) p(\theta)$
-    $p(\theta | D) \propto \left[ \binom{n}{k} \theta^k (1-\theta)^{n-k} \right] \times [1]$ (Assuming Uniform(0,1) prior where $p(\theta)=1$ for $0 \le \theta \le 1$)
-    $p(\theta | D) \propto \theta^k (1-\theta)^{n-k}$ (Since $\binom{n}{k}$ is constant with respect to $\theta$)
+    $p(\theta | D) \propto \left[ \binom{n}{k} \theta^k (1-\theta)^{n-k} \right] \times [1]$ (با فرض پیشین Uniform(0,1) که $p(\theta)=1$ برای $0 \le \theta \le 1$)
+    $p(\theta | D) \propto \theta^k (1-\theta)^{n-k}$ (چون $\binom{n}{k}$ نسبت به $\theta$ ثابت است)
 
-We recognize the form $\theta^{\alpha-1} (1-\theta)^{\beta-1}$, which is the kernel of a Beta distribution. Specifically, $p(\theta|D)$ follows a $\text{Beta}(\alpha = k+1, \beta = n-k+1)$ distribution.
+شکل $\theta^{\alpha-1} (1-\theta)^{beta-1}$ را می‌شناسیم که هستهٔ توزیع بتا است. به‌طور مشخص، $p(\theta|D)$ از توزیع $\text{Beta}(\alpha = k+1, \beta = n-k+1)$ پیروی می‌کند.
 
-This demonstrates how observing data ($k$ heads in $n$ flips) updates our belief about $\theta$ from a $\text{Beta}(1, 1)$ prior to a $\text{Beta}(k+1, n-k+1)$ posterior.
+این نشان می‌دهد چگونه مشاهدهٔ داده ($k$ شیر در $n$ پرتاب) باورمان دربارهٔ $\theta$ را از پیشین $\text{Beta}(1, 1)$ به پسین $\text{Beta}(k+1, n-k+1)$ به‌روز می‌کند.
 
 +++
 
-## 15.2 Conjugate Priors
+## ۱۶.۲ پیشین‌های همراه
 
-In the coin flip example above, we started with a Beta prior distribution for $\theta$ and ended up with a Beta posterior distribution after observing Binomial data. This is an example of **conjugacy**.
+در مثال پرتاب سکه بالا، با پیشین بتا برای $\theta$ شروع کردیم و پس از مشاهدهٔ دادهٔ دوجمله‌ای به پسین بتا رسیدیم. این نمونه‌ای از **همراهی** است.
 
-A prior distribution is called a **conjugate prior** for a given likelihood function if the resulting posterior distribution belongs to the *same family* of distributions as the prior.
+پیشین **پیشین همراه** برای تابع درست‌نمایی داده‌شده نامیده می‌شود اگر توزیع پسین حاصل به *همان خانواده* توزیع پیشین تعلق داشته باشد.
 
-| Likelihood      | Parameter      | Conjugate Prior Family | Posterior Family | Example Application              |
+| درست‌نمایی      | پارامتر      | خانوادهٔ پیشین همراه | خانوادهٔ پسین | مثال کاربرد              |
 | :-------------- | :------------- | :--------------------- | :--------------- | :------------------------------- |
-| Bernoulli       | Prob. of Success $\theta$ | Beta                   | Beta             | Coin flips, Click-Through Rate   |
-| Binomial        | Prob. of Success $\theta$ | Beta                   | Beta             | Multiple coin flips, Survey %    |
-| Poisson         | Rate $\lambda$          | Gamma                  | Gamma            | Event counts (emails, accidents) |
-| Exponential     | Rate $\lambda$          | Gamma                  | Gamma            | Waiting times, component life    |
-| Normal (known $\sigma^2$) | Mean $\mu$            | Normal                 | Normal           | Measurement error (known var)  |
-| Normal (known $\mu$) | Variance $\sigma^2$     | Inverse Gamma          | Inverse Gamma    | Measurement error (known mean) |
+| Bernoulli       | احتمال موفقیت $\theta$ | Beta                   | Beta             | پرتاب سکه، نرخ کلیک   |
+| Binomial        | احتمال موفقیت $\theta$ | Beta                   | Beta             | پرتاب‌های متعدد سکه، درصد نظرسنجی    |
+| Poisson         | نرخ $\lambda$          | Gamma                  | Gamma            | شمارش واقعه‌ها (ایمیل، تصادف) |
+| Exponential     | نرخ $\lambda$          | Gamma                  | Gamma            | زمان انتظار، عمر قطعه    |
+| Normal (known $\sigma^2$) | میانگین $\mu$            | Normal                 | Normal           | خطای اندازه‌گیری (واریانس معلوم)  |
+| Normal (known $\mu$) | واریانس $\sigma^2$     | Inverse Gamma          | Inverse Gamma    | خطای اندازه‌گیری (میانگین معلوم) |
 
-**Why are conjugate priors useful?**
-1.  **Computational Simplicity:** If we use a conjugate prior, the posterior distribution has a known analytical form. We simply need to update the parameters of the distribution based on the data, often using simple algebraic rules. For example, for Beta-Binomial:
-    * Prior: $\text{Beta}(\alpha_{prior}, \beta_{prior})$
-    * Data: $k$ successes in $n$ trials
-    * Posterior: $\text{Beta}(\alpha_{prior} + k, \beta_{prior} + n - k)$
-2.  **Interpretability:** Staying within the same family of distributions makes it easier to understand how the data shifted our beliefs. We can directly compare the parameters of the prior and posterior.
+**چرا پیشین‌های همراه مفیدند؟**
+1.  **سادگی محاسباتی:** اگر پیشین همراه استفاده کنیم، توزیع پسین شکل تحلیلی شناخته‌شده دارد. فقط باید پارامترهای توزیع را بر اساس داده به‌روز کنیم، اغلب با قواعد جبری ساده. مثلاً برای بتا–دوجمله‌ای:
+    * پیشین: $\text{Beta}(\alpha_{prior}, \beta_{prior})$
+    * داده: $k$ موفقیت در $n$ آزمایش
+    * پسین: $\text{Beta}(\alpha_{prior} + k, \beta_{prior} + n - k)$
+2.  **قابلیت تفسیر:** ماندن در همان خانوادهٔ توزیع درک اینکه داده چگونه باورها را جابه‌جا کرده آسان‌تر می‌کند. می‌توانیم پارامترهای پیشین و پسین را مستقیماً مقایسه کنیم.
 
-**Limitations:**
-* A conjugate prior might not accurately reflect our true prior beliefs.
-* For complex models, conjugate priors may not exist or be easily identifiable.
+**محدودیت‌ها:**
+* پیشین همراه ممکن است باور پیشین واقعی ما را به‌درستی منعکس نکند.
+* برای مدل‌های پیچیده، پیشین همراه ممکن است وجود نداشته باشد یا به‌راحتی شناسایی نشود.
 
-In cases where conjugate priors are not suitable or available, we often resort to numerical methods like Markov Chain Monte Carlo (MCMC) or Grid Approximation (which we'll see later in this chapter) to estimate the posterior distribution.
+در مواردی که پیشین همراه مناسب یا در دسترس نیست، اغلب به روش‌های عددی مانند Markov Chain Monte Carlo (MCMC) یا تقریب شبکه‌ای (که بعداً در این فصل می‌بینیم) برای برآورد توزیع پسین متوسل می‌شویم.
 
 +++
 
-## 15.3 Point Estimates (MAP, Posterior Mean)
+## ۱۶.۳ برآوردهای نقطه‌ای (MAP، میانگین پسین)
 
-The posterior distribution $p(\theta|D)$ contains all our updated knowledge about the parameter $\theta$. However, we often want to summarize this distribution with a single "best guess" for the value of $\theta$. Common choices are:
+توزیع پسین $p(\theta|D)$ تمام دانش به‌روزشدهٔ ما دربارهٔ پارامتر $\theta$ را در بر دارد. اما اغلب می‌خواهیم این توزیع را با یک «حدس بهترین» برای مقدار $\theta$ خلاصه کنیم. انتخاب‌های رایج:
 
-1.  **Maximum a Posteriori (MAP) Estimate:**
-    * This is the value of $\theta$ that maximizes the posterior probability density (or mass). It's the *mode* of the posterior distribution.
+1.  **برآورد MAP (Maximum a Posteriori):**
+    * این مقدار $\theta$ است که چگالی (یا جرم) احتمال پسین را بیشینه می‌کند. *مد* توزیع پسین است.
     * $\hat{\theta}_{MAP} = \arg \max_{\theta} p(\theta | D)$
-    * Since $p(\theta | D) \propto p(D | \theta) p(\theta)$, the MAP estimate maximizes the product of the likelihood and the prior.
-    * If the prior $p(\theta)$ is uniform (flat), the MAP estimate coincides with the Maximum Likelihood Estimate (MLE) we might be familiar with from frequentist statistics.
-    * For a Beta$(\alpha, \beta)$ posterior, the mode is $\frac{\alpha - 1}{\alpha + \beta - 2}$ (provided $\alpha > 1$ and $\beta > 1$).
+    * از آنجا که $p(\theta | D) \propto p(D | \theta) p(\theta)$، برآورد MAP حاصل‌ضرب درست‌نمایی و پیشین را بیشینه می‌کند.
+    * اگر پیشین $p(\theta)$ یکنواخت (مسطح) باشد، برآورد MAP با برآورد بیشینه درست‌نمایی (MLE) که از آمار فراوانی می‌شناسیم هم‌خوان است.
+    * برای پسین بتا$(\alpha, \beta)$، مد برابر $\frac{\alpha - 1}{\alpha + \beta - 2}$ است (به‌شرط $\alpha > 1$ و $\beta > 1$).
 
-2.  **Posterior Mean:**
-    * This is the expected value (average) of $\theta$ according to the posterior distribution.
+2.  **میانگین پسین:**
+    * این امید ریاضی (میانگین) $\theta$ طبق توزیع پسین است.
     * $\hat{\theta}_{Mean} = E[\theta | D] = \int \theta p(\theta | D) d\theta$
-    * It represents the center of mass of the posterior distribution.
-    * It often provides a good balance between the prior belief and the data.
-    * For a Beta$(\alpha, \beta)$ posterior, the mean is $\frac{\alpha}{\alpha + \beta}$.
+    * مرکز جرم توزیع پسین را نشان می‌دهد.
+    * اغلب تعادل خوبی بین باور پیشین و داده فراهم می‌کند.
+    * برای پسین بتا$(\alpha, \beta)$، میانگین $\frac{\alpha}{\alpha + \beta}$ است.
 
-**Example: Coin Flip Continued**
-Suppose our prior is $\text{Beta}(1, 1)$ (Uniform) and we observe $k=8$ heads in $n=10$ flips.
+**مثال: ادامهٔ پرتاب سکه**
+فرض کنید پیشین ما $\text{Beta}(1, 1)$ (یکنواخت) است و $k=8$ شیر در $n=10$ پرتاب مشاهده می‌کنیم.
 
-* The posterior distribution is $\text{Beta}(\alpha = 1+8, \beta = 1+10-8) = \text{Beta}(9, 3)$.
-* **MAP Estimate:** $\hat{\theta}_{MAP} = \frac{\alpha - 1}{\alpha + \beta - 2} = \frac{9 - 1}{9 + 3 - 2} = \frac{8}{10} = 0.8$. This matches the sample proportion (MLE), as expected with a uniform prior.
-* **Posterior Mean:** $\hat{\theta}_{Mean} = \frac{\alpha}{\alpha + \beta} = \frac{9}{9 + 3} = \frac{9}{12} = 0.75$. Notice this is slightly "shrunk" away from the sample proportion (0.8) towards the mean of the prior (which was 0.5 for Beta(1,1)). The influence of the prior is small here because we have a reasonable amount of data. If the prior was stronger (e.g., Beta(5,5), centered strongly at 0.5) or the data weaker (e.g., 1 flip), the shrinkage would be more pronounced.
+* توزیع پسین $\text{Beta}(\alpha = 1+8, \beta = 1+10-8) = \text{Beta}(9, 3)$ است.
+* **برآورد MAP:** $\hat{\theta}_{MAP} = \frac{\alpha - 1}{\alpha + \beta - 2} = \frac{9 - 1}{9 + 3 - 2} = \frac{8}{10} = 0.8$. این با نسبت نمونه (MLE) هم‌خوان است، همان‌طور که با پیشین یکنواخت انتظار می‌رود.
+* **میانگین پسین:** $\hat{\theta}_{Mean} = \frac{\alpha}{\alpha + \beta} = \frac{9}{9 + 3} = \frac{9}{12} = 0.75$. توجه کنید این کمی از نسبت نمونه (۰٫۸) به سمت میانگین پیشین (که برای Beta(1,1) برابر ۰٫۵ بود) «جمع شده». تأثیر پیشین اینجا کوچک است چون دادهٔ معقولی داریم. اگر پیشین قوی‌تر بود (مثلاً Beta(5,5)، قوی متمرکز روی ۰٫۵) یا داده ضعیف‌تر (مثلاً ۱ پرتاب)، جمع‌شدگی بیشتر بود.
 
 +++
 
-## 15.4 Credible Intervals
+## ۱۶.۴ بازه‌های باور
 
-Instead of just a single point estimate, we often want to express our uncertainty about $\theta$ using an interval. In Bayesian inference, this is done using **credible intervals**.
+به‌جای فقط یک برآورد نقطه‌ای، اغلب می‌خواهیم عدم‌قطعیت دربارهٔ $\theta$ را با بازه بیان کنیم. در استنتاج بیزی، این با **بازه‌های باور** انجام می‌شود.
 
-A $100(1-\gamma)\%$ credible interval for $\theta$ is an interval $[L, U]$ such that the posterior probability of $\theta$ lying within this interval is $1-\gamma$:
+بازهٔ باور $100(1-\gamma)\%$ برای $\theta$ بازه‌ای $[L, U]$ است که احتمال پسین قرار گرفتن $\theta$ در این بازه برابر $1-\gamma$ است:
 
 $$ P(L \le \theta \le U | D) = \int_L^U p(\theta | D) d\theta = 1 - \gamma $$
 
-Common choices for $\gamma$ are 0.05 (for a 95% credible interval) or 0.10 (for a 90% credible interval).
+انتخاب‌های رایج برای $\gamma$ عبارت‌اند از ۰٫۰۵ (برای بازهٔ باور ۹۵٪) یا ۰٫۱۰ (برای بازهٔ باور ۹۰٪).
 
-**Interpretation:** "Given the data, there is a $100(1-\gamma)\%$ probability that the true value of $\theta$ lies within the interval $[L, U]$."
+**تفسیر:** «با توجه به داده، احتمال $100(1-\gamma)\%$ وجود دارد که مقدار واقعی $\theta$ در بازهٔ $[L, U]$ قرار گیرد.»
 
-This interpretation is direct and intuitive, which is often seen as an advantage over frequentist *confidence* intervals. (Recall that a 95% confidence interval means that if we repeated the experiment many times, 95% of the *intervals* we construct would contain the true, fixed parameter value; it doesn't give the probability that the *parameter* lies in a *specific* interval).
+این تفسیر مستقیم و شهودی است و اغلب مزیت نسبت به *بازه‌های اطمینان* فراوانی دیده می‌شود. (به‌خاطر بیاورید بازهٔ اطمینان ۹۵٪ یعنی اگر آزمایش را بارها تکرار کنیم، ۹۵٪ *بازه‌هایی* که می‌سازیم مقدار ثابت و واقعی پارامتر را در بر می‌گیرند؛ احتمال قرار گرفتن *پارامتر* در یک *بازهٔ مشخص* را نمی‌دهد).
 
-**Calculation:**
-There are different ways to construct a credible interval:
-1.  **Highest Posterior Density Interval (HPDI):** This finds the narrowest possible interval $[L, U]$ that contains $100(1-\gamma)\%$ of the posterior probability. For a unimodal posterior, all points inside the HPDI have a higher probability density than any point outside it. This is conceptually appealing but can be computationally harder.
-2.  **Equal-tailed Interval:** This is easier to compute. We find the $\gamma/2$ quantile and the $1 - \gamma/2$ quantile of the posterior distribution. These form the lower and upper bounds $[L, U]$. For a 95% interval ($\gamma=0.05$), we find the 2.5th percentile and the 97.5th percentile.
+**محاسبه:**
+راه‌های مختلفی برای ساخت بازهٔ باور وجود دارد:
+1.  **بازهٔ باور با چگالی پسین بیشینه (HPDI):** باریک‌ترین بازهٔ ممکن $[L, U]$ را می‌یابد که $100(1-\gamma)\%$ احتمال پسین را در بر می‌گیرد. برای پسین تک‌مدی، همهٔ نقاط داخل HPDI چگالی احتمال بالاتری از هر نقطهٔ خارج آن دارند. از نظر مفهومی جذاب است اما محاسباتی سخت‌تر می‌تواند باشد.
+2.  **بازهٔ هم‌دم:** محاسبه آسان‌تر است. چارک $\gamma/2$ و چارک $1 - \gamma/2$ توزیع پسین را می‌یابیم. این‌ها کران‌های پایین و بالای $[L, U]$ را تشکیل می‌دهند. برای بازهٔ ۹۵٪ ($\gamma=0.05$)، صدک ۲٫۵ و ۹۷٫۵ را می‌یابیم.
 
-For symmetric posterior distributions (like a Normal distribution), the HPDI and the equal-tailed interval coincide. For skewed distributions (like Beta or Gamma often are), they will differ. We typically use the equal-tailed interval for simplicity unless there's a strong reason otherwise.
+برای توزیع‌های پسین متقارن (مثل نرمال)، HPDI و بازهٔ هم‌دم یکی‌اند. برای توزیع‌های چوله (مثل بتا یا گاما که اغلب چنین‌اند)، متفاوت‌اند. معمولاً برای سادگی از بازهٔ هم‌دم استفاده می‌کنیم مگر دلیل قوی دیگری باشد.
 
-**Example: Coin Flip Continued**
-Our posterior is $\text{Beta}(9, 3)$. To find a 95% equal-tailed credible interval for $\theta$:
-* We need the 2.5th percentile (quantile at 0.025) and the 97.5th percentile (quantile at 0.975) of the $\text{Beta}(9, 3)$ distribution.
-* We can use `scipy.stats.beta.ppf` (percent point function, the inverse CDF) for this.
+**مثال: ادامهٔ پرتاب سکه**
+پسین ما $\text{Beta}(9, 3)$ است. برای یافتن بازهٔ باور هم‌دم ۹۵٪ برای $\theta$:
+* به صدک ۲٫۵ (چارک ۰٫۰۲۵) و صدک ۹۷٫۵ (چارک ۰٫۹۷۵) توزیع $\text{Beta}(9, 3)$ نیاز داریم.
+* می‌توانیم از `scipy.stats.beta.ppf` (تابع درصد، معکوس CDF) استفاده کنیم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -227,25 +227,25 @@ plt.legend()
 plt.show()
 ```
 
-The plot shows the $\text{Beta}(9, 3)$ posterior distribution. The shaded region represents the 95% credible interval, meaning we are 95% certain that the true value of $\theta$ lies between approximately 0.47 and 0.95. The mean (0.75) and MAP (0.80) provide single-point summaries of this distribution.
+نمودار توزیع پسین $\text{Beta}(9, 3)$ را نشان می‌دهد. ناحیهٔ سایه‌دار بازهٔ باور ۹۵٪ را نشان می‌دهد؛ یعنی با اطمینان ۹۵٪ مقدار واقعی $\theta$ بین تقریباً ۰٫۴۷ و ۰٫۹۵ قرار دارد. میانگین (۰٫۷۵) و MAP (۰٫۸۰) خلاصه‌های نقطه‌ای این توزیع را فراهم می‌کنند.
 
 +++
 
-## 15.5 Hands-on: Implementation and Grid Approximation
+## ۱۶.۵ عملی: پیاده‌سازی و تقریب شبکه‌ای
 
-Let's work through a practical example: estimating a website's click-through rate (CTR).
+یک مثال عملی را بررسی می‌کنیم: برآورد نرخ کلیک (CTR) یک وب‌سایت.
 
-**Scenario:** We are running an ad campaign. We want to estimate the underlying probability ($\theta$) that a user who sees the ad will click on it.
+**سناریو:** کمپین تبلیغاتی اجرا می‌کنیم. می‌خواهیم احتمال زیربنایی ($\theta$) اینکه کاربری که تبلیغ را می‌بیند روی آن کلیک کند را برآورد کنیم.
 
-* **Parameter:** $\theta$ (CTR), $0 \le \theta \le 1$.
-* **Prior Belief:** Before the campaign starts, based on past experience with similar ads, we believe the CTR is likely around 1%, but we are not very certain. A Beta distribution can represent this. Let's choose a prior that has a mean around 0.01 and is reasonably spread out, say $\text{Beta}(2, 198)$. We can check its properties.
-* **Data:** The ad is shown to $n=1000$ users, and we observe $k=15$ clicks.
-* **Likelihood:** The number of clicks $k$ given $n$ impressions and a CTR $\theta$ follows a Binomial distribution: $p(D|\theta) = \text{Binomial}(k=15 | n=1000, \theta)$.
-* **Goal:** Find the posterior distribution $p(\theta|D)$, calculate the posterior mean, MAP, and a 95% credible interval.
+* **پارامتر:** $\theta$ (CTR)، $0 \le \theta \le 1$.
+* **باور پیشین:** قبل از شروع کمپین، بر اساس تجربهٔ گذشته با تبلیغات مشابه، باور داریم CTR احتمالاً حدود ۱٪ است، اما چندان مطمئن نیستیم. توزیع بتا می‌تواند این را نشان دهد. پیشینی با میانگین حدود ۰٫۰۱ و پراکندگی معقول انتخاب می‌کنیم، مثلاً $\text{Beta}(2, 198)$. ویژگی‌های آن را بررسی می‌کنیم.
+* **داده:** تبلیغ به $n=1000$ کاربر نشان داده می‌شود و $k=15$ کلیک مشاهده می‌کنیم.
+* **درست‌نمایی:** تعداد کلیک‌ها $k$ با $n$ نمایش و CTR $\theta$ از توزیع دوجمله‌ای پیروی می‌کند: $p(D|\theta) = \text{Binomial}(k=15 | n=1000, \theta)$.
+* **هدف:** توزیع پسین $p(\theta|D)$ را بیابیم، میانگین پسین، MAP و بازهٔ باور ۹۵٪ را محاسبه کنیم.
 
 +++
 
---- Conjugate Prior Approach (Beta-Binomial) ---
+--- رویکرد پیشین همراه (بتا–دوجمله‌ای) ---
 
 ```{code-cell} ipython3
 # Prior parameters
@@ -318,24 +318,24 @@ plt.legend()
 plt.show()
 ```
 
-As you can see, the posterior distribution is shifted to the right compared to the prior, reflecting the observed data (15/1000 = 0.015, which is higher than the prior mean of ~0.01). The posterior is also narrower (more peaked) than the prior, indicating increased certainty about the CTR after observing the data. Our updated estimate for the CTR (posterior mean) is around 0.0142, and we are 95% certain it lies between 0.0081 and 0.0217.
+همان‌طور که می‌بینید، توزیع پسین نسبت به پیشین به راست جابه‌جا شده و دادهٔ مشاهده‌شده (۱۵/۱۰۰۰ = ۰٫۰۱۵، که بالاتر از میانگین پیشین ~۰٫۰۱ است) را منعکس می‌کند. پسین نیز باریک‌تر (تیزتر) از پیشین است و نشان‌دهندهٔ افزایش اطمینان دربارهٔ CTR پس از مشاهدهٔ داده است. برآورد به‌روزشدهٔ CTR (میانگین پسین) حدود ۰٫۰۱۴۲ است و با اطمینان ۹۵٪ بین ۰٫۰۰۸۱ و ۰٫۰۲۱۷ قرار دارد.
 
-### Grid Approximation
+### تقریب شبکه‌ای
 
-What if we didn't have a conjugate prior, or the model was more complex? We can approximate the posterior distribution numerically using **Grid Approximation**.
+اگر پیشین همراه نداشتیم یا مدل پیچیده‌تر بود چه؟ می‌توانیم توزیع پسین را به‌صورت عددی با **تقریب شبکه‌ای** تقریب بزنیم.
 
-The steps are:
-1.  **Define a grid:** Create a list of discrete candidate values for the parameter $\theta$ over its plausible range.
-2.  **Calculate Prior Probabilities:** Evaluate the prior probability (or density) for each value of $\theta$ on the grid.
-3.  **Calculate Likelihood:** For each value of $\theta$ on the grid, calculate the likelihood of observing the data $D$ given that $\theta$.
-4.  **Compute Unnormalized Posterior:** Multiply the prior probability by the likelihood for each $\theta$ on the grid. This gives $p(D|\theta)p(\theta)$.
-5.  **Normalize:** Sum the unnormalized posterior values across the grid. Divide each unnormalized posterior value by this sum to get the normalized posterior probability $p(\theta|D)$ for each grid point. The result is a discrete approximation of the posterior distribution.
+مراحل:
+1.  **تعریف شبکه:** فهرستی از مقادیر گسستهٔ کاندید برای پارامتر $\theta$ در بازهٔ محتمل آن بسازید.
+2.  **محاسبهٔ احتمالات پیشین:** احتمال (یا چگالی) پیشین را برای هر مقدار $\theta$ روی شبکه ارزیابی کنید.
+3.  **محاسبهٔ درست‌نمایی:** برای هر $\theta$ روی شبکه، درست‌نمایی مشاهدهٔ داده $D$ با آن $\theta$ را محاسبه کنید.
+4.  **محاسبهٔ پسین نرمال‌نشده:** برای هر $\theta$ روی شبکه، احتمال پیشین را در درست‌نمایی ضرب کنید. این $p(D|\theta)p(\theta)$ را می‌دهد.
+5.  **نرمال‌سازی:** مقادیر پسین نرمال‌نشده را روی شبکه جمع کنید. هر مقدار پسین نرمال‌نشده را بر این جمع تقسیم کنید تا احتمال پسین نرمال‌شده $p(\theta|D)$ برای هر نقطهٔ شبکه به‌دست آید. نتیجه تقریب گسستهٔ توزیع پسین است.
 
-Let's redo the CTR example using grid approximation. We'll use the same $\text{Beta}(2, 198)$ prior and $\text{Binomial}(15 | 1000, \theta)$ likelihood.
+مثال CTR را با تقریب شبکه‌ای تکرار می‌کنیم. همان پیشین $\text{Beta}(2, 198)$ و درست‌نمایی $\text{Binomial}(15 | 1000, \theta)$ را استفاده می‌کنیم.
 
 +++
 
---- Grid Approximation Approach ---
+--- رویکرد تقریب شبکه‌ای ---
 
 ```{code-cell} ipython3
 # 1. Define the grid
@@ -424,43 +424,43 @@ plt.legend()
 plt.show()
 ```
 
-The results from the grid approximation (mean ~0.0142, MAP ~0.0141, CI [0.0081, 0.0218]) are very close to the analytical results obtained using the conjugate prior (mean 0.0142, MAP 0.0142, CI [0.0081, 0.0217]). The small differences are due to the discretization of the parameter space in the grid method. Increasing the number of grid points generally improves accuracy.
+نتایج تقریب شبکه‌ای (میانگین ~۰٫۰۱۴۲، MAP ~۰٫۰۱۴۱، بازه [۰٫۰۰۸۱، ۰٫۰۲۱۸]) بسیار نزدیک به نتایج تحلیلی با پیشین همراه (میانگین ۰٫۰۱۴۲، MAP ۰٫۰۱۴۲، بازه [۰٫۰۰۸۱، ۰٫۰۲۱۷]) هستند. تفاوت‌های کوچک به گسسته‌سازی فضای پارامتر در روش شبکه‌ای مربوط است. افزایش تعداد نقاط شبکه معمولاً دقت را بهبود می‌دهد.
 
-Grid approximation is a versatile tool, especially when conjugate priors aren't available or when dealing with more complex likelihoods or priors. Its main limitation is the "curse of dimensionality" – it becomes computationally expensive if we need to estimate multiple parameters simultaneously, as the grid size grows exponentially with the number of parameters. For higher-dimensional problems, methods like Markov Chain Monte Carlo (MCMC) are preferred (though beyond the scope of this introductory chapter).
-
-+++
-
-## 15.6 Chapter Summary
-
-Bayesian inference provides a formal framework for updating our beliefs about unknown parameters in light of observed data.
-
-* It leverages **Bayes' Theorem** applied to distributions: $p(\theta | D) \propto p(D | \theta) p(\theta)$.
-* We start with a **prior distribution** $p(\theta)$ representing initial beliefs.
-* The **likelihood** $p(D|\theta)$ quantifies how probable the data $D$ is for different parameter values $\theta$.
-* The result is a **posterior distribution** $p(\theta|D)$, which combines prior knowledge with evidence from the data.
-* **Conjugate priors** simplify calculations because the posterior belongs to the same distribution family as the prior (e.g., Beta prior for Binomial/Bernoulli likelihood results in a Beta posterior).
-* The posterior distribution can be summarized using **point estimates** like the **Posterior Mean** (expected value) and **MAP** (mode).
-* Uncertainty is quantified using **credible intervals**, which give a range where the parameter lies with a specific probability (e.g., 95%).
-* When analytical solutions are difficult, numerical methods like **Grid Approximation** can be used to estimate the posterior distribution.
-
-Bayesian methods allow for intuitive interpretations of probability (as degrees of belief) and naturally incorporate prior information, making them powerful tools for data analysis and modeling in various fields.
+تقریب شبکه‌ای ابزار همه‌کاره‌ای است، به‌ویژه وقتی پیشین همراه در دسترس نیست یا با درست‌نمایی یا پیشین‌های پیچیده‌تر سروکار داریم. محدودیت اصلی آن «نفرین ابعاد» است — اگر بخواهیم چند پارامتر را همزمان برآورد کنیم محاسباتی پرهزینه می‌شود، چون اندازهٔ شبکه به‌صورت نمایی با تعداد پارامترها رشد می‌کند. برای مسائل با ابعاد بالاتر، روش‌هایی مانند Markov Chain Monte Carlo (MCMC) ترجیح داده می‌شوند (هرچند فراتر از حوصلهٔ این فصل مقدماتی است).
 
 +++
 
-## Exercises
+## ۱۶.۶ خلاصهٔ فصل
 
-1.  **Prior Sensitivity:** Repeat the CTR estimation (Beta-Binomial conjugate update) using a less informative prior, $\text{Beta}(1, 1)$ (Uniform). Compare the posterior mean, MAP, and 95% CI to those obtained with the $\text{Beta}(2, 198)$ prior. How much does the choice of prior influence the results with 1000 data points?
-2.  **Stronger Prior:** Now, repeat the CTR estimation using a stronger prior belief that the CTR is low, perhaps $\text{Beta}(1, 99)$. How do the posterior results change compared to the original $\text{Beta}(2, 198)$ prior and the uniform prior?
-3.  **Poisson-Gamma Conjugacy:** The number of emails arriving per hour follows a Poisson distribution with an unknown rate $\lambda$. Your prior belief about $\lambda$ is modeled by a $\text{Gamma}(\alpha=3, \text{scale}=1/\beta=0.5)$ distribution (Note: `scipy.stats.gamma` uses shape=$ \alpha $, scale=$ 1/\beta $). In a particular hour, you observe $k=5$ emails.
-    * What is the conjugate prior family for the Poisson rate $\lambda$? (Hint: Gamma)
-    * The Gamma-Poisson update rule is: If prior is $\text{Gamma}(\alpha_{prior}, \beta_{prior})$ and data is $k$ events (in one unit of time/exposure), the posterior is $\text{Gamma}(\alpha_{prior} + k, \beta_{prior} + 1)$. Remember that `scipy.stats` uses scale = 1/rate ($\beta$). So, if prior is `stats.gamma(a=alpha_prior, scale=1/beta_prior)`, the posterior is `stats.gamma(a=alpha_prior + k, scale=1/(beta_prior + 1))`.
-    * Calculate the parameters of the posterior distribution for $\lambda$.
-    * Find the posterior mean and a 90% credible interval for $\lambda$.
-    * Plot the prior and posterior distributions.
-4.  **Grid Approximation for Poisson-Gamma:** Implement the grid approximation method for the Poisson-Gamma problem in Exercise 3. Define a reasonable grid for $\lambda$ (e.g., from 0 to 15). Calculate the posterior mean and 90% CI from the grid and compare them to the analytical results. Plot the grid approximation against the analytical posterior.
+استنتاج بیزی چارچوب رسمی برای به‌روزرسانی باورهایمان دربارهٔ پارامترهای ناشناخته در پرتو داده‌های مشاهده‌شده فراهم می‌کند.
+
+* از **قضیه بیز** برای توزیع‌ها بهره می‌برد: $p(\theta | D) \propto p(D | \theta) p(\theta)$.
+* با **توزیع پیشین** $p(\theta)$ که باورهای اولیه را نشان می‌دهد شروع می‌کنیم.
+* **درست‌نمایی** $p(D|\theta)$ می‌سنجد داده $D$ برای مقادیر مختلف پارامتر $\theta$ چقدر محتمل است.
+* نتیجه **توزیع پسین** $p(\theta|D)$ است که دانش پیشین را با شواهد داده ترکیب می‌کند.
+* **پیشین‌های همراه** محاسبات را ساده می‌کنند چون پسین به همان خانوادهٔ توزیع پیشین تعلق دارد (مثلاً پیشین بتا برای درست‌نمایی دوجمله‌ای/برنولی به پسین بتا منجر می‌شود).
+* توزیع پسین را می‌توان با **برآوردهای نقطه‌ای** مانند **میانگین پسین** (امید ریاضی) و **MAP** (مد) خلاصه کرد.
+* عدم‌قطعیت با **بازه‌های باور** کمی‌سازی می‌شود که بازه‌ای می‌دهند که پارامتر با احتمال مشخص (مثلاً ۹۵٪) در آن قرار دارد.
+* وقتی راه‌حل‌های تحلیلی دشوار است، روش‌های عددی مانند **تقریب شبکه‌ای** برای برآورد توزیع پسین قابل استفاده‌اند.
+
+روش‌های بیزی تفسیر شهودی احتمال (به‌عنوان درجهٔ باور) و گنجاندن طبیعی اطلاعات پیشین را ممکن می‌سازند و ابزارهای قدرتمندی برای تحلیل داده و مدل‌سازی در حوزه‌های گوناگون هستند.
+
++++
+
+## تمرین‌ها
+
+1.  **حساسیت پیشین:** برآورد CTR (به‌روزرسانی همراه بتا–دوجمله‌ای) را با پیشین کم‌اطلاعاتی‌تر $\text{Beta}(1, 1)$ (یکنواخت) تکرار کنید. میانگین پسین، MAP و بازهٔ باور ۹۵٪ را با نتایج $\text{Beta}(2, 198)$ مقایسه کنید. انتخاب پیشین با ۱۰۰۰ نقطهٔ داده چقدر بر نتایج تأثیر می‌گذارد؟
+2.  **پیشین قوی‌تر:** اکنون برآورد CTR را با باور پیشین قوی‌تر که CTR پایین است تکرار کنید، شاید $\text{Beta}(1, 99)$. نتایج پسین نسبت به پیشین اصلی $\text{Beta}(2, 198)$ و پیشین یکنواخت چگونه تغییر می‌کند؟
+3.  **همراهی پواسون–گاما:** تعداد ایمیل‌های رسیده در ساعت از توزیع پواسون با نرخ ناشناخته $\lambda$ پیروی می‌کند. باور پیشین شما دربارهٔ $\lambda$ با توزیع $\text{Gamma}(\alpha=3, \text{scale}=1/\beta=0.5)$ مدل شده است (توجه: `scipy.stats.gamma` از shape=$ \alpha $، scale=$ 1/\beta $ استفاده می‌کند). در یک ساعت مشخص، $k=5$ ایمیل مشاهده می‌کنید.
+    * خانوادهٔ پیشین همراه برای نرخ پواسون $\lambda$ چیست؟ (راهنما: گاما)
+    * قاعدهٔ به‌روزرسانی گاما–پواسون: اگر پیشین $\text{Gamma}(\alpha_{prior}, \beta_{prior})$ و داده $k$ واقعه (در یک واحد زمان/مواجهه) باشد، پسین $\text{Gamma}(\alpha_{prior} + k, \beta_{prior} + 1)$ است. به‌خاطر بیاورید `scipy.stats` از scale = 1/rate ($\beta$) استفاده می‌کند. پس اگر پیشین `stats.gamma(a=alpha_prior, scale=1/beta_prior)` باشد، پسین `stats.gamma(a=alpha_prior + k, scale=1/(beta_prior + 1))` است.
+    * پارامترهای توزیع پسین برای $\lambda$ را محاسبه کنید.
+    * میانگین پسین و بازهٔ باور ۹۰٪ برای $\lambda$ را بیابید.
+    * توزیع‌های پیشین و پسین را رسم کنید.
+4.  **تقریب شبکه‌ای برای پواسون–گاما:** روش تقریب شبکه‌ای را برای مسئلهٔ پواسون–گاما در تمرین ۳ پیاده‌سازی کنید. شبکهٔ معقولی برای $\lambda$ تعریف کنید (مثلاً از ۰ تا ۱۵). میانگین پسین و بازهٔ باور ۹۰٪ را از شبکه محاسبه و با نتایج تحلیلی مقایسه کنید. تقریب شبکه‌ای را در برابر پسین تحلیلی رسم کنید.
 
 ```{code-cell} ipython3
-# Exercise 1 Code Placeholder
+# فضای کد/محاسبهٔ تمرین ۱
 import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt

@@ -13,41 +13,41 @@ downloads:
   - file: notebooks/chapter_21.ipynb
 ---
 
-# Chapter 21: Probability with SageMath
+# فصل ۲۱: احتمال با SageMath
 
 +++
 
-Welcome to Chapter 21! In the previous chapter, we explored SymPy for symbolic probability computation. Now we'll discover **SageMath** (often called just "Sage"), a comprehensive free open-source mathematics software system that combines the power of many specialized libraries including NumPy, SciPy, SymPy, matplotlib, and dozens more.
+به فصل ۲۱ خوش آمدید! در فصل پیشین SymPy را برای محاسبهٔ احتمال نمادین بررسی کردیم. اکنون **SageMath** (که اغلب فقط «Sage» نامیده می‌شود) را می‌شناسیم؛ سامانهٔ نرم‌افزاری ریاضی جامع و آزاد متن‌باز که قدرت بسیاری از کتابخانه‌های تخصصی از جمله NumPy، SciPy، SymPy، matplotlib و ده‌ها مورد دیگر را گرد هم می‌آورد.
 
-SageMath is built on Python but extends it with a powerful mathematical syntax and extensive pre-built functionality for:
-- Symbolic and numerical computation
-- Probability and statistics
-- Linear algebra and calculus
-- Number theory and combinatorics
-- Graph theory and cryptography
-- And much more
+SageMath بر پایهٔ پایتون ساخته شده اما با نحو ریاضی قدرتمند و قابلیت‌های گستردهٔ از پیش ساخته برای موارد زیر گسترش می‌یابد:
+- محاسبات نمادین و عددی
+- احتمال و آمار
+- جبر خطی و حساب دیفرانسیل و انتگرال
+- نظریهٔ اعداد و ترکیبیات
+- نظریهٔ گراف و رمزنگاری
+- و بسیار بیشتر
 
-While this entire book could have been written using SageMath, we've focused on standard Python libraries (NumPy, SciPy, SymPy) because they're more commonly used in data science and machine learning workflows. However, SageMath offers unique advantages for mathematical work and is worth knowing about.
-
-+++
-
-## Learning Objectives
-
-* Understand what SageMath is and how it differs from standard Python
-* Set up and access SageMath (locally or via CoCalc)
-* Use SageMath for combinatorics and exact probability calculations
-* Work with probability distributions in SageMath
-* Leverage SageMath's symbolic capabilities for probability theory
-* Compare SageMath with NumPy/SciPy/SymPy approaches
-* Decide when to use SageMath vs standard Python libraries
+اگرچه می‌توان کل این کتاب را با SageMath نوشت، بر کتابخانه‌های استاندارد پایتون (NumPy، SciPy، SymPy) تمرکز کردیم چون در گردش‌کارهای علم داده و یادگیری ماشین رایج‌ترند. با این حال SageMath برای کار ریاضی مزایای منحصربه‌فردی دارد و شناخت آن ارزشمند است.
 
 +++
 
-## What is SageMath?
+## اهداف یادگیری
 
-### SageMath vs Python + Libraries
+* درک SageMath و تفاوت آن با پایتون استاندارد
+* راه‌اندازی و دسترسی به SageMath (محلی یا از طریق CoCalc)
+* استفاده از SageMath برای ترکیبیات و محاسبات احتمال دقیق
+* کار با توزیع‌های احتمال در SageMath
+* بهره‌گیری از قابلیت‌های نمادین SageMath برای نظریهٔ احتمال
+* مقایسهٔ SageMath با رویکردهای NumPy/SciPy/SymPy
+* تصمیم‌گیری دربارهٔ زمان استفاده از SageMath در مقابل کتابخانه‌های استاندارد پایتون
 
-**Standard Python Approach** (what we've used in this book):
++++
+
+## SageMath چیست؟
+
+### SageMath در مقابل پایتون + کتابخانه‌ها
+
+**رویکرد پایتون استاندارد** (آنچه در این کتاب استفاده کردیم):
 ```python
 import numpy as np
 import scipy.stats as stats
@@ -55,85 +55,85 @@ import sympy as sp
 import matplotlib.pyplot as plt
 ```
 
-**SageMath Approach**:
-- All major mathematical libraries are pre-integrated
-- Enhanced syntax for mathematical operations
-- Built-in support for exact arithmetic
-- Extensive mathematical functions without imports
-- Interactive environment (Sage REPL or Jupyter)
+**رویکرد SageMath**:
+- همهٔ کتابخانه‌های ریاضی اصلی از پیش یکپارچه‌اند
+- نحو تقویت‌شده برای عملیات ریاضی
+- پشتیبانی داخلی از حساب دقیق
+- توابع ریاضی گسترده بدون نیاز به import
+- محیط تعاملی (Sage REPL یا Jupyter)
 
-**Key Philosophy**: SageMath aims to be a free open-source alternative to Mathematica, Maple, and MATLAB.
+**فلسفهٔ کلیدی**: SageMath می‌خواهد جایگزین آزاد و متن‌باز Mathematica، Maple و MATLAB باشد.
 
 +++
 
-## Installation and Access
+## نصب و دسترسی
 
-### Option 1: CoCalc (Recommended for Beginners)
+### گزینهٔ ۱: CoCalc (توصیه‌شده برای مبتدیان)
 
-**CoCalc** (https://cocalc.com) is a free online platform that provides SageMath in your browser:
-- No installation required
-- Includes Jupyter notebooks with SageMath kernel
-- Free tier available
-- Collaborative features
-- Perfect for learning and experimentation
+**CoCalc** (https://cocalc.com) بستر آنلاین رایگی است که SageMath را در مرورگر شما فراهم می‌کند:
+- بدون نیاز به نصب
+- شامل Jupyter notebook با کرنل SageMath
+- سطح رایگان موجود
+- قابلیت‌های همکاری
+- ایده‌آل برای یادگیری و آزمایش
 
-### Option 2: Local Installation
+### گزینهٔ ۲: نصب محلی
 
-**Install SageMath locally**:
+**نصب SageMath به‌صورت محلی**:
 
-**On Ubuntu/Debian:**
+**در Ubuntu/Debian:**
 ```bash
 sudo apt-get install sagemath
 ```
 
-**On macOS (using Homebrew):**
+**در macOS (با Homebrew):**
 ```bash
 brew install --cask sagemath
 ```
 
-**On Windows:**
-- Download from https://www.sagemath.org/
-- Use WSL (Windows Subsystem for Linux) + Linux installation
-- Or use Docker
+**در Windows:**
+- از https://www.sagemath.org/ دانلود کنید
+- از WSL (Windows Subsystem for Linux) + نصب لینوکس استفاده کنید
+- یا از Docker استفاده کنید
 
-**Via Conda (unofficial):**
+**از طریق Conda (غیررسمی):**
 ```bash
 conda install -c conda-forge sage
 ```
 
-### Option 3: Docker
+### گزینهٔ ۳: Docker
 
 ```bash
 docker pull sagemath/sagemath
 docker run -p 8888:8888 sagemath/sagemath:latest sage-jupyter
 ```
 
-### Option 4: SageMathCell
+### گزینهٔ ۴: SageMathCell
 
-For quick one-off calculations: https://sagecell.sagemath.org/
+برای محاسبات سریع یک‌باره: https://sagecell.sagemath.org/
 
 +++
 
-:::{admonition} Note About This Chapter
+:::{admonition} نکته دربارهٔ این فصل
 :class: warning
 
-The code examples in this chapter require **SageMath** to run. They will not work in a standard Python/Jupyter environment.
+مثال‌های کد این فصل برای اجرا به **SageMath** نیاز دارند. در محیط استاندارد Python/Jupyter کار نمی‌کنند.
 
-To run these examples:
-- Use CoCalc (https://cocalc.com) with a SageMath kernel
-- Install SageMath locally and use a Sage notebook
-- Use SageMathCell (https://sagecell.sagemath.org/) for individual examples
+برای اجرای این مثال‌ها:
+- از CoCalc (https://cocalc.com) با کرنل SageMath استفاده کنید
+- SageMath را محلی نصب کنید و از Sage notebook استفاده کنید
+- برای مثال‌های تکی از SageMathCell (https://sagecell.sagemath.org/) استفاده کنید
 
-The examples are presented to show SageMath's capabilities and syntax.
+مثال‌ها برای نمایش قابلیت‌ها و نحو SageMath ارائه شده‌اند.
 :::
 
 +++
 
-## SageMath Basics for Probability
+## مبانی SageMath برای احتمال
 
-### Exact Arithmetic by Default
+### حساب دقیق به‌صورت پیش‌فرض
 
-Unlike Python where `1/3` gives `0.333...`, SageMath provides exact arithmetic by default:
+برخلاف پایتون که `1/3` مقدار `0.333...` می‌دهد، SageMath به‌صورت پیش‌فرض حساب دقیق فراهم می‌کند:
 
 ```python
 # In SageMath (this would give exact result)
@@ -156,13 +156,13 @@ sage: pi.n(digits=50)
 3.1415926535897932384626433832795028841971693993751
 ```
 
-This exact arithmetic is similar to SymPy but built into the core language.
+این حساب دقیق شبیه SymPy است اما در هستهٔ زبان تعبیه شده است.
 
 +++
 
-### Combinatorics in SageMath
+### ترکیبیات در SageMath
 
-SageMath has extensive built-in combinatorics support:
+SageMath پشتیبانی داخلی گسترده‌ای از ترکیبیات دارد:
 
 ```python
 # Factorials
@@ -200,7 +200,7 @@ sage: Combinations(5, 2).cardinality()
 
 +++
 
-### Symbolic Variables and Expressions
+### متغیرها و عبارات نمادین
 
 ```python
 # Declare symbolic variables
@@ -228,13 +228,13 @@ sage: expand((p + (1-p))^5)
 
 +++
 
-## Probability Distributions in SageMath
+## توزیع‌های احتمال در SageMath
 
-SageMath provides several ways to work with probability distributions.
+SageMath چند راه برای کار با توزیع‌های احتمال فراهم می‌کند.
 
-### Using SciPy Through SageMath
+### استفاده از SciPy از طریق SageMath
 
-SageMath includes SciPy, so you can use it exactly as we have throughout this book:
+SageMath شامل SciPy است، بنابراین می‌توانید دقیقاً همان‌طور که در سراسر این کتاب استفاده کردیم از آن بهره ببرید:
 
 ```python
 sage: import scipy.stats as stats
@@ -242,7 +242,7 @@ sage: stats.binom.pmf(3, 10, 0.5)
 0.1171875
 ```
 
-### Symbolic Probability with SageMath
+### احتمال نمادین با SageMath
 
 ```python
 # Exact probability calculations
@@ -259,7 +259,7 @@ sage: sum(binomial_prob(n=n_val, k=k_val, p=1/2) for k_val in range(n_val+1))
 1
 ```
 
-### Discrete Distributions
+### توزیع‌های گسسته
 
 ```python
 # Creating a discrete probability distribution
@@ -282,9 +282,9 @@ sage: [outcomes[die_dist.get_random_element()] for _ in range(10)]
 
 +++
 
-## Advanced Combinatorics Examples
+## مثال‌های پیشرفتهٔ ترکیبیات
 
-### Example 1: Poker Hand Probabilities
+### مثال ۱: احتمال‌های دست پوکر
 
 ```python
 sage: # Total 5-card poker hands
@@ -313,7 +313,7 @@ sage: prob_full_house.n()
 
 +++
 
-### Example 2: Birthday Problem
+### مثال ۲: مسئلهٔ تولد
 
 ```python
 sage: def birthday_probability(n):
@@ -342,7 +342,7 @@ Minimum group size for >50%: 23
 
 +++
 
-### Example 3: Multinomial Coefficients
+### مثال ۳: ضرایب چندجمله‌ای
 
 ```python
 sage: # Multinomial coefficient: n! / (k1! * k2! * ... * km!)
@@ -364,9 +364,9 @@ sage: 1 / multinomial([1, 4, 4, 2])
 
 +++
 
-## Symbolic Probability Theory
+## نظریهٔ احتمال نمادین
 
-### Deriving Expected Value Formulas
+### استخراج فرمول‌های امید ریاضی
 
 ```python
 sage: # Expected value of binomial distribution
@@ -387,7 +387,7 @@ sage: # This confirms E(X) = np for Binomial(n,p)
 
 +++
 
-### Moment Generating Functions
+### توابع تولید گشتاور
 
 ```python
 sage: # MGF of Binomial distribution: M(t) = (pe^t + (1-p))^n
@@ -411,9 +411,9 @@ sage: # Which simplifies to n*p*(1-p)
 
 +++
 
-## Numerical Integration and Probability
+## انتگرال‌گیری عددی و احتمال
 
-SageMath can handle both symbolic and numerical integration:
+SageMath هم انتگرال‌گیری نمادین و هم عددی را پشتیبانی می‌کند:
 
 ```python
 sage: # Numerical integration for continuous distributions
@@ -440,9 +440,9 @@ sage: stats.norm.cdf(1)  # Should match first calculation
 
 +++
 
-## Plotting Distributions
+## رسم توزیع‌ها
 
-SageMath has built-in plotting that's similar to matplotlib but with some enhancements:
+SageMath قابلیت رسم داخلی دارد که شبیه matplotlib است اما با برخی بهبودها:
 
 ```python
 sage: # Plot binomial PMF
@@ -466,7 +466,7 @@ sage: (p1 + p2).show()
 
 +++
 
-## Simulation and Monte Carlo
+## شبیه‌سازی و Monte Carlo
 
 ```python
 sage: # Monte Carlo estimation of π
@@ -490,27 +490,27 @@ sage: {i: rolls.count(i)/1000 for i in range(1,7)}
 
 +++
 
-## Comparison: SageMath vs NumPy/SciPy/SymPy
+## مقایسه: SageMath در مقابل NumPy/SciPy/SymPy
 
-### When to Use SageMath
+### چه زمانی از SageMath استفاده کنیم
 
-**✅ Use SageMath when:**
-- You're doing primarily mathematical/theoretical work
-- You want everything pre-integrated (no import hunting)
-- You need powerful symbolic computation
-- You're teaching mathematics or probability theory
-- You want an interactive mathematical environment
-- You're working on pure math research
-- You prefer Mathematica-like syntax
+**✅ از SageMath استفاده کنید وقتی:**
+- عمدتاً کار ریاضی/نظری انجام می‌دهید
+- می‌خواهید همه‌چیز از پیش یکپارچه باشد (بدون جستجوی import)
+- به محاسبهٔ نمادین قدرتمند نیاز دارید
+- ریاضیات یا نظریهٔ احتمال تدریس می‌کنید
+- محیط ریاضی تعاملی می‌خواهید
+- روی تحقیق ریاضی خالص کار می‌کنید
+- نحوی شبیه Mathematica را ترجیح می‌دهید
 
-**❌ Don't use SageMath when:**
-- Building production data science/ML systems
-- Working in standard Python environments (deployment, CI/CD)
-- Need to integrate with industry-standard Python data stack
-- Collaborating with data scientists using NumPy/pandas/scikit-learn
-- Performance is critical (NumPy/SciPy are often faster)
+**❌ از SageMath استفاده نکنید وقتی:**
+- سامانه‌های تولیدی علم داده/ML می‌سازید
+- در محیط‌های استاندارد پایتون کار می‌کنید (استقرار، CI/CD)
+- باید با پشتهٔ استاندارد دادهٔ پایتون یکپارچه شوید
+- با دانشمندان داده‌ای که از NumPy/pandas/scikit-learn استفاده می‌کنند همکاری دارید
+- کارایی حیاتی است (NumPy/SciPy اغلب سریع‌ترند)
 
-### Syntax Comparison
+### مقایسهٔ نحو
 
 ```python
 # Exact probability: P(X=3) for Binomial(10, 0.5)
@@ -531,11 +531,11 @@ binomial(10, 3) * (1/2)^10  # 15/128
 
 +++
 
-## Practical Example: Complete Analysis
+## مثال عملی: تحلیل کامل
 
-Let's solve a problem using SageMath's full capabilities:
+بیایید یک مسئله را با تمام قابلیت‌های SageMath حل کنیم:
 
-**Problem**: A fair coin is flipped 100 times. What's the probability of getting between 45 and 55 heads (inclusive)?
+**مسئله**: یک سکهٔ منصفانه ۱۰۰ بار پرتاب می‌شود. احتمال آمدن بین ۴۵ تا ۵۵ شیر (شامل هر دو) چقدر است؟
 
 ```python
 sage: # Method 1: Exact calculation
@@ -571,9 +571,9 @@ sage: print(f"Normal approx: {prob_normal:.10f}")
 
 +++
 
-## Unique SageMath Features for Probability
+## ویژگی‌های منحصربه‌فرد SageMath برای احتمال
 
-### 1. Built-in Graph Theory (for Markov Chains)
+### ۱. نظریهٔ گراف داخلی (برای زنجیره‌های مارکوف)
 
 ```python
 sage: # Create a transition matrix for a Markov chain
@@ -591,7 +591,7 @@ sage: eigenspaces = P.transpose().eigenspaces_right()
 sage: # Extract eigenvector for eigenvalue 1
 ```
 
-### 2. Automatic Simplification
+### ۲. ساده‌سازی خودکار
 
 ```python
 sage: # SageMath often simplifies automatically
@@ -605,7 +605,7 @@ sage: expr2.simplify()
 1
 ```
 
-### 3. LaTeX Output
+### ۳. خروجی LaTeX
 
 ```python
 sage: var('n k p')
@@ -618,94 +618,94 @@ sage: latex(formula)
 
 +++
 
-## Integration with Jupyter
+## یکپارچگی با Jupyter
 
-SageMath works excellently with Jupyter notebooks:
+SageMath با Jupyter notebook به‌خوبی کار می‌کند:
 
-1. **CoCalc**: Built-in Jupyter with SageMath kernel
-2. **Local Jupyter**: After installing SageMath, use `sage -n jupyter`
-3. **SageMath kernel**: Select "SageMath" kernel in Jupyter
+1. **CoCalc**: Jupyter داخلی با کرنل SageMath
+2. **Jupyter محلی**: پس از نصب SageMath از `sage -n jupyter` استفاده کنید
+3. **کرنل SageMath**: کرنل «SageMath» را در Jupyter انتخاب کنید
 
-**Advantages**:
-- Mix SageMath code with markdown explanations
-- Export to PDF, HTML
-- Share notebooks easily
-- Use LaTeX for mathematical notation
-
-+++
-
-## Limitations and Considerations
-
-### Installation Complexity
-- Not a simple `pip install sage`
-- Larger download than individual libraries
-- Platform-specific installation issues
-
-### Ecosystem Compatibility
-- Not as integrated with modern ML/data science tools
-- Can't easily mix SageMath and pandas/sklearn in production
-- Deployment is complex
-
-### Performance
-- NumPy/SciPy can be faster for numerical operations
-- SageMath includes overhead from multiple systems
-
-### Community Size
-- Smaller community than NumPy/SciPy/pandas
-- Fewer Stack Overflow answers
-- Less industry adoption
+**مزایا**:
+- ترکیب کد SageMath با توضیحات markdown
+- خروجی به PDF، HTML
+- اشتراک‌گذاری آسان notebookها
+- استفاده از LaTeX برای نمادگذاری ریاضی
 
 +++
 
-## Summary
+## محدودیت‌ها و ملاحظات
 
-**SageMath** is a powerful, comprehensive mathematical software system built on Python that offers:
+### پیچیدگی نصب
+- نصب سادهٔ `pip install sage` نیست
+- حجم دانلود بیشتر از کتابخانه‌های جداگانه
+- مشکلات نصب وابسته به پلتفرم
 
-**Strengths:**
-- ✅ All-in-one mathematical environment
-- ✅ Exact arithmetic by default
-- ✅ Extensive symbolic capabilities
-- ✅ Rich combinatorics and number theory support
-- ✅ Excellent for teaching and research
-- ✅ Free and open-source alternative to Mathematica/Maple
+### سازگاری اکوسیستم
+- یکپارچگی کمتری با ابزارهای مدرن ML/علم داده
+- ترکیب SageMath و pandas/sklearn در تولید به‌راحتی ممکن نیست
+- استقرار پیچیده است
 
-**Trade-offs:**
-- ❌ More complex installation
-- ❌ Less integrated with industry data science stack
-- ❌ Smaller ecosystem than NumPy/SciPy
-- ❌ Can be slower for pure numerical work
+### کارایی
+- NumPy/SciPy برای عملیات عددی می‌توانند سریع‌تر باشند
+- SageMath سربار چند سامانه را شامل می‌شود
 
-**Recommendation:**
-- **For this book's audience** (data science/ML practitioners): Stick with NumPy/SciPy/SymPy
-- **For mathematics students/researchers**: SageMath is excellent
-- **For teaching probability theory**: SageMath offers great pedagogical benefits
-- **For production systems**: Use standard Python stack
-
-**Best of both worlds**: Learn the concepts with SageMath, implement production code with NumPy/SciPy!
+### اندازهٔ جامعه
+- جامعهٔ کوچک‌تر از NumPy/SciPy/pandas
+- پاسخ‌های کمتر در Stack Overflow
+- پذیرش صنعتی کمتر
 
 +++
 
-## Exercises
+## خلاصه
 
-1. **Installation**: Set up SageMath using your preferred method (CoCalc, local, or Docker) and verify it works.
+**SageMath** سامانهٔ نرم‌افزاری ریاضی قدرتمند و جامعی است که بر پایهٔ پایتون ساخته شده و موارد زیر را ارائه می‌دهد:
 
-2. **Exact Probabilities**: Calculate the exact probability of getting exactly 5 heads in 12 coin flips. Express as both a fraction and decimal.
+**نقاط قوت:**
+- ✅ محیط ریاضی همه‌در‌یک
+- ✅ حساب دقیق به‌صورت پیش‌فرض
+- ✅ قابلیت‌های نمادین گسترده
+- ✅ پشتیبانی غنی از ترکیبیات و نظریهٔ اعداد
+- ✅ عالی برای تدریس و تحقیق
+- ✅ جایگزین آزاد و متن‌باز Mathematica/Maple
 
-3. **Poker Probability**: Calculate the exact probability of getting "four of a kind" in 5-card poker using SageMath combinatorics.
+**مصالحه‌ها:**
+- ❌ نصب پیچیده‌تر
+- ❌ یکپارچگی کمتر با پشتهٔ صنعتی علم داده
+- ❌ اکوسیستم کوچک‌تر از NumPy/SciPy
+- ❌ می‌تواند برای کار صرفاً عددی کندتر باشد
 
-4. **Symbolic Variance**: Derive the variance formula for a geometric distribution using symbolic computation in SageMath.
+**توصیه:**
+- **برای مخاطبان این کتاب** (متخصصان علم داده/ML): با NumPy/SciPy/SymPy بمانید
+- **برای دانشجویان/پژوهشگران ریاضی**: SageMath عالی است
+- **برای تدریس نظریهٔ احتمال**: SageMath مزایای آموزشی بزرگی دارد
+- **برای سامانه‌های تولیدی**: از پشتهٔ استاندارد پایتون استفاده کنید
 
-5. **Birthday Problem Extension**: Find the minimum number of people needed for a >90% chance of a shared birthday.
-
-6. **Markov Chain**: Create a simple 3-state Markov chain transition matrix and find its stationary distribution using SageMath's linear algebra capabilities.
-
-7. **Comparison**: Solve the same binomial probability problem using SciPy (numerical), SymPy (symbolic), and SageMath. Compare the results and execution times.
-
-8. **Monte Carlo**: Implement a Monte Carlo simulation in SageMath to estimate the probability that the sum of two dice is greater than 8.
+**بهترین هر دو دنیا**: مفاهیم را با SageMath بیاموزید، کد تولیدی را با NumPy/SciPy پیاده‌سازی کنید!
 
 +++
 
-## Further Reading
+## تمرین‌ها
+
+1. **نصب**: SageMath را با روش دلخواه خود (CoCalc، محلی یا Docker) راه‌اندازی کنید و صحت کار آن را تأیید کنید.
+
+2. **احتمال‌های دقیق**: احتمال دقیق آمدن دقیقاً ۵ شیر در ۱۲ پرتاب سکه را محاسبه کنید. هم به‌صورت کسر و هم اعشاری بیان کنید.
+
+3. **احتمال پوکر**: احتمال دقیق گرفتن «چهارتا از یک نوع» در پوکر ۵ کارتی را با ترکیبیات SageMath محاسبه کنید.
+
+4. **واریانس نمادین**: فرمول واریانس توزیع هندسی را با محاسبهٔ نمادین در SageMath استخراج کنید.
+
+5. **توسعهٔ مسئلهٔ تولد**: کمینهٔ تعداد افراد لازم برای شانس بیش از ۹۰٪ تولد مشترک را بیابید.
+
+6. **زنجیرهٔ مارکوف**: ماتریس گذار سادهٔ ۳ حالته برای زنجیرهٔ مارکوف بسازید و توزیع ایستای آن را با قابلیت‌های جبر خطی SageMath بیابید.
+
+7. **مقایسه**: همان مسئلهٔ احتمال دوجمله‌ای را با SciPy (عددی)، SymPy (نمادین) و SageMath حل کنید. نتایج و زمان اجرا را مقایسه کنید.
+
+8. **Monte Carlo**: شبیه‌سازی Monte Carlo در SageMath پیاده‌سازی کنید تا احتمال بزرگ‌تر بودن مجموع دو تاس از ۸ را برآورد کند.
+
++++
+
+## مطالعهٔ بیشتر
 
 - **SageMath Official Website**: https://www.sagemath.org/
 - **SageMath Documentation**: https://doc.sagemath.org/
@@ -716,20 +716,20 @@ SageMath works excellently with Jupyter notebooks:
 
 +++
 
-## Conclusion
+## نتیجه‌گیری
 
-You've now completed the journey through probability in practice with Python! From basic probability concepts to Monte Carlo methods, Markov chains, and now symbolic computation with SymPy and SageMath, you have a comprehensive toolkit for tackling probability problems.
+اکنون سفر احتمال در عمل با پایتون را به پایان رساندید! از مفاهیم پایهٔ احتمال تا روش‌های Monte Carlo، زنجیره‌های مارکوف و اکنون محاسبهٔ نمادین با SymPy و SageMath، مجموعهٔ ابزار جامعی برای حل مسائل احتمالی دارید.
 
-**Key Takeaways from This Book:**
-- **NumPy/SciPy**: Your workhorse for numerical probability and statistics
-- **matplotlib/seaborn**: Visualization of distributions and results
-- **SymPy** (Chapter 20): Exact symbolic computation and formula derivation
-- **SageMath** (Chapter 21): Comprehensive mathematical system for theoretical work
+**نکات کلیدی این کتاب:**
+- **NumPy/SciPy**: ابزار اصلی شما برای احتمال و آمار عددی
+- **matplotlib/seaborn**: مصورسازی توزیع‌ها و نتایج
+- **SymPy** (فصل ۲۰): محاسبهٔ نمادین دقیق و استخراج فرمول
+- **SageMath** (فصل ۲۱): سامانهٔ ریاضی جامع برای کار نظری
 
-**Next Steps:**
-- Apply these tools to real-world problems in your field
-- Explore advanced topics like stochastic processes, time series, or Bayesian statistics
-- Contribute to open-source probability/statistics libraries
-- Share your knowledge by teaching others!
+**گام‌های بعدی:**
+- این ابزارها را در مسائل واقعی حوزهٔ خود به‌کار ببرید
+- موضوعات پیشرفته‌ای مانند فرایندهای تصادفی، سری‌های زمانی یا Bayesian inference را کاوش کنید
+- در کتابخانه‌های آزاد احتمال/آمار مشارکت کنید
+- با تدریس به دیگران دانش خود را به‌اشتراک بگذارید!
 
-Thank you for joining this hands-on journey through probability with Python. May your p-values be significant and your confidence intervals narrow! 🎲📊🐍
+از همراهی شما در این سفر عملی احتمال با پایتون سپاسگزاریم. باشد p-valueهایتان معنادار و فاصله‌های اطمینانتان باریک باشند! 🎲📊🐍

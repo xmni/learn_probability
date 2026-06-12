@@ -1,9 +1,12 @@
 version: 1
 project:
-  title: Learn Probability
+  title: یادگیری احتمال
   authors:
     - name: Chris Snow
       url: https://snowch.github.io
+    - name: Hamed Zamani
+      affiliations:
+        - مترجم فارسی
   github: https://github.com/snowch/learn_probability
   license:
     content: CC-BY-4.0
@@ -16,37 +19,35 @@ project:
     - format: pdf
       template: plain_latex_book
       output: exports/book.pdf
-    - format: ipynb
-      output: exports/notebooks
   toc:
     - file: index.md
     - file: downloads.md
-    - title: Part 1 - Foundations of Probability
+    - title: بخش ۱ — مبانی احتمال
       children:
         - file: chapter_01.md
         - file: chapter_02.md
         - file: chapter_03.md
-    - title: Part 2 - Conditional Probability and Independence
+    - title: بخش ۲ — احتمال شرطی و استقلال
       children:
         - file: chapter_04.md
         - file: chapter_05.md
-    - title: Part 3 - Random Variables and Distributions
+    - title: بخش ۳ — متغیرهای تصادفی و توزیع‌ها
       children:
         - file: chapter_06.md
         - file: chapter_07.md
         - file: chapter_08.md
         - file: chapter_09.md
         - file: chapter_10.md
-    - title: Part 4 - Multiple Random Variables
+    - title: بخش ۴ — چند متغیر تصادفی
       children:
         - file: chapter_11.md
         - file: chapter_12.md
         - file: chapter_13.md
-    - title: Part 5 - Limit Theorems and Their Significance
+    - title: بخش ۵ — قضایای حدی و اهمیت آن‌ها
       children:
         - file: chapter_14.md
         - file: chapter_15.md
-    - title: Part 6 - Advanced Topics and Applications
+    - title: بخش ۶ — مباحث پیشرفته و کاربردها
       children:
         - file: chapter_16.md
         - file: chapter_17.md
@@ -54,15 +55,15 @@ project:
         - file: chapter_19.md
         - file: chapter_20.md
         - file: chapter_21.md
-    - title: Part 7 - Exercises
+    - title: بخش ۷ — تمرین‌ها
       children:
         - file: chapter_04_exercises_a.md
         # - file: chapter_04_exercises_b.md
-    - title: Lab
+    - title: آزمایشگاه
       children:
         - file: chapter_04_lab.md
         - file: chapter_05_lab.md
-    - title: Appendices
+    - title: پیوست‌ها
       children:
         - file: appendix_a.md
         - file: appendix_b.md
@@ -81,4 +82,5 @@ site:
     folders: true
     launch_buttons: false
     download_buttons: true
+    style: persian-rtl.css
 

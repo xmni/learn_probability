@@ -13,120 +13,120 @@ downloads:
   - file: notebooks/chapter_13.ipynb
 ---
 
-# Chapter 13: Functions of Multiple Random Variables
+# فصل ۱۳: توابع چند متغیر تصادفی
 
 +++
 
-In previous chapters, we explored single random variables and then pairs or groups of random variables (joint distributions, covariance, correlation). Now, we take the next step: what happens when we combine multiple random variables using mathematical functions? 
+در فصل‌های پیشین، متغیرهای تصادفی تکی و سپس جفت‌ها یا گروه‌هایی از متغیرها (توزیع مشترک، کوواریانس، همبستگی) را بررسی کردیم. اکنون گام بعدی را برمی‌داریم: وقتی چند متغیر تصادفی را با توابع ریاضی ترکیب می‌کنیم چه می‌شود؟
 
-For example, if $X$ represents the revenue from product A and $Y$ represents the revenue from product B, we might be interested in the distribution of the total revenue $Z = X + Y$. Or, if $X$ and $Y$ are coordinates, we might want to know the distribution of the distance from the origin, $R = \sqrt{X^2 + Y^2}$.
+برای مثال، اگر $X$ درآمد محصول A و $Y$ درآمد محصول B باشد، ممکن است به توزیع درآمد کل $Z = X + Y$ علاقه‌مند باشیم. یا اگر $X$ و $Y$ مختصات باشند، شاید بخواهیم توزیع فاصله از مبدأ، یعنی $R = \sqrt{X^2 + Y^2}$ را بدانیم.
 
-This chapter explores methods for finding the distributions of such combined variables, focusing on sums, differences, products, ratios, general transformations, and order statistics. We'll see how theoretical results can be derived and how simulation can provide empirical insights, especially when analytical solutions are complex.
-
-+++
-
-## Distributions of Sums, Differences, Products, and Ratios
-
-One of the most common operations is finding the distribution of the sum of two or more random variables.
+این فصل روش‌های یافتن توزیع چنین متغیرهای ترکیبی را بررسی می‌کند و بر مجموع‌ها، تفاضل‌ها، حاصل‌ضرب‌ها، نسبت‌ها، تبدیل‌های عمومی و آماره‌های ترتیبی تمرکز دارد. خواهیم دید چگونه نتایج نظری به‌دست می‌آیند و شبیه‌سازی چگونه بینش تجربی — به‌ویژه وقتی راه‌حل‌های تحلیلی پیچیده‌اند — فراهم می‌کند.
 
 +++
 
-### Sums of Independent Random Variables
+## توزیع مجموع‌ها، تفاضل‌ها، حاصل‌ضرب‌ها و نسبت‌ها
 
-Let $X$ and $Y$ be two independent random variables, and let $Z = X + Y$. Finding the distribution of $Z$ involves a technique called **convolution**.
+یکی از رایج‌ترین عملیات‌ها یافتن توزیع مجموع دو یا چند متغیر تصادفی است.
 
-* **Discrete Case:** If $X$ and $Y$ are discrete with PMFs $p_X(k)$ and $p_Y(k)$, the PMF of $Z = X + Y$ is given by the convolution formula:
++++
+
+### مجموع متغیرهای تصادفی مستقل
+
+فرض کنید $X$ و $Y$ دو متغیر تصادفی مستقل‌اند و $Z = X + Y$. یافتن توزیع $Z$ با تکنیکی به نام **کانولوشن** انجام می‌شود.
+
+* **حالت گسسته:** اگر $X$ و $Y$ گسسته با PMFهای $p_X(k)$ و $p_Y(k)$ باشند، PMF متغیر $Z = X + Y$ با فرمول کانولوشن داده می‌شود:
     $$P(Z=z) = p_Z(z) = \sum_{k} P(X=k, Y=z-k)$$ 
-    Since $X$ and $Y$ are independent, $P(X=k, Y=z-k) = P(X=k)P(Y=z-k) = p_X(k)p_Y(z-k)$. Therefore:
+    از آنجا که $X$ و $Y$ مستقل‌اند، $P(X=k, Y=z-k) = P(X=k)P(Y=z-k) = p_X(k)p_Y(z-k)$. بنابراین:
     $$p_Z(z) = \sum_{k} p_X(k) p_Y(z-k)$$ 
-    The sum is over all possible values $k$ for $X$.
+    جمع روی همهٔ مقادیر ممکن $k$ برای $X$ است.
     
-    *Example:* If $X \sim Poisson(\lambda_1)$ and $Y \sim Poisson(\lambda_2)$ are independent, then $Z = X+Y \sim Poisson(\lambda_1 + \lambda_2)$.
+    *مثال:* اگر $X \sim Poisson(\lambda_1)$ و $Y \sim Poisson(\lambda_2)$ مستقل باشند، آنگاه $Z = X+Y \sim Poisson(\lambda_1 + \lambda_2)$.
 
-* **Continuous Case:** If $X$ and $Y$ are continuous with PDFs $f_X(x)$ and $f_Y(y)$, the PDF of $Z = X + Y$ is given by the convolution integral:
+* **حالت پیوسته:** اگر $X$ و $Y$ پیوسته با PDFهای $f_X(x)$ و $f_Y(y)$ باشند، PDF متغیر $Z = X + Y$ با انتگرال کانولوشن داده می‌شود:
     $$f_Z(z) = \int_{-\infty}^{\infty} f_X(x) f_Y(z-x) \, dx$$ 
-    Alternatively, you can swap the roles of X and Y: $f_Z(z) = \int_{-\infty}^{\infty} f_X(z-y) f_Y(y) \, dy$.
+    همچنین می‌توانید نقش $X$ و $Y$ را جابه‌جا کنید: $f_Z(z) = \int_{-\infty}^{\infty} f_X(z-y) f_Y(y) \, dy$.
     
-    *Example:* If $X \sim N(\mu_1, \sigma_1^2)$ and $Y \sim N(\mu_2, \sigma_2^2)$ are independent, then $Z = X+Y \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$.
-    *Example:* If $X \sim Uniform(0, 1)$ and $Y \sim Uniform(0, 1)$ are independent, then $Z = X+Y$ has a **triangular distribution** on $(0, 2)$. We will simulate this later.
+    *مثال:* اگر $X \sim N(\mu_1, \sigma_1^2)$ و $Y \sim N(\mu_2, \sigma_2^2)$ مستقل باشند، آنگاه $Z = X+Y \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$.
+    *مثال:* اگر $X \sim Uniform(0, 1)$ و $Y \sim Uniform(0, 1)$ مستقل باشند، آنگاه $Z = X+Y$ **توزیع مثلثی** روی $(0, 2)$ دارد. بعداً آن را شبیه‌سازی می‌کنیم.
 
 +++
 
-### Differences, Products, and Ratios
+### تفاضل‌ها، حاصل‌ضرب‌ها و نسبت‌ها
 
-Finding the distributions for differences ($Z=X-Y$), products ($Z=XY$), or ratios ($Z=X/Y$) can also be done using transformations or convolution-like methods, but the formulas can become more complex.
+یافتن توزیع تفاضل‌ها ($Z=X-Y$)، حاصل‌ضرب‌ها ($Z=XY$) یا نسبت‌ها ($Z=X/Y$) نیز با روش‌های تبدیل یا روش‌های شبیه به کانولوشن امکان‌پذیر است، اما فرمول‌ها پیچیده‌تر می‌شوند.
 
-* **Difference:** $Z = X - Y = X + (-Y)$. If you know the distribution of $-Y$, you can use convolution.
-* **Product/Ratio:** These often require the method of transformations (discussed next) or using cumulative distribution functions ($F_Z(z) = P(Z \le z) = P(X/Y \le z)$ and then differentiating to find the PDF $f_Z(z)$).
+* **تفاضل:** $Z = X - Y = X + (-Y)$. اگر توزیع $-Y$ را بدانید، می‌توانید از کانولوشن استفاده کنید.
+* **حاصل‌ضرب/نسبت:** این‌ها اغلب به روش تبدیل (در بخش بعد) یا با استفاده از توابع توزیع تجمعی نیاز دارند ($F_Z(z) = P(Z \le z) = P(X/Y \le z)$ و سپس مشتق‌گیری برای یافتن PDF $f_Z(z)$).
 
-For many complex functions or when analytical derivation is intractable, simulation becomes a powerful tool to approximate the resulting distribution.
+برای بسیاری از توابع پیچیده یا وقتی استنتاج تحلیلی غیرممکن است، شبیه‌سازی ابزاری قدرتمند برای تقریب توزیع حاصل می‌شود.
 
 +++
 
-## Introduction to Multivariate Transformations
+## مقدمه‌ای بر تبدیل‌های چندمتغیره
 
-Suppose we have a pair of random variables $(X, Y)$ with a known joint PDF $f_{X,Y}(x, y)$. We define two new random variables $U = g_1(X, Y)$ and $V = g_2(X, Y)$. How do we find the joint PDF of $(U, V)$, denoted $f_{U,V}(u, v)$?
+فرض کنید جفت متغیرهای تصادفی $(X, Y)$ با PDF مشترک شناخته‌شدهٔ $f_{X,Y}(x, y)$ داریم. دو متغیر تصادفی جدید $U = g_1(X, Y)$ و $V = g_2(X, Y)$ تعریف می‌کنیم. چگونه PDF مشترک $(U, V)$، یعنی $f_{U,V}(u, v)$ را بیابیم؟
 
-This requires a technique analogous to the change of variables in multivariable calculus, using the **Jacobian** of the transformation.
+این به تکنیکی مشابه تغییر متغیر در حساب چندمتغیره نیاز دارد و از **ماتریس ژاکوبی** تبدیل استفاده می‌کند.
 
-1.  **Solve for Original Variables:** Express $x$ and $y$ in terms of $u$ and $v$: $x = h_1(u, v)$ and $y = h_2(u, v)$.
-2.  **Calculate the Jacobian Determinant:** The Jacobian determinant $J$ is:
+1.  **حل برای متغیرهای اصلی:** $x$ و $y$ را بر حسب $u$ و $v$ بیان کنید: $x = h_1(u, v)$ و $y = h_2(u, v)$.
+2.  **محاسبهٔ دترمینان ژاکوبی:** دترمینان ژاکوبی $J$ برابر است با:
     $$ J = \det \begin{pmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{pmatrix} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u} $$ 
-3.  **Apply the Transformation Formula:** The joint PDF of $(U, V)$ is:
+3.  **اعمال فرمول تبدیل:** PDF مشترک $(U, V)$ برابر است با:
     $$ f_{U,V}(u, v) = f_{X,Y}(h_1(u, v), h_2(u, v)) \cdot |J| $$ 
-    where $|J|$ is the absolute value of the Jacobian determinant. This formula is valid provided the transformation is one-to-one over the region of interest.
+    که $|J|$ قدر مطلق دترمینان ژاکوبی است. این فرمول به‌شرط یک‌به‌یک بودن تبدیل روی ناحیهٔ مورد نظر معتبر است.
 
-*Example:* Cartesian to Polar Coordinates.
-Let $(X, Y)$ have a joint PDF $f_{X,Y}(x, y)$. Consider the transformation to polar coordinates: $R = \sqrt{X^2 + Y^2}$ and $\Theta = \arctan(Y/X)$. 
-We want to find the joint PDF $f_{R,\Theta}(r, \theta)$.
-The inverse transformation is $x = r \cos \theta$ and $y = r \sin \theta$. 
-The Jacobian determinant is:
+*مثال:* تبدیل دکارتی به قطبی.
+فرض کنید $(X, Y)$ PDF مشترک $f_{X,Y}(x, y)$ دارند. تبدیل به مختصات قطبی را در نظر بگیرید: $R = \sqrt{X^2 + Y^2}$ و $\Theta = \arctan(Y/X)$. 
+می‌خواهیم PDF مشترک $f_{R,\Theta}(r, \theta)$ را بیابیم.
+تبدیل معکوس $x = r \cos \theta$ و $y = r \sin \theta$ است. 
+دترمینان ژاکوبی:
 $$ J = \det \begin{pmatrix} \cos \theta & -r \sin \theta \\ \sin \theta & r \cos \theta \end{pmatrix} = (\cos \theta)(r \cos \theta) - (-r \sin \theta)(\sin \theta) = r \cos^2 \theta + r \sin^2 \theta = r $$ 
-Assuming $r > 0$, $|J| = r$. Thus:
+با فرض $r > 0$، $|J| = r$. پس:
 $$ f_{R,\Theta}(r, \theta) = f_{X,Y}(r \cos \theta, r \sin \theta) \cdot r $$ 
-If $X, Y \sim N(0, 1)$ independently, then $f_{X,Y}(x, y) = \frac{1}{2\pi} e^{-(x^2+y^2)/2}$. 
-Substituting $x = r \cos \theta, y = r \sin \theta$, we get $x^2+y^2 = r^2$. 
-So, $f_{R,\Theta}(r, \theta) = \frac{1}{2\pi} e^{-r^2/2} \cdot r$. We can see this separates into a function of $r$ and $\theta$, indicating $R$ and $\Theta$ are independent. Integrating over $\theta$ from $0$ to $2\pi$ gives the marginal PDF for $R$: $f_R(r) = r e^{-r^2/2}$ for $r > 0$ (Rayleigh distribution), and integrating over $r$ gives the marginal PDF for $\Theta$: $f_\Theta(\theta) = \frac{1}{2\pi}$ for $0 \le \theta < 2\pi$ (Uniform distribution).
+اگر $X, Y \sim N(0, 1)$ مستقل باشند، آنگاه $f_{X,Y}(x, y) = \frac{1}{2\pi} e^{-(x^2+y^2)/2}$. 
+با جایگذاری $x = r \cos \theta, y = r \sin \theta$، داریم $x^2+y^2 = r^2$. 
+پس $f_{R,\Theta}(r, \theta) = \frac{1}{2\pi} e^{-r^2/2} \cdot r$. می‌بینیم این به تابعی از $r$ و $\theta$ تفکیک می‌شود و $R$ و $\Theta$ مستقل‌اند. انتگرال‌گیری نسبت به $\theta$ از ۰ تا $2\pi$ PDF حاشیه‌ای $R$ را می‌دهد: $f_R(r) = r e^{-r^2/2}$ برای $r > 0$ (توزیع رایلی)، و انتگرال‌گیری نسبت به $r$ PDF حاشیه‌ای $\Theta$ را می‌دهد: $f_\Theta(\theta) = \frac{1}{2\pi}$ برای $0 \le \theta < 2\pi$ (توزیع یکنواخت).
 
 +++
 
-## Order Statistics
+## آماره‌های ترتیبی
 
-Suppose we have a sample of $n$ independent and identically distributed (i.i.d.) random variables $X_1, X_2, \dots, X_n$. If we arrange these variables in ascending order, we get the **order statistics**: $X_{(1)}, X_{(2)}, \dots, X_{(n)}$, where $X_{(1)} = \min(X_1, \dots, X_n)$ and $X_{(n)} = \max(X_1, \dots, X_n)$.
+فرض کنید نمونه‌ای از $n$ متغیر تصادفی مستقل و هم‌توزیع (i.i.d.) $X_1, X_2, \dots, X_n$ داریم. اگر این متغیرها را به‌ترتیب صعودی مرتب کنیم، **آماره‌های ترتیبی** به‌دست می‌آیند: $X_{(1)}, X_{(2)}, \dots, X_{(n)}$، که $X_{(1)} = \min(X_1, \dots, X_n)$ و $X_{(n)} = \max(X_1, \dots, X_n)$.
 
-We are often interested in the distribution of these order statistics, particularly the minimum ($X_{(1)}$) and the maximum ($X_{(n)}$).
+اغلب به توزیع این آماره‌های ترتیبی، به‌ویژه کمینه ($X_{(1)}$) و بیشینه ($X_{(n)}$)، علاقه‌مندیم.
 
-Let the common CDF and PDF of the $X_i$ be $F(x)$ and $f(x)$, respectively.
+فرض کنید CDF و PDF مشترک $X_i$ها به‌ترتیب $F(x)$ و $f(x)$ باشند.
 
-* **Distribution of the Maximum, $X_{(n)}$:**
-    The event $X_{(n)} \le x$ means that *all* of the $X_i$ must be less than or equal to $x$. Since they are i.i.d.:
+* **توزیع بیشینه، $X_{(n)}$:**
+    واقعهٔ $X_{(n)} \le x$ یعنی *همهٔ* $X_i$ها باید کمتر یا مساوی $x$ باشند. چون i.i.d. هستند:
     $$ F_{X_{(n)}}(x) = P(X_{(n)} \le x) = P(X_1 \le x, X_2 \le x, \dots, X_n \le x) = P(X_1 \le x) \cdots P(X_n \le x) = [F(x)]^n $$ 
-    The PDF is found by differentiating the CDF:
+    PDF با مشتق‌گیری از CDF به‌دست می‌آید:
     $$ f_{X_{(n)}}(x) = \frac{d}{dx} F_{X_{(n)}}(x) = n [F(x)]^{n-1} f(x) $$ 
 
-* **Distribution of the Minimum, $X_{(1)}$:**
-    The event $X_{(1)} > x$ means that *all* of the $X_i$ must be greater than $x$. 
+* **توزیع کمینه، $X_{(1)}$:**
+    واقعهٔ $X_{(1)} > x$ یعنی *همهٔ* $X_i$ها باید بزرگ‌تر از $x$ باشند. 
     $$ P(X_{(1)} > x) = P(X_1 > x, X_2 > x, \dots, X_n > x) = [P(X_1 > x)]^n = [1 - F(x)]^n $$ 
-    Therefore, the CDF is:
+    بنابراین CDF برابر است با:
     $$ F_{X_{(1)}}(x) = P(X_{(1)} \le x) = 1 - P(X_{(1)} > x) = 1 - [1 - F(x)]^n $$ 
-    The PDF is found by differentiating:
+    PDF با مشتق‌گیری به‌دست می‌آید:
     $$ f_{X_{(1)}}(x) = \frac{d}{dx} F_{X_{(1)}}(x) = -n [1 - F(x)]^{n-1} (-f(x)) = n [1 - F(x)]^{n-1} f(x) $$ 
 
-*Example:* Let $X_1, \dots, X_n$ be i.i.d. $Exponential(\lambda)$. Then $F(x) = 1 - e^{-\lambda x}$ for $x \ge 0$. 
-The CDF of the minimum is $F_{X_{(1)}}(x) = 1 - [1 - (1 - e^{-\lambda x})]^n = 1 - [e^{-\lambda x}]^n = 1 - e^{-n\lambda x}$. 
-This is the CDF of an $Exponential(n\lambda)$ distribution. So, the minimum of $n$ i.i.d. exponential random variables is also exponential, with a rate $n$ times the original rate.
+*مثال:* فرض کنید $X_1, \dots, X_n$ i.i.d. از $Exponential(\lambda)$ باشند. آنگاه $F(x) = 1 - e^{-\lambda x}$ برای $x \ge 0$. 
+CDF کمینه برابر $F_{X_{(1)}}(x) = 1 - [1 - (1 - e^{-\lambda x})]^n = 1 - [e^{-\lambda x}]^n = 1 - e^{-n\lambda x}$. 
+این CDF توزیع $Exponential(n\lambda)$ است. پس کمینهٔ $n$ متغیر نمایی i.i.d. نیز نمایی است، با نرخ $n$ برابر نرخ اصلی.
 
 +++
 
-## Hands-on: Simulations and Comparisons
+## کار عملی: شبیه‌سازی‌ها و مقایسه‌ها
 
 +++
 
-### Simulating the Sum of Two Independent Uniform Random Variables
+### شبیه‌سازی مجموع دو متغیر تصادفی یکنواخت مستقل
 
-We expect the sum of two independent $Uniform(0, 1)$ variables to follow a triangular distribution on $(0, 2)$, with PDF:
+انتظار داریم مجموع دو متغیر مستقل $Uniform(0, 1)$ توزیع مثلثی روی $(0, 2)$ را دنبال کند، با PDF:
 $$ f_Z(z) = \begin{cases} z & 0 \le z \le 1 \\ 2-z & 1 < z \le 2 \\ 0 & \text{otherwise} \end{cases} $$ 
-Let's simulate this and compare the histogram of the simulated sums to the theoretical PDF.
+بیایید این را شبیه‌سازی کنیم و هیستوگرام مجموع‌های شبیه‌سازی‌شده را با PDF نظری مقایسه کنیم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -175,9 +175,9 @@ plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
 ```
 
-### Simulating Order Statistics: Minimum of Exponential Variables
+### شبیه‌سازی آماره‌های ترتیبی: کمینهٔ متغیرهای نمایی
 
-Let's simulate the minimum of $n=5$ independent $Exponential(\lambda=1)$ random variables. We derived theoretically that $X_{(1)} \sim Exponential(n\lambda = 5)$. Let's verify this visually.
+بیایید کمینهٔ $n=5$ متغیر مستقل $Exponential(\lambda=1)$ را شبیه‌سازی کنیم. از نظر نظری $X_{(1)} \sim Exponential(n\lambda = 5)$. بیایید این را به‌صورت بصری تأیید کنیم.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -221,25 +221,25 @@ plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
 ```
 
-## Summary
+## خلاصه
 
-This chapter introduced methods for finding the distribution of functions of multiple random variables. We specifically looked at:
+این فصل روش‌های یافتن توزیع توابع چند متغیر تصادفی را معرفی کرد. به‌طور خاص بررسی کردیم:
 
-* **Sums of independent variables:** Using convolution (discrete and continuous cases). We saw important results like the sum of independent Poissons being Poisson and the sum of independent Normals being Normal.
-* **Multivariate Transformations:** Using the Jacobian determinant to find the joint PDF of transformed variables, illustrated with the Cartesian-to-Polar transformation.
-* **Order Statistics:** Deriving the distributions (CDFs and PDFs) for the minimum ($X_{(1)}$) and maximum ($X_{(n)}$) of an i.i.d. sample.
+* **مجموع متغیرهای مستقل:** با کانولوشن (حالت گسسته و پیوسته). نتایج مهمی مانند مجموع Poissonهای مستقل که Poisson می‌شود و مجموع نرمال‌های مستقل که نرمال می‌شود را دیدیم.
+* **تبدیل‌های چندمتغیره:** با دترمینان ژاکوبی برای یافتن PDF مشترک متغیرهای تبدیل‌شده، با مثال تبدیل دکارتی به قطبی.
+* **آماره‌های ترتیبی:** استنتاج توزیع‌ها (CDF و PDF) برای کمینه ($X_{(1)}$) و بیشینه ($X_{(n)}$) یک نمونهٔ i.i.d.
 
-We used simulations to empirically verify theoretical results, such as the triangular distribution arising from the sum of two uniforms and the exponential distribution arising from the minimum of exponentials. Simulation is a crucial tool when analytical derivations become too complex or intractable.
+از شبیه‌سازی برای تأیید تجربی نتایج نظری استفاده کردیم، مانند توزیع مثلثی حاصل از مجموع دو یکنواخت و توزیع نمایی حاصل از کمینهٔ نمایی‌ها. شبیه‌سازی وقتی استنتاج‌های تحلیلی بیش از حد پیچیده یا غیرممکن می‌شوند، ابزاری حیاتی است.
 
 +++
 
-## Exercises
+## تمرین‌ها
 
-1.  **Sum of Two Poissons:** Let $X \sim Poisson(2)$ and $Y \sim Poisson(3)$ be independent. 
-    a. What is the distribution of $Z = X + Y$?
-    b. Calculate $P(Z=4)$.
-    c. Simulate $X$ and $Y$ many times, calculate their sum $Z$, and create a histogram of the simulated $Z$ values. Compare the histogram to the theoretical PMF from part (a).
-2.  **Maximum of Uniforms:** Let $U_1, U_2, U_3$ be i.i.d. $Uniform(0, 1)$.
-    a. Find the theoretical CDF and PDF of $U_{(3)} = \max(U_1, U_2, U_3)$.
-    b. Simulate $U_1, U_2, U_3$ many times, find the maximum in each simulation, and create a histogram. Compare it to the theoretical PDF from part (a).
-3.  **Ratio of Normals (Cauchy Distribution):** Let $X \sim N(0, 1)$ and $Y \sim N(0, 1)$ be independent. Simulate $X$ and $Y$ many times and compute the ratio $Z = X/Y$. Plot a histogram of the $Z$ values. What distribution does this resemble? (Note: The theoretical distribution is the Cauchy distribution, which has unusual properties like an undefined mean.)
+1.  **مجموع دو Poisson:** فرض کنید $X \sim Poisson(2)$ و $Y \sim Poisson(3)$ مستقل‌اند. 
+    a. توزیع $Z = X + Y$ چیست؟
+    b. $P(Z=4)$ را محاسبه کنید.
+    c. $X$ و $Y$ را بارها شبیه‌سازی کنید، مجموع $Z$ را محاسبه کنید و هیستوگرام مقادیر شبیه‌سازی‌شدهٔ $Z$ را بسازید. هیستوگرام را با PMF نظری بخش (a) مقایسه کنید.
+2.  **بیشینهٔ یکنواخت‌ها:** فرض کنید $U_1, U_2, U_3$ i.i.d. از $Uniform(0, 1)$ باشند.
+    a. CDF و PDF نظری $U_{(3)} = \max(U_1, U_2, U_3)$ را بیابید.
+    b. $U_1, U_2, U_3$ را بارها شبیه‌سازی کنید، بیشینه در هر شبیه‌سازی را بیابید و هیستوگرام بسازید. آن را با PDF نظری بخش (a) مقایسه کنید.
+3.  **نسبت نرمال‌ها (توزیع Cauchy):** فرض کنید $X \sim N(0, 1)$ و $Y \sim N(0, 1)$ مستقل‌اند. $X$ و $Y$ را بارها شبیه‌سازی کنید و نسبت $Z = X/Y$ را محاسبه کنید. هیستوگرام مقادیر $Z$ را رسم کنید. این توزیع شبیه چه توزیعی است؟ (توجه: توزیع نظری Cauchy است که ویژگی‌های غیرمعمولی مانند میانگین تعریف‌نشده دارد.)

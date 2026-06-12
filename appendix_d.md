@@ -13,94 +13,94 @@ downloads:
   - file: notebooks/appendix_d.ipynb
 ---
 
-# Appendix D: Further Reading and Resources
+# پیوست د: مطالعه و منابع بیشتر
 
-This appendix provides suggestions for further study if you wish to deepen your understanding of probability theory, its applications, or the Python tools used throughout this book.
+این پیوست پیشنهادهایی برای مطالعهٔ بیشتر در صورت تمایل به تعمیق درک نظریهٔ احتمال، کاربردهای آن، یا ابزارهای پایتونی مورد استفاده در سراسر این کتاب ارائه می‌دهد.
 
-## More Comprehensive Probability Texts
+## متون جامع‌تر احتمال
 
-Books that offer a more rigorous or broader mathematical treatment of probability theory:
+کتاب‌هایی با رویکرد ریاضی سخت‌گیرانه‌تر یا گسترده‌تر به نظریهٔ احتمال:
 
 * **Ross, Sheldon. *A First Course in Probability.* Pearson.**
-    * *Comment:* A classic and widely used undergraduate textbook covering core concepts thoroughly.
+    * *توضیح:* کتاب درسی کلاسیک و پرکاربرد کارشناسی که مفاهیم اصلی را به‌طور کامل پوشش می‌دهد.
 * **Blitzstein, Joseph K., and Jessica Hwang. *Introduction to Probability.* Chapman and Hall/CRC.**
-    * *Comment:* An excellent, modern introduction with intuitive explanations and engaging examples. Often supplemented by online lectures and materials from Harvard's Stat 110 course ([https://projects.iq.harvard.edu/stat110](https://projects.iq.harvard.edu/stat110)).
+    * *توضیح:* مقدمه‌ای عالی و مدرن با توضیحات شهودی و مثال‌های جذاب. اغلب با سرفصل‌ها و مطالب آنلاین دورهٔ Stat 110 هاروارد همراه است ([https://projects.iq.harvard.edu/stat110](https://projects.iq.harvard.edu/stat110)).
 * **Grinstead, Charles M., and J. Laurie Snell. *Introduction to Probability.* American Mathematical Society.**
-    * *Comment:* Available freely online, provides a solid introduction with a good number of examples and exercises.
+    * *توضیح:* به‌صورت رایگان آنلاین در دسترس است و مقدمه‌ای محکم با تعداد خوبی مثال و تمرین ارائه می‌دهد.
 * **Durrett, Rick. *Probability: Theory and Examples.* Cambridge University Press.**
-    * *Comment:* A more advanced text requiring a stronger mathematical background, focusing on measure theory.
+    * *توضیح:* متن پیشرفته‌تر که پیش‌زمینهٔ ریاضی قوی‌تری می‌طلبد و بر نظریهٔ اندازه تمرکز دارد.
 
-## Specialized Topics and Applications
+## موضوعات تخصصی و کاربردها
 
-Resources focusing on specific areas touched upon in the later chapters:
+منابع متمرکز بر حوزه‌های خاصی که در فصول پایانی لمس شده‌اند:
 
 * **Gelman, Andrew, et al. *Bayesian Data Analysis.* Chapman and Hall/CRC.**
-    * *Comment:* The definitive, comprehensive reference text for Bayesian methods.
+    * *توضیح:* مرجع جامع و قطعی روش‌های بیزی.
 * **McElreath, Richard. *Statistical Rethinking: A Bayesian Course with Examples in R and Stan.* Chapman and Hall/CRC.**
-    * *Comment:* A highly recommended conceptual introduction to Bayesian inference with practical coding examples (though not Python-native, the concepts are transferable).
+    * *توضیح:* مقدمهٔ مفهومی بسیار توصیه‌شده به استنتاج بیزی با مثال‌های عملی کدنویسی (هرچند بومی پایتون نیست، مفاهیم قابل انتقال‌اند).
 * **Downey, Allen B. *Think Bayes: Bayesian Statistics in Python.* O'Reilly Media.**
-    * *Comment:* A concise, practical introduction to Bayesian thinking using Python.
+    * *توضیح:* مقدمه‌ای مختصر و عملی به تفکر بیزی با پایتون.
 * **Lawler, Gregory F. *Introduction to Stochastic Processes.* Chapman and Hall/CRC.**
-    * *Comment:* A standard text covering Markov chains, Poisson processes, Brownian motion, and more.
+    * *توضیح:* متن استاندارد پوشش‌دهندهٔ زنجیره‌های مارکوف، فرایندهای پواسون، حرکت براونی و موارد دیگر.
 * **Cover, Thomas M., and Joy A. Thomas. *Elements of Information Theory.* Wiley-Interscience.**
-    * *Comment:* The classic text on information theory, covering entropy, mutual information, and channel capacity.
+    * *توضیح:* متن کلاسیک نظریهٔ اطلاعات، پوشش‌دهندهٔ آنتروپی، اطلاعات متقابل و ظرفیت کانال.
 * **Bishop, Christopher M. *Pattern Recognition and Machine Learning.* Springer.**
-    * *Comment:* A comprehensive resource that heavily utilizes probabilistic methods for machine learning.
+    * *توضیح:* منبع جامعی که به‌شدت از روش‌های احتمالی برای یادگیری ماشین استفاده می‌کند.
 * **Murphy, Kevin P. *Machine Learning: A Probabilistic Perspective.* MIT Press.**
-    * *Comment:* Another excellent, thorough text emphasizing the probabilistic foundations of machine learning.
+    * *توضیح:* متن عالی و کامل دیگری با تأکید بر بنیادهای احتمالی یادگیری ماشین.
 
-## Python for Data Science and Statistics
+## پایتون برای علم داده و آمار
 
-Books focusing broadly on using Python for data analysis, often incorporating probabilistic concepts:
+کتاب‌های متمرکز بر استفادهٔ گسترده از پایتون برای تحلیل داده، اغلب با گنجاندن مفاهیم احتمالی:
 
 * **McKinney, Wes. *Python for Data Analysis.* O'Reilly Media.**
-    * *Comment:* Written by the creator of Pandas, this is an essential guide for data manipulation in Python.
+    * *توضیح:* نوشتهٔ خالق Pandas؛ راهنمای ضروری دستکاری داده در پایتون.
 * **VanderPlas, Jake. *Python Data Science Handbook.* O'Reilly Media.**
-    * *Comment:* A comprehensive overview of core Python data science libraries (NumPy, Pandas, Matplotlib, Scikit-learn), also available freely online as Jupyter Notebooks.
+    * *توضیح:* مرور جامع کتابخانه‌های اصلی علم داده پایتون (NumPy، Pandas، Matplotlib، Scikit-learn)، همچنین به‌صورت رایگان آنلاین به‌صورت Jupyter Notebook.
 * **Downey, Allen B. *Think Stats: Exploratory Data Analysis in Python.* O'Reilly Media.**
-    * *Comment:* Focuses on practical statistical analysis and visualization using Python.
+    * *توضیح:* بر تحلیل آماری عملی و مصورسازی با پایتون تمرکز دارد.
 
-## Online Courses and Tutorials
+## دوره‌ها و آموزش‌های آنلاین
 
-Digital resources for learning probability and related tools:
+منابع دیجیتال برای یادگیری احتمال و ابزارهای مرتبط:
 
 * **Harvard Stat 110 (Probability):** [https://projects.iq.harvard.edu/stat110](https://projects.iq.harvard.edu/stat110)
-    * *Comment:* Professor Blitzstein's course website, includes lecture videos, notes, and problems.
+    * *توضیح:* وب‌سایت دورهٔ پروفسور Blitzstein، شامل ویدیوهای سرفصل، یادداشت‌ها و مسائل.
 * **MIT OpenCourseware: 6.041/6.431 Probabilistic Systems Analysis:** [https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/)
-    * *Comment:* Full course materials including lecture notes, assignments, and exams.
+    * *توضیح:* مطالب کامل دوره شامل یادداشت‌های سرفصل، تکالیف و امتحان‌ها.
 * **Khan Academy (Probability and Statistics):** [https://www.khanacademy.org/math/statistics-probability](https://www.khanacademy.org/math/statistics-probability)
-    * *Comment:* Excellent foundational explanations and practice problems.
+    * *توضیح:* توضیحات بنیادین عالی و مسائل تمرینی.
 * **TUDelft:** [https://tudelft-citg.github.io/learn-probability/intro.html](https://tudelft-citg.github.io/learn-probability/intro.html)
-    * *Comment:* Probability and Statistics Applications for Engineers.
+    * *توضیح:* کاربردهای احتمال و آمار برای مهندسان.
 * **Coursera, edX, Udacity:**
-    * *Comment:* Search these platforms for courses on 'Probability', 'Statistics with Python', 'Bayesian Methods', etc.
+    * *توضیح:* در این پلتفرم‌ها به‌دنبال دوره‌هایی مانند «Probability»، «Statistics with Python»، «Bayesian Methods» و غیره بگردید.
 
 
-## Python Library Documentation
+## مستندات کتابخانه‌های پایتون
 
-The official documentation is the best reference for specific functions and features:
+مستندات رسمی بهترین مرجع برای توابع و ویژگی‌های مشخص است:
 
 * **NumPy:** [https://numpy.org/doc/stable/](https://numpy.org/doc/stable/)
-    * *Comment:* Core library for numerical computing.
+    * *توضیح:* کتابخانهٔ اصلی محاسبات عددی.
 * **SciPy:** [https://docs.scipy.org/doc/scipy/](https://docs.scipy.org/doc/scipy/)
-    * *Comment:* Includes modules for statistics (`scipy.stats`), integration (`scipy.integrate`), special functions (`scipy.special`), etc.
+    * *توضیح:* شامل ماژول‌هایی برای آمار (`scipy.stats`)، انتگرال‌گیری (`scipy.integrate`)، توابع ویژه (`scipy.special`) و غیره.
 * **Matplotlib:** [https://matplotlib.org/stable/contents.html](https://matplotlib.org/stable/contents.html)
-    * *Comment:* Primary library for plotting.
+    * *توضیح:* کتابخانهٔ اصلی رسم نمودار.
 * **Seaborn:** [https://seaborn.pydata.org/api.html](https://seaborn.pydata.org/api.html)
-    * *Comment:* High-level interface for statistical data visualization based on Matplotlib.
+    * *توضیح:* رابط سطح‌بالا برای مصورسازی آماری داده بر پایهٔ Matplotlib.
 * **Pandas:** [https://pandas.pydata.org/pandas-docs/stable/](https://pandas.pydata.org/pandas-docs/stable/)
-    * *Comment:* Essential library for data structures and data analysis tools.
+    * *توضیح:* کتابخانهٔ ضروری ساختارهای داده و ابزارهای تحلیل داده.
 
-## Communities and Q&A
+## جوامع و پرسش و پاسخ
 
-Places to ask questions and learn from others:
+مکان‌هایی برای پرسیدن سؤال و یادگیری از دیگران:
 
 * **Stack Overflow:** [https://stackoverflow.com/](https://stackoverflow.com/)
-    * *Comment:* For specific programming questions related to Python, NumPy, SciPy, etc. Use relevant tags.
+    * *توضیح:* برای سؤالات برنامه‌نویسی مرتبط با پایتون، NumPy، SciPy و غیره. از برچسب‌های مرتبط استفاده کنید.
 * **Cross Validated (Stack Exchange):** [https://stats.stackexchange.com/](https://stats.stackexchange.com/)
-    * *Comment:* For questions about statistics, probability theory, and machine learning concepts.
+    * *توضیح:* برای سؤالات دربارهٔ آمار، نظریهٔ احتمال و مفاهیم یادگیری ماشین.
 * **Towards Data Science (Medium):** [https://towardsdatascience.com/](https://towardsdatascience.com/)
-    * *Comment:* A popular blog featuring articles on a wide range of data science topics, including probability and statistics applications.
+    * *توضیح:* وبلاگ محبوب با مقالاتی دربارهٔ طیف گسترده‌ای از موضوعات علم داده، از جمله کاربردهای احتمال و آمار.
 
 ```{code-cell} ipython3
 

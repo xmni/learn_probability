@@ -11,80 +11,80 @@ kernelspec:
   name: python3
 ---
 
-# Probability in Practice: A Hands-On Journey with Python
+# احتمال در عمل: سفری عملی با پایتون
 
 +++
 
-## Preface
+## پیش‌گفتار
 
 +++
 
-Welcome to *Probability in Practice: A Hands-On Journey with Python*! This book is designed to be your companion in exploring the fascinating world of probability theory, not just as a collection of abstract mathematical concepts, but as a powerful toolkit applicable to real-world problems, all through the lens of practical Python programming.
+به *احتمال در عمل: سفری عملی با پایتون* خوش آمدید! این کتاب طوری طراحی شده که همراه شما در کاوش دنیای جذاب نظریه احتمال باشد؛ نه فقط به‌عنوان مجموعه‌ای از مفاهیم ریاضی انتزاعی، بلکه به‌عنوان جعبه‌ابزاری قدرتمند برای مسائل دنیای واقعی، همگی از دریچه برنامه‌نویسی عملی پایتون.
 
 +++
 
-### Who is this book for?
+### این کتاب برای چه کسانی است؟
 
 +++
 
-This book is aimed at:
+این کتاب برای موارد زیر نوشته شده است:
 
-* **Students** taking introductory or intermediate probability courses who want to supplement theoretical knowledge with practical coding examples.
-* **Data scientists and analysts** who need a solid understanding of probabilistic concepts to build better models, understand uncertainty, and interpret data correctly.
-* **Software engineers and developers** interested in areas like machine learning, simulation, or quantitative finance where probability plays a crucial role.
-* **Researchers** from various fields who need to apply probabilistic methods in their work.
-* **Anyone curious** about how randomness can be understood and modeled, and who has some basic programming experience (ideally in Python).
+* **دانشجویان** دوره‌های مقدماتی یا میانی احتمال که می‌خواهند دانش نظری را با مثال‌های برنامه‌نویسی تقویت کنند.
+* **دانشمندان داده و تحلیل‌گران** که برای ساخت مدل‌های بهتر، درک عدم‌قطعیت و تفسیر درست داده‌ها به درک محکمی از مفاهیم احتمالاتی نیاز دارند.
+* **مهندسان نرم‌افزار و توسعه‌دهندگان** علاقه‌مند به حوزه‌هایی مانند یادگیری ماشین، شبیه‌سازی یا مالی کمی که احتمال نقش حیاتی دارد.
+* **پژوهشگران** رشته‌های مختلف که باید روش‌های احتمالی را در کار خود به کار ببرند.
+* **هر کسی که کنجکاو است** بفهمد تصادف چگونه قابل درک و مدل‌سازی است و تجربه پایه‌ای از برنامه‌نویسی (ترجیحاً پایتون) دارد.
 
-We assume some familiarity with basic Python programming concepts (variables, loops, functions, basic data structures like lists and dictionaries). Prior exposure to probability or statistics is helpful but not strictly required, as we build concepts from the ground up.
-
-+++
-
-### Why learn probability with Python?
+فرض می‌کنیم با مفاهیم پایه پایتون (متغیرها، حلقه‌ها، توابع، ساختارهای داده ساده مانند لیست و دیکشنری) آشنایی دارید. آشنایی قبلی با احتمال یا آمار مفید است اما الزامی نیست؛ مفاهیم را از پایه می‌سازیم.
 
 +++
 
-While the foundations of probability are mathematical, Python provides an incredible environment to bring these concepts to life:
-
-* **Simulation:** Many real-world probabilistic scenarios are too complex to solve purely by hand. Python allows us to simulate these scenarios thousands or millions of times to estimate probabilities and understand system behavior. *(Ex: Simulating complex scenarios like stock market fluctuations that are hard to solve by hand.)*
-* **Visualization:** Libraries like Matplotlib and Seaborn enable us to visualize distributions, sample spaces, and the results of simulations, leading to deeper intuition.
-* **Computation:** Python libraries like NumPy and SciPy provide optimized functions for calculations involving permutations, combinations, distributions, and statistical tests, saving us from tedious manual calculations.
-* **Data Integration:** Probability is the bedrock of statistics and machine learning. Learning it with Python allows for a seamless transition to applying these concepts to real datasets using libraries like Pandas.
-* **Reproducibility:** Jupyter Notebooks allow us to combine explanations, code, and results in a single document, making our analyses transparent and reproducible.
+### چرا احتمال را با پایتون بیاموزیم؟
 
 +++
 
-### Structure of the book
+اگرچه بنیادهای احتمال ریاضی‌اند، پایتون محیط فوق‌العاده‌ای برای زنده کردن این مفاهیم فراهم می‌کند:
+
+* **شبیه‌سازی:** بسیاری از سناریوهای احتمالی دنیای واقعی برای حل دستی بیش از حد پیچیده‌اند. پایتون اجازه می‌دهد این سناریوها را هزاران یا میلیون‌ها بار شبیه‌سازی کنیم تا احتمال‌ها را تخمین بزنیم و رفتار سیستم را بفهمیم. *(مثال: شبیه‌سازی نوسانات پیچیده بازار سهام که حل دستی آن دشوار است.)*
+* **مصورسازی:** کتابخانه‌هایی مانند Matplotlib و Seaborn امکان ترسیم توزیع‌ها، فضاهای نمونه و نتایج شبیه‌سازی را می‌دهند و شهود عمیق‌تری ایجاد می‌کنند.
+* **محاسبه:** کتابخانه‌های پایتون مانند NumPy و SciPy توابع بهینه‌ای برای محاسبات مربوط به جایگشت‌ها، ترکیب‌ها، توزیع‌ها و آزمون‌های آماری فراهم می‌کنند و از محاسبات دستی خسته‌کننده جلوگیری می‌کنند.
+* **یکپارچگی با داده:** احتمال سنگ‌بنای آمار و یادگیری ماشین است. یادگیری آن با پایتون گذار یکپارچه به کاربرد این مفاهیم روی داده‌های واقعی با کتابخانه‌هایی مانند Pandas را ممکن می‌سازد.
+* **بازتولیدپذیری:** Jupyter Notebookها توضیح، کد و نتیجه را در یک سند ترکیب می‌کنند و تحلیل‌ها را شفاف و بازتولیدپذیر می‌سازند.
 
 +++
 
-This book is divided into several parts:
-
-1.  **Part 1: Foundations of Probability:** Introduces core concepts like sample spaces, events, axioms of probability, and essential counting techniques.
-2.  **Part 2: Conditional Probability and Independence:** Explores how probabilities change given new information, leading to Bayes' Theorem and the concept of independence.
-3.  **Part 3: Random Variables and Distributions:** Formalizes the idea of random outcomes using random variables and studies common patterns through discrete and continuous distributions.
-4.  **Part 4: Multiple Random Variables:** Extends the concepts to scenarios involving more than one random variable, covering joint distributions, covariance, and correlation.
-5.  **Part 5: Limit Theorems and Their Significance:** Discusses the foundational Law of Large Numbers and Central Limit Theorem, explaining why probability works in the long run and why the Normal distribution is ubiquitous.
-6.  **Part 6: Advanced Topics and Applications:** Provides introductions to Bayesian Inference, Markov Chains, and Monte Carlo methods, showcasing powerful applications of probability.
-
-Each chapter combines theoretical explanations with hands-on Python examples and exercises within Jupyter Notebooks.
+### ساختار کتاب
 
 +++
 
-### Required software and setup
+این کتاب به چند بخش تقسیم شده است:
+
+1.  **بخش ۱: مبانی احتمال:** مفاهیم اصلی مانند فضاهای نمونه، رویدادها، اصول احتمال و تکنیک‌های شمارش ضروری را معرفی می‌کند.
+2.  **بخش ۲: احتمال شرطی و استقلال:** بررسی می‌کند احتمال‌ها با اطلاعات جدید چگونه تغییر می‌کنند و به قضیه بیز و مفهوم استقلال می‌رسد.
+3.  **بخش ۳: متغیرهای تصادفی و توزیع‌ها:** ایده نتایج تصادفی را با متغیرهای تصادفی رسمی می‌کند و الگوهای رایج را از طریق توزیع‌های گسسته و پیوسته مطالعه می‌کند.
+4.  **بخش ۴: چند متغیر تصادفی:** مفاهیم را به سناریوهایی با بیش از یک متغیر تصادفی گسترش می‌دهد؛ شامل توزیع‌های مشترک، کوواریانس و همبستگی.
+5.  **بخش ۵: قضایای حدی و اهمیت آن‌ها:** قانون اعداد بزرگ و قضیه حد مرکزی را به‌عنوان بنیادها بررسی می‌کند و توضیح می‌دهد چرا احتمال در بلندمدت کار می‌کند و چرا توزیع نرمال همه‌جا حضور دارد.
+6.  **بخش ۶: مباحث پیشرفته و کاربردها:** مقدمه‌ای بر استنتاج بیزی، زنجیره‌های مارکوف و روش‌های مونت‌کارلو ارائه می‌دهد و کاربردهای قدرتمند احتمال را نشان می‌دهد.
+
+هر فصل توضیحات نظری را با مثال‌های عملی پایتون و تمرین‌ها در Jupyter Notebook ترکیب می‌کند.
 
 +++
 
-To follow along with the coding examples, you will need:
+### نرم‌افزار و راه‌اندازی مورد نیاز
 
-* **Python:** Version 3.7 or higher is recommended. We suggest installing Python via the [Anaconda Distribution](https://www.anaconda.com/products/distribution), which conveniently packages Python and many essential data science libraries.
-* **Jupyter Notebook or JupyterLab:** The interactive environment used throughout the book. This comes bundled with Anaconda.
-* **Core Python Libraries:**
-    * **NumPy:** For numerical operations, especially array manipulation. *(Ex: Ensuring you can run `import numpy as np` successfully.)*
-    * **SciPy:** For scientific and technical computing, particularly `scipy.stats` for probability distributions and `scipy.special` for functions like combinations/permutations.
-    * **Matplotlib & Seaborn:** For data visualization.
-    * **Pandas (Optional but Recommended):** For data manipulation, especially when working with datasets in later examples.
++++
 
-Chapter 1 provides detailed steps for setting up your environment. Typically, after installing Anaconda, you can install any missing libraries using `pip` or `conda`:
+برای دنبال کردن مثال‌های کد به موارد زیر نیاز دارید:
+
+* **پایتون:** نسخه ۳.۷ یا بالاتر توصیه می‌شود. نصب پایتون از طریق [Anaconda Distribution](https://www.anaconda.com/products/distribution) پیشنهاد می‌شود؛ پایتون و بسیاری از کتابخانه‌های ضروری علم داده را یکجا نصب می‌کند.
+* **Jupyter Notebook یا JupyterLab:** محیط تعاملی استفاده‌شده در سراسر کتاب. با Anaconda همراه است.
+* **کتابخانه‌های اصلی پایتون:**
+    * **NumPy:** برای عملیات عددی، به‌ویژه دستکاری آرایه. *(مثال: اطمینان از اجرای موفق `import numpy as np`.)*
+    * **SciPy:** برای محاسبات علمی و فنی، به‌ویژه `scipy.stats` برای توزیع‌های احتمال و `scipy.special` برای توابعی مانند ترکیب/جایگشت.
+    * **Matplotlib و Seaborn:** برای مصورسازی داده.
+    * **Pandas (اختیاری اما توصیه‌شده):** برای دستکاری داده، به‌ویژه در مثال‌های بعدی با مجموعه‌داده.
+
+فصل ۱ مراحل دقیق راه‌اندازی محیط را ارائه می‌دهد. معمولاً پس از نصب Anaconda، کتابخانه‌های جاافتاده را با `pip` یا `conda` نصب می‌کنید:
 ```bash
 # Using conda (recommended if you used Anaconda)
 conda install numpy scipy matplotlib seaborn pandas jupyterlab
@@ -95,38 +95,38 @@ pip install numpy scipy matplotlib seaborn pandas jupyterlab
 
 +++
 
-### How to use the Jupyter Notebooks
+### چگونه از Jupyter Notebookها استفاده کنیم
 
 +++
 
-Each chapter is presented as a Jupyter Notebook (`.ipynb` file).
+هر فصل به‌صورت Jupyter Notebook (فایل `.ipynb`) ارائه شده است.
 
-* **Read the Explanations:** Markdown cells provide theoretical background, definitions, and context.
-* **Run the Code:** Code cells contain Python examples. You can execute a cell by selecting it and pressing `Shift + Enter` (or clicking the 'Run' button). *(Ex: Running code cells step-by-step to see results unfold.)*
-* **Experiment:** Don't just run the code – modify it! Change parameters, try different inputs, and see how the results change. This is key to building intuition.
-* **Do the Exercises:** Most chapters include exercises to test your understanding. Try to solve them yourself before looking at any provided solutions.
+* **توضیحات را بخوانید:** سلول‌های Markdown پیش‌زمینه نظری، تعاریف و زمینه را فراهم می‌کنند.
+* **کد را اجرا کنید:** سلول‌های کد مثال‌های پایتون دارند. با انتخاب سلول و فشردن `Shift + Enter` (یا دکمه Run) اجرا می‌شوند. *(مثال: اجرای گام‌به‌گام سلول‌های کد برای دیدن نتایج.)*
+* **آزمایش کنید:** فقط کد را اجرا نکنید — آن را تغییر دهید! پارامترها را عوض کنید، ورودی‌های مختلف امتحان کنید و ببینید نتایج چگونه تغییر می‌کنند. این کلید ساخت شهود است.
+* **تمرین‌ها را انجام دهید:** بیشتر فصل‌ها تمرین دارند. قبل از دیدن پاسخ، خودتان حل کنید.
 
-We encourage you to actively engage with the notebooks, treating them as interactive labs rather than static text. Let's begin our journey into the practical world of probability!
-
-+++
-
-### Related Resources
+شما را تشویق می‌کنیم فعالانه با Notebookها کار کنید و آن‌ها را آزمایشگاه تعاملی بدانید، نه متن ایستا. سفرمان به دنیای عملی احتمال را آغاز کنیم!
 
 +++
 
-**Other Books by Chris Snow:**
-* [Embeddings at Scale](https://snowch.github.io/embeddings-at-scale-book) - Practical guide to working with embeddings in production ML systems
-* [Linear Algebra](https://snowch.github.io/linear-algebra) - Essential linear algebra concepts for data science and machine learning
-
-**More Learning:**
-* [snowch.github.io](https://snowch.github.io) - Notes, blogs, and tutorials on AI engineering topics
+### منابع مرتبط
 
 +++
 
-## About This Content
+**سایر کتاب‌های Chris Snow:**
+* [Embeddings at Scale](https://snowch.github.io/embeddings-at-scale-book) — راهنمای عملی کار با embedding در سیستم‌های ML تولیدی
+* [Linear Algebra](https://snowch.github.io/linear-algebra) — مفاهیم ضروری جبر خطی برای علم داده و یادگیری ماشین
 
-This is a learning resource I created to deepen my own understanding of probability. It's freely available under CC-BY-4.0 license for educational purposes.
+**یادگیری بیشتر:**
+* [snowch.github.io](https://snowch.github.io) — یادداشت‌ها، وبلاگ‌ها و آموزش‌های مهندسی هوش مصنوعی
 
-**Not for sale. Will always remain free.**
++++
 
-Built with AI assistance and extensive editing. If you find value in this, feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/csnowuk/) or check out my work at [VAST Data](https://vastdata.com/) / [GitHub](https://github.com/snowch).
+## درباره این محتوا
+
+این منبع یادگیری‌ای است که Chris Snow برای تعمیق فهم خود از احتمال ساخته است. نسخهٔ فارسی توسط **Hamed Zamani** ترجمه شده است. تحت مجوز CC-BY-4.0 برای اهداف آموزشی رایگان در دسترس است.
+
+**فروشی نیست. همیشه رایگان خواهد ماند.**
+
+با کمک هوش مصنوعی و ویرایش گسترده ساخته شده است. اگر برایتان مفید بود، در [LinkedIn](https://www.linkedin.com/in/csnowuk/) با من در ارتباط باشید یا کارهایم را در [VAST Data](https://vastdata.com/) / [GitHub](https://github.com/snowch) ببینید.

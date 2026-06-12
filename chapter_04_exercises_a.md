@@ -13,278 +13,278 @@ downloads:
   - file: notebooks/chapter_04_exercises_a.ipynb
 ---
 
-# Exercises for Chapter 4 (Part A)
+# تمرین‌های فصل ۴ (بخش الف)
 
-Here are 30 questions designed to assess a student's ability to differentiate between joint probability, $P(A \cap B)$, and conditional probability, $P(A | B)$, based on contextual information.
+در اینجا ۳۰ سؤال برای سنجش توانایی دانشجو در تمایز میان احتمال مشترک $P(A \cap B)$ و احتمال شرطی $P(A | B)$ بر اساس اطلاعات زمینه‌ای آمده است.
 
 ---
 
-1.  **University Demographics:** At a certain university, 30% of students major in business. It's also noted that 10% of the total student population are female business majors.
-    * Let $B$ be the event that a student is a business major, and $F$ be the event that a student is female.
-    * The statement "10% of the total student population are female business majors" translates to which probability expression: $P(B \cap F)$ or $P(F | B)$? Justify your choice.
+1.  **جمعیت‌شناسی دانشگاه:** در دانشگاهی معین، ۳۰٪ دانشجویان رشتهٔ بازرگانی هستند. همچنین ۱۰٪ از کل جمعیت دانشجویان، زنان رشتهٔ بازرگانی‌اند.
+    * فرض کنید $B$ رویداد «دانشجو رشتهٔ بازرگانی است» و $F$ رویداد «دانشجو زن است».
+    * جملهٔ «۱۰٪ از کل جمعیت دانشجویان، زنان رشتهٔ بازرگانی‌اند» به کدام عبارت احتمال ترجمه می‌شود: $P(B \cap F)$ یا $P(F | B)$؟ انتخاب خود را توجیه کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(B \cap F) = 0.10$. The phrase "10% of the total student population are female business majors" indicates the intersection of the two events – students who belong to *both* categories out of the entire population.
+    این نمایانگر $P(B \cap F) = 0.10$ است. عبارت «۱۰٪ از کل جمعیت دانشجویان، دانشجویان زن رشتهٔ بازرگانی‌اند» اشتراک دو رویداد را نشان می‌دهد — دانشجویانی که *هر دو* ویژگی را دارند، از کل جمعیت.
     ```
 
-2.  **Retail Discounts:** A retail outlet notes that 45% of its sales are for electronic items. Among all sales, 15% consist of discounted electronics.
-    * Let $E$ be the event that a sale is for electronics, and $D$ be the event that a sale is discounted.
-    * The figure "15% of all sales consist of discounted electronics" relates to which probability: $P(E \cap D)$ or $P(D|E)$? Provide the notation and the value.
+2.  **تخفیف‌های خرده‌فروشی:** یک فروشگاه خرده‌فروشی می‌گوید ۴۵٪ فروش‌ها لوازم الکترونیکی است. از میان همهٔ فروش‌ها، ۱۵٪ شامل الکترونیک تخفیف‌دار است.
+    * فرض کنید $E$ رویداد «فروش الکترونیکی» و $D$ رویداد «فروش تخفیف‌دار» باشد.
+    * عدد «۱۵٪ از همهٔ فروش‌ها شامل الکترونیک تخفیف‌دار است» به کدام احتمال مربوط است: $P(E \cap D)$ یا $P(D|E)$؟ نماد و مقدار را بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(E \cap D)$, specifically $P(\text{Electronics} \cap \text{Discounted}) = 0.15$. The phrasing "15% of all sales consist of discounted electronics" implies these sales meet both criteria simultaneously out of all possible sales.
+    این نمایانگر $P(E \cap D)$، به‌طور مشخص $P(\text{Electronics} \cap \text{Discounted}) = 0.15$ است. عبارت «۱۵٪ از همهٔ فروش‌ها شامل لوازم الکترونیکی تخفیف‌دار است» یعنی این فروش‌ها همزمان هر دو معیار را از میان همهٔ فروش‌های ممکن دارند.
     ```
 
-3.  **Customer Loyalty:** A recent survey indicated that 60% of customers were satisfied with a particular service. Among the group of satisfied customers, 90% stated they would recommend the company.
-    * Let $S$ be the event that a customer was satisfied, and $R$ be the event that a customer would recommend the company.
-    * The information "Among the group of satisfied customers, 90% stated they would recommend the company" is an example of what type of probability? Express this as $P(A \cap B)$ or $P(A | B)$ using the defined events.
+3.  **وفاداری مشتری:** نظرسنجی اخیر نشان داد ۶۰٪ مشتریان از خدمت خاصی راضی بودند. در میان مشتریان راضی، ۹۰٪ گفتند شرکت را توصیه می‌کنند.
+    * فرض کنید $S$ رویداد «مشتری راضی بود» و $R$ رویداد «مشتری شرکت را توصیه می‌کند».
+    * اطلاعات «در میان مشتریان راضی، ۹۰٪ گفتند شرکت را توصیه می‌کنند» نمونه‌ای از چه نوع احتمالی است؟ با رویدادهای تعریف‌شده به‌صورت $P(A \cap B)$ یا $P(A | B)$ بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents a conditional probability, $P(R | S) = 0.90$. The phrase "Among the group of satisfied customers" restricts the sample space to only those who were satisfied, which is the hallmark of conditional probability.
+    این یک احتمال شرطی است، $P(R | S) = 0.90$. عبارت «در میان گروه مشتریان راضی» فضای نمونه را فقط به راضی‌ها محدود می‌کند که مشخصهٔ احتمال شرطی است.
     ```
 
-4.  **Regional Climate:** For a specific region, the probability of rain on any day is 0.70. Given that it is raining, the probability of experiencing high humidity is 0.80.
-    * Define events for Rain (R) and High Humidity (H).
-    * Express the information "Given that it is raining, the probability of experiencing high humidity is 0.80" using your defined events and the correct probability notation.
+4.  **اقلیم منطقه‌ای:** در منطقه‌ای خاص، احتمال باران در هر روز ۰٫۷۰ است. با فرض بارانی بودن، احتمال رطوبت بالا ۰٫۸۰ است.
+    * رویدادهای باران (R) و رطوبت بالا (H) را تعریف کنید.
+    * اطلاعات «با فرض بارانی بودن، احتمال رطوبت بالا ۰٫۸۰ است» را با رویدادهای تعریف‌شده و نمادگذاری صحیح احتمال بیان کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(H | R) = 0.80$. The phrase "Given that it is raining" explicitly states a condition for the probability of high humidity.
+    این نمایانگر $P(H | R) = 0.80$ است. عبارت «با فرض بارانی بودن» صریحاً شرطی برای احتمال رطوبت بالا بیان می‌کند.
     ```
 
-5.  **E-Learning Success:** A study on online education found that 40% of students choose to enroll in a particular online course. Of the students who enroll, 60% go on to complete the course successfully.
-    * Let $E$ be the event a student enrolls and $C$ be the event a student completes the course.
-    * The statement "Of the students who enroll, 60% go on to complete the course successfully" describes what kind of probability? Write it using the events $E$ and $C$.
+5.  **موفقیت آموزش الکترونیک:** مطالعه‌ای در آموزش آنلاین نشان داد ۴۰٪ دانشجویان در دورهٔ آنلاین خاصی ثبت‌نام می‌کنند. از ثبت‌نام‌کنندگان، ۶۰٪ دوره را با موفقیت تمام می‌کنند.
+    * فرض کنید $E$ رویداد «ثبت‌نام» و $C$ رویداد «اتمام موفق دوره» باشد.
+    * جملهٔ «از دانشجویانی که ثبت‌نام می‌کنند، ۶۰٪ دوره را با موفقیت تمام می‌کنند» چه نوع احتمالی را توصیف می‌کند؟ با رویدادهای $E$ و $C$ بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(C | E) = 0.60$. The phrase "Of the students who enroll" indicates that the 60% is conditioned on enrollment.
+    این نمایانگر $P(C | E) = 0.60$ است. عبارت «از میان دانشجویانی که ثبت‌نام کرده‌اند» نشان می‌دهد ۶۰٪ مشروط بر ثبت‌نام است.
     ```
 
-6.  **Household Assets:** In a certain town, 70% of households own a car. It is also known that 35% of all households in this town own both a car and have a garage.
-    * Consider the events $C$: a household owns a car, and $G$: a household has a garage.
-    * Translate the statement "35% of all households in this town own both a car and have a garage" into probability notation.
+6.  **دارایی‌های خانوار:** در شهری معین، ۷۰٪ خانوارها ماشین دارند. همچنین ۳۵٪ از همهٔ خانوارها هم ماشین دارند هم گاراژ.
+    * رویدادهای $C$: «خانوار ماشین دارد» و $G$: «خانوار گاراژ دارد» را در نظر بگیرید.
+    * جملهٔ «۳۵٪ از همهٔ خانوارهای این شهر هم ماشین دارند هم گاراژ» را به نماد احتمال ترجمه کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(C \cap G) = 0.35$. The phrasing "own both a car and have a garage" points to the intersection of the two events relative to all households.
+    این نمایانگر $P(C \cap G) = 0.35$ است. عبارت «هم ماشین دارند هم گاراژ» به اشتراک دو رویداد نسبت به همهٔ خانوارها اشاره دارد.
     ```
 
-7.  **Electoral Demographics:** Data from a recent election shows that 55% of the eligible population cast a vote. Furthermore, 30% of the total eligible population both voted and were aged over 65.
-    * Let $V$ represent the event that a person voted and $O$ represent the event that a person is over 65.
-    * The information "30% of the total eligible population both voted and were aged over 65" is an example of $P(V \cap O)$ or $P(O|V)$? Specify the correct notation and its value.
+7.  **جمعیت‌شناسی انتخاباتی:** داده‌های انتخابات اخیر نشان می‌دهد ۵۵٪ جمعیت واجد شرایط رأی داده‌اند. علاوه بر این، ۳۰٪ از کل جمعیت واجد شرایط هم رأی داده‌اند هم بالای ۶۵ سال سن دارند.
+    * فرض کنید $V$ رویداد «شخص رأی داده» و $O$ رویداد «شخص بالای ۶۵ سال است».
+    * اطلاعات «۳۰٪ از کل جمعیت واجد شرایط هم رأی داده‌اند هم بالای ۶۵ سال سن دارند» نمونه‌ای از $P(V \cap O)$ است یا $P(O|V)$؟ نماد صحیح و مقدار را مشخص کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(V \cap O) = 0.30$. The wording "both voted and were aged over 65" out of the "total eligible population" indicates an intersection.
+    این نمایانگر $P(V \cap O) = 0.30$ است. عبارت «هم رأی داده‌اند هم بالای ۶۵ سال سن دارند» از «کل جمعیت واجد شرایط» یک اشتراک را نشان می‌دهد.
     ```
 
-8.  **Candidate Screening:** A company is reviewing job applications. They find that 80% of applicants possess a college degree. Among those applicants who have a college degree, 70% also have relevant previous work experience.
-    * Let $D$ be the event an applicant has a college degree, and $W$ be the event an applicant has previous work experience.
-    * Which probability does the statement "Among those applicants who have a college degree, 70% also have relevant previous work experience" describe: a joint probability or a conditional probability? Provide the specific notation and value.
+8.  **غربالگری متقاضیان:** شرکتی درخواست‌های شغلی را بررسی می‌کند. ۸۰٪ متقاضیان مدرک دانشگاهی دارند. در میان دارندگان مدرک، ۷۰٪ سابقهٔ کار مرتبط نیز دارند.
+    * فرض کنید $D$ رویداد «متقاضی مدرک دانشگاهی دارد» و $W$ رویداد «سابقهٔ کار دارد».
+    * جملهٔ «در میان متقاضیان دارای مدرک دانشگاهی، ۷۰٪ سابقهٔ کار مرتبط نیز دارند» کدام احتمال را توصیف می‌کند: مشترک یا شرطی؟ نماد و مقدار مشخص را بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This describes a conditional probability, specifically $P(W | D) = 0.70$. The phrase "Among those applicants who have a college degree" sets a condition for the 70%.
+    این یک احتمال شرطی را توصیف می‌کند، به‌طور مشخص $P(W | D) = 0.70$. عبارت «در میان متقاضیانی که مدرک دانشگاهی دارند» شرطی برای ۷۰٪ تعیین می‌کند.
     ```
 
-9.  **Dining Habits:** At a bustling restaurant, 90% of diners select a main course. For diners who order a main course, there's a 0.50 probability that they will also order an appetizer.
-    * Identify suitable events M (Main Course) and A (Appetizer).
-    * Express the information "For diners who order a main course, there's a 0.50 probability that they will also order an appetizer" using probability notation.
+9.  **عادت‌های غذایی:** در رستورانی شلوغ، ۹۰٪ مهمانان غذای اصلی انتخاب می‌کنند. برای کسانی که غذای اصلی سفارش می‌دهند، احتمال سفارش پیش‌غذا ۰٫۵۰ است.
+    * رویدادهای مناسب M (غذای اصلی) و A (پیش‌غذا) را مشخص کنید.
+    * اطلاعات «برای مهمانانی که غذای اصلی سفارش می‌دهند، احتمال سفارش پیش‌غذا ۰٫۵۰ است» را با نماد احتمال بیان کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(A | M) = 0.50$. The condition "For diners who order a main course" clearly indicates a conditional probability.
+    این نمایانگر $P(A | M) = 0.50$ است. شرط «برای مهمانانی که غذای اصلی سفارش می‌دهند» به‌وضوح احتمال شرطی را نشان می‌دهد.
     ```
 
-10. **Tech Ownership:** Surveys show that 60% of individuals own a smartphone. It is also found that 25% of all individuals own both a smartphone and a tablet.
-    * Let $S$ be the event of owning a smartphone and $T$ be the event of owning a tablet.
-    * The statistic "25% of all individuals own both a smartphone and a tablet" corresponds to which of the following: $P(S \cap T)$, $P(S|T)$, or $P(T|S)$? Explain your choice.
+10. **مالکیت فناوری:** نظرسنجی‌ها نشان می‌دهد ۶۰٪ افراد گوشی هوشمند دارند. همچنین ۲۵٪ از همهٔ افراد هم گوشی هوشمند دارند هم تبلت.
+    * فرض کنید $S$ رویداد «مالکیت گوشی هوشمند» و $T$ رویداد «مالکیت تبلت».
+    * آمار «۲۵٪ از همهٔ افراد هم گوشی هوشمند دارند هم تبلت» به کدام مورد مربوط است: $P(S \cap T)$، $P(S|T)$ یا $P(T|S)$؟ انتخاب خود را توضیح دهید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This corresponds to $P(S \cap T) = 0.25$. The phrase "25% of all individuals own both a smartphone and a tablet" means these individuals possess both devices out of the entire population, indicating an intersection.
+    این مطابق $P(S \cap T) = 0.25$ است. عبارت «۲۵٪ از همهٔ افراد هم گوشی هوشمند دارند هم تبلت» یعنی این افراد هر دو دستگاه را از کل جمعیت دارند — اشتراک.
     ```
 
-11. **Software Adoption:** Data indicates that 75% of users have installed the latest software update. Within the group of users who have updated, 85% report satisfaction with the new version.
-    * Let $U$ be the event a user updated and $S$ be the event a user reported satisfaction.
-    * The value 85% refers to $P(S \cap U)$ or $P(S|U)$? Write the full expression.
+11. **پذیرش نرم‌افزار:** داده‌ها نشان می‌دهد ۷۵٪ کاربران آخرین به‌روزرسانی را نصب کرده‌اند. در میان به‌روزرسانی‌کنندگان، ۸۵٪ از نسخهٔ جدید راضی‌اند.
+    * فرض کنید $U$ رویداد «کاربر به‌روزرسانی کرد» و $S$ رویداد «کاربر رضایت اعلام کرد».
+    * مقدار ۸۵٪ به $P(S \cap U)$ اشاره دارد یا $P(S|U)$؟ عبارت کامل را بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(S | U) = 0.85$. The phrase "Within the group of users who have updated" establishes a condition.
+    این نمایانگر $P(S | U) = 0.85$ است. عبارت «در میان کاربرانی که به‌روزرسانی کرده‌اند» یک شرط برقرار می‌کند.
     ```
 
-12. **Horticulture:** A plant nursery stocks various plants. Twenty percent of its inventory consists of perennial flowers. Out of all plants in the nursery, 8% are perennial flowers that are also deer-resistant.
-    * Define events $P$: plant is a perennial flower, and $D$: plant is deer-resistant.
-    * Which piece of information allows you to write a joint probability? State this probability using your defined events.
+12. **باغبانی:** گلخانه‌ای انواع گیاه دارد. ۲۰٪ موجودی گل‌های چندساله است. از همهٔ گیاهان، ۸٪ گل چندسالهٔ مقاوم در برابر گوزن نیز هستند.
+    * رویدادهای $P$: «گیاه گل چندساله است» و $D$: «گیاه مقاوم در برابر گوزن است» را تعریف کنید.
+    * کدام اطلاعات امکان نوشتن احتمال مشترک را می‌دهد؟ این احتمال را با رویدادهای تعریف‌شده بیان کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    The statement "8% of all its plants are perennial flowers that are also deer-resistant" allows us to write the joint probability $P(P \cap D) = 0.08$. The key is "also" or "and" applied to the entire stock.
+    جملهٔ «۸٪ از همهٔ گیاهان، گل‌های چندسالهٔ مقاوم در برابر گوزن نیز هستند» امکان نوشتن احتمال مشترک $P(P \cap D) = 0.08$ را می‌دهد. کلیدواژه «نیز» یا «و» نسبت به کل موجودی است.
     ```
 
-13. **Commuting Choices:** A survey on commuting habits finds that 40% of commuters utilize public transport. If a commuter is known to use public transport, there is a 60% likelihood they also own a personal vehicle.
-    * Let $PT$ be the event a commuter uses public transport and $PV$ be the event a commuter owns a personal vehicle.
-    * How should the 60% likelihood be expressed in probability notation?
+13. **انتخاب‌های رفت‌وآمد:** نظرسنجی عادت رفت‌وآمد نشان می‌دهد ۴۰٪ مسافران از حمل‌ونقل عمومی استفاده می‌کنند. اگر مسافر از حمل‌ونقل عمومی استفاده کند، ۶۰٪ احتمال دارد خودرو شخصی نیز داشته باشد.
+    * فرض کنید $PT$ رویداد «استفاده از حمل‌ونقل عمومی» و $PV$ رویداد «مالکیت خودرو شخصی».
+    * احتمال ۶۰٪ را چگونه با نماد احتمال باید بیان کرد؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This should be expressed as $P(PV | PT) = 0.60$. The condition "If a commuter is known to use public transport" signals a conditional probability.
+    این باید $P(PV | PT) = 0.60$ بیان شود. شرط «اگر مسافر از حمل‌ونقل عمومی استفاده کند» احتمال شرطی را نشان می‌دهد.
     ```
 
-14. **Library Engagement:** Statistics show 50% of library cardholders visit the library at least monthly. Among all cardholders, 20% are monthly visitors who primarily borrow fiction books.
-    * Consider $M$: cardholder visits monthly, and $F$: cardholder borrows fiction.
-    * Identify which percentage represents $P(M \cap F)$ and provide its value.
+14. **تعامل با کتابخانه:** آمار نشان می‌دهد ۵۰٪ دارندگان کارت کتابخانه حداقل ماهانه مراجعه می‌کنند. از همهٔ دارندگان کارت، ۲۰٪ بازدیدکنندهٔ ماهانه‌اند که عمدتاً کتاب داستان امانت می‌گیرند.
+    * $M$: «مراجعهٔ ماهانه» و $F$: «امانت کتاب داستان» را در نظر بگیرید.
+    * کدام درصد نمایانگر $P(M \cap F)$ است و مقدار آن چیست؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    The statement "20% of all library cardholders are monthly visitors who primarily borrow fiction books" represents $P(M \cap F) = 0.20$. The phrasing indicates both conditions are met by this 20% of the total cardholder population.
+    جملهٔ «۲۰٪ از همهٔ دارندگان کارت کتابخانه، بازدیدکنندگان ماهانه‌ای‌اند که عمدتاً کتاب داستان امانت می‌گیرند» نمایانگر $P(M \cap F) = 0.20$ است. هر دو شرط در این ۲۰٪ از کل دارندگان کارت برقرار است.
     ```
 
-15. **Household Energy:** In a typical household, appliances account for 80% of electricity consumption. Considering only the electricity used by appliances, 30% of that amount is consumed by the refrigerator.
-    * Let $A$ be the event that electricity is used by an appliance, and $R$ be the event that electricity is used by the refrigerator.
-    * The 30% figure refers to $P(R \cap A)$ or $P(R|A)$? Explain your reasoning.
+15. **انرژی خانگی:** در خانوار معمولی، لوازم ۸۰٪ مصرف برق را تشکیل می‌دهند. با در نظر گرفتن فقط برق مصرفی لوازم، ۳۰٪ آن مربوط به یخچال است.
+    * فرض کنید $A$ رویداد «برق مصرفی لوازم» و $R$ رویداد «برق مصرفی یخچال».
+    * عدد ۳۰٪ به $P(R \cap A)$ اشاره دارد یا $P(R|A)$؟ استدلال خود را بیان کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(R | A) = 0.30$. The phrase "Considering only the electricity used by appliances" restricts the context to appliance usage, hence it's a conditional probability.
+    این نمایانگر $P(R | A) = 0.30$ است. عبارت «با در نظر گرفتن فقط برق مصرفی لوازم» زمینه را به مصرف لوازم محدود می‌کند؛ پس احتمال شرطی است.
     ```
 
-16. **Digital Access:** It's reported that 90% of homes have an internet connection. Furthermore, 70% of all homes possess both internet access and a fiber optic connection.
-    * Let $I$ be having internet access and $F$ be having a fiber optic connection.
-    * Translate "70% of all homes possess both internet access and a fiber optic connection" into a probability statement.
+16. **دسترسی دیجیتال:** گزارش شده ۹۰٪ خانه‌ها اینترنت دارند. علاوه بر این، ۷۰٪ از همهٔ خانه‌ها هم اینترنت دارند هم فیبر نوری.
+    * فرض کنید $I$ «دسترسی اینترنت» و $F$ «اتصال فیبر نوری».
+    * «۷۰٪ از همهٔ خانه‌ها هم اینترنت دارند هم فیبر نوری» را به جملهٔ احتمالی ترجمه کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This translates to $P(I \cap F) = 0.70$. The term "both...and" applied to "all homes" indicates an intersection.
+    این به $P(I \cap F) = 0.70$ ترجمه می‌شود. «هم...و» نسبت به «همهٔ خانه‌ها» اشتراک را نشان می‌دهد.
     ```
 
-17. **Extracurricular Activities:** At a high school, 25% of students are members of the debate club. For those students who are in the debate club, 40% also participate in the drama club.
-    * Let $Debate$ be the event a student is in the debate club, and $Drama$ be the event a student is in the drama club.
-    * Which probability notation accurately describes the statement "For those students who are in the debate club, 40% also participate in the drama club"?
+17. **فعالیت‌های فوق‌برنامه:** در دبیرستانی، ۲۵٪ دانش‌آموزان عضو باشگاه مناظره‌اند. از اعضای مناظره، ۴۰٪ در باشگاه نمایش نیز شرکت می‌کنند.
+    * فرض کنید $Debate$ رویداد «عضو باشگاه مناظره» و $Drama$ رویداد «عضو باشگاه نمایش».
+    * کدام نماد احتمال جملهٔ «از دانشجویان عضو باشگاه مناظره، ۴۰٪ در باشگاه نمایش نیز شرکت می‌کنند» را درست توصیف می‌کند؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This is $P(\text{Drama} | \text{Debate}) = 0.40$. The condition "For those students who are in the debate club" is key.
+    این $P(\text{Drama} | \text{Debate}) = 0.40$ است. شرط «برای دانشجویان عضو باشگاه مناظره» کلیدی است.
     ```
 
-18. **Investment Portfolio:** An investor's portfolio consists of 60% stocks. Twenty percent of the investor's total portfolio value is comprised of stocks from international markets.
-    * Let $S$ be the event an investment is a stock, and $I$ be the event an investment is in an international market.
-    * The value "20% of the investor's total portfolio value is comprised of stocks from international markets" represents which probability: $P(S \cap I)$ or $P(I|S)$?
+18. **سبد سرمایه‌گذاری:** ۶۰٪ سبد سرمایه‌گذار سهام است. ۲۰٪ از کل ارزش سبد شامل سهام بازارهای بین‌المللی است.
+    * فرض کنید $S$ رویداد «سرمایه‌گذاری سهام است» و $I$ رویداد «سرمایه‌گذاری در بازار بین‌المللی».
+    * مقدار «۲۰٪ از کل سبد سرمایه‌گذار شامل سهام بازارهای بین‌المللی است» کدام احتمال را نشان می‌دهد: $P(S \cap I)$ یا $P(I|S)$؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(S \cap I) = 0.20$. The phrasing "20% of the investor's total portfolio... stocks from international markets" (implying stocks AND international) refers to a portion of the entire portfolio satisfying both conditions.
+    این نمایانگر $P(S \cap I) = 0.20$ است. «۲۰٪ از کل سبد سرمایه‌گذار... سهام بازارهای بین‌المللی» (یعنی سهام *و* بین‌المللی) بخشی از کل سبد با هر دو شرط است.
     ```
 
-19. **Public Health:** In a specific community, 70% of the adult population has received a flu vaccine. Of the vaccinated adults, 95% did not contract the flu during the subsequent season.
-    * Define appropriate events for being vaccinated (V) and contracting the flu (F).
-    * How would you express the information "Of the vaccinated adults, 95% did not contract the flu" using probability notation? (Hint: consider the event "not contracting the flu").
+19. **بهداشت عمومی:** در جامعه‌ای خاص، ۷۰٪ بزرگسالان واکسن آنفلوآنزا گرفته‌اند. از واکسینه‌شدگان، ۹۵٪ در فصل بعد آنفلوآنزا نگرفتند.
+    * رویدادهای مناسب برای واکسینه‌شدن (V) و مبتلا شدن به آنفلوآنزا (F) را تعریف کنید.
+    * اطلاعات «از بزرگسالان واکسینه‌شده، ۹۵٪ آنفلوآنزا نگرفتند» را چگونه با نماد احتمال بیان می‌کنید؟ (راهنما: رویداد «نگرفتن آنفلوآنزا» را در نظر بگیرید).
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    Let $F^c$ be the event of not contracting the flu. The information represents $P(F^c | V) = 0.95$. The phrase "Of the vaccinated adults" sets the condition.
+    فرض کنید $F^c$ رویداد «نگرفتن آنفلوآنزا» باشد. این اطلاعات $P(F^c | V) = 0.95$ را نشان می‌دهد. عبارت «از میان بزرگسالان واکسینه‌شده» شرط را تعیین می‌کند.
     ```
 
-20. **Product Reliability:** A manufacturer observes that 5% of their electronic devices experience a failure within the first year of use. Data also shows that 2% of all devices sold fail in the first year and necessitate a complete replacement.
-    * Let $F1$ be the event a device fails in the first year, and $R$ be the event it requires full replacement.
-    * Translate the statement "2% of all devices sold fail in the first year and necessitate a complete replacement" into probability notation.
+20. **قابلیت اطمینان محصول:** سازنده می‌بیند ۵٪ دستگاه‌های الکترونیکی در سال اول خراب می‌شوند. داده‌ها همچنین نشان می‌دهد ۲٪ از همهٔ دستگاه‌های فروخته‌شده در سال اول خراب شده و نیاز به تعویض کامل دارند.
+    * فرض کنید $F1$ رویداد «خرابی در سال اول» و $R$ رویداد «نیاز به تعویض کامل».
+    * جملهٔ «۲٪ از همهٔ دستگاه‌های فروخته‌شده در سال اول خراب شده و نیاز به تعویض کامل دارند» را به نماد احتمال ترجمه کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This is $P(F1 \cap R) = 0.02$. The phrasing "...fail in the first year and require a full replacement" applied to "all devices" signifies an intersection.
+    این $P(F1 \cap R) = 0.02$ است. «...در سال اول خراب شوند و نیاز به تعویض کامل داشته باشند» نسبت به «همهٔ دستگاه‌ها» اشتراک را نشان می‌دهد.
     ```
 
-21. **Home Conveniences:** In a survey, 85% of households reported owning a washing machine. Among these households (those with a washing machine), 70% also own a clothes dryer.
-    * Let $W$ be owning a washing machine and $D$ be owning a dryer.
-    * The 70% figure is an instance of which type of probability? Write the specific probability statement.
+21. **وسایل راحتی منزل:** در نظرسنجی، ۸۵٪ خانوارها ماشین لباسشویی دارند. در میان این خانوارها، ۷۰٪ خشک‌کن لباس نیز دارند.
+    * فرض کنید $W$ «مالکیت ماشین لباسشویی» و $D$ «مالکیت خشک‌کن».
+    * عدد ۷۰٪ نمونه‌ای از کدام نوع احتمال است؟ جملهٔ احتمالی مشخص را بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This is a conditional probability: $P(D | W) = 0.70$. The context "Among these households (those with a washing machine)" indicates the condition.
+    این احتمال شرطی است: $P(D | W) = 0.70$. زمینه «در میان این خانوارها (دارای ماشین لباسشویی)» شرط را نشان می‌دهد.
     ```
 
-22. **Reading Habits:** Forty percent of adults subscribe to at least one magazine. Out of all adults, 15% subscribe to a magazine and report reading it thoroughly from cover to cover.
-    * Let $S$ be subscribing to a magazine, and $R$ be reading it cover-to-cover.
-    * What does "15% of all adults subscribe to a magazine and report reading it thoroughly" represent in terms of probability notation?
+22. **عادت‌های مطالعه:** ۴۰٪ بزرگسالان حداقل یک مجله مشترک‌اند. از همهٔ بزرگسالان، ۱۵٪ هم مشترک مجله‌اند هم گزارش می‌دهند از اول تا آخر می‌خوانند.
+    * فرض کنید $S$ «اشتراک مجله» و $R$ «خواندن از اول تا آخر».
+    * «۱۵٪ از همهٔ بزرگسالان هم مشترک مجله‌اند هم گزارش می‌دهند کامل می‌خوانند» در نماد احتمال چه چیزی را نشان می‌دهد؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This represents $P(S \cap R) = 0.15$. The phrasing "...subscribe...and read..." out of "all adults" indicates an intersection.
+    این نمایانگر $P(S \cap R) = 0.15$ است. «...مشترک...و...می‌خوانند...» از «همهٔ بزرگسالان» اشتراک را نشان می‌دهد.
     ```
 
-23. **Urban Transit:** In a metropolitan area, 60% of daily commutes are made using public transportation. If a given commute is by public transportation, there's a 20% chance that it involves at least one transfer.
-    * Define events $PT$: commute by public transport, and $T$: commute involves a transfer.
-    * Express the 20% chance using these events and the correct probability notation.
+23. **حمل‌ونقل شهری:** در کلان‌شهری، ۶۰٪ رفت‌وآمدهای روزانه با حمل‌ونقل عمومی است. اگر سفر با حمل‌ونقل عمومی باشد، ۲۰٪ احتمال دارد حداقل یک تعویض خط داشته باشد.
+    * رویدادهای $PT$: «رفت‌وآمد با حمل عمومی» و $T$: «شامل تعویض خط» را تعریف کنید.
+    * احتمال ۲۰٪ را با این رویدادها و نماد صحیح احتمال بیان کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This is $P(T | PT) = 0.20$. The condition "If a given commute is by public transportation" is explicitly stated.
+    این $P(T | PT) = 0.20$ است. شرط «اگر سفر با حمل‌ونقل عمومی باشد» صریحاً بیان شده است.
     ```
 
-24. **Mobile Technology:** Current smartphones are advanced: 90% of them include a camera. Looking at the entire market, 80% of all smartphones sold have both a camera and facial recognition capabilities.
-    * Let $C$ denote having a camera and $FR$ denote having facial recognition.
-    * Which piece of information represents $P(C \cap FR)$? State its value.
+24. **فناوری موبایل:** گوشی‌های هوشمند امروزی پیشرفته‌اند: ۹۰٪ دوربین دارند. در کل بازار، ۸۰٪ از همهٔ گوشی‌های فروخته‌شده هم دوربین دارند هم تشخیص چهره.
+    * فرض کنید $C$ «دارای دوربین» و $FR$ «دارای تشخیص چهره».
+    * کدام اطلاعات نمایانگر $P(C \cap FR)$ است؟ مقدار را بیان کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    The information "80% of all smartphones sold have both a camera and facial recognition capabilities" represents $P(C \cap FR) = 0.80$.
+    اطلاعات «۸۰٪ از همهٔ گوشی‌های فروخته‌شده هم دوربین دارند هم تشخیص چهره» نمایانگر $P(C \cap FR) = 0.80$ است.
     ```
 
-25. **Event Logistics:** At a major professional conference, 50% of attendees traveled from out-of-state. For those attendees who came from out-of-state, 70% chose to stay in one of the officially recommended conference hotels.
-    * Let $OOS$ be the event an attendee is from out-of-state, and $H$ be the event an attendee stayed in a recommended hotel.
-    * The statement "For those attendees who came from out-of-state, 70% chose to stay..." is an example of what? Provide the probability notation.
+25. **لجستیک رویداد:** در کنفرانس حرفه‌ای بزرگ، ۵۰٪ شرکت‌کنندگان از خارج ایالت آمده‌اند. از آن‌ها، ۷۰٪ در یکی از هتل‌های توصیه‌شدهٔ کنفرانس اقامت کردند.
+    * فرض کنید $OOS$ «شرکت‌کننده از خارج ایالت» و $H$ «اقامت در هتل توصیه‌شده».
+    * جملهٔ «از شرکت‌کنندگانی که از خارج ایالت آمده‌اند، ۷۰٪ در هتل اقامت کردند...» نمونه‌ای از چیست؟ نماد احتمال را بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This is an example of conditional probability, $P(H | OOS) = 0.70$. The phrase "For those attendees who came from out-of-state" clearly defines the condition.
+    این نمونه‌ای از احتمال شرطی است، $P(H | OOS) = 0.70$. عبارت «برای شرکت‌کنندگانی که از خارج ایالت آمده‌اند» شرط را روشن تعریف می‌کند.
     ```
 
-26. **Website Analytics:** A popular content website observes that 70% of its daily visitors engage with video content. Across all visitors, 30% both view video content and are subscribed to the site's newsletter.
-    * Let $V$ be viewing video content and $N$ be subscribing to the newsletter.
-    * Determine whether "30% across all visitors both view video content and are subscribed" is $P(V \cap N)$ or $P(N|V)$, and provide the value.
+26. **تحلیل وب‌سایت:** وب‌سایت محتوای محبوبی می‌بیند ۷۰٪ بازدیدکنندگان روزانه با ویدیو تعامل دارند. از همهٔ بازدیدکنندگان، ۳۰٪ هم ویدیو می‌بینند هم مشترک خبرنامه‌اند.
+    * فرض کنید $V$ «مشاهدهٔ ویدیو» و $N$ «اشتراک خبرنامه».
+    * آیا «۳۰٪ از همهٔ بازدیدکنندگان هم ویدیو می‌بینند هم مشترک‌اند» $P(V \cap N)$ است یا $P(N|V)$؟ مقدار را بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This is $P(V \cap N) = 0.30$. "Across all visitors" and "both...and" indicate an intersection of events.
+    این $P(V \cap N) = 0.30$ است. «در میان همهٔ بازدیدکنندگان» و «هم...و» اشتراک رویدادها را نشان می‌دهد.
     ```
 
-27. **Digital Banking:** A survey on banking preferences found that 65% of consumers utilize online banking services. Of this group who use online banking, 40% also frequently use a mobile banking application.
-    * Consider $OB$: uses online banking, and $MB$: uses a mobile banking app.
-    * Interpret "Of this group who use online banking, 40% also frequently use a mobile banking application" as a probability statement.
+27. **بانکداری دیجیتال:** نظرسنجی ترجیحات بانکی نشان داد ۶۵٪ مصرف‌کنندگان بانکداری آنلاین دارند. از این گروه، ۴۰٪ مرتب از اپلیکیشن بانکداری موبایل نیز استفاده می‌کنند.
+    * $OB$: «بانکداری آنلاین» و $MB$: «اپ بانکداری موبایل» را در نظر بگیرید.
+    * «از این گروه که بانکداری آنلاین دارند، ۴۰٪ مرتب از اپ موبایل نیز استفاده می‌کنند» را به‌صورت جملهٔ احتمالی تفسیر کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This is $P(MB | OB) = 0.40$. The condition is "Of this group who use online banking."
+    این $P(MB | OB) = 0.40$ است. شرط «از این گروه که بانکداری آنلاین استفاده می‌کنند» است.
     ```
 
-28. **Culinary Preferences:** A food survey reveals that 70% of respondents enjoy chocolate. Among all respondents, 25% both enjoy chocolate and specifically prefer dark chocolate.
-    * Let $C$ be liking chocolate and $D$ be preferring dark chocolate.
-    * Translate the statement "25% of all respondents both enjoy chocolate and specifically prefer dark chocolate" into the language of probability.
+28. **ترجیحات غذایی:** نظرسنجی غذا نشان می‌دهد ۷۰٪ پاسخ‌دهندگان شکلات دوست دارند. از همهٔ پاسخ‌دهندگان، ۲۵٪ هم شکلات دوست دارند هم شکلات تلخ را ترجیح می‌دهند.
+    * فرض کنید $C$ «دوست داشتن شکلات» و $D$ «ترجیح شکلات تلخ».
+    * جملهٔ «۲۵٪ از همهٔ پاسخ‌دهندگان هم شکلات دوست دارند هم شکلات تلخ را ترجیح می‌دهند» را به زبان احتمال ترجمه کنید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This translates to $P(C \cap D) = 0.25$. "Both...and" applied to "all respondents" indicates an intersection.
+    این به $P(C \cap D) = 0.25$ ترجمه می‌شود. «هم...و» نسبت به «همهٔ پاسخ‌دهندگان» اشتراک را نشان می‌دهد.
     ```
 
-29. **Academic Progression:** Statistics show that 80% of high school graduates pursue some form of higher education. If a graduate decides to pursue higher education, there is a 60% probability they will enroll in a four-year university program.
-    * Let $HE$ be pursuing higher education and $U$ be enrolling in a university.
-    * The 60% probability refers to $P(U \cap HE)$ or $P(U|HE)$? Provide the expression.
+29. **پیشرفت تحصیلی:** آمار نشان می‌دهد ۸۰٪ فارغ‌التحصیلان دبیرستان تحصیلات تکمیلی می‌گیرند. اگر فارغ‌التحصیل تصمیم به ادامهٔ تحصیل بگیرد، ۶۰٪ احتمال دارد در برنامهٔ چهارسالهٔ دانشگاه ثبت‌نام کند.
+    * فرض کنید $HE$ «ادامهٔ تحصیل» و $U$ «ثبت‌نام دانشگاه».
+    * احتمال ۶۰٪ به $P(U \cap HE)$ اشاره دارد یا $P(U|HE)$؟ عبارت را بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This refers to $P(U | HE) = 0.60$. The condition "If a graduate decides to pursue higher education" is key.
+    این به $P(U | HE) = 0.60$ اشاره دارد. شرط «اگر فارغ‌التحصیل تصمیم به ادامهٔ تحصیل بگیرد» کلیدی است.
     ```
 
-30. **Online User Behavior:** On a specific e-commerce website, 95% of users visit the homepage during their session. Overall, 50% of all users to the site visit the homepage and also click on a featured promotional banner.
-    * Define $H$: user visits homepage, and $B$: user clicks promotional banner.
-    * The figure "50% of all users to the site visit the homepage and also click on a featured promotional banner" is an example of which probability type (joint or conditional)? Write the notation.
+30. **رفتار کاربر آنلاین:** در وب‌سایت تجارت الکترونیکی، ۹۵٪ کاربران در نشست خود صفحهٔ اصلی را می‌بینند. در کل، ۵۰٪ از همهٔ کاربران هم صفحهٔ اصلی را می‌بینند هم روی بنر تبلیغاتی کلیک می‌کنند.
+    * $H$: «بازدید صفحهٔ اصلی» و $B$: «کلیک روی بنر تبلیغاتی» را تعریف کنید.
+    * عدد «۵۰٪ از همهٔ کاربران هم صفحهٔ اصلی را می‌بینند هم روی بنر کلیک می‌کنند» نمونه‌ای از کدام نوع احتمال (مشترک یا شرطی) است؟ نماد را بنویسید.
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
-    This is an example of a joint probability, $P(H \cap B) = 0.50$. The phrasing "visit the homepage and also click" applied to "all users" indicates an intersection.
+    این نمونه‌ای از احتمال مشترک است، $P(H \cap B) = 0.50$. «صفحهٔ اصلی را ببینند و هم کلیک کنند» نسبت به «همهٔ کاربران» اشتراک را نشان می‌دهد.
     ```

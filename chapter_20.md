@@ -13,40 +13,40 @@ downloads:
   - file: notebooks/chapter_20.ipynb
 ---
 
-# Chapter 20: Symbolic Probability with SymPy
+# فصل ۲۰: احتمال نمادین با SymPy
 
 +++
 
-Welcome to Chapter 20! Throughout this book, we've used NumPy and SciPy for numerical computation – calculating probabilities as decimal approximations, simulating random processes, and plotting distributions. This numerical approach is powerful and practical for most real-world applications.
+به فصل ۲۰ خوش آمدید! در سراسر این کتاب از NumPy و SciPy برای محاسبات عددی استفاده کردیم — محاسبهٔ احتمال‌ها به‌صورت تقریب اعشاری، شبیه‌سازی فرایندهای تصادفی و رسم توزیع‌ها. این رویکرد عددی برای بیشتر کاربردهای واقعی قدرتمند و عملی است.
 
-However, there's another way to work with probability: **symbolic computation**. Instead of getting `0.16666...` when calculating the probability of rolling a 1 on a fair die, we can get the exact answer: `1/6`. Instead of numerically evaluating integrals or derivatives, we can manipulate formulas algebraically.
+با این حال، راه دیگری برای کار با احتمال وجود دارد: **محاسبهٔ نمادین**. به‌جای دریافت `0.16666...` هنگام محاسبهٔ احتمال آمدن ۱ روی یک تاس منصفانه، می‌توانیم پاسخ دقیق `1/6` را به‌دست آوریم. به‌جای ارزیابی عددی انتگرال‌ها یا مشتق‌ها، می‌توانیم فرمول‌ها را جبری دستکاری کنیم.
 
-This chapter introduces **SymPy** (Symbolic Python), a Python library for symbolic mathematics. SymPy allows us to:
-- Work with exact fractions instead of decimal approximations
-- Derive probability formulas with symbolic parameters
-- Manipulate probability distributions algebraically
-- Verify textbook formulas and proofs
-- Bridge numerical computation with pure mathematics
-
-+++
-
-## Learning Objectives
-
-* Understand when to use symbolic vs numerical computation
-* Work with exact probabilities using SymPy fractions
-* Use SymPy for symbolic combinatorics (factorials, binomials)
-* Create and manipulate symbolic random variables with `sympy.stats`
-* Compute probabilities, expectations, and variances symbolically
-* Derive probability formulas with symbolic parameters
-* Convert between symbolic and numerical representations
+این فصل **SymPy** (Symbolic Python)، کتابخانهٔ پایتون برای ریاضیات نمادین را معرفی می‌کند. SymPy به ما امکان می‌دهد:
+- با کسرهای دقیق به‌جای تقریب‌های اعشاری کار کنیم
+- فرمول‌های احتمال را با پارامترهای نمادین استخراج کنیم
+- توزیع‌های احتمال را جبری دستکاری کنیم
+- فرمول‌ها و اثبات‌های کتاب‌های درسی را تأیید کنیم
+- محاسبات عددی را با ریاضیات خالص پیوند دهیم
 
 +++
 
-## Why Symbolic Computation?
+## اهداف یادگیری
 
-### Numerical vs Symbolic Approaches
+* درک زمان استفاده از محاسبهٔ نمادین در مقابل عددی
+* کار با احتمال‌های دقیق با استفاده از کسرهای SymPy
+* استفاده از SymPy برای ترکیبیات نمادین (فاکتوریل‌ها، دوجمله‌ای‌ها)
+* ایجاد و دستکاری متغیرهای تصادفی نمادین با `sympy.stats`
+* محاسبهٔ احتمال‌ها، امیدها و واریانس‌ها به‌صورت نمادین
+* استخراج فرمول‌های احتمال با پارامترهای نمادین
+* تبدیل بین نمایش‌های نمادین و عددی
 
-Throughout this book, we've primarily used the **numerical approach**:
++++
+
+## چرا محاسبهٔ نمادین؟
+
+### رویکردهای عددی در مقابل نمادین
+
+در سراسر این کتاب عمدتاً از **رویکرد عددی** استفاده کردیم:
 
 ```{code-cell} ipython3
 import numpy as np
@@ -58,7 +58,7 @@ print(f"Numerical result: {prob_numerical}")
 print(f"As decimal: {prob_numerical:.10f}")
 ```
 
-The numerical approach gives us a floating-point approximation. For most practical purposes, this is perfect! But what if we want the **exact** answer?
+رویکرد عددی تقریب ممیزشناور به ما می‌دهد. برای بیشتر اهداف عملی این کافی است! اما اگر **پاسخ دقیق** بخواهیم چه؟
 
 ```{code-cell} ipython3
 import sympy as sp
@@ -77,30 +77,30 @@ print(f"As decimal: {float(prob_symbolic)}")
 
 +++
 
-### When to Use Each Approach
+### چه زمانی از هر رویکرد استفاده کنیم
 
-**Use Numerical (NumPy/SciPy) when:**
-- Working with real-world data or measurements
-- Running simulations with large datasets
-- Speed is critical
-- Decimal approximations are sufficient
-- Working with continuous distributions that don't have closed forms
+**از رویکرد عددی (NumPy/SciPy) استفاده کنید وقتی:**
+- با داده‌ها یا اندازه‌گیری‌های دنیای واقعی کار می‌کنید
+- شبیه‌سازی با مجموعه‌داده‌های بزرگ اجرا می‌کنید
+- سرعت حیاتی است
+- تقریب‌های اعشاری کافی‌اند
+- با توزیع‌های پیوسته‌ای کار می‌کنید که شکل بسته ندارند
 
-**Use Symbolic (SymPy) when:**
-- You need exact answers (fractions, expressions with π, e, √2)
-- Deriving formulas with unknown parameters
-- Teaching or learning (exact answers aid understanding)
-- Verifying mathematical proofs
-- Working with small discrete problems
-- You want to manipulate algebraic expressions
+**از رویکرد نمادین (SymPy) استفاده کنید وقتی:**
+- به پاسخ‌های دقیق نیاز دارید (کسرها، عبارات با π، e، √2)
+- فرمول‌ها را با پارامترهای ناشناخته استخراج می‌کنید
+- تدریس یا یادگیری می‌کنید (پاسخ‌های دقیق به درک کمک می‌کنند)
+- اثبات‌های ریاضی را تأیید می‌کنید
+- با مسائل گسستهٔ کوچک کار می‌کنید
+- می‌خواهید عبارات جبری را دستکاری کنید
 
-**Best practice:** Start with symbolic to understand the mathematics, then use numerical for computation.
+**بهترین روش:** با نمادین شروع کنید تا ریاضیات را بفهمید، سپس برای محاسبه از عددی استفاده کنید.
 
 +++
 
-## SymPy Basics for Probability
+## مبانی SymPy برای احتمال
 
-### Exact Numbers: Rational vs Float
+### اعداد دقیق: Rational در مقابل Float
 
 ```{code-cell} ipython3
 import sympy as sp
@@ -116,13 +116,13 @@ print(f"  1/3 = {one_third}")
 print(f"  1/3 + 1/3 + 1/3 = {one_third + one_third + one_third}")
 ```
 
-This exact arithmetic is crucial for probability calculations!
+این حساب دقیق برای محاسبات احتمالی حیاتی است!
 
 +++
 
-### Symbolic Combinatorics
+### ترکیبیات نمادین
 
-SymPy provides symbolic versions of the combinatorial functions we've been using:
+SymPy نسخه‌های نمادین توابع ترکیبیاتی که استفاده کرده‌ایم را فراهم می‌کند:
 
 ```{code-cell} ipython3
 # Comparison with math and scipy.special
@@ -153,9 +153,9 @@ print(f"\nSymbolic: C(n, k) = {sp.binomial(n_sym, k_sym)}")
 
 +++
 
-### Simplifying Expressions
+### ساده‌سازی عبارات
 
-One of SymPy's superpowers is simplifying complex expressions:
+یکی از قدرت‌های SymPy ساده‌سازی عبارات پیچیده است:
 
 ```{code-cell} ipython3
 n, k = sp.symbols('n k', integer=True, positive=True)
@@ -178,11 +178,11 @@ print(f"\nSum of probabilities (n=3): {sp.simplify(total_prob)}")
 
 +++
 
-## Symbolic Random Variables with sympy.stats
+## متغیرهای تصادفی نمادین با sympy.stats
 
-The `sympy.stats` module lets us work with random variables symbolically, similar to how we used `scipy.stats` numerically.
+ماژول `sympy.stats` به ما امکان می‌دهد با متغیرهای تصادفی به‌صورت نمادین کار کنیم؛ مشابه نحوهٔ استفادهٔ عددی از `scipy.stats`.
 
-### Discrete Distributions
+### توزیع‌های گسسته
 
 ```{code-cell} ipython3
 from sympy.stats import Die, Coin, Binomial, Poisson, Geometric
@@ -235,7 +235,7 @@ print(f"Var(X) = {variance(X_geo)}")
 
 +++
 
-### Continuous Distributions
+### توزیع‌های پیوسته
 
 ```{code-cell} ipython3
 from sympy.stats import Normal, Exponential, Uniform, ContinuousRV
@@ -282,11 +282,11 @@ print(f"Var(X) = {variance(X_exp_sym)}")
 
 +++
 
-## Deriving Probability Formulas
+## استخراج فرمول‌های احتمال
 
-One of the most powerful uses of SymPy is deriving and verifying probability formulas.
+یکی از قدرتمندترین کاربردهای SymPy استخراج و تأیید فرمول‌های احتمال است.
 
-### Moment Generating Functions
+### توابع تولید گشتاور
 
 ```{code-cell} ipython3
 # Binomial MGF
@@ -317,7 +317,7 @@ print(f"Var(X) = E(X²) - E(X)² = {variance_binomial}")
 
 +++
 
-### Bayes' Theorem Symbolically
+### قضیهٔ بیز به‌صورت نمادین
 
 ```{code-cell} ipython3
 # Symbolic Bayes' Theorem
@@ -363,7 +363,7 @@ print(f"P(Disease|Positive) = {P_disease_given_pos} = {float(P_disease_given_pos
 
 +++
 
-## Converting Between Symbolic and Numerical
+## تبدیل بین نمادین و عددی
 
 ```{code-cell} ipython3
 # Symbolic computation
@@ -397,9 +397,9 @@ print(f"SciPy E(X) = {exp_scipy}")
 
 +++
 
-## Practical Examples
+## مثال‌های عملی
 
-### Example 1: Exact Poker Probabilities
+### مثال ۱: احتمال‌های دقیق پوکر
 
 ```{code-cell} ipython3
 # Calculate exact probability of a full house in 5-card poker
@@ -425,7 +425,7 @@ print(f"Odds: 1 in {float(1/prob_full_house):.2f}")
 
 +++
 
-### Example 2: Birthday Problem - Exact Solution
+### مثال ۲: مسئلهٔ تولد — راه‌حل دقیق
 
 ```{code-cell} ipython3
 # What's the probability that in a group of n people, at least 2 share a birthday?
@@ -455,7 +455,7 @@ print(f"Greater than 50%? {float(prob_23) > 0.5}")
 
 +++
 
-### Example 3: Deriving Variance Formula
+### مثال ۳: استخراج فرمول واریانس
 
 ```{code-cell} ipython3
 # Prove that Var(X) = E(X²) - E(X)² symbolically
@@ -488,7 +488,7 @@ print(f"Are they equal? {sp.simplify(var_direct - var_formula) == 0}")
 
 +++
 
-## Working with Joint Distributions
+## کار با توزیع‌های مشترک
 
 ```{code-cell} ipython3
 from sympy.stats import Die, P, E
@@ -519,9 +519,9 @@ print(f"\n=== Conditional Probabilities ===")
 
 +++
 
-## Limitations and Performance Considerations
+## محدودیت‌ها و ملاحظات کارایی
 
-While SymPy is powerful, it has limitations:
+SymPy قدرتمند است، اما محدودیت‌هایی دارد:
 
 ```{code-cell} ipython3
 import time
@@ -545,65 +545,65 @@ print(f"Symbolic (SymPy):  {result_symbolic:.10f} in {time_symbolic:.6f}s")
 print(f"Speedup: {time_symbolic/time_numerical:.1f}x slower")
 ```
 
-**Key takeaways:**
-- SymPy is slower than NumPy/SciPy
-- Use SymPy for exact answers and derivations, not large-scale computation
-- Convert to numerical when you need speed
-- Some symbolic operations may not simplify automatically
+**نکات کلیدی:**
+- SymPy از NumPy/SciPy کندتر است
+- SymPy را برای پاسخ‌های دقیق و استخراج فرمول‌ها به‌کار ببرید، نه محاسبات در مقیاس بزرگ
+- وقتی به سرعت نیاز دارید به عددی تبدیل کنید
+- برخی عملیات نمادین ممکن است به‌طور خودکار ساده نشوند
 
 +++
 
-## Summary
+## خلاصه
 
-In this chapter, we explored **symbolic probability computation** with SymPy:
+در این فصل **محاسبهٔ احتمال نمادین** با SymPy را بررسی کردیم:
 
-**Key Concepts:**
-- **Exact arithmetic** with `sp.Rational` vs floating-point approximation
-- **Symbolic combinatorics**: `sp.factorial`, `sp.binomial`
-- **Symbolic random variables** with `sympy.stats`
-- **Deriving formulas** with symbolic parameters
-- **Converting** between symbolic and numerical representations
+**مفاهیم کلیدی:**
+- **حساب دقیق** با `sp.Rational` در مقابل تقریب ممیزشناور
+- **ترکیبیات نمادین**: `sp.factorial`، `sp.binomial`
+- **متغیرهای تصادفی نمادین** با `sympy.stats`
+- **استخراج فرمول‌ها** با پارامترهای نمادین
+- **تبدیل** بین نمایش‌های نمادین و عددی
 
-**When to Use SymPy:**
-- Need exact answers (fractions, expressions)
-- Deriving formulas with unknown parameters
-- Verifying mathematical proofs
-- Teaching and learning probability theory
-- Small discrete probability problems
+**چه زمانی از SymPy استفاده کنیم:**
+- نیاز به پاسخ‌های دقیق (کسرها، عبارات)
+- استخراج فرمول‌ها با پارامترهای ناشناخته
+- تأیید اثبات‌های ریاضی
+- تدریس و یادگیری نظریهٔ احتمال
+- مسائل احتمال گسستهٔ کوچک
 
-**When to Use NumPy/SciPy:**
-- Real-world data and measurements
-- Large-scale simulations
-- Speed is critical
-- Continuous distributions without closed forms
+**چه زمانی از NumPy/SciPy استفاده کنیم:**
+- داده‌ها و اندازه‌گیری‌های دنیای واقعی
+- شبیه‌سازی‌های در مقیاس بزرگ
+- سرعت حیاتی است
+- توزیع‌های پیوسته بدون شکل بسته
 
-**Best Practice:** Use SymPy to understand the mathematics, then use NumPy/SciPy for practical computation.
+**بهترین روش:** از SymPy برای درک ریاضیات استفاده کنید، سپس از NumPy/SciPy برای محاسبهٔ عملی.
 
-In the next chapter, we'll explore **SageMath**, a comprehensive mathematical software system that combines the power of SymPy, NumPy, and many other tools into a unified environment.
-
-+++
-
-## Exercises
-
-1. **Exact Coin Flips**: Calculate the exact probability of getting exactly 7 heads in 10 fair coin flips using SymPy. Compare with SciPy.
-
-2. **Symbolic Variance**: Create a symbolic random variable following a Poisson distribution with parameter λ. Derive E(X) and Var(X) symbolically.
-
-3. **Poker Hands**: Calculate the exact probability of getting a "straight flush" (5 consecutive cards of the same suit) in 5-card poker.
-
-4. **Conditional Probability**: Using two symbolic dice X and Y, calculate P(X = 4 | X + Y = 9) exactly.
-
-5. **MGF Derivation**: Derive the moment generating function for a Geometric distribution with parameter p, and use it to find E(X) and Var(X).
-
-6. **Birthday Problem Extension**: Modify the birthday problem to find the smallest group size where P(at least 2 share) > 0.9.
-
-7. **Bayes Update**: A rare disease affects 0.1% of the population. A test is 99% accurate (both sensitivity and specificity). If you test positive, what's the exact probability you have the disease?
-
-8. **Sum of Uniforms**: Create two independent discrete uniform random variables on {1,2,3,4,5,6}. Find the exact PMF of their sum.
+در فصل بعدی **SageMath** را بررسی می‌کنیم؛ سامانهٔ نرم‌افزاری جامع ریاضی که قدرت SymPy، NumPy و بسیاری ابزارهای دیگر را در یک محیط یکپارچه گرد هم می‌آورد.
 
 +++
 
-## Further Reading
+## تمرین‌ها
+
+1. **پرتاب سکهٔ دقیق**: احتمال دقیق آمدن دقیقاً ۷ شیر در ۱۰ پرتاب سکهٔ منصفانه را با SymPy محاسبه کنید. با SciPy مقایسه کنید.
+
+2. **واریانس نمادین**: متغیر تصادفی نمادینی با توزیع پواسون و پارامتر λ بسازید. $E(X)$ و $Var(X)$ را به‌صورت نمادین استخراج کنید.
+
+3. **دست‌های پوکر**: احتمال دقیق گرفتن «استریت فلاش» (۵ کارت متوالی از یک خال) در پوکر ۵ کارتی را محاسبه کنید.
+
+4. **احتمال شرطی**: با دو تاس نمادین $X$ و $Y$، مقدار دقیق $P(X = 4 | X + Y = 9)$ را محاسبه کنید.
+
+5. **استخراج MGF**: تابع تولید گشتاور توزیع هندسی با پارامتر $p$ را استخراج کنید و با آن $E(X)$ و $Var(X)$ را بیابید.
+
+6. **توسعهٔ مسئلهٔ تولد**: مسئلهٔ تولد را تغییر دهید تا کوچک‌ترین اندازهٔ گروهی را بیابید که در آن $P(\text{at least 2 shared birthdays}) > 0.9$.
+
+7. **به‌روزرسانی Bayesian inference**: بیماری نادری ۰٫۱٪ جمعیت را مبتلا می‌کند. آزمون ۹۹٪ دقیق است (هم حساسیت و هم ویژگی). اگر مثبت شوید، احتمال دقیق ابتلا به بیماری چقدر است؟
+
+8. **مجموع یکنواخت‌ها**: دو متغیر تصادفی گسستهٔ یکنواخت مستقل روی $\{1,2,3,4,5,6\}$ بسازید. تابع جرم احتمال دقیق مجموع آن‌ها را بیابید.
+
++++
+
+## مطالعهٔ بیشتر
 
 - **SymPy Documentation**: https://docs.sympy.org/
 - **SymPy Stats Module**: https://docs.sympy.org/latest/modules/stats.html

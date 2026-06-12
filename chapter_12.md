@@ -13,27 +13,27 @@ downloads:
   - file: notebooks/chapter_12.ipynb
 ---
 
-# Chapter 12: Independence, Covariance, and Correlation
+# فصل ۱۲: استقلال، کوواریانس و همبستگی
 
-## Introduction
+## مقدمه
 
-In the previous chapter, we explored how to describe the probability distributions of multiple random variables simultaneously using joint distributions. We saw how to derive marginal and conditional distributions from the joint distribution. Now, we delve deeper into the relationships *between* random variables.
+در فصل پیشین، نحوهٔ توصیف هم‌زمان توزیع‌های احتمال چند متغیر تصادفی را با توزیع‌های مشترک بررسی کردیم. دیدیم چگونه توزیع‌های حاشیه‌ای و شرطی را از توزیع مشترک به‌دست آوریم. اکنون عمیق‌تر به روابط *بین* متغیرهای تصادفی می‌پردازیم.
 
-How can we quantify if knowing the value of one variable tells us something about the other? Are they completely unrelated (independent)? Or do they tend to move together or in opposite directions? This chapter introduces three fundamental concepts for describing these relationships:
+چگونه می‌توان سنجید که آیا دانستن مقدار یک متغیر دربارهٔ دیگری اطلاعاتی به ما می‌دهد؟ آیا کاملاً بی‌ربط‌اند (مستقل)؟ یا تمایل دارند با هم حرکت کنند یا در جهت مخالف؟ این فصل سه مفهوم بنیادین برای توصیف این روابط را معرفی می‌کند:
 
-1.  **Independence:** The strongest form of "unrelatedness," where the value of one variable provides no information about the value of the other.
-2.  **Covariance:** A measure of the *direction* of the linear relationship between two variables.
-3.  **Correlation:** A *standardized* measure of the *strength and direction* of the linear relationship between two variables.
+1.  **استقلال:** قوی‌ترین شکل «بی‌ربطی»، جایی که مقدار یک متغیر هیچ اطلاعاتی دربارهٔ مقدار دیگری نمی‌دهد.
+2.  **کوواریانس:** معیاری برای *جهت* رابطهٔ خطی بین دو متغیر.
+3.  **همبستگی:** معیاری *استانداردشده* برای *قدرت و جهت* رابطهٔ خطی بین دو متغیر.
 
-We will also explore how these concepts affect the variance of sums of random variables, a crucial calculation in fields like finance (portfolio variance) and engineering (error propagation).
+همچنین می‌بینیم این مفاهیم چگونه بر واریانس مجموع متغیرهای تصادفی اثر می‌گذارند — محاسبه‌ای حیاتی در حوزه‌هایی مانند مالی (واریانس سبد) و مهندسی (انتشار خطا).
 
-**Learning Objectives:**
+**اهداف یادگیری:**
 
-* Understand the definition and implications of independence for random variables.
-* Define, calculate, and interpret covariance.
-* Define, calculate, interpret, and understand the properties of the correlation coefficient.
-* Learn how to calculate the variance of sums of random variables, considering their covariance.
-* Apply these concepts using Python (NumPy, Pandas, Matplotlib/Seaborn) for simulation, calculation, and visualization.
+* تعریف و پیامدهای استقلال برای متغیرهای تصادفی را درک کنید.
+* کوواریانس را تعریف، محاسبه و تفسیر کنید.
+* ضریب همبستگی را تعریف، محاسبه، تفسیر کنید و ویژگی‌های آن را بشناسید.
+* بیاموزید واریانس مجموع متغیرهای تصادفی را با در نظر گرفتن کوواریانس آن‌ها محاسبه کنید.
+* این مفاهیم را با پایتون (NumPy، Pandas، Matplotlib/Seaborn) برای شبیه‌سازی، محاسبه و مصورسازی به‌کار ببرید.
 
 ```{code-cell} ipython3
 # Import necessary libraries
@@ -48,73 +48,73 @@ plt.style.use('seaborn-v0_8-darkgrid')
 np.random.seed(42)
 ```
 
-## Independence of Random Variables
+## استقلال متغیرهای تصادفی
 
-Recall from Chapter 5 that two events $A$ and $B$ are independent if $P(A \cap B) = P(A)P(B)$. We extend this concept to random variables.
+از فصل ۵ به‌خاطر بیاورید که دو واقعهٔ $A$ و $B$ مستقل‌اند اگر $P(A \cap B) = P(A)P(B)$. این مفهوم را به متغیرهای تصادفی تعمیم می‌دهیم.
 
-**Definition:** Two random variables $X$ and $Y$ are **independent** if for *any* sets $A$ and $B$ (in the range of $X$ and $Y$, respectively), the events $\{X \in A\}$ and $\{Y \in B\}$ are independent. That is:
+**تعریف:** دو متغیر تصادفی $X$ و $Y$ **مستقل**‌اند اگر برای *هر* مجموعهٔ $A$ و $B$ (به‌ترتیب در دامنهٔ $X$ و $Y$)، واقعه‌های $\{X \in A\}$ و $\{Y \in B\}$ مستقل باشند. یعنی:
 
 $$ P(X \in A, Y \in B) = P(X \in A) P(Y \in B) $$
 
-This is equivalent to saying that their joint distribution function factors into the product of their marginal distribution functions:
+این معادل است با اینکه تابع توزیع مشترک آن‌ها به حاصل‌ضرب توابع توزیع حاشیه‌ای فاکتور شود:
 
-* **Discrete:** $P(X=x, Y=y) = P(X=x) P(Y=y)$ for all possible values $x, y$. (Joint PMF = Product of Marginal PMFs)
-* **Continuous:** $f_{X,Y}(x,y) = f_X(x) f_Y(y)$ for all $x, y$. (Joint PDF = Product of Marginal PDFs)
+* **گسسته:** $P(X=x, Y=y) = P(X=x) P(Y=y)$ برای همهٔ مقادیر ممکن $x, y$. (PMF مشترک = حاصل‌ضرب PMFهای حاشیه‌ای)
+* **پیوسته:** $f_{X,Y}(x,y) = f_X(x) f_Y(y)$ برای همهٔ $x, y$. (PDF مشترک = حاصل‌ضرب PDFهای حاشیه‌ای)
 
-**Intuition:** If $X$ and $Y$ are independent, knowing the outcome of $X$ provides no information about the outcome of $Y$, and vice-versa.
+**شهود:** اگر $X$ و $Y$ مستقل باشند، دانستن پیامد $X$ هیچ اطلاعاتی دربارهٔ پیامد $Y$ نمی‌دهد و بالعکس.
 
-**Example:**
-* Let $X$ be the outcome of a fair coin flip (0 for Tails, 1 for Heads). $P(X=0)=0.5, P(X=1)=0.5$.
-* Let $Y$ be the outcome of a fair six-sided die roll ({1, 2, 3, 4, 5, 6}). $P(Y=y)=1/6$ for $y \in \{1, ..., 6\}$.
-Assuming the flip and the roll don't influence each other, $X$ and $Y$ are independent. The probability of getting Heads ($X=1$) and rolling a 4 ($Y=4$) is:
+**مثال:**
+* فرض کنید $X$ پیامد پرتاب یک سکهٔ منصفانه (۰ برای خط، ۱ برای شیر) باشد. $P(X=0)=0.5, P(X=1)=0.5$.
+* فرض کنید $Y$ پیامد پرتاب یک تاس شش‌وجهی منصفانه ({1, 2, 3, 4, 5, 6}) باشد. $P(Y=y)=1/6$ برای $y \in \{1, ..., 6\}$.
+با فرض اینکه پرتاب سکه و تاس بر یکدیگر اثر نگذارند، $X$ و $Y$ مستقل‌اند. احتمال شیر ($X=1$) و آمدن ۴ ($Y=4$) برابر است با:
 $P(X=1, Y=4) = P(X=1)P(Y=4) = (0.5) \times (1/6) = 1/12$.
 
-**Non-Example:**
-* Let $H$ be a person's height and $W$ be their weight. Intuitively, taller people tend to weigh more. Knowing someone is very tall ($H$ is large) makes it more likely their weight ($W$) is also large. Therefore, $H$ and $W$ are generally *not* independent. We wouldn't expect $f_{H,W}(h,w) = f_H(h) f_W(w)$.
+**ضد‌مثال:**
+* فرض کنید $H$ قد یک فرد و $W$ وزن او باشد. شهوداً افراد بلندتر تمایل به سنگین‌تر بودن دارند. دانستن اینکه کسی بسیار بلند است ($H$ بزرگ) احتمال بزرگ بودن وزن ($W$) را بیشتر می‌کند. بنابراین $H$ و $W$ معمولاً مستقل *نیستند*. انتظار نداریم $f_{H,W}(h,w) = f_H(h) f_W(w)$.
 
 +++
 
-### Checking for Independence
+### بررسی استقلال
 
-In practice, we often *assume* independence based on the physical nature of the processes generating the random variables (like separate coin flips). If we have the joint distribution, we can check if it factorizes into the product of the marginals. If we only have data, testing for independence rigorously is complex (involving statistical hypothesis tests beyond the scope of basic probability). However, we'll see soon that calculating the *correlation* can give us a clue (if correlation is non-zero, they are dependent; if correlation is zero, they *might* be independent).
+در عمل، اغلب بر اساس ماهیت فیزیکی فرایندهای تولیدکنندهٔ متغیرهای تصادفی (مانند پرتاب‌های جداگانهٔ سکه) *فرض* می‌کنیم مستقل‌اند. اگر توزیع مشترک را داشته باشیم، می‌توانیم بررسی کنیم آیا به حاصل‌ضرب حاشیه‌ای‌ها فاکتور می‌شود. اگر فقط داده داریم، آزمون دقیق استقلال پیچیده است (شامل آزمون‌های فرض آماری فراتر از احتمال پایه). به‌زودی می‌بینیم که محاسبهٔ *همبستگی* سرنخی می‌دهد (اگر همبستگی غیرصفر باشد، وابسته‌اند؛ اگر صفر باشد، *ممکن است* مستقل باشند).
 
 +++
 
-## Covariance
+## کوواریانس
 
-If variables are not independent, they are dependent. Covariance is a measure that describes the *direction* of the linear relationship between two random variables.
+اگر متغیرها مستقل نباشند، وابسته‌اند. کوواریانس معیاری است که *جهت* رابطهٔ خطی بین دو متغیر تصادفی را توصیف می‌کند.
 
-**Definition:** The **covariance** between two random variables $X$ and $Y$, denoted $\mathrm{Cov}(X, Y)$ or $\sigma_{XY}$, is:
+**تعریف:** **کوواریانس** بین دو متغیر تصادفی $X$ و $Y$، با نماد $\mathrm{Cov}(X, Y)$ یا $\sigma_{XY}$، برابر است با:
 
 $$ \mathrm{Cov}(X, Y) = E[(X - E[X])(Y - E[Y])] $$
 
-This formula calculates the expected value of the product of the deviations of $X$ and $Y$ from their respective means.
+این فرمول امید ریاضی حاصل‌ضرب انحراف‌های $X$ و $Y$ از میانگین‌هایشان را محاسبه می‌کند.
 
-A more convenient formula for calculation is often:
+فرمول راحت‌تر برای محاسبه اغلب این است:
 
 $$ \mathrm{Cov}(X, Y) = E[XY] - E[X]E[Y] $$
 
-**Interpretation:**
+**تفسیر:**
 
-* **$\mathrm{Cov}(X, Y) > 0$**: Indicates a *positive linear relationship*. When $X$ is above its mean, $Y$ tends to be above its mean, and vice-versa. (Example: Height and Weight).
-* **$\mathrm{Cov}(X, Y) < 0$**: Indicates a *negative linear relationship*. When $X$ is above its mean, $Y$ tends to be below its mean, and vice-versa. (Example: Temperature and Heating Costs).
-* **$\mathrm{Cov}(X, Y) = 0$**: Indicates *no linear relationship*. This is a necessary condition for independence, but not sufficient (more on this later).
+* **$\mathrm{Cov}(X, Y) > 0$**: رابطهٔ خطی *مثبت* را نشان می‌دهد. وقتی $X$ بالاتر از میانگینش است، $Y$ تمایل دارد بالاتر از میانگینش باشد و بالعکس. (مثال: قد و وزن).
+* **$\mathrm{Cov}(X, Y) < 0$**: رابطهٔ خطی *منفی* را نشان می‌دهد. وقتی $X$ بالاتر از میانگینش است، $Y$ تمایل دارد پایین‌تر از میانگینش باشد و بالعکس. (مثال: دما و هزینهٔ گرمایش).
+* **$\mathrm{Cov}(X, Y) = 0$**: *عدم رابطهٔ خطی* را نشان می‌دهد. شرط لازم برای استقلال است، اما کافی نیست (بیشتر در ادامه).
 
-**Properties:**
+**ویژگی‌ها:**
 
 1.  $\mathrm{Cov}(X, X) = E[(X - E[X])^2] = \mathrm{Var}(X)$
-2.  $\mathrm{Cov}(X, Y) = \mathrm{Cov}(Y, X)$ (Symmetric)
-3.  $\mathrm{Cov}(aX + b, cY + d) = ac \mathrm{Cov}(X, Y)$ for constants $a, b, c, d$. (Scaling affects covariance)
-4.  $\mathrm{Cov}(X+Y, Z) = \mathrm{Cov}(X, Z) + \mathrm{Cov}(Y, Z)$ (Distributive)
-5.  If $X$ and $Y$ are independent, then $E[XY] = E[X]E[Y]$, which implies $\mathrm{Cov}(X, Y) = 0$.
+2.  $\mathrm{Cov}(X, Y) = \mathrm{Cov}(Y, X)$ (متقارن)
+3.  $\mathrm{Cov}(aX + b, cY + d) = ac \mathrm{Cov}(X, Y)$ برای ثابت‌های $a, b, c, d$. (مقیاس‌بندی بر کوواریانس اثر می‌گذارد)
+4.  $\mathrm{Cov}(X+Y, Z) = \mathrm{Cov}(X, Z) + \mathrm{Cov}(Y, Z)$ (توزیع‌پذیر)
+5.  اگر $X$ و $Y$ مستقل باشند، آنگاه $E[XY] = E[X]E[Y]$ و در نتیجه $\mathrm{Cov}(X, Y) = 0$.
 
-**Important Note:** The value of covariance depends on the units of $X$ and $Y$. For example, $\mathrm{Cov}(\text{Height in cm}, \text{Weight in kg})$ will be much larger than $\mathrm{Cov}(\text{Height in m}, \text{Weight in kg})$, even though the underlying relationship is the same. This makes it hard to judge the *strength* of the relationship from covariance alone.
+**نکتهٔ مهم:** مقدار کوواریانس به واحدهای $X$ و $Y$ بستگی دارد. برای مثال، $\mathrm{Cov}(\text{Height in cm}, \text{Weight in kg})$ بسیار بزرگ‌تر از $\mathrm{Cov}(\text{Height in m}, \text{Weight in kg})$ خواهد بود، هرچند رابطهٔ زیربنایی یکسان است. این قضاوت دربارهٔ *قدرت* رابطه تنها از کوواریانس را دشوار می‌کند.
 
 +++
 
-### Calculating Covariance with NumPy
+### محاسبهٔ کوواریانس با NumPy
 
-NumPy's `np.cov()` function calculates the covariance matrix. For two 1D arrays `x` and `y`, `np.cov(x, y)` returns a 2x2 matrix:
+تابع `np.cov()` در NumPy ماتریس کوواریانس را محاسبه می‌کند. برای دو آرایهٔ یک‌بعدی `x` و `y`، `np.cov(x, y)` ماتریس ۲×۲ زیر را برمی‌گرداند:
 
 $$
 \begin{pmatrix}
@@ -123,7 +123,7 @@ $$
 \end{pmatrix}
 $$
 
-We are usually interested in the off-diagonal elements, $\mathrm{Cov}(X, Y)$.
+معمولاً به عناصر خارج از قطر، یعنی $\mathrm{Cov}(X, Y)$، علاقه‌مندیم.
 
 ```{code-cell} ipython3
 # Simulate two potentially related variables
@@ -152,49 +152,49 @@ print(f"Cov(X, Y_neg): {cov_xy_neg:.4f}")
 print(f"Cov(X, Y_indep): {cov_xy_indep:.4f}")
 ```
 
-As expected:
-* `Cov(X, Y_pos)` is positive, indicating they tend to increase together.
-* `Cov(X, Y_neg)` is negative, indicating when one increases, the other tends to decrease.
-* `Cov(X, Y_indep)` is close to zero, consistent with independence (or at least no linear relationship). The small non-zero value is due to random sampling variability.
+همان‌طور که انتظار می‌رود:
+* `Cov(X, Y_pos)` مثبت است و نشان می‌دهد تمایل به افزایش هم‌زمان دارند.
+* `Cov(X, Y_neg)` منفی است و نشان می‌دهد وقتی یکی افزایش می‌یابد، دیگری تمایل به کاهش دارد.
+* `Cov(X, Y_indep)` نزدیک صفر است، سازگار با استقلال (یا حداقل عدم رابطهٔ خطی). مقدار کوچک غیرصفر به‌دلیل نوسان نمونه‌گیری تصادفی است.
 
 +++
 
-## Correlation Coefficient
+## ضریب همبستگی
 
-To overcome the unit-dependency of covariance and get a measure of the *strength* of the linear relationship, we use the **correlation coefficient**.
+برای غلبه بر وابستگی به واحد در کوواریانس و به‌دست آوردن معیاری از *قدرت* رابطهٔ خطی، از **ضریب همبستگی** استفاده می‌کنیم.
 
-**Definition:** The Pearson correlation coefficient between two random variables $X$ and $Y$, denoted $\rho(X, Y)$, $\rho_{XY}$, or sometimes $\mathrm{Corr}(X,Y)$, is defined as:
+**تعریف:** ضریب همبستگی پیرسون بین دو متغیر تصادفی $X$ و $Y$، با نماد $\rho(X, Y)$، $\rho_{XY}$، یا گاهی $\mathrm{Corr}(X,Y)$، به‌صورت زیر تعریف می‌شود:
 
 $$ \rho(X, Y) = \frac{\mathrm{Cov}(X, Y)}{\sigma_X \sigma_Y} = \frac{\mathrm{Cov}(X, Y)}{\sqrt{\mathrm{Var}(X) \mathrm{Var}(Y)}} $$
 
-where $\sigma_X$ and $\sigma_Y$ are the standard deviations of $X$ and $Y$, assuming they are non-zero.
+که در آن $\sigma_X$ و $\sigma_Y$ انحراف‌های معیار $X$ و $Y$ هستند، با فرض غیرصفر بودن آن‌ها.
 
-**Properties:**
+**ویژگی‌ها:**
 
-1.  **Range:** $-1 \le \rho(X, Y) \le 1$. The correlation coefficient is dimensionless.
-2.  **Linear Relationship:**
-    * $\rho(X, Y) = 1$: Perfect positive linear relationship ($Y = aX + b$ with $a > 0$).
-    * $\rho(X, Y) = -1$: Perfect negative linear relationship ($Y = aX + b$ with $a < 0$).
-    * $\rho(X, Y) = 0$: No *linear* relationship.
-3.  **Symmetry:** $\rho(X, Y) = \rho(Y, X)$.
-4.  **Invariance to Linear Transformation:** $\rho(aX + b, cY + d) = \mathrm{sign}(ac) \rho(X, Y)$, assuming $a \ne 0, c \ne 0$. Scaling and shifting variables doesn't change the magnitude of the correlation, only potentially the sign.
-5.  **Independence Implies Zero Correlation:** If $X$ and $Y$ are independent, then $\mathrm{Cov}(X, Y) = 0$, which means $\rho(X, Y) = 0$.
+1.  **بازه:** $-1 \le \rho(X, Y) \le 1$. ضریب همبستگی بی‌بعد است.
+2.  **رابطهٔ خطی:**
+    * $\rho(X, Y) = 1$: رابطهٔ خطی مثبت کامل ($Y = aX + b$ با $a > 0$).
+    * $\rho(X, Y) = -1$: رابطهٔ خطی منفی کامل ($Y = aX + b$ با $a < 0$).
+    * $\rho(X, Y) = 0$: *عدم* رابطهٔ خطی.
+3.  **تقارن:** $\rho(X, Y) = \rho(Y, X)$.
+4.  **ناورایی نسبت به تبدیل خطی:** $\rho(aX + b, cY + d) = \mathrm{sign}(ac) \rho(X, Y)$، با فرض $a \ne 0, c \ne 0$. مقیاس‌بندی و جابه‌جایی متغیرها بزرگی همبستگی را تغییر نمی‌دهد، فقط ممکن است علامت را عوض کند.
+5.  **استقلال به معنای همبستگی صفر:** اگر $X$ و $Y$ مستقل باشند، آنگاه $\mathrm{Cov}(X, Y) = 0$ و در نتیجه $\rho(X, Y) = 0$.
 
-**Crucial Warning: Correlation does not imply causation!** Just because two variables are correlated doesn't mean one causes the other. There might be a lurking (confounding) variable influencing both. (Classic example: Ice cream sales and crime rates are correlated, but both are caused by warmer weather).
+**هشدار مهم: همبستگی به معنای علیت نیست!** صرف همبسته بودن دو متغیر به این معنا نیست که یکی علت دیگری است. ممکن است متغیر پنهان (مخدوش‌کننده)‌ای هر دو را تحت تأثیر قرار دهد. (مثال کلاسیک: فروش بستنی و نرخ جرم‌و جنایت همبسته‌اند، اما هر دو ناشی از آب‌وهمای گرم‌ترند).
 
-**Crucial Warning 2: Zero correlation does not imply independence!** Correlation measures only *linear* dependence. It's possible for $X$ and $Y$ to be strongly dependent in a non-linear way, yet have zero correlation.
+**هشدار مهم ۲: همبستگی صفر به معنای استقلال نیست!** همبستگی تنها وابستگی *خطی* را می‌سنجد. ممکن است $X$ و $Y$ به‌شدت وابستهٔ غیرخطی باشند، اما همبستگی صفر داشته باشند.
 
-Consider $X \sim \text{Uniform}(-1, 1)$ and $Y = X^2$. Clearly, $Y$ is perfectly dependent on $X$.
+فرض کنید $X \sim \text{Uniform}(-1, 1)$ و $Y = X^2$. به‌وضوح $Y$ کاملاً به $X$ وابسته است.
 $E[X] = 0$. $E[Y] = E[X^2] = \int_{-1}^{1} x^2 (1/2) dx = [x^3/6]_{-1}^1 = 1/3$.
 $E[XY] = E[X^3] = \int_{-1}^{1} x^3 (1/2) dx = [x^4/8]_{-1}^1 = 0$.
 $\mathrm{Cov}(X, Y) = E[XY] - E[X]E[Y] = 0 - (0)(1/3) = 0$.
-Thus, $\rho(X, Y) = 0$, even though $Y$ is completely determined by $X$.
+پس $\rho(X, Y) = 0$، هرچند $Y$ کاملاً توسط $X$ تعیین می‌شود.
 
 +++
 
-### Calculating and Visualizing Correlation
+### محاسبه و مصورسازی همبستگی
 
-We can use `np.corrcoef()` or Pandas DataFrame's `.corr()` method. Scatter plots are essential for visualizing the relationship.
+می‌توانیم از `np.corrcoef()` یا متد `.corr()` در DataFrame پانداس استفاده کنیم. نمودارهای پراکندگی برای مصورسازی رابطه ضروری‌اند.
 
 ```{code-cell} ipython3
 # Calculate correlation coefficients using the same samples
@@ -234,13 +234,13 @@ plt.tight_layout()
 plt.show()
 ```
 
-The scatter plots visually confirm the relationships indicated by the correlation coefficients. Note how the spread around the potential line affects the magnitude of $\rho$. `Y_pos` has a stronger linear relationship (less noise relative to the slope) than `Y_neg` in our simulation, resulting in $|\rho_{XY_{pos}}| > |\rho_{XY_{neg}}|$. The independent case shows no discernible linear pattern.
+نمودارهای پراکندگی روابطی را که ضریب‌های همبستگی نشان می‌دهند به‌صورت بصری تأیید می‌کنند. توجه کنید پراکندگی حول خط بالقوه چگونه بر بزرگی $\rho$ اثر می‌گذارد. در شبیه‌سازی ما، `Y_pos` رابطهٔ خطی قوی‌تری دارد (نویز نسبت به شیب کمتر) و در نتیجه $|\rho_{XY_{pos}}| > |\rho_{XY_{neg}}|$. حالت مستقل هیچ الگوی خطی مشخصی نشان نمی‌دهد.
 
 +++
 
-#### Example: Correlation between Study Hours and Exam Scores
+#### مثال: همبستگی بین ساعات مطالعه و نمرهٔ امتحان
 
-Let's simulate some data where exam scores depend linearly on study hours, but with some random variation.
+بیایید داده‌ای شبیه‌سازی کنیم که در آن نمرهٔ امتحان به‌صورت خطی به ساعات مطالعه وابسته است، اما با کمی نوسان تصادفی.
 
 ```{code-cell} ipython3
 n_students = 100
@@ -271,63 +271,63 @@ plt.grid(True)
 plt.show()
 ```
 
-The positive correlation confirms the simulated relationship: students who study more tend to get higher scores. The correlation isn't 1 because of the random noise component (representing other factors like innate ability, test anxiety, luck).
+همبستگی مثبت رابطهٔ شبیه‌سازی‌شده را تأیید می‌کند: دانش‌آموزانی که بیشتر مطالعه می‌کنند تمایل به نمرهٔ بالاتر دارند. همبستگی ۱ نیست چون مؤلفهٔ نویز تصادفی وجود دارد (نمایانگر عوامل دیگری مانند استعداد ذاتی، اضطراب امتحان، شانس).
 
 +++
 
-## Variance of Sums of Random Variables
+## واریانس مجموع متغیرهای تصادفی
 
-Knowing the covariance or correlation is crucial when calculating the variance of a sum or difference of random variables.
+دانستن کوواریانس یا همبستگی هنگام محاسبهٔ واریانس مجموع یا تفاضل متغیرهای تصادفی حیاتی است.
 
-**Theorem:** For any two random variables $X$ and $Y$, and constants $a$ and $b$:
+**قضیه:** برای هر دو متغیر تصادفی $X$ و $Y$ و ثابت‌های $a$ و $b$:
 
 $$ \mathrm{Var}(aX + bY) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) + 2ab \mathrm{Cov}(X, Y) $$
 
-**Proof Sketch:**
+**ایدهٔ اثبات:**
 $\mathrm{Var}(aX + bY) = E[((aX + bY) - E[aX + bY])^2]$
 $= E[(a(X - E[X]) + b(Y - E[Y]))^2]$
 $= E[a^2(X - E[X])^2 + b^2(Y - E[Y])^2 + 2ab(X - E[X])(Y - E[Y])]$
-Use linearity of expectation:
+با خطی بودن امید ریاضی:
 $= a^2 E[(X - E[X])^2] + b^2 E[(Y - E[Y])^2] + 2ab E[(X - E[X])(Y - E[Y])]$
 $= a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) + 2ab \mathrm{Cov}(X, Y)$
 
-**Special Case: Sum of Variables ($a=1, b=1$)**
+**حالت ویژه: مجموع متغیرها ($a=1, b=1$)**
 
 $$ \mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \mathrm{Cov}(X, Y) $$
 
-**Special Case: Difference of Variables ($a=1, b=-1$)**
+**حالت ویژه: تفاضل متغیرها ($a=1, b=-1$)**
 
 $$ \mathrm{Var}(X - Y) = \mathrm{Var}(X) + (-1)^2 \mathrm{Var}(Y) + 2(1)(-1) \mathrm{Cov}(X, Y) $$
 $$ \mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) - 2 \mathrm{Cov}(X, Y) $$
 
-**Crucial Simplification: Independent Variables**
+**ساده‌سازی مهم: متغیرهای مستقل**
 
-If $X$ and $Y$ are **independent**, then $\mathrm{Cov}(X, Y) = 0$. The formulas simplify significantly:
+اگر $X$ و $Y$ **مستقل** باشند، آنگاه $\mathrm{Cov}(X, Y) = 0$ و فرمول‌ها به‌طور قابل‌توجهی ساده می‌شوند:
 
 $$ \mathrm{Var}(aX + bY) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) \quad (\text{if independent}) $$
 $$ \mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) \quad (\text{if independent}) $$
 $$ \mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) \quad (\text{if independent}) $$
 
-**Extension to Multiple Variables:**
-For $n$ random variables $X_1, X_2, ..., X_n$:
+**تعمیم به چند متغیر:**
+برای $n$ متغیر تصادفی $X_1, X_2, ..., X_n$:
 
 $$ \mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) + \sum_{i \ne j} a_i a_j \mathrm{Cov}(X_i, X_j) $$
 $$ \mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) + 2 \sum_{i < j} a_i a_j \mathrm{Cov}(X_i, X_j) $$
 
-If all $X_i$ are independent, then all $\mathrm{Cov}(X_i, X_j) = 0$ for $i \ne j$, and:
+اگر همهٔ $X_i$ مستقل باشند، آنگاه همهٔ $\mathrm{Cov}(X_i, X_j) = 0$ برای $i \ne j$ و:
 
 $$ \mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) \quad (\text{if independent}) $$
 
-**Example Application: Portfolio Variance**
-Imagine a simple portfolio with investment $a$ in Stock A (return $X$) and investment $b$ in Stock B (return $Y$). The total return is $R = aX + bY$. The risk (variance) of the portfolio is:
+**مثال کاربردی: واریانس سبد**
+فرض کنید سبد ساده‌ای با سرمایه‌گذاری $a$ در سهام A (بازده $X$) و سرمایه‌گذاری $b$ در سهام B (بازده $Y$) داریم. بازده کل $R = aX + bY$ است. ریسک (واریانس) سبد برابر است با:
 $\mathrm{Var}(R) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) + 2ab \mathrm{Cov}(X, Y)$.
-If the stocks are negatively correlated ($\mathrm{Cov}(X, Y) < 0$), the portfolio variance is *reduced* compared to holding uncorrelated assets. This is the principle of diversification.
+اگر سهام‌ها همبستهٔ منفی داشته باشند ($\mathrm{Cov}(X, Y) < 0$)، واریانس سبد *کمتر* از نگه‌داشتن دارایی‌های غیرهمبسته می‌شود. این اصل تنوع‌بخشی است.
 
 +++
 
-### Hands-on: Demonstrating Variance Rules via Simulation
+### کار عملی: نمایش قواعد واریانس با شبیه‌سازی
 
-Let's simulate and verify the variance rules.
+بیایید قواعد واریانس را شبیه‌سازی و تأیید کنیم.
 
 ```{code-cell} ipython3
 # Case 1: Independent Variables
@@ -393,53 +393,53 @@ print(f"Theoretical Var(X-Y_dep): {var_diff_th_dep:.4f}, Empirical Var(X-Y_dep):
 print(f"Check: Var(X)+Var(Y)-2Cov(X,Y) = {var_X_emp + var_Y_emp_dep - 2*cov_XY_emp_dep:.4f}")
 ```
 
-The simulation results closely match the theoretical calculations based on the variance formulas, both for independent and dependent variables. Notice how the positive covariance in the dependent case *increases* the variance of the sum and *decreases* the variance of the difference compared to the independent case.
+نتایج شبیه‌سازی با محاسبات نظری بر اساس فرمول‌های واریانس، هم برای متغیرهای مستقل و هم وابسته، به‌خوبی مطابقت دارند. توجه کنید در حالت وابسته با کوواریانس مثبت، واریانس مجموع *افزایش* و واریانس تفاضل *کاهش* می‌یابد نسبت به حالت مستقل.
 
 +++
 
-## Summary
+## خلاصه
 
-This chapter introduced key concepts for understanding the relationships between random variables:
+این فصل مفاهیم کلیدی برای درک روابط بین متغیرهای تصادفی را معرفی کرد:
 
-* **Independence:** Variables are independent if knowing the value of one provides no information about the other. Mathematically, their joint distribution function factorizes into the product of their marginals.
-* **Covariance:** Measures the direction of the *linear* relationship ($E[XY] - E[X]E[Y]$). Positive covariance indicates variables tend to move together; negative indicates they move oppositely; zero indicates no linear association. Its magnitude depends on the variables' units.
-* **Correlation Coefficient ($\rho$):** A standardized measure ($\frac{\mathrm{Cov}(X, Y)}{\sigma_X \sigma_Y}$) of the strength and direction of the *linear* relationship, ranging from -1 (perfect negative linear) to +1 (perfect positive linear). $\rho=0$ means no linear relationship, but not necessarily independence.
-* **Variance of Sums:** The variance of a sum (or weighted sum) depends on the individual variances *and* the covariance between the variables: $\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \mathrm{Cov}(X, Y)$. If the variables are independent, $\mathrm{Cov}(X,Y)=0$, simplifying the formula.
+* **استقلال:** متغیرها مستقل‌اند اگر دانستن مقدار یکی اطلاعاتی دربارهٔ دیگری ندهد. از نظر ریاضی، تابع توزیع مشترک آن‌ها به حاصل‌ضرب حاشیه‌ای‌ها فاکتور می‌شود.
+* **کوواریانس:** جهت رابطهٔ *خطی* را می‌سنجد ($E[XY] - E[X]E[Y]$). کوواریانس مثبت یعنی تمایل به حرکت هم‌جهت؛ منفی یعنی حرکت در جهت مخالف؛ صفر یعنی عدم ارتباط خطی. بزرگی آن به واحدهای متغیرها بستگی دارد.
+* **ضریب همبستگی ($\rho$):** معیار استانداردشده ($\frac{\mathrm{Cov}(X, Y)}{\sigma_X \sigma_Y}$) برای قدرت و جهت رابطهٔ *خطی*، در بازهٔ $-1$ (خطی منفی کامل) تا $+1$ (خطی مثبت کامل). $\rho=0$ یعنی عدم رابطهٔ خطی، نه لزوماً استقلال.
+* **واریانس مجموع:** واریانس مجموع (یا مجموع وزنی) به واریانس‌های فردی *و* کوواریانس بین متغیرها بستگی دارد: $\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \mathrm{Cov}(X, Y)$. اگر متغیرها مستقل باشند، $\mathrm{Cov}(X,Y)=0$ و فرمول ساده می‌شود.
 
-We saw how to calculate covariance and correlation using NumPy and Pandas, visualize relationships using scatter plots, and verify the variance rules through simulation. These concepts are fundamental for multivariate statistics, machine learning (feature selection/engineering), finance (portfolio theory), and many other fields where understanding variable interactions is crucial.
+دیدیم چگونه کوواریانس و همبستگی را با NumPy و Pandas محاسبه کنیم، روابط را با نمودار پراکندگی مصور کنیم و قواعد واریانس را با شبیه‌سازی تأیید کنیم. این مفاهیم برای آمار چندمتغیره، یادگیری ماشین (انتخاب/مهندسی ویژگی)، مالی (نظریهٔ سبد) و بسیاری حوزه‌های دیگر که درک تعامل متغیرها حیاتی است، بنیادین‌اند.
 
 +++
 
-## Exercises
+## تمرین‌ها
 
-1.  **Conceptual:** Give an example of two variables that you expect to be:
-    a) Positively correlated.
-    b) Negatively correlated.
-    c) Uncorrelated but dependent.
-    d) Independent.
-    Justify your reasoning.
+1.  **مفهومی:** مثالی از دو متغیر بدهید که انتظار دارید:
+    a) همبستهٔ مثبت باشند.
+    b) همبستهٔ منفی باشند.
+    c) بدون همبستگی اما وابسته باشند.
+    d) مستقل باشند.
+    استدلال خود را توضیح دهید.
 
-2.  **Calculation:** Let $X$ have $E[X]=2, \mathrm{Var}(X)=9$. Let $Y$ have $E[Y]=-1, \mathrm{Var}(Y)=4$. Let $\mathrm{Cov}(X, Y) = -3$. Calculate:
+2.  **محاسبه:** فرض کنید $X$ دارای $E[X]=2, \mathrm{Var}(X)=9$ و $Y$ دارای $E[Y]=-1, \mathrm{Var}(Y)=4$ و $\mathrm{Cov}(X, Y) = -3$. محاسبه کنید:
     a) $E[3X - 2Y + 5]$
     b) $\mathrm{Var}(X + Y)$
     c) $\mathrm{Var}(X - Y)$
     d) $\mathrm{Var}(3X - 2Y + 5)$
     e) $\rho(X, Y)$
 
-3.  **Simulation (Correlation):**
-    a) Generate 500 samples of $X \sim \text{Normal}(0, 1)$.
-    b) Generate 500 samples of $Y = -2X + \epsilon$, where $\epsilon \sim \text{Normal}(0, \sigma^2)$ is noise. Try $\sigma = 0.5$ and $\sigma = 2$.
-    c) For each value of $\sigma$, create a scatter plot of $X$ vs $Y$ and calculate the sample correlation coefficient $\rho(X, Y)$.
-    d) How does the noise level $\sigma$ affect the correlation coefficient? Explain why.
+3.  **شبیه‌سازی (همبستگی):**
+    a) ۵۰۰ نمونه از $X \sim \text{Normal}(0, 1)$ تولید کنید.
+    b) ۵۰۰ نمونه از $Y = -2X + \epsilon$ تولید کنید، که $\epsilon \sim \text{Normal}(0, \sigma^2)$ نویز است. $\sigma = 0.5$ و $\sigma = 2$ را امتحان کنید.
+    c) برای هر مقدار $\sigma$، نمودار پراکندگی $X$ در برابر $Y$ بسازید و ضریب همبستگی نمونه $\rho(X, Y)$ را محاسبه کنید.
+    d) سطح نویز $\sigma$ چگونه بر ضریب همبستگی اثر می‌گذارد؟ توضیح دهید چرا.
 
-4.  **Simulation (Variance of Sums):**
-    a) Let $X \sim \text{Poisson}(\lambda=3)$ and $Y \sim \text{Poisson}(\lambda=5)$. Assume $X$ and $Y$ are independent.
-    b) Generate 10,000 samples for $X$ and $Y$.
-    c) Calculate the empirical variance of $X$, $Y$, and $X+Y$.
-    d) The theoretical variance of a Poisson($\lambda$) distribution is $\lambda$. Compare the empirical $\mathrm{Var}(X+Y)$ to the theoretical prediction $\mathrm{Var}(X) + \mathrm{Var}(Y)$ (since they are independent). Are they close?
-    e) It's a known property that the sum of independent Poisson variables is also Poisson, so $X+Y \sim \text{Poisson}(\lambda_X + \lambda_Y)$. What is the theoretical variance of $X+Y$ based on this property? Does it match your findings?
+4.  **شبیه‌سازی (واریانس مجموع):**
+    a) فرض کنید $X \sim \text{Poisson}(\lambda=3)$ و $Y \sim \text{Poisson}(\lambda=5)$ و $X$ و $Y$ مستقل‌اند.
+    b) ۱۰٬۰۰۰ نمونه برای $X$ و $Y$ تولید کنید.
+    c) واریانس تجربی $X$، $Y$ و $X+Y$ را محاسبه کنید.
+    d) واریانس نظری توزیع Poisson($\lambda$) برابر $\lambda$ است. $\mathrm{Var}(X+Y)$ تجربی را با پیش‌بینی نظری $\mathrm{Var}(X) + \mathrm{Var}(Y)$ (چون مستقل‌اند) مقایسه کنید. آیا نزدیک‌اند؟
+    e) ویژگی شناخته‌شده این است که مجموع متغیرهای Poisson مستقل نیز Poisson است، پس $X+Y \sim \text{Poisson}(\lambda_X + \lambda_Y)$. واریانس نظری $X+Y$ بر اساس این ویژگی چیست؟ آیا با یافته‌های شما مطابقت دارد؟
 
-5.  **Pandas Correlation:** Load a dataset (e.g., the `tips` dataset from Seaborn: `tips = sns.load_dataset('tips')`). Calculate the correlation matrix for the numerical columns (e.g., `total_bill`, `tip`, `size`). Interpret the correlation between `total_bill` and `tip`. Visualize this relationship with a scatter plot.
+5.  **همبستگی با Pandas:** یک مجموعه‌داده بارگذاری کنید (مثلاً مجموعهٔ `tips` از Seaborn: `tips = sns.load_dataset('tips')`). ماتریس همبستگی ستون‌های عددی (مثلاً `total_bill`، `tip`، `size`) را محاسبه کنید. همبستگی بین `total_bill` و `tip` را تفسیر کنید. این رابطه را با نمودار پراکندگی مصور کنید.
 
 ```{code-cell} ipython3
 # Example code for Exercise 5 setup

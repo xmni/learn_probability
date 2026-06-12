@@ -12,28 +12,26 @@ kernelspec:
 downloads:
   - file: notebooks/chapter_07.ipynb
 ---
+# فصل ۷: توزیع‌های گسسته رایج
 
-# Chapter 7: Common Discrete Distributions
+در فصل قبل، متغیرهای تصادفی گسسته را تعریف کردیم و آموختیم رفتار آن‌ها را با تابع جرم احتمال (PMF)، تابع توزیع تجمعی (CDF)، امید ریاضی و واریانس چگونه توصیف کنیم. اگرچه می‌توان PMF سفارشی برای هر موقعیت تعریف کرد، چند توزیع گسسته مشخص آن‌قدر در عمل تکرار می‌شوند که به‌طور گسترده مطالعه شده و نام‌گذاری شده‌اند.
 
-In the previous chapter, we defined discrete random variables and learned how to describe their behavior using Probability Mass Functions (PMFs), Cumulative Distribution Functions (CDFs), expected value, and variance. While we can define custom PMFs for any situation, several specific discrete distributions appear so frequently in practice that they have been studied extensively and given names.
+این توزیع‌های «رایج» مدل‌های قدرتمندی برای انواع گسترده‌ای از فرایندهای دنیای واقعی هستند. درک ویژگی‌های آن‌ها و زمان به‌کارگیری‌شان برای مدل‌سازی احتمالاتی حیاتی است. در این فصل، نه توزیع گسسته بنیادین را بررسی می‌کنیم: Bernoulli، Binomial، Geometric، Negative Binomial، Poisson، Hypergeometric، Discrete Uniform، Categorical و Multinomial.
 
-These "common" distributions serve as powerful models for a wide variety of real-world processes. Understanding their properties and when to apply them is crucial for probabilistic modeling. In this chapter, we will explore nine fundamental discrete distributions: Bernoulli, Binomial, Geometric, Negative Binomial, Poisson, Hypergeometric, Discrete Uniform, Categorical, and Multinomial.
+سناریویی را که هر توزیع مدل می‌کند، ویژگی‌های کلیدی آن (PMF، میانگین، واریانس) و نحوه کار کارآمد با آن‌ها با کتابخانه `scipy.stats` پایتون را بررسی می‌کنیم. این کتابخانه ابزارهایی برای محاسبه احتمال‌ها (PMF، CDF)، تولید نمونه تصادفی و موارد دیگر فراهم می‌کند و کار عملی ما را به‌طور قابل توجهی ساده می‌سازد.
 
-We'll examine the scenarios each distribution models, their key characteristics (PMF, mean, variance), and how to work with them efficiently using Python's `scipy.stats` library. This library provides tools to calculate probabilities (PMF, CDF), generate random samples, and more, significantly simplifying our practical work.
-
-:::{admonition} Focus on Understanding, Not Memorization
+:::{admonition} تمرکز بر درک، نه حفظ کردن
 :class: tip
 
-As you work through this chapter, remember: **understanding the underlying probabilistic structure is more important than memorizing formulas**.
+هنگام مطالعه این فصل به خاطر داشته باشید: **درک ساختار احتمالاتی زیربنایی مهم‌تر از حفظ فرمول‌هاست**.
 
-For each distribution, focus on:
-- **When to use it**: What real-world scenario does it model?
-- **Why it works**: What's the intuition behind the formula?
-- **How distributions relate**: How does it connect to other distributions you know?
+برای هر توزیع روی این موارد تمرکز کنید:
+- **چه زمانی استفاده شود**: چه سناریوی دنیای واقعی را مدل می‌کند؟
+- **چرا کار می‌کند**: شهود پشت فرمول چیست؟
+- **توزیع‌ها چگونه مرتبط‌اند**: چگونه به توزیع‌های دیگری که می‌شناسید متصل می‌شود؟
 
-Don't worry about memorizing every PMF formula—you can always look them up or use `scipy.stats`. Instead, build intuition about when and why to use each distribution. This deeper understanding will serve you far better than rote memorization!
+نگران حفظ کردن هر فرمول PMF نباشید — همیشه می‌توانید آن‌ها را جستجو کنید یا از `scipy.stats` استفاده کنید. در عوض، شهود بسازید درباره اینکه *چه زمانی* و *چرا* از هر توزیع استفاده کنید. این درک عمیق‌تر بسیار بیشتر از حفظ کردن به شما کمک می‌کند!
 :::
-
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -45,49 +43,44 @@ import os
 # Configure plots
 plt.style.use('seaborn-v0_8-whitegrid')
 ```
+## ۱. توزیع Bernoulli
 
-## 1. Bernoulli Distribution
+توزیع Bernoulli یک آزمایش واحد با دو پیامد ممکن را مدل می‌کند: «موفقیت» (۱) یا «شکست» (۰).
 
-The Bernoulli distribution models a single trial with two possible outcomes: "success" (1) or "failure" (0).
-
-:::{admonition} Why Start with Something So Simple?
+:::{admonition} چرا با چیزی این‌قدر ساده شروع می‌کنیم؟
 :class: note
 
-The Bernoulli distribution might seem almost trivially simple—it's just a single trial with two outcomes! However, it's incredibly important because:
+توزیع Bernoulli ممکن است تقریباً به‌ظاهر بسیار ساده به نظر برسد — فقط یک آزمایش با دو پیامد! با این حال، فوق‌العاده مهم است زیرا:
 
-- **It's the fundamental building block**: Several key distributions in this chapter (Binomial, Geometric, Negative Binomial) build directly on repeated Bernoulli trials, while Categorical generalizes the Bernoulli distribution to more than two outcomes
-- **Single binary events are everywhere**: Many real-world scenarios involve a single yes/no, success/failure, or on/off decision
-- **It establishes key patterns**: The $p$ and $(1-p)$ structure appears throughout probability theory
-- **Mathematical note**: The Bernoulli distribution is technically just the Binomial distribution with $n=1$, but we give it its own name because of its foundational importance
+- **بلوک سازنده بنیادین است**: چند توزیع کلیدی در این فصل (Binomial، Geometric، Negative Binomial) مستقیماً بر پایه تکرار آزمایش‌های Bernoulli ساخته می‌شوند، در حالی که Categorical توزیع Bernoulli را به بیش از دو پیامد تعمیم می‌دهد
+- **رویدادهای دودویی تکی همه‌جا هستند**: بسیاری از سناریوهای دنیای واقعی شامل یک تصمیم بله/خیر، موفقیت/شکست یا روشن/خاموش هستند
+- **الگوهای کلیدی را برقرار می‌کند**: ساختار $p$ و $(1-p)$ در سراسر نظریه احتمال ظاهر می‌شود
+- **یادداشت ریاضی**: توزیع Bernoulli از نظر فنی فقط توزیع Binomial با $n=1$ است، اما به‌خاطر اهمیت بنیادین آن نام جداگانه‌ای دارد
 
-Think of it like learning to add before learning to multiply—simple, but essential!
+مثل یاد گرفتن جمع قبل از ضرب فکر کنید — ساده، اما ضروری!
 :::
 
-**Concrete Example**
+**مثال ملموس**
 
-Suppose you're conducting a medical screening test for a disease in a high-risk population. Each test either shows positive or negative. From epidemiological data, you know that 30% of individuals in this population test positive.
+فرض کنید یک آزمون غربالگری پزشکی برای بیماری در جمعیت پرخطر انجام می‌دهید. هر آزمون یا مثبت یا منفی است. از داده‌های اپیدمیولوژیک می‌دانید ۳۰٪ افراد این جمعیت نتیجه مثبت دارند.
 
-We model this with a random variable $X$:
-- $X = 1$ if the test result is positive (success)
-- $X = 0$ if the test result is negative (failure)
+این را با متغیر تصادفی $X$ مدل می‌کنیم:
+- $X = 1$ اگر نتیجه آزمون مثبت باشد (موفقیت)
+- $X = 0$ اگر نتیجه آزمون منفی باشد (شکست)
 
-The probabilities are:
-- $P(X = 1) = 0.3$ (we call this parameter $p$)
-- $P(X = 0) = 0.7$ (which equals $1 - p$)
+احتمال‌ها:
+- $P(X = 1) = 0.3$ (این پارامتر را $p$ می‌نامیم)
+- $P(X = 0) = 0.7$ (که برابر $1 - p$ است)
 
-**The Bernoulli PMF**
+**PMF برنولی**
 
-For any Bernoulli random variable with success probability $p$, the PMF is:
-
+برای هر متغیر تصادفی Bernoulli با احتمال موفقیت $p$، PMF برابر است با:
 $$ P(X=k) = \begin{cases} p & \text{if } k=1 \\ 1-p & \text{if } k=0 \\ 0 & \text{otherwise} \end{cases} $$
-
-This can also be written compactly as:
-
+این را می‌توان به‌صورت فشرده نیز نوشت:
 $$P(X = k) = p^k (1-p)^{1-k} \text{ for } k \in \{0, 1\}$$
+بسط این برای هر دو حالت تا کاملاً روشن شود:
 
-Expanding this for both cases to make it crystal clear:
-
-**When k = 1 (success):**
+##### وقتی k = 1 (موفقیت)
 
 $$
 \begin{align}
@@ -98,7 +91,7 @@ P(X=1) &= p^1 (1-p)^{1-1} \\
 \end{align}
 $$
 
-**When k = 0 (failure):**
+##### وقتی k = 0 (شکست)
 
 $$
 \begin{align}
@@ -109,26 +102,25 @@ P(X=0) &= p^0 (1-p)^{1-0} \\
 \end{align}
 $$
 
-Let's verify this works for our example where $p = 0.3$:
-- When $k = 1$: $P(X=1) = (0.3)^1 (0.7)^0 = 0.3 \times 1 = 0.3$ ✓
-- When $k = 0$: $P(X=0) = (0.3)^0 (0.7)^1 = 1 \times 0.7 = 0.7$ ✓
+بیایید تأیید کنیم این برای مثال ما با $p = 0.3$ درست کار می‌کند:
+- وقتی $k = 1$: $P(X=1) = (0.3)^1 (0.7)^0 = 0.3 \times 1 = 0.3$ ✓
+- وقتی $k = 0$: $P(X=0) = (0.3)^0 (0.7)^1 = 1 \times 0.7 = 0.7$ ✓
 
-**Key Characteristics**
+**ویژگی‌های کلیدی**
 
-- **Scenarios**: Coin flip (Heads/Tails), product inspection (Defective/Not Defective), medical test (Positive/Negative), free throw (Make/Miss)
-- **Parameter**: $p$, the probability of success ($0 \le p \le 1$)
-- **Random Variable**: $X \in \{0, 1\}$
+- **سناریوها**: پرتاب سکه (شیر/خط)، بازرسی محصول (معیوب/سالم)، آزمون پزشکی (مثبت/منفی)، پرتاب آزاد (گل/خطا)
+- **پارامتر**: $p$، احتمال موفقیت ($0 \le p \le 1$)
+- **متغیر تصادفی**: $X \in \{0, 1\}$
 
-**Mean:** $E[X] = p$
+**میانگین:** $E[X] = p$
 
-**Variance:** $Var(X) = p(1-p)$
+**واریانس:** $Var(X) = p(1-p)$
 
-**Standard Deviation:** $SD(X) = \sqrt{p(1-p)}$
+**انحراف معیار:** $SD(X) = \sqrt{p(1-p)}$
 
-**Visualizing the Distribution**
+**مصورسازی توزیع**
 
-Let's visualize a Bernoulli distribution with $p = 0.3$ (our medical test example from above):
-
+بیایید توزیع Bernoulli با $p = 0.3$ را مصور کنیم (مثال آزمون پزشکی بالا):
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -167,9 +159,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_bernoulli_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
-
-The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test. The red dashed line marks the mean ($p = 0.3$), and the orange shaded region shows mean ± 1 standard deviation.
-
+PMF دو میله نشان می‌دهد: P(X=0) = 0.7 برای آزمون منفی و P(X=1) = 0.3 برای آزمون مثبت. خط چین قرمز میانگین ($p = 0.3$) را نشان می‌دهد و ناحیه سایه‌دار نارنجی میانگین ± ۱ انحراف معیار را نشان می‌دهد.
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -199,41 +189,39 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+CDF تابع پله‌ای را نشان می‌دهد: از ۰ برای x < 0 شروع می‌شود، در x=0 به ۰.۷ می‌پرد (مقدار وقتی پیامد ۰ است)، تا x=1 در ۰.۷ ثابت می‌ماند، سپس در x=1 به ۱.۰ می‌پرد (مقدار وقتی هر دو پیامد ۰ و ۱ را شامل می‌شود). خط چین قرمز میانگین را نشان می‌دهد.
 
-The CDF shows the step function: starts at 0 for x < 0, jumps to 0.7 at x=0 (the value when outcome is 0), stays flat at 0.7 until x=1, then jumps to 1.0 at x=1 (the value when including both outcomes 0 and 1). The red dashed line marks the mean.
+یادداشت: اینجا P(X ≤ 0) = P(X = 0) = 0.7 زیرا X نمی‌تواند مقادیر منفی بگیرد؛ به‌طور کلی «X ≤ 0» یعنی «در ۰ یا پایین‌تر»، نه «دقیقاً ۰».
 
-Note: Here, P(X ≤ 0) = P(X = 0) = 0.7 because X can't take negative values; in general, "X ≤ 0" means "at or below 0", not "exactly 0".
+**خواندن PMF**
 
-**Reading the PMF**
+- **چه چیزی نشان می‌دهد:** ارتفاع هر میله احتمال همان پیامد دقیق را نشان می‌دهد
+- **چگونه بخوانیم:** ارتفاع میله را ببینید تا P(X = k) را برای هر مقدار k مشخص بیابید
+- **کاربرد عملی:** به سؤالاتی مثل «احتمال موفقیت چقدر است؟» یا «احتمال دقیقاً ۱ آزمون مثبت چقدر است؟» پاسخ دهید
+- **ویژگی کلیدی:** مجموع ارتفاع همه میله‌ها باید ۱.۰ باشد (احتمال کل)
+- **کمک‌های مصورسازی:** خط چین قرمز میانگین (امید ریاضی) را نشان می‌دهد و ناحیه سایه‌دار نارنجی میانگین ± ۱ انحراف معیار را نشان می‌دهد (جایی که ~۶۸٪ مقادیر معمولاً قرار می‌گیرند)
 
-- **What it shows:** The height of each bar represents the probability of that exact outcome
-- **How to read:** Look at the bar height to find P(X = k) for any specific value k
-- **Practical use:** Answer questions like "What's the probability of success?" or "What's the probability of exactly 1 positive test?"
-- **Key property:** All bar heights must sum to 1.0 (total probability)
-- **Visualization aids:** The red dashed line marks the mean (expected value), and the orange shaded region shows mean ± 1 standard deviation (where ~68% of values typically fall)
+**خواندن CDF**
 
-**Reading the CDF**
+- **چه چیزی نشان می‌دهد:** احتمال تجمعی P(X ≤ k) تا و شامل هر مقدار k
+- **چگونه بخوانیم:** ارتفاع در موقعیت k احتمال k یا کمتر موفقیت را به شما می‌گوید
+- **چرا توابع پله‌ای؟** برای توزیع‌های گسسته، احتمال در پرش‌ها در هر مقدار ممکن تجمع می‌یابد. بین مقادیر ممکن، CDF ثابت می‌ماند (احتمال اضافه‌ای نیست)
+- **هویت کلیدی:** پرش در k برابر P(X = k) است — اندازه هر پله بالا همان مقدار PMF است
+- **کاربردهای عملی:**
+  - P(X ≤ k) را مستقیماً با خواندن ارتفاع در k بیابید
+  - P(X > k) را با محاسبه 1 - P(X ≤ k) بیابید
+  - P(a < X ≤ b) را با محاسبه P(X ≤ b) - P(X ≤ a) بیابید
+- **ویژگی کلیدی:** CDF پیوسته از راست است، همیشه افزایش می‌یابد (یا ثابت می‌ماند) و به ۱.۰ نزدیک می‌شود
+- **کمک‌های مصورسازی:** خط چین قرمز میانگین (امید ریاضی) را به‌عنوان نقطه مرجع نشان می‌دهد
 
-- **What it shows:** The cumulative probability P(X ≤ k) up to and including each value k
-- **How to read:** The height at position k tells you the probability of getting k or fewer successes
-- **Why step functions?** For discrete distributions, probability accumulates in jumps at each possible value. Between possible values, the CDF stays constant (no additional probability)
-- **Key identity:** The jump at k equals P(X = k) — the size of each step up is the PMF value
-- **Practical uses:**
-  - Find P(X ≤ k) directly by reading the height at k
-  - Find P(X > k) by calculating 1 - P(X ≤ k)
-  - Find P(a < X ≤ b) by calculating P(X ≤ b) - P(X ≤ a)
-- **Key property:** The CDF is right-continuous, always increases (or stays flat), and approaches 1.0
-- **Visualization aids:** The red dashed line marks the mean (expected value) as a reference point
+**یادداشت درباره مصورسازی CDF:** نمودارها از `where='post'` در نمودار پله‌ای برای ساخت توابع پله‌ای پیوسته از راست مناسب استفاده می‌کنند. یعنی CDF در هر مقدار بالا می‌پرد و آن مقدار را در احتمال تجمعی شامل می‌کند.
 
-**Note on CDF visualization:** The charts use `where='post'` in the step plot to create proper right-continuous step functions. This means the CDF jumps up at each value and includes that value in the cumulative probability.
-
-::::{admonition} Example: Medical Diagnostic Test with p = 0.1
+::::{admonition} مثال: آزمون تشخیصی پزشکی با p = 0.1
 :class: tip
 
-Modeling the outcome of a single medical diagnostic test where the probability of a positive result is 0.1.
+مدل‌سازی پیامد یک آزمون تشخیصی پزشکی واحد که احتمال نتیجه مثبت آن ۰.۱ است.
 
-Let's use [`scipy.stats.bernoulli`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bernoulli.html) to calculate probabilities, compute the mean and variance, and generate random samples.
-
+از [`scipy.stats.bernoulli`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bernoulli.html) برای محاسبه احتمال‌ها، محاسبه میانگین و واریانس، و تولید نمونه‌های تصادفی استفاده می‌کنیم.
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -251,40 +239,36 @@ print(f"P(X=0) (Negative Test): {bernoulli_rv.pmf(0):.2f}")
 print(f"Mean (Expected Value): {bernoulli_rv.mean():.2f}")
 print(f"Variance: {bernoulli_rv.var():.2f}")
 ```
-
-:::{admonition} Working with Frozen Random Variables in scipy.stats
+:::{admonition} کار با متغیرهای تصادفی منجمد (Frozen) در scipy.stats
 :class: note
 
-When we write `bernoulli_rv = stats.bernoulli(p=p_positive)`, we're creating a **frozen random variable** — a distribution object with parameters locked in.
+وقتی `bernoulli_rv = stats.bernoulli(p=p_positive)` می‌نویسیم، یک **متغیر تصادفی منجمد (frozen random variable)** می‌سازیم — شیء توزیعی که پارامترهای آن قفل شده‌اند.
 
-**Think of it like partial immutability:** Similar to how Python's immutable objects (strings, tuples) can't be changed after creation, a frozen RV's distribution parameters are fixed and can't be modified. The difference is that frozen RVs only "freeze" the parameters (like p=0.1), not the entire object.
+**مثل نیمه‌ناپذیری فکر کنید:** مشابه اشیای ناپذیر پایتون (رشته‌ها، tupleها) که پس از ساخت قابل تغییر نیستند، پارامترهای توزیع یک RV منجمد ثابت و غیرقابل تغییر هستند. تفاوت این است که RVهای منجمد فقط پارامترها (مثل p=0.1) را «منجمد» می‌کنند، نه کل شیء را.
 
-**Two ways to use scipy.stats:**
+**دو روش استفاده از scipy.stats:**
 
-1. **Non-frozen** (pass parameters every time):
+1. **غیرمنجمد** (هر بار پارامترها را پاس دهید):
    ```python
    stats.bernoulli.pmf(1, p=0.1)
    stats.bernoulli.cdf(0, p=0.1)
    stats.bernoulli.mean(p=0.1)
    ```
-
-2. **Frozen** (set parameters once, reuse):
+2. **منجمد** (یک‌بار پارامترها را تنظیم کنید، دوباره استفاده کنید):
    ```python
    rv = stats.bernoulli(p=0.1)  # Create frozen RV
    rv.pmf(1)                     # Use it multiple times
    rv.cdf(0)
    rv.mean()
    ```
+**مزایای RVهای منجمد:**
+- کد تمیزتر و خواناتر
+- کارآمدتر (پارامترها یک‌بار اعتبارسنجی می‌شوند)
+- عبور دادن توزیع‌ها به توابع آسان‌تر
+- با الگوی مستندات scipy همخوان است
 
-**Benefits of frozen RVs:**
-- Cleaner, more readable code
-- More efficient (parameters validated once)
-- Easier to pass distributions to functions
-- Matches the pattern in scipy documentation
-
-Throughout this chapter, we use frozen RVs for all examples. This is the recommended approach when working with the same distribution parameters multiple times.
+در سراسر این فصل، برای همه مثال‌ها از RVهای منجمد استفاده می‌کنیم. این رویکرد توصیه‌شده است وقتی با همان پارامترهای توزیع چندین بار کار می‌کنید.
 :::
-
 ```{code-cell} ipython3
 # Generate random samples
 n_samples = 10
@@ -292,7 +276,6 @@ samples = bernoulli_rv.rvs(size=n_samples)
 print(f"{n_samples} simulated test outcomes (1=Positive, 0=Negative):")
 print(samples)
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -300,7 +283,6 @@ print(samples)
 if os.path.exists('ch07_bernoulli_pmf.svg'):
     os.remove('ch07_bernoulli_pmf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the PMF
 k_values = [0, 1]
@@ -315,15 +297,12 @@ plt.ylim(0, 1)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
 ```
-
-The PMF shows the probability of each outcome. With p = 0.1, "Negative" has probability 0.9 and "Positive" has probability 0.1.
-
+PMF احتمال هر پیامد را نشان می‌دهد. با p = 0.1، «Negative» احتمال ۰.۹ و «Positive» احتمال ۰.۱ دارد.
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -331,7 +310,6 @@ The PMF shows the probability of each outcome. With p = 0.1, "Negative" has prob
 if os.path.exists('ch07_bernoulli_cdf.svg'):
     os.remove('ch07_bernoulli_cdf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the CDF
 cdf_values = bernoulli_rv.cdf(k_values)
@@ -348,135 +326,117 @@ plt.xticks([0, 1])
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
 ```
-
-The CDF shows the step function: starts at 0 for x < 0, jumps to 0.9 at x=0, stays flat at 0.9 until x=1, then jumps to 1.0 at x=1.
+CDF تابع پله‌ای را نشان می‌دهد: از ۰ برای x < 0 شروع می‌شود، در x=0 به ۰.۹ می‌پرد، تا x=1 در ۰.۹ ثابت می‌ماند، سپس در x=1 به ۱.۰ می‌پرد.
 
 ::::
 
-**Quick Check Questions**
+**سؤالات مرور سریع**
 
-1. A quality control inspector checks a single product. It's either defective or not defective. Is this scenario well-modeled by a Bernoulli distribution? Why or why not?
-
-```{admonition} Answer
+1. یک بازرس کنترل کیفیت یک محصول را بررسی می‌کند. یا معیوب است یا سالم. آیا این سناریو با توزیع Bernoulli به‌خوبی مدل می‌شود؟ چرا یا چرا نه؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Yes** - This scenario perfectly fits the Bernoulli distribution requirements:
-- **Single trial**: Checking one product
-- **Two possible outcomes**: Defective (success/1) or not defective (failure/0)
-- **Fixed probability**: The defect rate is constant for each product
+**بله** — این سناریو کاملاً با الزامات توزیع Bernoulli سازگار است:
+- **آزمایش واحد**: بررسی یک محصول
+- **دو پیامد ممکن**: معیوب (موفقیت/۱) یا سالم (شکست/۰)
+- **احتمال ثابت**: نرخ معیوب بودن برای هر محصول ثابت است
 
-If the defect rate is 5%, we'd use Bernoulli(p=0.05).
+اگر نرخ معیوب بودن ۵٪ باشد، از Bernoulli(p=0.05) استفاده می‌کنیم.
 ```
-
-2. For a Bernoulli distribution with p = 0.3, what is P(X = 0)?
-
-```{admonition} Answer
+2. برای توزیع Bernoulli با p = 0.3، مقدار P(X = 0) چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**P(X = 0) = 1 - p = 0.7** - The probability of failure is 1 - p.
+**P(X = 0) = 1 - p = 0.7** — احتمال شکست برابر 1 - p است.
 ```
-
-3. A basketball player has a 75% free throw success rate. If we model a single free throw as a Bernoulli trial, what are the mean and variance?
-
-```{admonition} Answer
+3. یک بازیکن بسکتبال ۷۵٪ نرخ موفقیت در پرتاب آزاد دارد. اگر یک پرتاب آزاد را به‌عنوان آزمایش Bernoulli مدل کنیم، میانگین و واریانس چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Mean = 0.75, Variance = 0.75 × 0.25 = 0.1875**
+**میانگین = 0.75، واریانس = 0.75 × 0.25 = 0.1875**
 
-Using the formulas E[X] = p and Var(X) = p(1-p):
+با فرمول‌های E[X] = p و Var(X) = p(1-p):
 - E[X] = 0.75
 - Var(X) = 0.75 × (1 - 0.75) = 0.75 × 0.25 = 0.1875
 ```
-
-4. You roll a six-sided die once. Is this well-modeled by a Bernoulli distribution?
-
-```{admonition} Answer
+4. یک تاس شش‌وجهی را یک‌بار می‌اندازید. آیا این با توزیع Bernoulli به‌خوبی مدل می‌شود؟
+```{admonition} پاسخ
 :class: dropdown
 
-**No** - A Bernoulli distribution requires exactly **two possible outcomes**. A die roll has 6 outcomes (1, 2, 3, 4, 5, 6), so Bernoulli doesn't apply directly.
+**خیر** — توزیع Bernoulli دقیقاً **دو پیامد ممکن** می‌خواهد. پرتاب تاس ۶ پیامد دارد (1, 2, 3, 4, 5, 6)، پس Bernoulli مستقیماً اعمال نمی‌شود.
 
-**However**, you *could* use Bernoulli if you redefined the experiment with a binary outcome:
-- "Does the die show a 6?" (Yes/No) → Bernoulli with p = 1/6
-- "Is the result even?" (Yes/No) → Bernoulli with p = 1/2
+**با این حال**، *می‌توانید* از Bernoulli استفاده کنید اگر آزمایش را با پیامد دودویی بازتعریف کنید:
+- «آیا تاس ۶ نشان می‌دهد؟» (بله/خیر) → Bernoulli با p = 1/6
+- «آیا نتیجه زوج است؟» (بله/خیر) → Bernoulli با p = 1/2
 
-The key: Bernoulli requires exactly two outcomes.
+نکته کلیدی: Bernoulli دقیقاً دو پیامد می‌خواهد.
 ```
-
-5. True or False: A Bernoulli random variable can only take on the values 0 and 1.
-
-```{admonition} Answer
+5. درست یا نادرست: یک متغیر تصادفی Bernoulli فقط می‌تواند مقادیر ۰ و ۱ بگیرد.
+```{admonition} پاسخ
 :class: dropdown
 
-**True** - By definition, a Bernoulli random variable X ∈ {0, 1}, where:
-- X = 1 represents "success" with probability p
-- X = 0 represents "failure" with probability 1-p
+**درست** — طبق تعریف، متغیر تصادفی Bernoulli دارای X ∈ {0, 1} است، که:
+- X = 1 نمایانگر «موفقیت» با احتمال p است
+- X = 0 نمایانگر «شکست» با احتمال 1-p است
 
-These are the only two possible outcomes.
+این دو تنها پیامد ممکن هستند.
 ```
-
 +++
+## ۲. توزیع Binomial
 
-## 2. Binomial Distribution
+توزیع Binomial تعداد موفقیت‌ها در *تعداد ثابتی* از آزمایش‌های مستقل Bernoulli را مدل می‌کند، جایی که هر آزمایش همان احتمال موفقیت را دارد.
 
-The Binomial distribution models the number of successes in a *fixed number* of independent Bernoulli trials, where each trial has the same probability of success.
+**مثال ملموس**
 
-**Concrete Example**
+فرض کنید یک سکه منصفانه را ۱۰ بار می‌اندازید. هر پرتاب یک آزمایش Bernoulli با p = 0.5 (احتمال شیر) است. چند شیر می‌گیرید؟
 
-Suppose you flip a fair coin 10 times. Each flip is a Bernoulli trial with p = 0.5 (probability of heads). How many heads will you get?
+این را با متغیر تصادفی $X$ مدل می‌کنیم:
+- $X$ = تعداد شیرها در ۱۰ پرتاب
+- $X$ می‌تواند مقادیر 0, 1, 2, ..., 10 بگیرد
 
-We model this with a random variable $X$:
-- $X$ = the number of heads in 10 flips
-- $X$ can take values 0, 1, 2, ..., 10
+احتمال‌ها:
+- $P(X = 0)$ = احتمال ۰ شیر (همه خط)
+- $P(X = 5)$ = احتمال دقیقاً ۵ شیر
+- $P(X = 10)$ = احتمال ۱۰ شیر (همه شیر)
 
-The probabilities are:
-- $P(X = 0)$ = probability of 0 heads (all tails)
-- $P(X = 5)$ = probability of exactly 5 heads
-- $P(X = 10)$ = probability of 10 heads (all heads)
+**PMF دوجمله‌ای**
 
-**The Binomial PMF**
-
-For $n$ independent trials with success probability $p$:
-
+برای $n$ آزمایش مستقل با احتمال موفقیت $p$:
 $$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} $$
-
 for $k = 0, 1, \dots, n$
 
-where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient (number of ways to choose $k$ successes from $n$ trials).
+که $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ ضریب دوجمله‌ای (تعداد روش‌های انتخاب $k$ موفقیت از $n$ آزمایش) است.
 
-:::{admonition} Understanding the Binomial Formula
+:::{admonition} درک فرمول Binomial
 :class: note
 
-The Binomial PMF formula combines probability and counting:
-
+فرمول PMF دوجمله‌ای احتمال و شمارش را ترکیب می‌کند:
 $$P(X=k) = \binom{n}{k} \cdot p^k \cdot (1-p)^{n-k}$$
+**تجزیه فرمول:**
+- **$p^k$**: احتمال $k$ موفقیت — هر موفقیت یک آزمایش مستقل Bernoulli با احتمال $p$ است
+- **$(1-p)^{n-k}$**: احتمال $(n-k)$ شکست — هر شکست یک آزمایش مستقل Bernoulli با احتمال $1-p$ است
+- **$\binom{n}{k}$**: تعداد روش‌های چیدمان $k$ موفقیت در $n$ موقعیت آزمایش
 
-**Breaking down the formula:**
-- **$p^k$**: Probability of $k$ successes — each success is an independent Bernoulli trial with probability $p$
-- **$(1-p)^{n-k}$**: Probability of $(n-k)$ failures — each failure is an independent Bernoulli trial with probability $1-p$
-- **$\binom{n}{k}$**: Number of ways to arrange $k$ successes among $n$ trial positions
+**دیدگاه احتمالاتی (آزمایش‌های Bernoulli):**
 
-**The probabilistic view (Bernoulli trials):**
+هر دنباله مشخص از $k$ موفقیت و $(n-k)$ شکست احتمال $p^k(1-p)^{n-k}$ دارد (به‌خاطر استقلال آزمایش‌ها). مثلاً دنباله «موفقیت، موفقیت، شکست» احتمال $p \cdot p \cdot (1-p) = p^2(1-p)$ دارد.
 
-Any specific sequence of $k$ successes and $(n-k)$ failures has probability $p^k(1-p)^{n-k}$ (by independence of trials). For example, the sequence "success, success, failure" has probability $p \cdot p \cdot (1-p) = p^2(1-p)$.
+این نشان می‌دهد چرا Binomial «موفقیت‌ها در آزمایش‌های تکراری Bernoulli را می‌شمارد»: از پایه با احتمال Bernoulli $p$ برای هر آزمایش ساخته شده است.
 
-This shows why Binomial "counts successes in repeated Bernoulli trials": it's built from the ground up using the Bernoulli probability $p$ for each trial.
+**دیدگاه ترکیبی (تکنیک‌های شمارش):**
 
-**The combinatorial view (counting techniques):**
+ضریب دوجمله‌ای $\binom{n}{k}$ یک **ترکیب** است که تعداد روش‌های انتخاب $k$ مورد از $n$ مورد را وقتی ترتیب مهم نیست می‌شمارد (به [فصل ۳: ترکیبات](chapter_03.md#combinations-when-order-doesnt-matter) مراجعه کنید).
 
-The binomial coefficient $\binom{n}{k}$ is a **combination** that counts the number of ways to choose $k$ items from $n$ items when order doesn't matter (see [Chapter 3: Combinations](chapter_03.md#combinations-when-order-doesnt-matter)).
+در این زمینه، **تعداد دنباله‌های مختلف** از $n$ آزمایش که دقیقاً $k$ موفقیت می‌دهند را می‌شمارد. مثلاً با $n=3$ آزمایش و $k=2$ موفقیت: $\binom{3}{2} = 3$ نمایانگر سه دنباله SSF، SFS و FSS است (که S=موفقیت، F=شکست).
 
-In our context, it counts **how many different sequences** of $n$ trials yield exactly $k$ successes. For example, with $n=3$ trials and $k=2$ successes: $\binom{3}{2} = 3$ represents the three sequences SSF, SFS, and FSS (where S=success, F=failure).
+**چرا ضرب می‌کنیم:** هر یک از $\binom{n}{k}$ دنباله احتمال یکسان $p^k(1-p)^{n-k}$ دارد. برای گرفتن احتمال کل دقیقاً $k$ موفقیت (به هر ترتیبی)، تعداد دنباله‌ها را در احتمال هر دنباله ضرب می‌کنیم.
 
-**Why we multiply:** Each of the $\binom{n}{k}$ sequences has the same probability $p^k(1-p)^{n-k}$. To get the total probability of exactly $k$ successes (in any order), we multiply the number of sequences by the probability of each sequence.
-
-**Visual example:** Here's how it works for $n=3$ trials, $k=2$ successes, with $p=0.6$:
-
+**مثال مصور:** این‌طور برای $n=3$ آزمایش، $k=2$ موفقیت، با $p=0.6$ کار می‌کند:
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -622,12 +582,10 @@ ax.text(0.5, 0.10, why,
 plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
-
-The diagram shows how the formula components work together: we count the sequences (3), calculate the probability of each sequence (0.144), and multiply to get the total probability of exactly 2 successes (0.432).
+نمودار نشان می‌دهد اجزای فرمول چگونه با هم کار می‌کنند: دنباله‌ها را می‌شماریم (۳)، احتمال هر دنباله را محاسبه می‌کنیم (0.144)، و ضرب می‌کنیم تا احتمال کل دقیقاً ۲ موفقیت (0.432) به‌دست آید.
 :::
 
-Let's verify this works for our coin flip example (n=10, p=0.5):
-
+بیایید تأیید کنیم این برای مثال پرتاب سکه ما (n=10, p=0.5) درست کار می‌کند:
 $$
 \begin{align}
 P(X=5) &= \binom{10}{5} p^5 (1-p)^{10-5} \\
@@ -637,25 +595,23 @@ P(X=5) &= \binom{10}{5} p^5 (1-p)^{10-5} \\
 &\approx 0.246 \quad \checkmark
 \end{align}
 $$
+**ویژگی‌های کلیدی**
 
-**Key Characteristics**
+- **سناریوها**: تعداد شیر در پرتاب سکه، اقلام معیوب در یک دسته، پرتاب‌های آزاد موفق، حدس‌های درست در آزمون، مشتریانی که خرید می‌کنند
+- **پارامترها**:
+    - $n$: تعداد آزمایش‌های مستقل
+    - $p$: احتمال موفقیت در هر آزمایش ($0 \le p \le 1$)
+- **متغیر تصادفی**: $X \in \{0, 1, 2, ..., n\}$
 
-- **Scenarios**: Number of heads in coin flips, defective items in a batch, successful free throws, correct guesses on a test, customers who purchase
-- **Parameters**:
-    - $n$: number of independent trials
-    - $p$: probability of success on each trial ($0 \le p \le 1$)
-- **Random Variable**: $X \in \{0, 1, 2, ..., n\}$
+**میانگین:** $E[X] = np$
 
-**Mean:** $E[X] = np$
+**واریانس:** $Var(X) = np(1-p)$
 
-**Variance:** $Var(X) = np(1-p)$
+**انحراف معیار:** $SD(X) = \sqrt{np(1-p)}$
 
-**Standard Deviation:** $SD(X) = \sqrt{np(1-p)}$
+**مصورسازی توزیع**
 
-**Visualizing the Distribution**
-
-Let's visualize a Binomial distribution with $n = 10$ and $p = 0.5$ (our coin flip example):
-
+بیایید توزیع Binomial با $n = 10$ و $p = 0.5$ را مصور کنیم (مثال پرتاب سکه ما):
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -694,9 +650,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
-
-The PMF shows the probability distribution for the number of heads in 10 coin flips. The distribution is symmetric around the mean ($np = 5$) since $p = 0.5$. The shaded region shows mean ± 1 standard deviation ($\sqrt{np(1-p)} = \sqrt{2.5} \approx 1.58$).
-
+PMF توزیع احتمال تعداد شیرها در ۱۰ پرتاب سکه را نشان می‌دهد. توزیع حول میانگین ($np = 5$) متقارن است زیرا $p = 0.5$. ناحیه سایه‌دار میانگین ± ۱ انحراف معیار ($\sqrt{np(1-p)} = \sqrt{2.5} \approx 1.58$) را نشان می‌دهد.
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -721,20 +675,18 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+CDF مقدار P(X ≤ k)، احتمال تجمعی k یا کمتر شیر را نشان می‌دهد. خط چین قرمز میانگین را نشان می‌دهد.
 
-The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads. The red dashed line marks the mean.
-
-:::{admonition} Example: Sales Calls with n = 20, p = 0.15
+:::{admonition} مثال: تماس‌های فروش با n = 20, p = 0.15
 :class: tip
 
-Modeling the number of successful sales calls out of 20, where each call has a 0.15 probability of success.
+مدل‌سازی تعداد تماس‌های فروش موفق از ۲۰ تماس، که هر تماس ۰.۱۵ احتمال موفقیت دارد.
 
-We'll demonstrate how to use [`scipy.stats.binom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html) to calculate probabilities, compute statistics, and generate random samples.
+نحوه استفاده از [`scipy.stats.binom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html) برای محاسبه احتمال‌ها، آمار و تولید نمونه‌های تصادفی را نشان می‌دهیم.
 
-**Setting up the distribution:**
+**تنظیم توزیع:**
 
-We create a binomial distribution object with our parameters (20 trials, 0.15 success probability):
-
+شیء توزیع دوجمله‌ای را با پارامترهایمان (۲۰ آزمایش، احتمال موفقیت ۰.۱۵) می‌سازیم:
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -745,23 +697,19 @@ n_calls = 20
 p_success_call = 0.15
 binomial_rv = stats.binom(n=n_calls, p=p_success_call)
 ```
+**محاسبه احتمال‌های مشخص با PMF:**
 
-**Calculating specific probabilities using the PMF:**
-
-What's the probability of getting exactly 5 successful sales out of 20 calls?
-
+احتمال دقیقاً ۵ فروش موفق از ۲۰ تماس چقدر است؟
 ```{code-cell} ipython3
 # PMF: Probability of exactly k successes
 k_successes = 5
 print(f"P(X={k_successes} successes out of {n_calls}): {binomial_rv.pmf(k_successes):.4f}")
 ```
+با احتمال ۱۰.۲۳٪، ۵ موفقیت نسبتاً محتمل است اما محتمل‌ترین پیامد نیست (مد در ۳ موفقیت است، مطابق میانگین np = 20 × 0.15 = 3).
 
-With a 10.23% probability, 5 successes is reasonably likely but not the most probable outcome (the mode is at 3 successes, matching the mean of np = 20 × 0.15 = 3).
+**محاسبه احتمال‌های تجمعی با CDF:**
 
-**Calculating cumulative probabilities using the CDF:**
-
-What's the probability of getting 3 or fewer successes? Or more than 3?
-
+احتمال ۳ یا کمتر موفقیت چقدر است؟ یا بیش از ۳؟
 ```{code-cell} ipython3
 # CDF: Probability of k or fewer successes
 k_or_fewer = 3
@@ -769,41 +717,27 @@ print(f"P(X <= {k_or_fewer} successes out of {n_calls}): {binomial_rv.cdf(k_or_f
 print(f"P(X > {k_or_fewer} successes out of {n_calls}): {1 - binomial_rv.cdf(k_or_fewer):.4f}")
 print(f"P(X > {k_or_fewer} successes out of {n_calls}) (using sf): {binomial_rv.sf(k_or_fewer):.4f}")
 ```
+۶۴.۸۵٪ احتمال ۳ یا کمتر موفقیت وجود دارد، یعنی ۳۵.۱۵٪ احتمال بیش از ۳ موفقیت.
 
-There's a 64.85% chance of getting 3 or fewer successes, meaning there's a 35.15% chance of getting more than 3 successes.
+**یادداشت درباره تابع بقا (`sf`):** متد `sf()` **تابع بقا (survival function)** را محاسبه می‌کند که P(X > k) = 1 - P(X ≤ k) است. اگرچه از نظر ریاضی معادل `1 - cdf(k)` است، استفاده مستقیم از `sf(k)` ترجیح دارد زیرا دقت عددی بهتری برای احتمال‌های بسیار کوچک یا بزرگ فراهم می‌کند و قصد کد را روشن‌تر می‌سازد.
 
-**Note on Survival Function (`sf`):** The `sf()` method computes the **survival function**, which is P(X > k) = 1 - P(X ≤ k). While mathematically equivalent to `1 - cdf(k)`, using `sf(k)` directly is preferable because it provides better numerical accuracy when dealing with very small or very large probabilities, and makes the code's intent clearer.
+**محاسبه میانگین و واریانس:**
 
-**Computing mean and variance:**
-
-Let's verify the theoretical formulas E[X] = np and Var(X) = np(1-p):
-
+بیایید فرمول‌های نظری E[X] = np و Var(X) = np(1-p) را تأیید کنیم:
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected number of successes): {binomial_rv.mean():.2f}")
 print(f"Variance: {binomial_rv.var():.2f}")
 print(f"Standard Deviation: {binomial_rv.std():.2f}")
 ```
-
-As expected, we get a mean of 3.00 successes (20 × 0.15) with a standard deviation of about 1.6, indicating moderate variability around the mean.
-
-**Generating random samples:**
-
-We can simulate many rounds of 20 sales calls to see the distribution of outcomes:
-
+طبق انتظار، میانگین ۳.۰۰ موفقیت (20 × 0.15) با انحراف معیار حدود ۱.۶ به‌دست می‌آید که تغییرپذیری متوسط حول میانگین را نشان می‌دهد.
 ```{code-cell} ipython3
 # Generate random samples
 n_simulations = 1000
 samples = binomial_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of successes in {n_calls} calls ({n_simulations} simulations): {samples[:20]}...") # Print first 20
 ```
-
-These samples represent 1000 different salespeople each making 20 calls, showing the natural variation in outcomes.
-
-**Visualizing the PMF:**
-
-Let's see the complete probability distribution across all possible outcomes (0 to 20 successes):
-
+این نمونه‌ها نمایانگر ۱۰۰۰ فروشنده مختلف هستند که هر کدام ۲۰ تماس می‌گیرند و تغییرپذیری طبیعی پیامدها را نشان می‌دهند.
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -811,7 +745,6 @@ Let's see the complete probability distribution across all possible outcomes (0 
 if os.path.exists('ch07_binomial_pmf.svg'):
     os.remove('ch07_binomial_pmf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the PMF
 k_values = np.arange(0, n_calls + 1)
@@ -825,19 +758,12 @@ plt.ylabel("Probability")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_pmf.svg', format='svg', bbox_inches='tight')
 ```
-
-The PMF shows the probability distribution for the number of successful calls. With n = 20 and p = 0.15, the distribution is centered around np = 3 successes (the peak). The distribution is slightly right-skewed because p < 0.5. Notice that getting 0, 1, or 2 successes is quite likely, while getting more than 8 successes is very unlikely.
-
-**Visualizing the CDF:**
-
-The cumulative distribution shows how probability accumulates as we move from 0 to 20 successes:
-
+PMF توزیع احتمال تعداد تماس‌های موفق را نشان می‌دهد. با n = 20 و p = 0.15، توزیع حول np = 3 موفقیت (قله) متمرکز است. توزیع کمی چوله به راست است زیرا p < 0.5. توجه کنید ۰، ۱ یا ۲ موفقیت احتمال زیادی دارد، در حالی که بیش از ۸ موفقیت بسیار بعید است.
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -845,7 +771,6 @@ The cumulative distribution shows how probability accumulates as we move from 0 
 if os.path.exists('ch07_binomial_cdf.svg'):
     os.remove('ch07_binomial_cdf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the CDF
 cdf_values = binomial_rv.cdf(k_values)
@@ -858,118 +783,96 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_cdf.svg', format='svg', bbox_inches='tight')
 ```
-
-The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer successful calls. We can see that P(X ≤ 3) ≈ 0.65 (matching our earlier calculation), and by k = 8, we've accumulated nearly all the probability (close to 1.0).
-
-:::
-
-**Quick Check Questions**
-
-1. You roll a die 12 times and count how many times you get a 6. Is this a good fit for the Binomial distribution? Why or why not?
-
-```{admonition} Answer
+CDF مقدار P(X ≤ k)، احتمال تجمعی k یا کمتر تماس موفق را نشان می‌دهد. می‌بینیم P(X ≤ 3) ≈ 0.65 (مطابق محاسبه قبلی) و تا k = 8 تقریباً همه احتمال تجمع یافته (نزدیک ۱.۰).
+```{admonition} پاسخ
 :class: dropdown
 
-**Yes, this is a good fit for Binomial.** It satisfies all the requirements: (1) fixed number of trials (n = 12 rolls), (2) each trial is independent, (3) only two outcomes per trial (rolling a 6 vs not rolling a 6), and (4) constant success probability (p = 1/6 for each roll). The parameters would be n = 12 and p = 1/6.
+**بله، این برای Binomial مناسب است.** همه الزامات را برآورده می‌کند: (1) تعداد ثابت آزمایش (n = 12 پرتاب)، (2) هر آزمایش مستقل است، (3) فقط دو پیامد در هر آزمایش (آوردن ۶ در مقابل نیاوردن ۶)، و (4) احتمال موفقیت ثابت (p = 1/6 برای هر پرتاب). پارامترها n = 12 و p = 1/6 خواهند بود.
 ```
-
-2. For a Binomial distribution with n = 8 and p = 0.25, what is the expected value (mean)?
-
-```{admonition} Answer
+2. برای توزیع Binomial با n = 8 و p = 0.25، امید ریاضی (میانگین) چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**E[X] = np = 8 × 0.25 = 2** - The expected number of successes in 8 trials is 2.
+**E[X] = np = 8 × 0.25 = 2** — امید ریاضی تعداد موفقیت‌ها در ۸ آزمایش برابر ۲ است.
 ```
-
-3. A basketball player has a 70% free throw success rate. You watch her take 15 free throws. Does this scenario fit the Binomial distribution assumptions?
-
-```{admonition} Answer
+3. یک بازیکن بسکتبال ۷۰٪ نرخ موفقیت در پرتاب آزاد دارد. ۱۵ پرتاب آزاد او را تماشا می‌کنید. آیا این سناریو با فرضیات توزیع Binomial سازگار است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Yes, this fits the Binomial distribution** with n = 15 and p = 0.7. Each free throw is independent, has two outcomes (make or miss), and the success probability remains constant at 0.7 for each attempt. We can use this to calculate probabilities like "What's the chance she makes at least 12 out of 15?"
+**بله، این با توزیع Binomial سازگار است** با n = 15 و p = 0.7. هر پرتاب آزاد مستقل است، دو پیامد دارد (گل یا خطا) و احتمال موفقیت برای هر تلاش در ۰.۷ ثابت می‌ماند. می‌توانیم از این برای محاسبه احتمالاتی مثل «احتمال حداقل ۱۲ گل از ۱۵ چقدر است؟» استفاده کنیم.
 ```
-
-4. For a Binomial(n=20, p=0.3) distribution, what is the variance?
-
-```{admonition} Answer
+4. برای توزیع Binomial(n=20, p=0.3)، واریانس چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
 **Var(X) = np(1-p) = 20 × 0.3 × 0.7 = 4.2**
 
-Using the variance formula for Binomial distributions.
+با فرمول واریانس توزیع‌های Binomial.
 ```
-
-5. True or False: In a Binomial distribution, each trial must have the same probability of success.
-
-```{admonition} Answer
+5. درست یا نادرست: در توزیع Binomial، هر آزمایش باید همان احتمال موفقیت را داشته باشد.
+```{admonition} پاسخ
 :class: dropdown
 
-**True** - The Binomial distribution requires:
-1. Fixed number of independent trials (n)
-2. Each trial has only two outcomes (success/failure)
-3. **Constant success probability (p) across all trials**
-4. Trials are independent
+**درست** — توزیع Binomial نیاز دارد:
+1. تعداد ثابت آزمایش‌های مستقل (n)
+2. هر آزمایش فقط دو پیامد (موفقیت/شکست)
+3. **احتمال موفقیت ثابت (p) در همه آزمایش‌ها**
+4. آزمایش‌ها مستقل باشند
 
-If the success probability changes from trial to trial, Binomial doesn't apply.
+اگر احتمال موفقیت از آزمایشی به آزمایش دیگر تغییر کند، Binomial اعمال نمی‌شود.
 ```
-
 +++
+## ۳. توزیع Geometric
 
-## 3. Geometric Distribution
+توزیع Geometric تعداد آزمایش‌های مستقل Bernoulli لازم برای رسیدن به *اولین* موفقیت را مدل می‌کند.
 
-The Geometric distribution models the number of independent Bernoulli trials needed to get the *first* success.
+**مثال ملموس**
 
-**Concrete Example**
+پرتاب‌های آزاد می‌زنید تا اولین سبد را بزنید. هر پرتاب ۰.۴ احتمال موفقیت دارد. چند پرتاب طول می‌کشد تا اولین سبد را بزنید؟
 
-You're shooting free throws until you make your first basket. Each shot has a 0.4 probability of success. How many shots will it take to make your first basket?
+این را با متغیر تصادفی $X$ مدل می‌کنیم:
+- $X$ = شماره آزمایشی که اولین موفقیت در آن رخ می‌دهد
+- $X$ می‌تواند مقادیر 1, 2, 3, ... بگیرد (اولین پرتاب، دومین پرتاب و غیره)
 
-We model this with a random variable $X$:
-- $X$ = the trial number on which the first success occurs
-- $X$ can take values 1, 2, 3, ... (first shot, second shot, etc.)
+احتمال‌ها:
+- $P(X = 1)$ = موفقیت در اولین پرتاب = 0.4
+- $P(X = 2)$ = خطا در اول، موفقیت در دوم = $(1-0.4) \times 0.4 = 0.24$
+- $P(X = 3)$ = خطا در دو اول، موفقیت در سوم = $(1-0.4)^2 \times 0.4 = 0.144$
 
-The probabilities are:
-- $P(X = 1)$ = make it on first shot = 0.4
-- $P(X = 2)$ = miss first, make second = $(1-0.4) \times 0.4 = 0.24$
-- $P(X = 3)$ = miss first two, make third = $(1-0.4)^2 \times 0.4 = 0.144$
+**PMF هندسی**
 
-**The Geometric PMF**
-
-For trials with success probability $p$:
-
+برای آزمایش‌ها با احتمال موفقیت $p$:
 $$ P(X=k) = (1-p)^{k-1} p $$
-
 for $k = 1, 2, 3, \dots$
 
-This means $k-1$ failures followed by one success.
+یعنی $k-1$ شکست متوالی و سپس یک موفقیت.
 
-Let's verify for our example (p=0.4):
+بیایید برای مثال ما (p=0.4) تأیید کنیم:
 - $P(X=2) = (0.6)^1 (0.4) = 0.24$ ✓
 
-:::{admonition} Why This Formula Works
+:::{admonition} چرا این فرمول کار می‌کند
 :class: note
 
-The formula $(1-p)^{k-1} p$ has an intuitive structure:
+فرمول $(1-p)^{k-1} p$ ساختار شهودی دارد:
 
-- **$(1-p)^{k-1}$**: Probability of $k-1$ consecutive failures
-- **$p$**: Probability of success on the $k$-th trial
-- **Multiply them**: Since trials are independent, we multiply the probabilities
+- **$(1-p)^{k-1}$**: احتمال $k-1$ شکست متوالی
+- **$p$**: احتمال موفقیت در آزمایش $k$-ام
+- **ضرب آن‌ها**: چون آزمایش‌ها مستقل‌اند، احتمال‌ها را ضرب می‌کنیم
 
-**Example:** For $P(X=3)$ with $p=0.4$:
-- First two trials must fail: $(0.6) \times (0.6) = 0.36$
-- Third trial must succeed: $0.4$
-- Combined: $0.36 \times 0.4 = 0.144$
+**مثال:** برای $P(X=3)$ با $p=0.4$:
+- دو آزمایش اول باید شکست بخورند: $(0.6) \times (0.6) = 0.36$
+- آزمایش سوم باید موفق باشد: $0.4$
+- ترکیب: $0.36 \times 0.4 = 0.144$
 
-This is why the formula captures "trials until first success" - it requires all previous trials to fail and the final trial to succeed.
+به همین دلیل فرمول «آزمایش تا اولین موفقیت» را می‌گیرد — همه آزمایش‌های قبلی باید شکست بخورند و آزمایش نهایی موفق باشد.
 :::
 
-**Visual example:** Here's how the geometric distribution works with $p=0.4$ (our free throw example):
-
+**مثال مصور:** این‌طور توزیع هندسی با $p=0.4$ (مثال پرتاب آزاد ما) کار می‌کند:
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -1129,33 +1032,31 @@ ax.text(0.5, 0.036, r"$P(X=3) = (0.6)^2 \times 0.4 = 0.36 \times 0.4 = 0.144$",
 plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+نمودار نشان می‌دهد توزیع هندسی چگونه کار می‌کند: هر شکست اضافه قبل از موفقیت پیامد را کم‌محتمل‌تر می‌کند. احتمال به‌صورت نمایی کاهش می‌یابد — توجه کنید P(X=1) = 0.4000 بسیار بزرگ‌تر از P(X=5) = 0.0518 است.
 
-The diagram shows how the geometric distribution works: each additional failure before success makes the outcome less likely. The probability decreases exponentially - notice how P(X=1) = 0.4000 is much larger than P(X=5) = 0.0518.
+**ویژگی‌های کلیدی**
 
-**Key Characteristics**
+- **سناریوها**: پرتاب سکه تا اولین شیر، درخواست شغل تا اولین پیشنهاد، تلاش برای قبولی در آزمون، ضربه تا اولین hit
+- **پارامتر**: $p$، احتمال موفقیت در هر آزمایش ($0 < p \le 1$)
+- **متغیر تصادفی**: $X \in \{1, 2, 3, ...\}$
 
-- **Scenarios**: Coin flips until first Head, job applications until first offer, attempts to pass an exam, at-bats until first hit
-- **Parameter**: $p$, probability of success on each trial ($0 < p \le 1$)
-- **Random Variable**: $X \in \{1, 2, 3, ...\}$
+**میانگین:** $E[X] = \frac{1}{p}$
 
-**Mean:** $E[X] = \frac{1}{p}$
+**واریانس:** $Var(X) = \frac{1-p}{p^2}$
 
-**Variance:** $Var(X) = \frac{1-p}{p^2}$
+**انحراف معیار:** $SD(X) = \frac{\sqrt{1-p}}{p}$
 
-**Standard Deviation:** $SD(X) = \frac{\sqrt{1-p}}{p}$
+**ارتباط با توزیع‌های دیگر:** توزیع Geometric از آزمایش‌های مستقل **Bernoulli** ساخته شده و حالت خاص **توزیع Negative Binomial** با $r=1$ است (منتظر فقط یک موفقیت به‌جای $r$ موفقیت).
 
-**Relationship to Other Distributions:** The Geometric distribution is built from independent **Bernoulli trials** and is a special case of the **Negative Binomial distribution** with $r=1$ (waiting for just one success instead of $r$ successes).
-
-:::{admonition} Note
+:::{admonition} یادداشت
 :class: note
 
-`scipy.stats.geom` uses the same "trial number" definition as we do, where $k \in \{1, 2, 3, ...\}$ represents the trial on which the first success occurs. The PMF is $P(X=k) = (1-p)^{k-1}p$ for $k \geq 1$.
+`scipy.stats.geom` همان تعریف «شماره آزمایش» ما را استفاده می‌کند، جایی که $k \in \{1, 2, 3, ...\}$ آزمایشی را نشان می‌دهد که اولین موفقیت در آن رخ می‌دهد. PMF برابر $P(X=k) = (1-p)^{k-1}p$ برای $k \geq 1$ است.
 :::
 
-**Visualizing the Distribution**
+**مصورسازی توزیع**
 
-Let's visualize a Geometric distribution with $p = 0.4$ (our free throw example):
-
+بیایید توزیع Geometric با $p = 0.4$ را مصور کنیم (مثال پرتاب آزاد ما):
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -1194,9 +1095,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
-
-The PMF shows exponentially decreasing probabilities - you're most likely to succeed on the first few trials. The shaded region shows mean ± 1 standard deviation.
-
+PMF احتمالات نزولی نمایی نشان می‌دهد — محتمل‌ترین موفقیت در چند آزمایش اول است. ناحیه سایه‌دار میانگین ± ۱ انحراف معیار را نشان می‌دهد.
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -1222,20 +1121,18 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+CDF مقدار P(X ≤ k) را نشان می‌دهد که با افزایش k به ۱ نزدیک می‌شود (در نهایت موفق می‌شوید). خط چین قرمز میانگین را نشان می‌دهد.
 
-The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succeed). The red dashed line marks the mean.
-
-:::{admonition} Example: Certification Exam with p = 0.6
+:::{admonition} مثال: آزمون گواهینامه با p = 0.6
 :class: tip
 
-Modeling the number of attempts needed to pass a certification exam where the pass probability is 0.6.
+مدل‌سازی تعداد تلاش‌های لازم برای قبولی در آزمون گواهینامه با احتمال قبولی ۰.۶.
 
-Let's use [`scipy.stats.geom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.geom.html) to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
+از [`scipy.stats.geom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.geom.html) برای بررسی احتمال‌ها و محاسبه امید ریاضی استفاده می‌کنیم. به‌خاطر داشته باشید تعریف scipy تعداد شکست‌ها قبل از اولین موفقیت را می‌شمارد، پس بین دو تفسیر جابه‌جا می‌شویم.
 
-**Setting up the distribution:**
+**تنظیم توزیع:**
 
-We create a geometric distribution with a success probability of 0.6 (60% pass rate):
-
+توزیع هندسی با احتمال موفقیت ۰.۶ (نرخ قبولی ۶۰٪) می‌سازیم:
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -1245,23 +1142,19 @@ import matplotlib.pyplot as plt
 p_pass = 0.6
 geom_rv = stats.geom(p=p_pass)
 ```
+**محاسبه احتمال‌های مشخص با PMF:**
 
-**Calculating specific probabilities using the PMF:**
-
-What's the probability of passing for the first time on the 3rd attempt? This means failing the first two attempts and passing on the third:
-
+احتمال قبولی برای اولین بار در تلاش سوم چقدر است؟ یعنی دو تلاش اول ناموفق و قبولی در سوم:
 ```{code-cell} ipython3
 # PMF: Probability that the first success occurs on trial k (k=1, 2, ...)
 k_trial = 3 # Third attempt
 print(f"P(First pass on attempt {k_trial}): {geom_rv.pmf(k_trial):.4f}")
 ```
+۹.۶٪ احتمال قبولی دقیقاً در تلاش سوم وجود دارد. این برابر (1-0.6)² × 0.6 = 0.4² × 0.6 = 0.096 محاسبه می‌شود.
 
-There's a 9.6% chance of passing on exactly the 3rd attempt. This is calculated as (1-0.6)² × 0.6 = 0.4² × 0.6 = 0.096.
+**محاسبه احتمال‌های تجمعی با CDF:**
 
-**Calculating cumulative probabilities using the CDF:**
-
-What's the probability of passing within the first 2 attempts?
-
+احتمال قبولی در ۲ تلاش اول چقدر است؟
 ```{code-cell} ipython3
 # CDF: Probability that the first success occurs on or before trial k
 k_or_before = 2
@@ -1269,13 +1162,11 @@ print(f"P(First pass on or before attempt {k_or_before}): {geom_rv.cdf(k_or_befo
 print(f"P(First pass takes more than {k_or_before} attempts): {1 - geom_rv.cdf(k_or_before):.4f}")
 print(f"P(First pass takes more than {k_or_before} attempts) (using sf): {geom_rv.sf(k_or_before):.4f}")
 ```
+۸۴٪ احتمال قبولی در ۲ تلاش وجود دارد، یعنی فقط ۱۶٪ احتمال نیاز به بیش از ۲ تلاش.
 
-There's an 84% chance of passing within 2 attempts, meaning only a 16% chance you'll need more than 2 attempts.
+**محاسبه میانگین و واریانس:**
 
-**Computing mean and variance:**
-
-Let's find the expected number of attempts needed:
-
+بیایید تعداد مورد انتظار تلاش‌های لازم را بیابیم:
 ```{code-cell} ipython3
 # Mean and Variance
 mean_trials = geom_rv.mean()
@@ -1283,26 +1174,22 @@ var_trials = geom_rv.var()
 print(f"Mean number of attempts until first pass: {mean_trials:.2f}")
 print(f"Variance of number of attempts: {var_trials:.2f}")
 ```
+به‌طور میانگین ۱.۶۷ تلاش انتظار می‌رود (مطابق فرمول 1/p = 1/0.6). واریانس نسبتاً کم نشان می‌دهد بیشتر افراد در چند تلاش اول قبول می‌شوند.
 
-On average, you expect to need 1.67 attempts (which matches the formula 1/p = 1/0.6). The relatively low variance suggests most people will pass within the first few attempts.
+**تولید نمونه‌های تصادفی:**
 
-**Generating random samples:**
-
-We can simulate many students taking the exam repeatedly until they pass:
-
+می‌توانیم شبیه‌سازی کنیم بسیاری از دانشجویان تا قبولی مکرراً آزمون می‌دهند:
 ```{code-cell} ipython3
 # Generate random samples (trial numbers until first success)
 n_simulations = 1000
 samples_trials = geom_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of attempts until first pass ({n_simulations} simulations): {samples_trials[:20]}...")
 ```
+این ۱۰۰۰ نمونه تغییرپذیری طبیعی تعداد تلاش‌های مختلف دانشجویان را نشان می‌دهد.
 
-These 1000 samples show the natural variation in how many attempts different students might need.
+**مصورسازی PMF:**
 
-**Visualizing the PMF:**
-
-Let's visualize the probability of passing on each attempt number (showing the first 10 attempts):
-
+بیایید احتمال قبولی در هر شماره تلاش را مصور کنیم (۱۰ تلاش اول):
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -1310,7 +1197,6 @@ Let's visualize the probability of passing on each attempt number (showing the f
 if os.path.exists('ch07_geometric_pmf.svg'):
     os.remove('ch07_geometric_pmf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the PMF (using trial number k=1, 2, ...)
 k_values_trials = np.arange(1, 11) # Plot first 10 trials
@@ -1325,19 +1211,16 @@ plt.xticks(k_values_trials)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
 ```
+PMF احتمالات نزولی نمایی نشان می‌دهد — محتمل‌ترین قبولی در تلاش اول (۶۰٪)، سپس دوم (۲۴٪) و الی آخر. این کاهش نمایی «بی‌حافظه» منحصربه‌فرد توزیع Geometric است. میله‌ها پیشرونده کوچک‌تر می‌شوند و تا تلاش ۵ یا ۶ احتمال بسیار کم است.
 
-The PMF shows exponentially decreasing probabilities - you're most likely to pass on the first attempt (60%), then second attempt (24%), and so on. This characteristic "memoryless" exponential decay is unique to the geometric distribution. Notice how the bars get progressively smaller, with very low probabilities by attempt 5 or 6.
+**مصورسازی CDF:**
 
-**Visualizing the CDF:**
-
-The cumulative distribution shows the probability of passing by a given attempt:
-
+توزیع تجمعی احتمال قبولی تا یک تلاش مشخص را نشان می‌دهد:
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -1345,7 +1228,6 @@ The cumulative distribution shows the probability of passing by a given attempt:
 if os.path.exists('ch07_geometric_cdf.svg'):
     os.remove('ch07_geometric_cdf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the CDF (using trial number k=1, 2, ...)
 cdf_values = geom_rv.cdf(k_values_trials)
@@ -1359,146 +1241,131 @@ plt.xticks(k_values_trials)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_cdf.svg', format='svg', bbox_inches='tight')
 ```
-
-The CDF shows P(X ≤ k), rapidly approaching 1 as the attempt number increases. By attempt 2, there's an 84% chance of having passed, and by attempt 5, it's over 99%. This confirms that with p = 0.6, most people will pass within the first few attempts.
+CDF مقدار P(X ≤ k) را نشان می‌دهد که با افزایش شماره تلاش سریع به ۱ نزدیک می‌شود. تا تلاش ۲، ۸۴٪ احتمال قبولی وجود دارد و تا تلاش ۵ بیش از ۹۹٪. این تأیید می‌کند با p = 0.6 بیشتر افراد در چند تلاش اول قبول می‌شوند.
 
 :::
 
-**Quick Check Questions**
+**سؤالات مرور سریع**
 
-1. You flip a coin until you get your first Heads. What distribution models this and what is the parameter?
-
-```{admonition} Answer
+1. سکه را تا اولین شیر پرتاب می‌کنید. کدام توزیع این را مدل می‌کند و پارامتر چیست؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Geometric distribution with p = 0.5** - Counting trials until first success, each trial has p = 0.5 success probability.
+**توزیع Geometric با p = 0.5** — شمارش آزمایش‌ها تا اولین موفقیت، هر آزمایش احتمال موفقیت p = 0.5 دارد.
 ```
-
-2. For a Geometric distribution with p = 0.25, what is the expected value (mean)?
-
-```{admonition} Answer
+2. برای توزیع Geometric با p = 0.25، امید ریاضی (میانگین) چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**E[X] = 1/p = 1/0.25 = 4** - Expected number of trials until first success.
+**E[X] = 1/p = 1/0.25 = 4** — امید ریاضی تعداد آزمایش‌ها تا اولین موفقیت.
 ```
-
-3. You're calling customer service and have a 20% chance each attempt of getting through. Should you model this with Geometric or Binomial?
-
-```{admonition} Answer
+3. با پشتیبانی تماس می‌گیرید و هر بار ۲۰٪ شانس وصل شدن دارید. با Geometric یا Binomial مدل کنید؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Geometric distribution** - You're waiting for the *first* success (getting through), not counting successes in a fixed number of tries. Geometric models "how many attempts until success" with p = 0.20.
+**توزیع Geometric** — منتظر *اولین* موفقیت (وصل شدن) هستید، نه شمارش موفقیت‌ها در تعداد ثابت تماس. Geometric «چند تلاش تا موفقیت» را با p = 0.20 مدل می‌کند.
 
-Binomial would apply if you made a fixed number of calls and counted how many got through.
+Binomial وقتی اعمال می‌شود که تعداد ثابتی تماس بگیرید و بشمارید چند تا وصل شد.
 ```
-
-4. Which is more likely for a Geometric distribution with p = 0.5: success on the 1st trial or success on the 3rd trial?
-
-```{admonition} Answer
+4. برای توزیع Geometric با p = 0.5 کدام محتمل‌تر است: موفقیت در آزمایش ۱ یا ۳؟
+```{admonition} پاسخ
 :class: dropdown
 
-**1st trial is more likely** - The Geometric PMF decreases exponentially with k, so P(X=1) > P(X=3).
+**آزمایش ۱ محتمل‌تر است** — PMF هندسی با k به‌صورت نمایی کاهش می‌یابد، پس P(X=1) > P(X=3).
 
-Specifically: P(X=1) = 0.5, while P(X=3) = (0.5)³ = 0.125
+به‌طور مشخص: P(X=1) = 0.5، در حالی که P(X=3) = (0.5)³ = 0.125
 ```
-
-5. For a Geometric distribution, why does the variance equal (1-p)/p²?
-
-```{admonition} Answer
+5. برای توزیع Geometric، چرا واریانس برابر (1-p)/p² است؟
+```{admonition} پاسخ
 :class: dropdown
 
-The variance formula Var(X) = (1-p)/p² reflects the increasing uncertainty as p decreases:
+فرمول واریانس Var(X) = (1-p)/p² افزایش عدم‌قطعیت با کاهش p را منعکس می‌کند:
 
-- When p is high (easy to succeed): variance is low (more predictable)
-- When p is low (hard to succeed): variance is high (could take many tries or get lucky early)
+- وقتی p بالاست (موفقیت آسان): واریانس کم است (قابل پیش‌بینی‌تر)
+- وقتی p پایین است (موفقیت سخت): واریانس بالاست (ممکن است تلاش‌های زیادی لازم باشد یا زود خوش‌شانس شوید)
 
-For example:
+مثلاً:
 - p = 0.5: Var(X) = 0.5/0.25 = 2
-- p = 0.1: Var(X) = 0.9/0.01 = 90 (much more variable!)
+- p = 0.1: Var(X) = 0.9/0.01 = 90 (بسیار متغیرتر!)
 ```
-
 +++
+## ۴. توزیع Negative Binomial
 
-## 4. Negative Binomial Distribution
+توزیع Negative Binomial تعداد آزمایش‌های مستقل Bernoulli لازم برای دستیابی به *تعداد ثابتی* از موفقیت‌ها ($r$) را مدل می‌کند. توزیع Geometric را تعمیم می‌دهد (جایی که $r=1$).
 
-The Negative Binomial distribution models the number of independent Bernoulli trials needed to achieve a *fixed number* of successes ($r$). It generalizes the Geometric distribution (where $r=1$).
-
-:::{admonition} Why "Negative Binomial"?
+:::{admonition} چرا «Negative Binomial»؟
 :class: note
 
-The name comes from a mathematical connection to the binomial theorem with negative exponents, not because anything is negative! A more intuitive name might be "inverse binomial":
+نام از ارتباط ریاضی با قضیه دوجمله‌ای با توان‌های منفی می‌آید، نه به‌خاطر منفی بودن چیزی! نام شهودی‌تر می‌تواند «دوجمله‌ای معکوس» باشد:
 
-- **Binomial**: Fix number of trials → count successes
-- **Negative Binomial**: Fix number of successes → count trials
+- **Binomial**: تعداد آزمایش‌ها را ثابت کن → موفقیت‌ها را بشمار
+- **Negative Binomial**: تعداد موفقیت‌ها را ثابت کن → آزمایش‌ها را بشمار
 
-Think of it as the binomial distribution "in reverse."
+مثل توزیع دوجمله‌ای «برعکس» فکر کنید.
 :::
 
-**Concrete Example**
+**مثال ملموس**
 
-You're rolling a die until you get 3 sixes. Each roll has p = 1/6 probability of rolling a six. How many rolls will it take to get your 3rd six?
+تاس می‌اندازید تا ۳ عدد شش بگیرید. هر پرتاب p = 1/6 احتمال آوردن شش دارد. چند پرتاب طول می‌کشد تا سومین شش را بگیرید؟
 
-We model this with a random variable $X$:
-- $X$ = the trial number on which the 3rd six appears
-- $X$ can take values 3, 4, 5, ... (minimum 3 rolls, could be more)
+این را با متغیر تصادفی $X$ مدل می‌کنیم:
+- $X$ = شماره آزمایشی که سومین شش در آن ظاهر می‌شود
+- $X$ می‌تواند مقادیر 3, 4, 5, ... بگیرد (حداقل ۳ پرتاب، ممکن است بیشتر)
 
-The probabilities are:
-- $P(X = 3)$ = all three rolls are sixes
-- $P(X = 4)$ = 2 sixes in first 3 rolls, then a six on 4th roll
-- And so on...
+احتمال‌ها:
+- $P(X = 3)$ = هر سه پرتاب شش باشند
+- $P(X = 4)$ = ۲ شش در ۳ پرتاب اول، سپس شش در پرتاب ۴
+- و الی آخر...
 
-**The Negative Binomial PMF**
+**PMF دوجمله‌ای منفی**
 
-For trials with success probability $p$ and target $r$ successes:
-
+برای آزمایش‌ها با احتمال موفقیت $p$ و هدف $r$ موفقیت:
 $$ P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} $$
-
 for $k = r, r+1, r+2, \dots$
 
-**Understanding the formula:** This means $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
+**درک فرمول:** یعنی $r-1$ موفقیت در $k-1$ آزمایش اول، و آزمایش $k$-ام موفقیت $r$-ام است.
 
-:::{admonition} Remembering r vs k
+:::{admonition} به‌خاطر سپردن r در برابر k
 :class: tip
 
-Think of **r** as "**r**equired" or "**r**epeat" - the fixed target number of successes you need.
+**r** را «**r**equired» یا «**r**epeat» بدانید — تعداد ثابت هدف موفقیت‌هایی که نیاز دارید.
 
-Think of **k** as "it too**k** this many trials" - the variable total number of trials.
+**k** را «it too**k** this many trials» بدانید — متغیر تعداد کل آزمایش‌ها.
 
-In our die example:
-- **r = 3** (we **r**equire 3 sixes - this is fixed)
-- **k = ?** (it could take **k** = 3, 4, 5, ... trials - this varies)
+در مثال تاس:
+- **r = 3** (به **r** شش نیاز داریم — ثابت است)
+- **k = ?** (ممکن است **k** = 3, 4, 5, ... آزمایش طول بکشد — متغیر است)
 
-Key: **r is fixed, k is random**
+نکته کلیدی: **r ثابت است، k تصادفی است**
 :::
 
-:::{admonition} Why This Formula Works
+:::{admonition} چرا این فرمول کار می‌کند
 :class: note
 
-To build intuition, let's see how the formula breaks down into three parts:
+برای شهود، بیایید ببینیم فرمول چگونه به سه بخش تقسیم می‌شود:
 
-- **$\binom{k-1}{r-1}$**: Choose which $r-1$ of the first $k-1$ trials are successes (the $k$-th trial must be a success, so we only choose positions for $r-1$ successes)
-- **$p^r$**: Probability of $r$ successes
-- **$(1-p)^{k-r}$**: Probability of $k-r$ failures
+- **$\binom{k-1}{r-1}$**: انتخاب کدام $r-1$ از $k-1$ آزمایش اول موفقیت باشند (آزمایش $k$-ام باید موفقیت باشد، پس فقط موقعیت $r-1$ موفقیت را انتخاب می‌کنیم)
+- **$p^r$**: احتمال $r$ موفقیت
+- **$(1-p)^{k-r}$**: احتمال $k-r$ شکست
 
-**Intuitive example:** For $r=3$ successes in $k=5$ trials with $p=0.4$:
-- Need exactly 2 successes in first 4 trials: $\binom{4}{2} = 6$ ways (e.g., SSFF, SFSF, SFFS, FSSF, FSFS, FFSS)
-- Each arrangement has probability $(0.4)^2 (0.6)^2$ for the first 4 trials
-- 5th trial must succeed: $0.4$
-- **Combined:** $P(X=5) = \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 6 \times (0.4)^3 \times (0.6)^2 = 0.2304$
+**مثال شهودی:** برای $r=3$ موفقیت در $k=5$ آزمایش با $p=0.4$:
+- دقیقاً ۲ موفقیت در ۴ آزمایش اول لازم است: $\binom{4}{2} = 6$ روش (مثلاً SSFF، SFSF، SFFS، FSSF، FSFS، FFSS)
+- هر چیدمان برای ۴ آزمایش اول احتمال $(0.4)^2 (0.6)^2$ دارد
+- آزمایش ۵ باید موفق باشد: $0.4$
+- **ترکیب:** $P(X=5) = \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 6 \times (0.4)^3 \times (0.6)^2 = 0.2304$
 
-This demonstrates how the formula $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ combines all three parts.
+این نشان می‌دهد فرمول $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ هر سه بخش را چگونه ترکیب می‌کند.
 
-The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$. (We'll see this visually in the diagram below.)
+ضریب دوجمله‌ای تضمین می‌کند همه چیدمان‌هایی را می‌شماریم که موفقیت $r$-ام دقیقاً در آزمایش $k$ رخ می‌دهد. (این را در نمودار زیر به‌صورت مصور می‌بینیم.)
 
-**Now let's mechanically apply the formula to our die example** with different parameters: For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
+**اکنون بیایید فرمول را به‌صورت مکانیکی روی مثال تاس اعمال کنیم** با پارامترهای مختلف: برای $P(X=4)$ (احتمال دقیقاً ۴ پرتاب برای سومین شش) با $r=3$ شش و $p=1/6$:
 
-Substituting $k=4$, $r=3$, $p=1/6$ into the formula:
+جایگذاری $k=4$، $r=3$، $p=1/6$ در فرمول:
 
 \begin{align}
 P(X=k) &= \binom{k-1}{r-1} p^r (1-p)^{k-r} \\
@@ -1510,8 +1377,7 @@ P(X=4) &= \binom{4-1}{3-1}(1/6)^3(5/6)^{4-3} \\
 \end{align}
 :::
 
-**Visual breakdown:** The following diagram shows how the negative binomial formula counts all possible sequences and combines their probabilities:
-
+**تجزیه مصور:** نمودار زیر نشان می‌دهد فرمول دوجمله‌ای منفی چگونه همه دنباله‌های ممکن را می‌شمارد و احتمال‌هایشان را ترکیب می‌کند:
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -1719,35 +1585,33 @@ ax.text(0.5, formula_box_bottom + formula_box_height * 0.25,
 plt.savefig('ch07_negative_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight', pad_inches=0.25)
 plt.show()
 ```
+نمودار نشان می‌دهد فرمول دوجمله‌ای منفی چگونه کار می‌کند: دقیقاً $r-1$ موفقیت در $k-1$ آزمایش اول لازم است (که می‌تواند به $\binom{k-1}{r-1}$ روش چیده شود)، سپس آزمایش $k$-ام باید موفقیت باشد. هر یک از ۶ دنباله نشان‌داده‌شده احتمال یکسان دارد و در تعداد دنباله‌ها ضرب می‌کنیم تا احتمال کل به‌دست آید.
 
-The diagram shows how the negative binomial formula works: we need exactly $r-1$ successes in the first $k-1$ trials (which can be arranged in $\binom{k-1}{r-1}$ ways), and then the $k$-th trial must be a success. Each of the 6 sequences shown has the same probability, and we multiply by the number of sequences to get the total probability.
+اکنون که فرمول و مصورسازی آن را فهمیدیم، بیایید ویژگی‌های اساسی توزیع دوجمله‌ای منفی را خلاصه کنیم:
 
-Now that we understand the formula and its visualization, let's summarize the essential properties of the negative binomial distribution:
+**ویژگی‌های کلیدی**
 
-**Key Characteristics**
+- **سناریوها**: پرتاب سکه تا r شیر، بازرسی محصول تا یافتن r معیوب، مصاحبه تا r استخدام
+- **پارامترها**:
+    - $r$: تعداد هدف موفقیت‌ها ($r \ge 1$)
+    - $p$: احتمال موفقیت در هر آزمایش ($0 < p \le 1$)
+- **متغیر تصادفی**: $X \in \{r, r+1, r+2, ...\}$
 
-- **Scenarios**: Coin flips until getting r Heads, products inspected to find r defects, interviews until making r hires
-- **Parameters**:
-    - $r$: target number of successes ($r \ge 1$)
-    - $p$: probability of success on each trial ($0 < p \le 1$)
-- **Random Variable**: $X \in \{r, r+1, r+2, ...\}$
+**میانگین:** $E[X] = \frac{r}{p}$
 
-**Mean:** $E[X] = \frac{r}{p}$
+**واریانس:** $Var(X) = \frac{r(1-p)}{p^2}$
 
-**Variance:** $Var(X) = \frac{r(1-p)}{p^2}$
+**انحراف معیار:** $SD(X) = \frac{\sqrt{r(1-p)}}{p}$
 
-**Standard Deviation:** $SD(X) = \frac{\sqrt{r(1-p)}}{p}$
+**مصورسازی توزیع**
 
-**Visualizing the Distribution**
+بیایید مثال تاس را مصور کنیم: توزیع Negative Binomial با $r = 3$ شش و $p = 1/6$:
 
-Let's visualize our die example: Negative Binomial distribution with $r = 3$ sixes and $p = 1/6$:
-
-:::{admonition} Note
+:::{admonition} یادداشت
 :class: note
 
-`scipy.stats.nbinom` counts the number of *failures* before the $r$-th success, not total trials. We'll use scipy's definition in code but state results in terms of total trials.
+`scipy.stats.nbinom` تعداد *شکست‌ها* قبل از موفقیت $r$-ام را می‌شمارد، نه کل آزمایش‌ها. در کد از تعریف scipy استفاده می‌کنیم اما نتایج را بر حسب کل آزمایش‌ها بیان می‌کنیم.
 :::
-
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -1786,9 +1650,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
-
-The PMF shows the distribution is centered around the expected value r/p = 3/(1/6) = 18 trials. You can see our calculated P(X=4) ≈ 0.0116 as a small bar near the left tail at k=4. The shaded region shows mean ± 1 standard deviation.
-
+PMF توزیع حول امید ریاضی r/p = 3/(1/6) = 18 آزمایش متمرکز است. P(X=4) ≈ 0.0116 محاسبه‌شده را به‌صورت میله کوچک نزدیک دم چپ در k=4 می‌بینید. ناحیه سایه‌دار میانگین ± ۱ انحراف معیار را نشان می‌دهد.
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -1813,20 +1675,18 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+CDF مقدار P(X ≤ k)، احتمال تجمعی یافتن ۳ شش در k پرتاب را نشان می‌دهد. در k=4، CDF مقدار P(X ≤ 4) = P(X=3) + P(X=4) ≈ 0.0046 + 0.0116 ≈ 0.0162 را نشان می‌دهد که احتمال تجمعی بسیار کم در دم چپ است. خط چین قرمز میانگین (۱۸ آزمایش) را نشان می‌دهد.
 
-The CDF shows P(X ≤ k), the cumulative probability of getting 3 sixes within k rolls. At k=4, the CDF shows P(X ≤ 4) = P(X=3) + P(X=4) ≈ 0.0046 + 0.0116 ≈ 0.0162, which is the very low cumulative probability in the left tail. The red dashed line marks the mean (18 trials).
-
-:::{admonition} Example: Quality Control with r = 3, p = 0.05
+:::{admonition} مثال: کنترل کیفیت با r = 3, p = 0.05
 :class: tip
 
-A quality control inspector tests electronic components until finding 3 defective ones. The defect rate is p = 0.05.
+بازرس کنترل کیفیت قطعات الکترونیکی را آزمایش می‌کند تا ۳ معیوب پیدا کند. نرخ معیوب بودن p = 0.05 است.
 
-We'll use [`scipy.stats.nbinom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.nbinom.html) to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
+از [`scipy.stats.nbinom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.nbinom.html) برای محاسبه احتمال نیاز به تعداد مشخصی آزمایش و محاسبه امید ریاضی استفاده می‌کنیم، با در نظر گرفتن تعریف scipy در شمارش شکست‌ها.
 
-**Setting up the distribution:**
+**تنظیم توزیع:**
 
-First, we create the negative binomial distribution object with our parameters:
-
+ابتدا شیء توزیع دوجمله‌ای منفی را با پارامترهایمان می‌سازیم:
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -1837,11 +1697,9 @@ r_defective = 3
 p_defective = 0.05
 nbinom_rv = stats.nbinom(n=r_defective, p=p_defective)
 ```
+**محاسبه احتمال‌های مشخص با PMF:**
 
-**Calculating specific probabilities using the PMF:**
-
-What's the probability we need to test exactly 80 components to find 3 defective ones? Remember that scipy counts *failures* (good components), so we need to convert:
-
+احتمال اینکه دقیقاً ۸۰ قطعه را آزمایش کنیم تا ۳ معیوب پیدا کنیم چقدر است؟ به‌خاطر داشته باشید scipy *شکست‌ها* (قطعات سالم) را می‌شمارد، پس باید تبدیل کنیم:
 ```{code-cell} ipython3
 # PMF: Probability of needing k components tested to find r defective
 k_components = 80
@@ -1852,13 +1710,11 @@ if num_good >= 0:
 else:
     print(f"Cannot find {r_defective} defective in fewer than {r_defective} components.")
 ```
+این احتمال نسبتاً کم است (0.0074 یا 0.74%) زیرا ۸۰ قطعه دور از امید ریاضی است.
 
-This probability is quite low (0.0074 or 0.74%) because 80 components is far from the expected value.
+**محاسبه احتمال‌های تجمعی با CDF:**
 
-**Calculating cumulative probabilities using the CDF:**
-
-What if we want to know the probability of finding 3 defective components within 100 tests?
-
+اگر بخواهیم احتمال یافتن ۳ قطعه معیوب در ۱۰۰ آزمایش را بدانیم چه؟
 ```{code-cell} ipython3
 # CDF: Probability of needing k or fewer components
 k_or_fewer_components = 100
@@ -1869,13 +1725,11 @@ if num_good_max >= 0:
 else:
     print(f"Cannot find {r_defective} defective in fewer than {r_defective} components.")
 ```
+۸۸.۱۷٪ احتمال داریم هر ۳ قطعه معیوب را در ۱۰۰ آزمایش اول پیدا کنیم. منطقی است زیرا ۱۰۰ به‌مراتب بالاتر از امید ریاضی است (همان‌طور که پایین می‌بینیم).
 
-There's an 88.17% chance we'll find all 3 defective components within the first 100 tests. This makes sense because 100 is well above the expected value (as we'll see below).
+**درک پارامetrize‌سازی scipy:**
 
-**Understanding scipy's parameterization:**
-
-Scipy's `nbinom` counts the number of *non-defective* (good) components before finding r defective ones. This is subtly different from counting total components tested:
-
+Scipy's `nbinom` تعداد قطعات *غیرمعیوب* (سالم) را قبل از یافتن r قطعه معیوب می‌شمارد. این کمی با شمارش کل قطعات آزمایش‌شده متفاوت است:
 ```{code-cell} ipython3
 # Mean and Variance (scipy's definition: number of non-defective items)
 mean_good_scipy = nbinom_rv.mean()
@@ -1883,13 +1737,11 @@ var_good_scipy = nbinom_rv.var()
 print(f"Mean number of good components before {r_defective} defective (scipy): {mean_good_scipy:.2f}")
 print(f"Variance of good components before {r_defective} defective (scipy): {var_good_scipy:.2f}")
 ```
+Scipy می‌گوید انتظار داریم ۵۷ قطعه سالم قبل از یافتن ۳ معیوب ببینیم.
 
-Scipy tells us we expect to see 57 good components before finding 3 defective ones.
+**تبدیل به کل قطعات (تفسیر ما):**
 
-**Converting to total components (our interpretation):**
-
-For practical purposes, we often care about the *total* number of components we need to test (good + defective). We can calculate this directly using our formulas $E[X] = r/p$ and $Var(X) = r(1-p)/p^2$:
-
+برای اهداف عملی، اغلب به *کل* تعداد قطعاتی که باید آزمایش کنیم (سالم + معیوب) اهمیت می‌دهیم. می‌توانیم این را مستقیماً با فرمول‌های $E[X] = r/p$ و $Var(X) = r(1-p)/p^2$ محاسبه کنیم:
 ```{code-cell} ipython3
 # Mean and Variance (our definition: total components tested)
 mean_components = r_defective / p_defective
@@ -1897,13 +1749,11 @@ var_components = r_defective * (1 - p_defective) / p_defective**2
 print(f"Mean number of components to test for {r_defective} defective: {mean_components:.2f}")
 print(f"Variance of number of components: {var_components:.2f}")
 ```
+به‌طور میانگین انتظار داریم ۶۰ قطعه در کل آزمایش کنیم تا ۳ معیوب پیدا کنیم (۵۷ سالم + ۳ معیوب). توجه کنید واریانس در هر دو پارامetrize‌سازی یکسان است (1140) — فقط توزیع را با افزودن ثابت r = 3 جابه‌جا می‌کنیم.
 
-On average, we expect to test 60 components total to find 3 defective ones (57 good + 3 defective). Note that the variance is the same (1140) in both parameterizations—we're just shifting the distribution by adding the constant r = 3.
+**تولید نمونه‌های تصادفی:**
 
-**Generating random samples:**
-
-We can simulate the inspection process by generating random samples. Each sample represents one complete "run" of testing components until we find 3 defective ones:
-
+می‌توانیم فرایند بازرسی را با تولید نمونه‌های تصادفی شبیه‌سازی کنیم. هر نمونه یک «دور» کامل آزمایش قطعات تا یافتن ۳ معیوب را نشان می‌دهد:
 ```{code-cell} ipython3
 # Generate random samples (number of good components before r defective)
 n_simulations = 1000
@@ -1912,13 +1762,7 @@ samples_good_nb = nbinom_rv.rvs(size=n_simulations)
 samples_components_nb = samples_good_nb + r_defective
 # print(f"\nSimulated components tested to find {r_defective} defective ({n_simulations} sims): {samples_components_nb[:20]}...")
 ```
-
-These samples could be used for Monte Carlo simulation or to verify our theoretical calculations.
-
-**Visualizing the PMF:**
-
-Let's visualize the full probability distribution to see the range of likely outcomes:
-
+این نمونه‌ها می‌توانند برای شبیه‌سازی Monte Carlo یا تأیید محاسبات نظری استفاده شوند.
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -1926,7 +1770,6 @@ Let's visualize the full probability distribution to see the range of likely out
 if os.path.exists('ch07_negative_binomial_pmf.svg'):
     os.remove('ch07_negative_binomial_pmf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the PMF (using total components tested k = r, r+1, ...)
 k_values_components = np.arange(r_defective, r_defective + 150) # Plot a range
@@ -1940,19 +1783,12 @@ plt.ylabel("Probability P(X=k)")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
 ```
-
-The PMF shows the distribution centered around r/p = 60 components with considerable variability. The distribution is right-skewed, meaning there's a long tail of possibilities where we might need many more components than average. Notice how the probability at k=80 (which we calculated earlier as 0.0074) appears as a small bar in the right tail.
-
-**Visualizing the CDF:**
-
-The cumulative distribution function helps us answer questions like "What's the probability we'll be done within k tests?"
-
+PMF توزیع حول r/p = 60 قطعه با تغییرپذیری قابل توجه متمرکز است. توزیع چوله به راست است، یعنی دم بلندی از احتمالات وجود دارد که ممکن است به قطعات بسیار بیشتری از میانگین نیاز داشته باشیم. توجه کنید احتمال در k=80 (که قبلاً 0.0074 محاسبه کردیم) به‌صورت میله کوچک در دم راست ظاهر می‌شود.
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -1960,7 +1796,6 @@ The cumulative distribution function helps us answer questions like "What's the 
 if os.path.exists('ch07_negative_binomial_cdf.svg'):
     os.remove('ch07_negative_binomial_cdf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the CDF (using total components tested k = r, r+1, ...)
 cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
@@ -1973,119 +1808,103 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_cdf.svg', format='svg', bbox_inches='tight')
 ```
-
-The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective items within k tests. The S-curve shape is characteristic of CDFs. We can see that by k=100 tests, the CDF reaches approximately 0.88 (matching our earlier calculation of 88.17%). The CDF crosses 0.5 around k=53, meaning there's a 50% chance we'll need 53 or fewer tests to find all 3 defective components.
+CDF مقدار P(X ≤ k)، احتمال تجمعی یافتن ۳ مورد معیوب در k آزمایش را نشان می‌دهد. شکل منحنی S مشخصه CDFهاست. می‌بینیم تا k=100 آزمایش، CDF تقریباً به ۰.۸۸ می‌رسد (مطابق محاسبه ۸۸.۱۷٪). CDF در حدود k=53 از ۰.۵ عبور می‌کند، یعنی ۵۰٪ احتمال داریم ۵۳ یا کمتر آزمایش برای یافتن هر ۳ قطعه معیوب لازم باشد.
 
 :::
 
-**Quick Check Questions**
+**سؤالات مرور سریع**
 
-1. You flip a fair coin until you get 5 Heads. What distribution models this and what are the parameters?
-
-```{admonition} Answer
+1. سکه منصفانه را تا ۵ شیر پرتاب می‌کنید. کدام توزیع این را مدل می‌کند و پارامترها چیست؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Negative Binomial with r = 5, p = 0.5** - Counting trials until getting r successes, each trial has p = 0.5.
+**Negative Binomial با r = 5, p = 0.5** — شمارش آزمایش‌ها تا رسیدن به r موفقیت، هر آزمایش p = 0.5 دارد.
 ```
-
-2. For a Negative Binomial distribution with r = 4 and p = 0.5, what is the expected value (mean)?
-
-```{admonition} Answer
+2. برای توزیع Negative Binomial با r = 4 و p = 0.5، امید ریاضی (میانگین) چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**E[X] = r/p = 4/0.5 = 8** - Expected number of trials to get 4 successes.
+**E[X] = r/p = 4/0.5 = 8** — امید ریاضی تعداد آزمایش‌ها برای ۴ موفقیت.
 ```
-
-3. A basketball player practices free throws until making 10 successful shots. Each shot has a 70% success rate. Which distribution and why?
-
-```{admonition} Answer
+3. بازیکن بسکتبال تا ۱۰ پرتاب موفق آزاد تمرین می‌کند. هر پرتاب ۷۰٪ نرخ موفقیت دارد. کدام توزیع و چرا؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Negative Binomial with r = 10, p = 0.7** - We're waiting for a fixed number of successes (r = 10), not just the first success. Each trial (shot) is independent with constant probability p = 0.7.
+**Negative Binomial با r = 10, p = 0.7** — منتظر تعداد ثابتی موفقیت (r = 10) هستیم، نه فقط اولین موفقیت. هر آزمایش (پرتاب) مستقل با احتمال ثابت p = 0.7 است.
 
-This is NOT Geometric because we need 10 successes, not just 1.
+این Geometric *نیست* زیرا به ۱۰ موفقیت نیاز داریم، نه فقط ۱.
 ```
-
-4. How is Negative Binomial related to Geometric distribution?
-
-```{admonition} Answer
+4. Negative Binomial چگونه به توزیع Geometric مرتبط است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Geometric is a special case where r = 1** - Negative Binomial with r=1 is identical to Geometric.
+**Geometric حالت خاص با r = 1 است** — Negative Binomial با r=1 با Geometric یکسان است.
 
-- Geometric: waiting for 1st success
-- Negative Binomial: waiting for r-th success (r ≥ 1)
+- Geometric: منتظر اولین موفقیت
+- Negative Binomial: منتظر موفقیت r-ام (r ≥ 1)
 ```
-
-5. For Negative Binomial, why is the variance r(1-p)/p²?
-
-```{admonition} Answer
+5. برای Negative Binomial، چرا واریانس r(1-p)/p² است؟
+```{admonition} پاسخ
 :class: dropdown
 
-The variance r(1-p)/p² grows with both r and uncertainty:
+واریانس r(1-p)/p² با r و عدم‌قطعیت رشد می‌کند:
 
-- **Increases with r**: Waiting for more successes means more trials and more variability
-- **Increases as p decreases**: Lower success probability means higher uncertainty in when you'll reach r successes
+- **با r افزایش می‌یابد**: منتظر موفقیت‌های بیشتر یعنی آزمایش‌های بیشتر و تغییرپذیری بیشتر
+- **با کاهش p افزایش می‌یابد**: احتمال موفقیت پایین‌تر یعنی عدم‌قطعیت بیشتر در زمان رسیدن به r موفقیت
 
-For example:
+مثلاً:
 - r=1, p=0.5: Var = 1×0.5/0.25 = 2
-- r=5, p=0.5: Var = 5×0.5/0.25 = 10 (more variable with more successes needed)
-- r=5, p=0.2: Var = 5×0.8/0.04 = 100 (much more variable with low p!)
+- r=5, p=0.5: Var = 5×0.5/0.25 = 10 (با نیاز به موفقیت‌های بیشتر متغیرتر)
+- r=5, p=0.2: Var = 5×0.8/0.04 = 100 (با p پایین بسیار متغیرتر!)
 ```
-
 +++
+## ۵. توزیع Poisson
 
-## 5. Poisson Distribution
+توزیع Poisson تعداد رویدادهای رخ‌داده در بازه ثابتی از زمان یا فضا را مدل می‌کند وقتی رویدادها مستقل و با نرخ میانگین ثابت رخ می‌دهند.
 
-The Poisson distribution models the number of events occurring in a fixed interval of time or space when events happen independently at a constant average rate.
+**مثال ملموس**
 
-**Concrete Example**
+به‌طور میانگین ۴ تماس مشتری در ساعت دریافت می‌کنید. در ساعت بعد چند تماس می‌گیرید؟
 
-You receive an average of 4 customer calls per hour. How many calls will you get in the next hour?
+این را با متغیر تصادفی $X$ مدل می‌کنیم:
+- $X$ = تعداد تماس‌ها در یک ساعت
+- $X$ می‌تواند مقادیر 0, 1, 2, 3, ... (هر عدد صحیح نامنفی) بگیرد
 
-We model this with a random variable $X$:
-- $X$ = the number of calls in one hour
-- $X$ can take values 0, 1, 2, 3, ... (any non-negative integer)
+نرخ میانگین $\lambda = 4$ تماس/ساعت است.
 
-The average rate is $\lambda = 4$ calls/hour.
+**PMF پواسون**
 
-**The Poisson PMF**
-
-For events occurring at average rate $\lambda$:
-
+برای رویدادهایی با نرخ میانگین $\lambda$:
 $$ P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!} \quad \text{for } k = 0, 1, 2, \dots $$
+که $e \approx 2.71828$ عدد اویلر است.
 
-where $e \approx 2.71828$ is Euler's number.
-
-Let's verify for our example (λ=4):
+بیایید برای مثال ما (λ=4) تأیید کنیم:
 - $P(X=4) = \frac{e^{-4} \times 4^4}{4!} \approx 0.195$ ✓
 
-:::{admonition} Why This Formula Works
+:::{admonition} چرا این فرمول کار می‌کند
 :class: note
 
-The Poisson formula $\frac{e^{-\lambda} \lambda^k}{k!}$ emerges from the mathematics of rare events:
+فرمول Poisson $\frac{e^{-\lambda} \lambda^k}{k!}$ از ریاضیات رویدادهای نادر برمی‌خیزد:
 
-- **$\lambda^k / k!$**: Represents the "raw" likelihood of $k$ events based on the rate $\lambda$
-- **$e^{-\lambda}$**: A normalization factor that ensures all probabilities sum to 1
+- **$\lambda^k / k!$**: «احتمال خام» $k$ رویداد بر اساس نرخ $\lambda$ را نشان می‌دهد
+- **$e^{-\lambda}$**: عامل نرمال‌سازی که تضمین می‌کند مجموع احتمال‌ها ۱ شود
 
-**Intuition:** The Poisson distribution arises as the limit of the Binomial distribution when:
-- You divide a time interval into many tiny sub-intervals ($n$ very large)
-- The probability of an event in each sub-interval is very small ($p$ very small)
-- The average rate $\lambda = np$ stays constant
+**شهود:** توزیع Poisson به‌عنوان حد توزیع Binomial برمی‌خیزد وقتی:
+- بازه زمانی را به زیربازه‌های بسیار ریز تقسیم کنید ($n$ بسیار بزرگ)
+- احتمال رویداد در هر زیربازه بسیار کوچک باشد ($p$ بسیار کوچک)
+- نرخ میانگین $\lambda = np$ ثابت بماند
 
-For example, "4 calls per hour" could be modeled as 3600 one-second intervals where each second has probability $p = 4/3600$ of receiving a call.
+مثلاً «۴ تماس در ساعت» را می‌توان ۳۶۰۰ بازه یک‌ثانیه‌ای مدل کرد که هر ثانیه احتمال $p = 4/3600$ دریافت تماس دارد.
 
-**Why mean = variance = λ?** This unique property reflects the "memoryless" nature of the Poisson process - events occur randomly and independently at a constant average rate.
+**چرا میانگین = واریانس = λ؟** این ویژگی منحصربه‌فرد ماهیت «بی‌حافظه» فرایند Poisson را منعکس می‌کند — رویدادها تصادفی و مستقل با نرخ میانگین ثابت رخ می‌دهند.
 :::
 
-**Algorithm visualization:** The following diagram visualizes the Poisson formula as competing forces, building intuition for why each component exists:
-
+**مصورسازی الگوریتمی:** نمودار زیر فرمول Poisson را به‌عنوان نیروهای رقیب مصور می‌کند و شهود می‌سازد چرا هر جزء وجود دارد:
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -2217,46 +2036,44 @@ def create_poisson_visual(lam=4):
 # Create the visualization with lambda = 4
 create_poisson_visual(lam=4)
 ```
+نمودار بالا توزیع Poisson (λ = 4) را با **استعاره سه نیرو** مصور می‌کند که توضیح می‌دهد هر جزء فرمول $P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$ چگونه توزیع احتمال را شکل می‌دهد:
 
-The diagram above visualizes the Poisson distribution (λ = 4) using a **three forces metaphor** that explains how each component of the formula $P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$ shapes the probability distribution:
+**سه نیرو:**
 
-**The Three Forces:**
+1. **موتور (صورت: $\lambda^k$)** — در کادر نارنجی نشان‌داده شده، این نیرو احتمالات را به‌صورت نمایی بالا می‌برد. با افزایش k، وقتی λ بزرگ است صورت سریع رشد می‌کند. «احتمال خام» k رویداد بر اساس نرخ λ را نشان می‌دهد.
 
-1. **The Driver (Numerator: $\lambda^k$)** — Shown in the orange box, this force pushes probabilities UP exponentially. As k increases, the numerator grows rapidly when λ is large. This represents the "raw likelihood" of k events based on the rate λ.
+2. **ترمز (مخرج: $k!$)** — در کادر سبز نشان‌داده شده، این نیرو احتمالات را به‌صورت فوق‌نمایی پایین می‌کشد. رشد فاکتوریل نهایتاً صورت را برای kهای بزرگ خرد می‌کند و کاهش سریع در دم راست توزیع ایجاد می‌کند.
 
-2. **The Brake (Denominator: $k!$)** — Shown in the green box, this force pulls probabilities DOWN super-exponentially. Factorial growth eventually crushes the numerator for large k values, causing the rapid decay in the right tail of the distribution.
+3. **مقیاس‌دهنده (ثابت: $e^{-\lambda}$)** — در کادر آبی نشان‌داده شده، عامل میرایی ثابتی است که توزیع را نرمال می‌کند تا مجموع احتمال‌ها ۱ شود.
 
-3. **The Scaler (Constant: $e^{-\lambda}$)** — Shown in the blue box, this is a fixed dampening factor that normalizes the distribution to ensure all probabilities sum to 1.
+**خواندن نمودار:**
 
-**Reading the Diagram:**
+- **کادرهای رنگی** (k=0 تا k=9): آبی تیره‌تر یعنی احتمال بالاتر. هر کادر فرمول و احتمال دقیق آن k را نشان می‌دهد.
+- **فلش نارنجی** («موتور برنده است»): در بخش چپ (k < λ)، صورت سریع‌تر از مخرج رشد می‌کند و احتمالات افزایش می‌یابند.
+- **فلش سبز** («ترمز برنده است»): در بخش راست (k > λ)، مخرج فاکتوریل صورت را پشت سر می‌گذارد و احتمالات سریع کاهش می‌یابند.
+- **نشانگر قله**: جایی که نیروها در k ≈ λ متعادل‌اند، مد توزیع را نشان می‌دهد. برای λ = 4، قله در k = 4 با احتمال ≈ 0.195 (19.5%) است.
 
-- **Color-coded boxes** (k=0 through k=9): Darker blue indicates higher probability. Each box shows the formula and exact probability for that k value.
-- **Orange arrow** ("Driver Wins"): In the left portion (k < λ), the numerator grows faster than the denominator, causing probabilities to increase.
-- **Green arrow** ("Brake Wins"): In the right portion (k > λ), the factorial denominator overwhelms the numerator, causing probabilities to decay rapidly.
-- **Peak indicator**: Shows where the forces balance at k ≈ λ, marking the mode of the distribution. For λ = 4, the peak occurs at k = 4 with probability ≈ 0.195 (19.5%).
+این «کشمکش» بین موتور و ترمز شکل زنگوله‌ای مشخصه توزیع Poisson را می‌سازد، با قله‌ای که نیروها در آن متعادل‌اند.
 
-This "tug-of-war" between the driver and brake forces creates the characteristic bell-like shape of the Poisson distribution, with the peak occurring where these forces are balanced.
+**ویژگی‌های کلیدی**
 
-**Key Characteristics**
+- **سناریوها**: ایمیل در ساعت، ورود مشتری در روز، غلط‌های تایپی در صفحه، تماس اورژانس در شیفت، معیوب در واحد سطح
+- **پارامتر**: $\lambda$، میانگین تعداد رویدادها در بازه ($\lambda > 0$)
+- **متغیر تصادفی**: $X \in \{0, 1, 2, ...\}$
 
-- **Scenarios**: Emails per hour, customer arrivals per day, typos per page, emergency calls per shift, defects per unit area
-- **Parameter**: $\lambda$, average number of events in the interval ($\lambda > 0$)
-- **Random Variable**: $X \in \{0, 1, 2, ...\}$
+**میانگین:** $E[X] = \lambda$
 
-**Mean:** $E[X] = \lambda$
+**واریانس:** $Var(X) = \lambda$
 
-**Variance:** $Var(X) = \lambda$
+**انحراف معیار:** $SD(X) = \sqrt{\lambda}$
 
-**Standard Deviation:** $SD(X) = \sqrt{\lambda}$
+یادداشت: در توزیع Poisson میانگین و واریانس برابرند، پس انحراف معیار به‌سادگی جذر λ است.
 
-Note: Mean and variance are equal in a Poisson distribution, so the standard deviation is simply the square root of λ.
+**ارتباط با توزیع‌های دیگر:** توزیع Poisson تقریب **توزیع Binomial** است وقتی $n$ بزرگ، $p$ کوچک و $\lambda = np$ متوسط باشد. قاعده سرانگشتی: وقتی $n \ge 20$ و $p \le 0.05$ از تقریب Poisson استفاده کنید.
 
-**Relationship to Other Distributions:** The Poisson distribution is an approximation to the **Binomial distribution** when $n$ is large, $p$ is small, and $\lambda = np$ is moderate. Rule of thumb: use Poisson approximation when $n \ge 20$ and $p \le 0.05$.
+**مصورسازی توزیع**
 
-**Visualizing the Distribution**
-
-Let's visualize a Poisson distribution with $\lambda = 4$ (our call center example):
-
+بیایید توزیع Poisson با $\lambda = 4$ را مصور کنیم (مثال مرکز تماس ما):
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -2295,9 +2112,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
-
-The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values. The shaded region shows mean ± 1 standard deviation ($\sqrt{4} = 2$).
-
+PMF توزیع حول λ = 4 با احتمال معقول برای مقادیر نزدیک متمرکز است. ناحیه سایه‌دار میانگین ± ۱ انحراف معیار ($\sqrt{4} = 2$) را نشان می‌دهد.
 ```{code-cell} ipython3
 :tags: [remove-input]
 
@@ -2323,20 +2138,18 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+CDF مقدار P(X ≤ k) را نشان می‌دهد، مفید برای سؤالاتی مثل «احتمال ۶ یا کمتر تماس چقدر است؟» خط چین قرمز میانگین را نشان می‌دهد.
 
-The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer calls?" The red dashed line marks the mean.
-
-:::{admonition} Example: Email Arrivals with λ = 5
+:::{admonition} مثال: ورود ایمیل با λ = 5
 :class: tip
 
-Modeling the number of emails received per hour with an average rate of λ = 5 emails/hour.
+مدل‌سازی تعداد ایمیل‌های دریافتی در ساعت با نرخ میانگین λ = 5 ایمیل/ساعت.
 
-Let's use [`scipy.stats.poisson`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.poisson.html) to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
+از [`scipy.stats.poisson`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.poisson.html) برای محاسبه احتمال مشاهده تعدادهای مختلف رویداد و تأیید برابری میانگین و واریانس استفاده می‌کنیم.
 
-**Setting up the distribution:**
+**تنظیم توزیع:**
 
-We create a Poisson distribution with rate parameter λ = 5 (average 5 emails per hour):
-
+توزیع Poisson با پارامتر نرخ λ = 5 (میانگین ۵ ایمیل در ساعت) می‌سازیم:
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -2346,23 +2159,19 @@ import matplotlib.pyplot as plt
 lambda_rate = 5
 poisson_rv = stats.poisson(mu=lambda_rate)
 ```
+**محاسبه احتمال‌های مشخص با PMF:**
 
-**Calculating specific probabilities using the PMF:**
-
-What's the probability of receiving exactly 3 emails in a given hour?
-
+احتمال دریافت دقیقاً ۳ ایمیل در یک ساعت مشخص چقدر است؟
 ```{code-cell} ipython3
 # PMF: Probability of exactly k events
 k_events = 3
 print(f"P(X={k_events} emails in an hour | lambda={lambda_rate}): {poisson_rv.pmf(k_events):.4f}")
 ```
+۱۴.۰۴٪ احتمال دریافت دقیقاً ۳ ایمیل وجود دارد. این پایین‌تر از میانگین ۵ است، پس کم‌محتمل‌تر از مقادیر نزدیک‌تر به ۵ است.
 
-There's a 14.04% chance of receiving exactly 3 emails. This is below the mean of 5, so it's less likely than values closer to 5.
+**محاسبه احتمال‌های تجمعی با CDF:**
 
-**Calculating cumulative probabilities using the CDF:**
-
-What's the probability of receiving 6 or fewer emails in an hour?
-
+احتمال دریافت ۶ یا کمتر ایمیل در یک ساعت چقدر است؟
 ```{code-cell} ipython3
 # CDF: Probability of k or fewer events
 k_or_fewer_events = 6
@@ -2370,38 +2179,32 @@ print(f"P(X <= {k_or_fewer_events} emails in an hour): {poisson_rv.cdf(k_or_fewe
 print(f"P(X > {k_or_fewer_events} emails in an hour): {1 - poisson_rv.cdf(k_or_fewer_events):.4f}")
 print(f"P(X > {k_or_fewer_events} emails in an hour) (using sf): {poisson_rv.sf(k_or_fewer_events):.4f}")
 ```
+۷۶.۲۲٪ احتمال دریافت ۶ یا کمتر ایمیل وجود دارد، یعنی ۲۳.۷۸٪ احتمال دریافت بیش از ۶ ایمیل در یک ساعت.
 
-There's a 76.22% chance of receiving 6 or fewer emails, which means a 23.78% chance of receiving more than 6 emails in an hour.
+**تأیید ویژگی کلیدی Poisson: میانگین برابر واریانس:**
 
-**Verifying the key Poisson property: mean equals variance:**
-
-A unique property of the Poisson distribution is that E[X] = Var(X) = λ:
-
+ویژگی منحصربه‌فرد توزیع Poisson این است که E[X] = Var(X) = λ:
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected number of emails): {poisson_rv.mean():.2f}")
 print(f"Variance: {poisson_rv.var():.2f}")
 ```
+طبق انتظار، هم میانگین و هم واریانس برابر 5.00 هستند و ویژگی نظری توزیع Poisson را تأیید می‌کنند.
 
-As expected, both the mean and variance equal 5.00, confirming the theoretical property of the Poisson distribution.
+**تولید نمونه‌های تصادفی:**
 
-**Generating random samples:**
-
-We can simulate many one-hour periods to see the variation in email arrivals:
-
+می‌توانیم بسیاری دوره‌های یک‌ساعته را شبیه‌سازی کنیم تا تغییرپذیری ورود ایمیل‌ها را ببینیم:
 ```{code-cell} ipython3
 # Generate random samples
 n_simulations = 1000
 samples = poisson_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of emails per hour ({n_simulations} simulations): {samples[:20]}...")
 ```
+این ۱۰۰۰ نمونه ساعات مختلف را نشان می‌دهند که هر کدام تعداد ایمیل‌های رسیده در آن ساعت را نشان می‌دهد.
 
-These 1000 samples represent different hours, each showing how many emails arrived during that hour.
+**مصورسازی PMF:**
 
-**Visualizing the PMF:**
-
-Let's see the full probability distribution for different email counts:
-
+بیایید توزیع احتمال کامل برای تعدادهای مختلف ایمیل ببینیم:
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -2409,7 +2212,6 @@ Let's see the full probability distribution for different email counts:
 if os.path.exists('ch07_poisson_pmf.svg'):
     os.remove('ch07_poisson_pmf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the PMF
 k_values = np.arange(0, 16) # Plot for k=0 to 15
@@ -2424,19 +2226,16 @@ plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
 ```
+PMF توزیع حول λ = 5 ایمیل متمرکز است، با بالاترین احتمالات در k = 4 و k = 5. توزیع برای این مقدار λ تقریباً متقارن است. مقادیر دور از ۵ (مثل 0-1 یا 11+) احتمال بسیار کم دارند. توجه کنید احتمال در k = 3 (که 0.1404 محاسبه کردیم) به‌صورت میله با ارتفاع متوسط ظاهر می‌شود.
 
-The PMF shows the distribution centered around λ = 5 emails, with highest probabilities at k = 4 and k = 5. The distribution is roughly symmetric for this value of λ. Values far from 5 (like 0-1 or 11+) have very low probabilities. Notice how the probability at k = 3 (which we calculated as 0.1404) appears as a moderate-height bar.
+**مصورسازی CDF:**
 
-**Visualizing the CDF:**
-
-The cumulative distribution helps answer questions about ranges of email counts:
-
+توزیع تجمعی به پاسخ سؤالات درباره بازه تعداد ایمیل‌ها کمک می‌کند:
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
@@ -2444,7 +2243,6 @@ The cumulative distribution helps answer questions about ranges of email counts:
 if os.path.exists('ch07_poisson_cdf.svg'):
     os.remove('ch07_poisson_cdf.svg')
 ```
-
 ```{code-cell} ipython3
 # Plotting the CDF
 cdf_values = poisson_rv.cdf(k_values)
@@ -2458,138 +2256,122 @@ plt.xticks(k_values)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.show()
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
 ```
-
-The CDF shows P(X ≤ k), the cumulative probability. We can see that by k = 6, the CDF reaches about 0.76 (matching our earlier calculation of 76.22%), and by k = 10, it's close to 1.0, meaning it's very unlikely to receive more than 10 emails in an hour.
+CDF مقدار P(X ≤ k)، احتمال تجمعی را نشان می‌دهد. می‌بینیم تا k = 6، CDF تقریباً به 0.76 می‌رسد (مطابق محاسبه 76.22%)، و تا k = 10 نزدیک 1.0 است، یعنی دریافت بیش از ۱۰ ایمیل در یک ساعت بسیار بعید است.
 
 :::
 
-**Quick Check Questions**
+**سؤالات مرور سریع**
 
-1. A call center receives an average of 12 calls per hour. What distribution models the number of calls in one hour and what is the parameter?
-
-```{admonition} Answer
+1. مرکز تماس به‌طور میانگین ۱۲ تماس در ساعت دریافت می‌کند. کدام توزیع تعداد تماس‌ها در یک ساعت را مدل می‌کند و پارامتر چیست؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Poisson distribution with λ = 12** - Events occurring at a constant average rate in a fixed interval.
+**توزیع Poisson با λ = 12** — رویدادهایی که با نرخ میانگین ثابت در بازه ثابت رخ می‌دهند.
 ```
-
-2. For a Poisson distribution with λ = 7, what are the mean and variance?
-
-```{admonition} Answer
+۲. برای توزیع Poisson با λ = 7، امید ریاضی و واریانس چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Mean = 7, Variance = 7** - For Poisson, both equal λ. This is a unique property of the Poisson distribution.
+**امید ریاضی = 7، واریانس = 7** — برای Poisson، هر دو برابر λ هستند. این ویژگی منحصربه‌فرد توزیع Poisson است.
 ```
-
-3. You count the number of typos on a random page of a book. The average is 2 typos per page. Which distribution?
-
-```{admonition} Answer
+۳. تعداد غلط‌های املایی در یک صفحه تصادفی کتاب را می‌شمارید. میانگین ۲ غلط در هر صفحه است. کدام توزیع؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Poisson with λ = 2** - Counting discrete events (typos) occurring in a fixed space (one page) at a constant average rate.
+**Poisson با λ = 2** — شمارش رویدادهای گسسته (غلط‌های املایی) در فضای ثابت (یک صفحه) با نرخ متوسط ثابت.
 
-This fits Poisson's requirements:
-- Events happen independently
-- Constant average rate
-- Counting occurrences in fixed interval/space
+این با شرایط Poisson سازگار است:
+- رویدادها مستقل رخ می‌دهند
+- نرخ متوسط ثابت
+- شمارش وقوع در بازه/فضای ثابت
 ```
-
-4. True or False: In a Poisson distribution, the mean can be different from the variance.
-
-```{admonition} Answer
+۴. درست یا نادرست: در توزیع Poisson، امید ریاضی می‌تواند با واریانس متفاوت باشد.
+```{admonition} پاسخ
 :class: dropdown
 
-**False** - A key property of Poisson is that mean = variance = λ.
+**نادرست** — ویژگی کلیدی Poisson این است که امید ریاضی = واریانس = λ.
 
-This property can help you identify when Poisson might not be the best fit. If your data has variance much larger or smaller than the mean, consider other distributions (e.g., Negative Binomial for overdispersion).
+این ویژگی کمک می‌کند تشخیص دهید Poisson بهترین برازش نیست. اگر واریانس داده‌ها بسیار بزرگ‌تر یا کوچک‌تر از امید ریاضی باشد، توزیع‌های دیگر را در نظر بگیرید (مثلاً Negative Binomial برای overdispersion).
 ```
-
-5. When can Poisson approximate Binomial?
-
-```{admonition} Answer
+۵. Poisson چه زمانی می‌تواند Binomial را تقریب بزند؟
+```{admonition} پاسخ
 :class: dropdown
 
-**When n is large, p is small, and np is moderate** - Specifically:
-- n ≥ 20 and p ≤ 0.05, or
-- n ≥ 100 and np ≤ 10
+**وقتی n بزرگ، p کوچک و np متوسط است** — به‌طور مشخص:
+- n ≥ 20 و p ≤ 0.05، یا
+- n ≥ 100 و np ≤ 10
 
-Then Binomial(n, p) ≈ Poisson(λ = np)
+آنگاه Binomial(n, p) ≈ Poisson(λ = np)
 
-Example: Binomial(n=1000, p=0.003) ≈ Poisson(λ=3)
+مثال: Binomial(n=1000, p=0.003) ≈ Poisson(λ=3)
 
-This works because rare events in many trials behave like events occurring at a constant rate.
+این به این دلیل کار می‌کند که رویدادهای نادر در آزمایش‌های زیاد مانند رویدادهایی با نرخ ثابت رفتار می‌کنند.
 ```
-
 +++
+## ۶. توزیع Hypergeometric
 
-## 6. Hypergeometric Distribution
+توزیع Hypergeometric تعداد موفقیت‌ها در نمونه‌ای را مدل می‌کند که *بدون جایگزینی* از جامعه‌ای متناهی کشیده شده است. این با Binomial متفاوت است که نمونه‌گیری با جایگزینی (یا جامعه نامتناهی) را فرض می‌کند.
 
-The Hypergeometric distribution models the number of successes in a sample drawn *without replacement* from a finite population. This is different from Binomial, which assumes sampling with replacement (or infinite population).
+**مثال ملموس**
 
-**Concrete Example**
+۵ کارت از یک دسته استاندارد ۵۲ کارتی برمی‌دارید. چند آس می‌گیرید؟
 
-You draw 5 cards from a standard deck of 52 cards. How many Aces will you get?
+این را با متغیر تصادفی $X$ مدل می‌کنیم:
+- $X$ = تعداد آس‌ها در دست ۵ کارتی
+- جامعه: N = ۵۲ کارت در مجموع
+- موفقیت‌ها در جامعه: K = ۴ آس
+- اندازه نمونه: n = ۵ کارت کشیده‌شده
+- $X$ می‌تواند مقادیر ۰، ۱، ۲، ۳، ۴ بگیرد (بیش از ۴ آس ممکن نیست!)
 
-We model this with a random variable $X$:
-- $X$ = the number of Aces in the 5-card hand
-- Population: N = 52 cards total
-- Successes in population: K = 4 Aces
-- Sample size: n = 5 cards drawn
-- $X$ can take values 0, 1, 2, 3, 4 (can't get more than 4 Aces!)
+**PMF فوق‌هندسی**
 
-**The Hypergeometric PMF**
-
-For sampling without replacement:
-
+برای نمونه‌گیری بدون جایگزینی:
 $$ P(X=k) = \frac{\binom{K}{k} \binom{N-K}{n-k}}{\binom{N}{n}} $$
+این برابر است با: (تعداد روش‌های انتخاب k موفقیت از K) × (تعداد روش‌های انتخاب n-k شکست از N-K) / (کل روش‌های انتخاب n مورد از N).
 
-This is: (ways to choose k successes from K) × (ways to choose n-k failures from N-K) / (total ways to choose n items from N).
-
-:::{admonition} Why This Formula Works
+:::{admonition} چرا این فرمول کار می‌کند
 :class: note
 
-The Hypergeometric formula uses counting principles:
+فرمول Hypergeometric از اصول شمارش استفاده می‌کند:
 
-- **$\binom{N}{n}$** (denominator): Total ways to choose $n$ items from $N$ - this is all possible samples
-- **$\binom{K}{k}$** (numerator): Ways to choose $k$ successes from the $K$ successes available
-- **$\binom{N-K}{n-k}$** (numerator): Ways to choose $n-k$ failures from the $N-K$ failures available
+- **$\binom{N}{n}$** (مخرج): کل روش‌های انتخاب $n$ مورد از $N$ — یعنی همه نمونه‌های ممکن
+- **$\binom{K}{k}$** (صورت): روش‌های انتخاب $k$ موفقیت از $K$ موفقیت موجود
+- **$\binom{N-K}{n-k}$** (صورت): روش‌های انتخاب $n-k$ شکست از $N-K$ شکست موجود
 
-**Example:** Drawing 5 cards hoping for 2 Aces (N=52, K=4, n=5, k=2):
-- Ways to choose 2 Aces from 4: $\binom{4}{2} = 6$
-- Ways to choose 3 non-Aces from 48: $\binom{48}{3} = 17,296$
-- Ways to choose any 5 cards: $\binom{52}{5} = 2,598,960$
-- Probability: $\frac{6 \times 17,296}{2,598,960} \approx 0.040$
+**مثال:** کشیدن ۵ کارت با امید به ۲ آس (N=52, K=4, n=5, k=2):
+- روش‌های انتخاب ۲ آس از ۴: $\binom{4}{2} = 6$
+- روش‌های انتخاب ۳ غیرآس از ۴۸: $\binom{48}{3} = 17,296$
+- روش‌های انتخاب هر ۵ کارت: $\binom{52}{5} = 2,598,960$
+- احتمال: $\frac{6 \times 17,296}{2,598,960} \approx 0.040$
 
-The formula is essentially: **(favorable outcomes) / (total possible outcomes)** from basic probability, using combinations to count!
+فرمول در اصل برابر است با: **(پیامدهای مطلوب) / (کل پیامدهای ممکن)** از احتمال پایه، با شمارش ترکیبی!
 :::
 
-**Key Characteristics**
+**ویژگی‌های کلیدی**
 
-- **Scenarios**: Cards from a deck, defective items in small batch, tagged fish in sample, jury selection from finite pool
-- **Parameters**:
-    - $N$: total population size
-    - $K$: total number of successes in population
-    - $n$: sample size ($n \le N$)
-- **Random Variable**: $X$, bounded by $\max(0, n-(N-K)) \le X \le \min(n, K)$
+- **سناریوها**: کارت از دسته، اقلام معیوب در دسته کوچک، ماهی‌های علامت‌گذاری‌شده در نمونه، انتخاب هیئت منصفه از مجموعه متناهی
+- **پارامترها**:
+    - $N$: اندازه کل جامعه
+    - $K$: تعداد کل موفقیت‌ها در جامعه
+    - $n$: اندازه نمونه ($n \le N$)
+- **متغیر تصادفی**: $X$، محدود به $\max(0, n-(N-K)) \le X \le \min(n, K)$
 
-**Mean:** $E[X] = n \frac{K}{N}$
+**امید ریاضی:** $E[X] = n \frac{K}{N}$
 
-**Variance:** $Var(X) = n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)$
+**واریانس:** $Var(X) = n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)$
 
-**Standard Deviation:** $SD(X) = \sqrt{n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)}$
+**انحراف معیار:** $SD(X) = \sqrt{n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)}$
 
-The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \to \infty$, this approaches 1, and Hypergeometric → Binomial with $p = K/N$.
+عبارت $\frac{N-n}{N-1}$ *ضریب اصلاح جامعه متناهی* است. با $N \to \infty$، به ۱ نزدیک می‌شود و Hypergeometric → Binomial با $p = K/N$.
 
-**Visualizing the Distribution**
+**مصورسازی توزیع**
 
-Let's visualize a Hypergeometric distribution with N=52, K=4, n=5 (our card example):
-
+بیایید توزیع Hypergeometric با N=52, K=4, n=5 را مصور کنیم (مثال کارت ما):
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -2629,9 +2411,7 @@ plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_hypergeometric_pmf_generic.svg', format='svg', bbox_inches='tight')
 ```
-
-The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to get 1 or 2. The red dashed line marks the mean, and the orange shaded region shows mean ± 1 standard deviation.
-
+PMF نشان می‌دهد محتمل‌ترین حالت ۰ آس است (حدود ۰.۶۶ احتمال)، گرفتن ۱ یا ۲ کم‌محتمل‌تر است. خط چین قرمز امید ریاضی را نشان می‌دهد و ناحیه سایه‌دار نارنجی امید ریاضی ± ۱ انحراف معیار را نشان می‌دهد.
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -2656,20 +2436,18 @@ plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_hypergeometric_cdf_generic.svg', format='svg', bbox_inches='tight')
 ```
+CDF مقدار P(X ≤ k) را نشان می‌دهد و برای پرسش‌هایی مانند «احتمال حداکثر ۱ آس چقدر است؟» مفید است. خط چین قرمز امید ریاضی را نشان می‌دهد.
 
-The CDF shows P(X ≤ k), useful for questions like "What's the probability of getting at most 1 Ace?" The red dashed line marks the mean.
-
-:::{admonition} Example: Lottery Tickets with N=100, K=20, n=10
+:::{admonition} مثال: بلیت‌های بخت‌آزمایی با N=100, K=20, n=10
 :class: tip
 
-Modeling the number of winning lottery tickets in a sample of 10 drawn from a box of 100 tickets where 20 are winners.
+مدل‌سازی تعداد بلیت‌های برنده در نمونه‌ای ۱۰تایی که از جعبه‌ای با ۱۰۰ بلیت (۲۰ برنده) کشیده شده است.
 
-We'll use [`scipy.stats.hypergeom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hypergeom.html) to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
+از [`scipy.stats.hypergeom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hypergeom.html) برای محاسبه احتمال‌های نمونه‌گیری بدون جایگزینی استفاده می‌کنیم و می‌بینیم امید ریاضی چگونه به نسبت جامعه مرتبط است.
 
-**Setting up the distribution:**
+**راه‌اندازی توزیع:**
 
-We create a hypergeometric distribution for drawing without replacement:
-
+یک توزیع hypergeometric برای کشیدن بدون جایگزینی می‌سازیم:
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -2681,23 +2459,19 @@ K_successes_pop = 20
 n_sample = 10
 hypergeom_rv = stats.hypergeom(M=N_population, n=K_successes_pop, N=n_sample)
 ```
+**محاسبه احتمال‌های مشخص با PMF:**
 
-**Calculating specific probabilities using the PMF:**
-
-What's the probability of getting exactly 3 winning tickets when we draw 10?
-
+احتمال گرفتن دقیقاً ۳ بلیت برنده وقتی ۱۰ بلیت می‌کشیم چقدر است؟
 ```{code-cell} ipython3
 # PMF: Probability of exactly k successes in the sample
 k_successes_sample = 3
 print(f"P(X={k_successes_sample} winning tickets in sample of {n_sample}): {hypergeom_rv.pmf(k_successes_sample):.4f}")
 ```
+۲۰.۱۳٪ احتمال گرفتن دقیقاً ۳ برنده وجود دارد. این بیشتر از احتمال ۲ برنده است چون ۳ به مقدار مورد انتظار نزدیک‌تر است (در ادامه می‌بینید).
 
-There's a 20.13% chance of getting exactly 3 winners. This is higher than the probability of getting 2 winners because 3 is closer to the expected value (see below).
+**محاسبه احتمال‌های تجمعی با CDF:**
 
-**Calculating cumulative probabilities using the CDF:**
-
-What's the probability of getting 2 or fewer winning tickets?
-
+احتمال گرفتن ۲ برنده یا کمتر چقدر است؟
 ```{code-cell} ipython3
 # CDF: Probability of k or fewer successes in the sample
 k_or_fewer_sample = 2
@@ -2705,13 +2479,11 @@ print(f"P(X <= {k_or_fewer_sample} winning tickets in sample): {hypergeom_rv.cdf
 print(f"P(X > {k_or_fewer_sample} winning tickets in sample): {1 - hypergeom_rv.cdf(k_or_fewer_sample):.4f}")
 print(f"P(X > {k_or_fewer_sample} winning tickets in sample) (using sf): {hypergeom_rv.sf(k_or_fewer_sample):.4f}")
 ```
+۶۷.۶۷٪ احتمال گرفتن ۲ برنده یا کمتر وجود دارد، یعنی ۳۲.۳۳٪ احتمال بیش از ۲ برنده.
 
-There's a 67.67% chance of getting 2 or fewer winners, which means a 32.33% chance of getting more than 2.
+**محاسبه امید ریاضی و واریانس:**
 
-**Computing mean and variance:**
-
-Let's verify the mean matches the expected proportion from the population:
-
+بیایید تأیید کنیم امید ریاضی با نسبت مورد انتظار از جامعه مطابقت دارد:
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected number of winning tickets in sample): {hypergeom_rv.mean():.2f}")
@@ -2719,26 +2491,22 @@ print(f"Variance: {hypergeom_rv.var():.2f}")
 print(f"Standard Deviation: {hypergeom_rv.std():.2f}")
 # Theoretical mean: E[X] = n * (K/N) = 10 * (20/100) = 2.0
 ```
+طبق انتظار، امید ریاضی ۲.۰ برنده است که دقیقاً n × (K/N) = 10 × (20/100) = 10 × 0.2 است. چون ۲۰٪ جامعه برنده‌اند، انتظار داریم ۲۰٪ نمونه برنده باشد. اصلاح جامعه متناهی واریانس (۱.۴۴) را کوچک‌تر از نمونه‌گیری دوجمله‌ای با جایگزینی می‌کند.
 
-As expected, the mean is 2.0 winners, which is exactly n × (K/N) = 10 × (20/100) = 10 × 0.2. Since 20% of the population are winners, we expect 20% of our sample to be winners. The finite population correction makes the variance (1.44) smaller than it would be for binomial sampling with replacement.
+**تولید نمونه‌های تصادفی:**
 
-**Generating random samples:**
-
-We can simulate many draws of 10 tickets:
-
+می‌توانیم کشیدن‌های متعدد ۱۰ بلیت را شبیه‌سازی کنیم:
 ```{code-cell} ipython3
 # Generate random samples
 n_simulations = 1000
 samples = hypergeom_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of winning tickets ({n_simulations} simulations): {samples[:20]}...")
 ```
+این ۱۰۰۰ نمونه مجموعه‌های مختلف ۱۰ بلیت کشیده‌شده از جعبه را نشان می‌دهند و تغییرپذیری طبیعی پیامدها را نمایش می‌دهند.
 
-These 1000 samples represent different sets of 10 tickets drawn from the box, showing natural variation in outcomes.
+**مصورسازی PMF:**
 
-**Visualizing the PMF:**
-
-Let's see the distribution of possible outcomes when drawing 10 tickets:
-
+بیایید توزیع پیامدهای ممکن هنگام کشیدن ۱۰ بلیت را ببینیم:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -2762,13 +2530,11 @@ plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_hypergeometric_pmf.svg', format='svg', bbox_inches='tight')
 ```
+PMF حول ۲ برنده (مقدار مورد انتظار) متمرکز است و بالاترین احتمال‌ها در ۱، ۲ و ۳ برنده است. گرفتن ۰ برنده یا ۵+ برنده بسیار کم‌محتمل‌تر است. توزیع تقریباً زنگوله‌ای به نظر می‌رسد که برای Hypergeometric وقتی اندازه نمونه نسبت به جامعه کوچک است معمول است. توجه کنید k = 3 (که ۲۰.۱۳٪ محاسبه کردیم) یکی از بلندترین میله‌هاست.
 
-The PMF is centered around 2 winners (the expected value), with highest probabilities at 1, 2, and 3 winners. Getting 0 winners or 5+ winners is much less likely. The distribution looks roughly bell-shaped, which is typical for hypergeometric distributions when the sample size is small relative to the population. Notice that k = 3 (which we calculated as 20.13%) appears as one of the tallest bars.
+**مصورسازی CDF:**
 
-**Visualizing the CDF:**
-
-The cumulative distribution shows the total probability of getting up to k winners:
-
+توزیع تجمعی کل احتمال گرفتن تا k برنده را نشان می‌دهد:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -2788,129 +2554,114 @@ plt.xticks(k_values)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_hypergeometric_cdf.svg', format='svg', bbox_inches='tight')
 ```
-
-The CDF shows the cumulative probability. We can see that P(X ≤ 2) ≈ 0.68 (matching our earlier calculation of 67.67%), and by k = 5, nearly all probability has accumulated (close to 1.0).
+CDF احتمال تجمعی را نشان می‌دهد. می‌بینیم P(X ≤ 2) ≈ 0.68 (مطابق محاسبه قبلی ۶۷.۶۷٪) و تا k = 5 تقریباً همه احتمال جمع شده (نزدیک ۱.۰).
 
 :::
 
-**Quick Check Questions**
+**سؤالات مرور سریع**
 
-1. You draw 7 cards from a deck of 52. You want to know how many hearts you get. What distribution models this and what are the parameters?
-
-```{admonition} Answer
+۱. ۷ کارت از دسته ۵۲ کارتی برمی‌دارید. می‌خواهید بدانید چند خشت می‌گیرید. کدام توزیع این را مدل می‌کند و پارامترها چیست؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Hypergeometric with N=52, K=13, n=7** - Sampling without replacement from a finite population (13 hearts in 52 cards).
+**Hypergeometric با N=52, K=13, n=7** — نمونه‌گیری بدون جایگزینی از جامعه متناهی (۱۳ خشت در ۵۲ کارت).
 ```
-
-2. For a Hypergeometric distribution with N=50, K=10, n=5, what is the expected value (mean)?
-
-```{admonition} Answer
+۲. برای توزیع Hypergeometric با N=50, K=10, n=5، مقدار مورد انتظار (امید ریاضی) چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**E[X] = n(K/N) = 5 × (10/50) = 1** - Expected number of successes in the sample.
+**E[X] = n(K/N) = 5 × (10/50) = 1** — تعداد مورد انتظار موفقیت‌ها در نمونه.
 ```
-
-3. A quality inspector randomly selects 10 products from a batch of 100 (where 15 are defective) without replacement. Which distribution?
-
-```{admonition} Answer
+۳. بازرس کیفیت به‌طور تصادفی ۱۰ محصول از دسته ۱۰۰تایی (۱۵ معیوب) بدون جایگزینی انتخاب می‌کند. کدام توزیع؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Hypergeometric with N=100, K=15, n=10** - Sampling without replacement from a finite population.
+**Hypergeometric با N=100, K=15, n=10** — نمونه‌گیری بدون جایگزینی از جامعه متناهی.
 
-This is NOT Binomial because:
-- We're sampling without replacement
-- The sample size (10) is significant relative to population (100)
-- Each draw changes the probability for subsequent draws
+این Binomial نیست چون:
+- بدون جایگزینی نمونه‌گیری می‌کنیم
+- اندازه نمونه (۱۰) نسبت به جامعه (۱۰۰) قابل توجه است
+- هر کشیدن احتمال کشیدن‌های بعدی را تغییر می‌دهد
 ```
-
-4. What's the key difference between Binomial and Hypergeometric distributions?
-
-```{admonition} Answer
+۴. تفاوت کلیدی بین توزیع‌های Binomial و Hypergeometric چیست؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Hypergeometric samples WITHOUT replacement** (finite population), while Binomial samples WITH replacement (or assumes infinite population).
+**Hypergeometric بدون جایگزینی** نمونه‌گیری می‌کند (جامعه متناهی)، در حالی که Binomial با جایگزینی (یا جامعه نامتناهی فرض می‌کند).
 
-Key implications:
-- Hypergeometric: Trials are NOT independent (each draw affects the next)
-- Binomial: Trials ARE independent (constant probability p)
+پیامدهای کلیدی:
+- Hypergeometric: آزمایش‌ها مستقل نیستند (هر کشیدن بر بعدی اثر می‌گذارد)
+- Binomial: آزمایش‌ها مستقل‌اند (احتمال ثابت p)
 
-Rule of thumb: If N > 20n, Hypergeometric ≈ Binomial because the sample is small relative to the population.
+قاعده سرانگشتی: اگر N > 20n، Hypergeometric ≈ Binomial چون نمونه نسبت به جامعه کوچک است.
 ```
-
-5. When can Hypergeometric be approximated by Binomial?
-
-```{admonition} Answer
+۵. Hypergeometric چه زمانی می‌تواند با Binomial تقریب زده شود؟
+```{admonition} پاسخ
 :class: dropdown
 
-**When the population is much larger than the sample** - Specifically, when N > 20n.
+**وقتی جامعه بسیار بزرگ‌تر از نمونه است** — به‌طور مشخص، وقتی N > 20n.
 
-In this case, Hypergeometric(N, K, n) ≈ Binomial(n, p=K/N)
+در این حالت، Hypergeometric(N, K, n) ≈ Binomial(n, p=K/N)
 
-Example: Drawing 10 cards from a population of 1000 cards. The small sample barely affects the population proportions, so with/without replacement gives nearly identical results.
+مثال: کشیدن ۱۰ کارت از جامعه ۱۰۰۰ کارتی. نمونه کوچک تقریباً بر نسبت‌های جامعه اثر نمی‌گذارد، پس با/بدون جایگزینی نتایج تقریباً یکسان است.
 ```
-
 +++
+## ۷. توزیع Discrete Uniform
 
-## 7. Discrete Uniform Distribution
+توزیع Discrete Uniform انتخاب یک پیامد از مجموعه‌ای متناهی را مدل می‌کند که همه پیامدها به‌طور برابر محتمل‌اند.
 
-The Discrete Uniform distribution models selecting one outcome from a finite set where all outcomes are equally likely.
+**مثال ملموس**
 
-**Concrete Example**
+فرض کنید یک تاس شش‌وجهی منصفانه می‌اندازید. هر وجه (۱، ۲، ۳، ۴، ۵، ۶) احتمال برابر دارد.
 
-Suppose you roll a fair six-sided die. Each face (1, 2, 3, 4, 5, 6) has an equal probability of appearing.
+این را با متغیر تصادفی $X$ مدل می‌کنیم:
+- $X$ = عدد روی تاس
+- $X$ می‌تواند مقادیر ۱، ۲، ۳، ۴، ۵، ۶ بگیرد
 
-We model this with a random variable $X$:
-- $X$ = the number showing on the die
-- $X$ can take values 1, 2, 3, 4, 5, 6
-
-The probabilities are:
+احتمال‌ها:
 - $P(X = 1) = P(X = 2) = \cdots = P(X = 6) = \frac{1}{6}$
 
-**The Discrete Uniform PMF**
+**PMF یکنواخت گسسته**
 
-For a Discrete Uniform distribution on the integers from $a$ to $b$ (inclusive):
-
+برای توزیع Discrete Uniform روی اعداد صحیح از $a$ تا $b$ (شامل):
 $$ P(X=k) = \begin{cases} \frac{1}{b-a+1} & \text{if } k \in \{a, a+1, \ldots, b\} \\ 0 & \text{otherwise} \end{cases} $$
+برای مثال تاس با $a = 1$ و $b = 6$:
+- $P(X=k) = \frac{1}{6-1+1} = \frac{1}{6}$ برای $k \in \{1, 2, 3, 4, 5, 6\}$
 
-For our die example with $a = 1$ and $b = 6$:
-- $P(X=k) = \frac{1}{6-1+1} = \frac{1}{6}$ for $k \in \{1, 2, 3, 4, 5, 6\}$
-
-:::{admonition} Why This Formula Works
+:::{admonition} چرا این فرمول کار می‌کند
 :class: note
 
-The Discrete Uniform distribution is the simplest probability distribution:
+توزیع Discrete Uniform ساده‌ترین توزیع احتمال است:
 
-- **Total outcomes**: $b - a + 1$ (the "+1" counts both endpoints)
-- **Each outcome equally likely**: Probability = $\frac{1}{\text{total outcomes}}$
+- **کل پیامدها**: $b - a + 1$ («+۱» هر دو انتها را می‌شمارد)
+- **هر پیامد به‌طور برابر محتمل**: احتمال = $\frac{1}{n}$ (که $n$ تعداد پیامدهاست)
 
-**Example:** For values 5 through 15:
-- Total values: $15 - 5 + 1 = 11$ values
-- Each has probability: $\frac{1}{11} \approx 0.091$
+**مثال:** برای مقادیر ۵ تا ۱۵:
+- کل مقادیر: $15 - 5 + 1 = 11$ مقدار
+- هر کدام احتمال: $\frac{1}{11} \approx 0.091$
 
-This directly implements the classical definition of probability: **(favorable outcomes) / (total equally likely outcomes)**.
+این مستقیماً تعریف کلاسیک احتمال را پیاده می‌کند: **(پیامدهای مطلوب) / (کل پیامدهای به‌طور برابر محتمل)**.
 :::
 
-**Key Characteristics**
+**ویژگی‌های کلیدی**
 
-- **Scenarios**: Fair die roll, random selection from a list, lottery number selection, random password digit
-- **Parameters**:
-    - $a$: minimum value (integer)
-    - $b$: maximum value (integer, $b \ge a$)
-- **Random Variable**: $X \in \{a, a+1, \ldots, b\}$
+- **سناریوها**: انداختن تاس منصفانه، انتخاب تصادفی از فهرست، انتخاب شماره بخت‌آزمایی، رقم تصادفی رمز
+- **پارامترها**:
+    - $a$: حداقل مقدار (عدد صحیح)
+    - $b$: حداکثر مقدار (عدد صحیح، $b \ge a$)
+- **متغیر تصادفی**: $X \in \{a, a+1, \ldots, b\}$
 
-**Mean:** $E[X] = \frac{a+b}{2}$
+**امید ریاضی:** $E[X] = \frac{a+b}{2}$
 
-**Variance:** $Var(X) = \frac{(b-a+1)^2 - 1}{12}$
+**واریانس:** $Var(X) = \frac{(b-a+1)^2 - 1}{12}$
 
-**Standard Deviation:** $SD(X) = \sqrt{\frac{(b-a+1)^2 - 1}{12}}$
+**انحراف معیار:** $SD(X) = \sqrt{\frac{(b-a+1)^2 - 1}{12}}$
 
-**Relationship to Other Distributions:** The Discrete Uniform distribution is a special case of the **Categorical distribution** where all $k$ categories have equal probability $p_i = 1/k$. If outcomes aren't equally likely, use Categorical instead.
+**ارتباط با توزیع‌های دیگر:** توزیع Discrete Uniform حالت خاص **توزیع Categorical** است که همه $k$ دسته احتمال برابر $p_i = 1/k$ دارند. اگر پیامدها به‌طور برابر محتمل نیستند، از Categorical استفاده کنید.
 
-**Visualizing the Distribution**
+**مصورسازی توزیع**
 
-Let's visualize a Discrete Uniform distribution for a fair die ($a = 1$, $b = 6$):
-
+بیایید توزیع Discrete Uniform برای تاس منصفانه ($a = 1$, $b = 6$) را مصور کنیم:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -2952,9 +2703,7 @@ plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_discrete_uniform_pmf.svg', format='svg', bbox_inches='tight')
 ```
-
-The PMF shows six equal bars, each with probability 1/6, representing the fair die. The shaded region shows mean ± 1 standard deviation.
-
+PMF شش میله برابر با احتمال ۱/۶ نشان می‌دهد که تاس منصفانه را نمایش می‌دهد. ناحیه سایه‌دار امید ریاضی ± ۱ انحراف معیار را نشان می‌دهد.
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -2980,20 +2729,18 @@ plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_discrete_uniform_cdf.svg', format='svg', bbox_inches='tight')
 ```
+CDF با گام‌های برابر ۱/۶ در هر مقدار افزایش می‌یابد و در مقدار بیشینه به ۱.۰ می‌رسد. خط چین قرمز امید ریاضی را نشان می‌دهد.
 
-The CDF increases in equal steps of 1/6 at each value, reaching 1.0 at the maximum value. The red dashed line marks the mean.
-
-:::{admonition} Example: Random Selection from 1 to 20
+:::{admonition} مثال: انتخاب تصادفی از ۱ تا ۲۰
 :class: tip
 
-Modeling a random integer selection from 1 to 20, where each number is equally likely to be chosen.
+مدل‌سازی انتخاب تصادفی عدد صحیح از ۱ تا ۲۰ که هر عدد به‌طور برابر محتمل انتخاب شود.
 
-Let's use [`scipy.stats.randint`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.randint.html) to calculate probabilities and generate samples.
+از [`scipy.stats.randint`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.randint.html) برای محاسبه احتمال‌ها و تولید نمونه استفاده می‌کنیم.
 
-**Setting up the distribution:**
+**راه‌اندازی توزیع:**
 
-We create a discrete uniform distribution over integers from 1 to 20 (note: scipy.stats.randint uses half-open intervals [low, high)):
-
+یک توزیع یکنواخت گسسته روی اعداد صحیح ۱ تا ۲۰ می‌سازیم (توجه: scipy.stats.randint از بازه نیمه‌باز [low, high) استفاده می‌کند):
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -3004,50 +2751,42 @@ a_sel = 1
 b_sel = 20
 uniform_rv = stats.randint(low=a_sel, high=b_sel+1)
 ```
+**محاسبه احتمال‌ها با PMF:**
 
-**Calculating probabilities using the PMF:**
-
-Since all values are equally likely, each value has the same probability:
-
+چون همه مقادیر به‌طور برابر محتمل‌اند، هر مقدار احتمال یکسان دارد:
 ```{code-cell} ipython3
 # PMF: Probability of any specific value
 k_val = 7
 print(f"P(X={k_val}): {uniform_rv.pmf(k_val):.4f}")
 print(f"This equals 1/{b_sel-a_sel+1} = {1/(b_sel-a_sel+1):.4f}")
 ```
+هر یک از ۲۰ مقدار احتمال ۱/۲۰ = ۰.۰۵ دارد. مقدار ۷ همان احتمال هر مقدار دیگر را دارد.
 
-Each of the 20 values has probability 1/20 = 0.05. The value 7 has the same probability as any other value.
+**محاسبه احتمال‌های تجمعی با CDF:**
 
-**Calculating cumulative probabilities using the CDF:**
-
-What's the probability of selecting a number ≤ 10?
-
+احتمال انتخاب عددی ≤ ۱۰ چقدر است؟
 ```{code-cell} ipython3
 # CDF: Probability of k or fewer
 k_threshold = 10
 print(f"P(X <= {k_threshold}): {uniform_rv.cdf(k_threshold):.4f}")
 print(f"P(X > {k_threshold}): {uniform_rv.sf(k_threshold):.4f}")
 ```
+۵۰٪ احتمال انتخاب ۱۰ یا کمتر (مقادیر ۱-۱۰) و ۵۰٪ بیش از ۱۰ (مقادیر ۱۱-۲۰) وجود دارد. منطقی است چون ۱۰ نقطه میانی است.
 
-There's a 50% chance of selecting 10 or less (values 1-10), and a 50% chance of selecting more than 10 (values 11-20). This makes sense since 10 is the midpoint.
+**محاسبه امید ریاضی و واریانس:**
 
-**Computing mean and variance:**
-
-Let's verify the mean is at the center of the range:
-
+بیایید تأیید کنیم امید ریاضی در مرکز بازه است:
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected value): {uniform_rv.mean():.2f}")
 print(f"Theoretical mean (a+b)/2: {(a_sel+b_sel)/2:.2f}")
 print(f"Variance: {uniform_rv.var():.2f}")
 ```
+امید ریاضی ۱۰.۵۰ است، دقیقاً میان ۱ و ۲۰، مطابق فرمول (a+b)/2 = (1+20)/2 = 10.5.
 
-The mean is 10.50, exactly halfway between 1 and 20, as expected from the formula (a+b)/2 = (1+20)/2 = 10.5.
+**تولید نمونه‌های تصادفی:**
 
-**Generating random samples:**
-
-Let's generate 10 random selections:
-
+۱۰ انتخاب تصادفی تولید می‌کنیم:
 ```{code-cell} ipython3
 # Generate random samples
 n_samples = 10
@@ -3055,13 +2794,11 @@ samples = uniform_rv.rvs(size=n_samples)
 print(f"{n_samples} random selections from 1 to {b_sel}:")
 print(samples)
 ```
+هر نمونه انتخاب تصادفی مستقل است و همه مقادیر به‌طور برابر محتمل‌اند.
 
-Each sample is an independent random selection, all values equally likely.
+**مصورسازی PMF:**
 
-**Visualizing the PMF:**
-
-The PMF visualization shows the defining characteristic of the uniform distribution—perfect equality:
-
+مصورسازی PMF ویژگی تعیین‌کننده توزیع یکنواخت — برابری کامل — را نشان می‌دهد:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3081,13 +2818,11 @@ plt.ylabel("Probability")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_discrete_uniform_pmf_example.svg', format='svg', bbox_inches='tight')
 ```
+هر ۲۰ مقدار احتمال برابر ۰.۰۵ (۱/۲۰) دارد. این توزیع تخت امضای یکنواخت گسسته است — هیچ مقداری محتمل‌تر از دیگری نیست.
 
-All 20 values have equal probability of 0.05 (1/20). This flat distribution is the signature of the discrete uniform—no value is more likely than any other.
+**مصورسازی CDF:**
 
-**Visualizing the CDF:**
-
-The CDF shows a perfect linear staircase:
-
+CDF پلکان خطی کامل نشان می‌دهد:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3106,130 +2841,115 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_discrete_uniform_cdf_example.svg', format='svg', bbox_inches='tight')
 ```
-
-The CDF increases in equal steps of 1/20 = 0.05, perfectly linear. At k=10, the CDF is exactly 0.5 (the median), confirming our earlier calculation.
+CDF با گام‌های برابر ۱/۲۰ = ۰.۰۵ افزایش می‌یابد، کاملاً خطی. در k=10، CDF دقیقاً ۰.۵ (میانه) است و محاسبه قبلی را تأیید می‌کند.
 
 :::
 
-**Quick Check Questions**
+**سؤالات مرور سریع**
 
-1. You randomly select a card from a standard deck (52 cards). If X represents the card number (1-13, where 1=Ace, 11=Jack, 12=Queen, 13=King), what distribution models this and what are the parameters?
-
-```{admonition} Answer
+۱. به‌طور تصادفی کارتی از دسته استاندارد (۵۲ کارت) انتخاب می‌کنید. اگر X شماره کارت (۱-۱۳، ۱=آس، ۱۱=سرباز، ۱۲=بیبی، ۱۳=شاه) باشد، کدام توزیع این را مدل می‌کند و پارامترها چیست؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Discrete Uniform distribution with a = 1, b = 13** - Each card number is equally likely (4 of each in the deck).
+**توزیع Discrete Uniform با a = 1, b = 13** — هر شماره کارت به‌طور برابر محتمل است (۴ عدد از هر کدام در دسته).
 ```
-
-2. For a Discrete Uniform distribution with a = 5 and b = 15, what is the probability of getting exactly 10?
-
-```{admonition} Answer
+۲. برای توزیع Discrete Uniform با a = 5 و b = 15، احتمال گرفتن دقیقاً ۱۰ چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**P(X = 10) = 1/(15-5+1) = 1/11 ≈ 0.091** - All values in the range are equally likely.
+**P(X = 10) = 1/(15-5+1) = 1/11 ≈ 0.091** — همه مقادیر در بازه به‌طور برابر محتمل‌اند.
 ```
-
-3. What is the mean of a Discrete Uniform distribution on the integers from 1 to 100?
-
-```{admonition} Answer
+۳. امید ریاضی توزیع Discrete Uniform روی اعداد صحیح ۱ تا ۱۰۰ چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Mean = (1+100)/2 = 50.5** - The mean is the midpoint of the range.
+**امید ریاضی = (1+100)/2 = 50.5** — امید ریاضی نقطه میانی بازه است.
 ```
-
-4. You're modeling the outcome of rolling a fair six-sided die. Should you use Discrete Uniform or Categorical distribution?
-
-```{admonition} Answer
+۴. پیامد انداختن تاس شش‌وجهی منصفانه را مدل می‌کنید. از Discrete Uniform یا Categorical استفاده کنید؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Discrete Uniform distribution** - Since it's a *fair* die, all outcomes (1-6) are equally likely with probability 1/6 each.
+**توزیع Discrete Uniform** — چون تاس *منصفانه* است، همه پیامدها (۱-۶) با احتمال ۱/۶ به‌طور برابر محتمل‌اند.
 
-Use Discrete Uniform(a=1, b=6).
+از Discrete Uniform(a=1, b=6) استفاده کنید.
 
-**Note:** If the die were *loaded* (unequal probabilities), you'd use the Categorical distribution instead.
+**توجه:** اگر تاس *سنگین* بود (احتمال‌های نابرابر)، از توزیع Categorical استفاده کنید.
 ```
-
-5. For a Discrete Uniform distribution on integers from a to b, why is the variance equal to $\frac{(b-a)(b-a+2)}{12}$?
-
-```{admonition} Answer
+۵. برای توزیع Discrete Uniform روی اعداد صحیح a تا b، چرا واریانس برابر $\frac{(b-a)(b-a+2)}{12}$ است؟
+```{admonition} پاسخ
 :class: dropdown
 
-The variance formula reflects how spread out the values are:
+فرمول واریانس نشان می‌دهد مقادیر چقدر پراکنده‌اند:
 
-- **Larger range (b-a)**: Higher variance - values are more spread out
-- **Formula intuition**: The variance grows with the *square* of the range, similar to continuous uniform distributions
+- **بازه بزرگ‌تر (b-a)**: واریانس بیشتر — مقادیر پراکنده‌تر
+- **شهود فرمول**: واریانس با *مربع* بازه رشد می‌کند، مشابه توزیع‌های یکنواخت پیوسته
 
-**Example:**
-- Discrete Uniform(1, 6): Variance = (6-1)(6-1+2)/12 = 5×7/12 ≈ 2.92
-- Discrete Uniform(1, 100): Variance = 99×101/12 ≈ 833.25
+**مثال:**
+- Discrete Uniform(1, 6): واریانس = (6-1)(6-1+2)/12 = 5×7/12 ≈ 2.92
+- Discrete Uniform(1, 100): واریانس = 99×101/12 ≈ 833.25
 
-Much larger range → much larger variance.
+بازه بسیار بزرگ‌تر → واریانس بسیار بزرگ‌تر.
 ```
-
 +++
+## ۸. توزیع Categorical
 
-## 8. Categorical Distribution
+توزیع Categorical یک آزمایش تکی با چند پیامد ممکن (بیش از ۲) را مدل می‌کند که هر پیامد احتمال خود را دارد. تعمیم توزیع Bernoulli به بیش از دو دسته است.
 
-The Categorical distribution models a single trial with multiple possible outcomes (more than 2), where each outcome has its own probability. It's the generalization of the Bernoulli distribution to more than two categories.
+**مثال ملموس**
 
-**Concrete Example**
+فرض کنید تاس شش‌وجهی سنگین می‌اندازید که وجه‌ها احتمال‌های متفاوت دارند:
+- وجه ۱: احتمال ۰.۱
+- وجه ۲: احتمال ۰.۱۵
+- وجه ۳: احتمال ۰.۲۰
+- وجه ۴: احتمال ۰.۲۵
+- وجه ۵: احتمال ۰.۲۰
+- وجه ۶: احتمال ۰.۱۰
 
-Suppose you're rolling a loaded six-sided die where the faces have different probabilities:
-- Face 1: probability 0.1
-- Face 2: probability 0.15
-- Face 3: probability 0.20
-- Face 4: probability 0.25
-- Face 5: probability 0.20
-- Face 6: probability 0.10
+این را با متغیر تصادفی $X$ مدل می‌کنیم:
+- $X$ = وجهی که ظاهر می‌شود
+- $X$ می‌تواند مقادیر $\{1, 2, 3, 4, 5, 6\}$ بگیرد
+- هر مقدار احتمال خود را دارد: $P(X=1)=0.1, P(X=2)=0.15,$ و غیره
 
-We model this with a random variable $X$:
-- $X$ = the face that appears
-- $X$ can take values in $\{1, 2, 3, 4, 5, 6\}$
-- Each value has its own probability: $P(X=1)=0.1, P(X=2)=0.15,$ etc.
+**PMF دسته‌ای**
 
-**The Categorical PMF**
-
-For a Categorical distribution with $k$ possible outcomes and probabilities $p_1, p_2, \ldots, p_k$ where $\sum_{i=1}^k p_i = 1$:
-
+برای توزیع Categorical با $k$ پیامد ممکن و احتمال‌های $p_1, p_2, \ldots, p_k$ که $\sum_{i=1}^k p_i = 1$:
 $$ P(X=i) = p_i \quad \text{for } i = 1, 2, \ldots, k $$
-
-For our loaded die example:
+برای مثال تاس سنگین:
 - $P(X=1) = 0.1,\, P(X=2) = 0.15,\, P(X=3) = 0.20$
 - $P(X=4) = 0.25,\, P(X=5) = 0.20,\, P(X=6) = 0.10$
-- Sum: $0.1 + 0.15 + 0.20 + 0.25 + 0.20 + 0.10 = 1.0$ ✓
+- مجموع: $0.1 + 0.15 + 0.20 + 0.25 + 0.20 + 0.10 = 1.0$ ✓
 
-:::{admonition} Why This Formula Works
+:::{admonition} چرا این فرمول کار می‌کند
 :class: note
 
-The Categorical PMF is straightforward - each outcome has its own assigned probability:
+PMF دسته‌ای ساده است — هر پیامد احتمال اختصاصی خود را دارد:
 
-- **Single trial**: Only one outcome occurs
-- **Each outcome $i$ has probability $p_i$**: Directly specified
-- **Constraint**: All probabilities must sum to 1 (ensuring exactly one outcome occurs)
+- **آزمایش تکی**: فقط یک پیامد رخ می‌دهد
+- **هر پیامد $i$ احتمال $p_i$ دارد**: مستقیماً مشخص می‌شود
+- **قید**: همه احتمال‌ها باید مجموع ۱ شوند (تضمین دقیقاً یک پیامد)
 
-This is the most general discrete distribution for a single trial - every outcome can have a different probability. It generalizes simpler distributions:
-- If $k=2$: Reduces to **Bernoulli**
-- If all $p_i = 1/k$: Reduces to **Discrete Uniform**
+این عمومی‌ترین توزیع گسسته برای آزمایش تکی است — هر پیامد می‌تواند احتمال متفاوت داشته باشد. توزیع‌های ساده‌تر را تعمیم می‌دهد:
+- اگر $k=2$: به **Bernoulli** تقلیل می‌یابد
+- اگر همه $p_i = 1/k$: به **Discrete Uniform** تقلیل می‌یابد
 :::
 
-**Key Characteristics**
+**ویژگی‌های کلیدی**
 
-- **Scenarios**: Loaded die, customer choosing from menu categories, survey response (multiple choice), weather outcome (sunny/cloudy/rainy/snowy)
-- **Parameters**:
-    - $k$: number of categories
-    - $p_1, p_2, \ldots, p_k$: probabilities for each category (must sum to 1)
-- **Random Variable**: $X \in \{1, 2, \ldots, k\}$
+- **سناریوها**: تاس سنگین، انتخاب مشتری از دسته‌های منو، پاسخ نظرسنجی (چندگزینه‌ای)، وضعیت آب‌وهوا (آفتابی/ابری/بارانی/برفی)
+- **پارامترها**:
+    - $k$: تعداد دسته‌ها
+    - $p_1, p_2, \ldots, p_k$: احتمال هر دسته (باید مجموع ۱ شود)
+- **متغیر تصادفی**: $X \in \{1, 2, \ldots, k\}$
 
-**Mean:** $E[X] = \sum_{i=1}^k i \cdot p_i$ (weighted average of outcomes)
+**امید ریاضی:** $E[X] = \sum_{i=1}^k i \cdot p_i$ (میانگین وزنی پیامدها)
 
-**Variance:** $Var(X) = \sum_{i=1}^k i^2 \cdot p_i - \left(\sum_{i=1}^k i \cdot p_i\right)^2$
+**واریانس:** $Var(X) = \sum_{i=1}^k i^2 \cdot p_i - \left(\sum_{i=1}^k i \cdot p_i\right)^2$
 
-**Relationship to Other Distributions:** Categorical generalizes **Bernoulli** (when $k=2$) and is a special case of **Discrete Uniform** (when all $p_i$ are equal). For multiple trials, use the **Multinomial distribution** instead.
+**ارتباط با توزیع‌های دیگر:** Categorical **Bernoulli** را تعمیم می‌دهد (وقتی $k=2$) و حالت خاص **Discrete Uniform** است (وقتی همه $p_i$ برابرند). برای آزمایش‌های متعدد از **توزیع Multinomial** استفاده کنید.
 
-**Visualizing the Distribution**
+**مصورسازی توزیع**
 
-Let's visualize our loaded die Categorical distribution:
-
+بیایید توزیع Categorical تاس سنگین را مصور کنیم:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3254,9 +2974,7 @@ plt.xticks(values_viz)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_categorical_pmf.svg', format='svg', bbox_inches='tight')
 ```
-
-The PMF shows the different probabilities for each face of the loaded die.
-
+PMF احتمال‌های متفاوت هر وجه تاس سنگین را نشان می‌دهد.
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3277,20 +2995,18 @@ plt.xticks(values_viz)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_categorical_cdf.svg', format='svg', bbox_inches='tight')
 ```
+CDF با مقادیر متفاوت در هر مقدار افزایش می‌یابد و احتمال‌های متغیر را منعکس می‌کند.
 
-The CDF increases by different amounts at each value, reflecting the varying probabilities.
-
-:::{admonition} Example: Customer Product Choice
+:::{admonition} مثال: انتخاب محصول مشتری
 :class: tip
 
-A coffee shop tracks customer drink preferences: 40% choose coffee, 30% choose tea, 20% choose juice, and 10% choose water.
+یک کافی‌شاپ ترجیحات نوشیدنی مشتریان را ثبت می‌کند: ۴۰٪ قهوه، ۳۰٪ چای، ۲۰٪ آب‌میوه و ۱۰٪ آب.
 
-Let's model this using a Categorical distribution with [`scipy.stats.rv_discrete`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rv_discrete.html).
+این را با توزیع Categorical و [`scipy.stats.rv_discrete`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rv_discrete.html) مدل می‌کنیم.
 
-**Setting up the distribution:**
+**راه‌اندازی توزیع:**
 
-We create a categorical distribution with custom probabilities for each category:
-
+یک توزیع دسته‌ای با احتمال‌های سفارشی برای هر دسته می‌سازیم:
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -3301,48 +3017,40 @@ choices = np.array([1, 2, 3, 4])  # 1=Coffee, 2=Tea, 3=Juice, 4=Water
 probs = np.array([0.40, 0.30, 0.20, 0.10])
 categorical_rv = stats.rv_discrete(values=(choices, probs))
 ```
+**نمایش احتمال‌ها:**
 
-**Displaying probabilities:**
-
-Let's see the probability of each drink choice:
-
+احتمال هر انتخاب نوشیدنی را می‌بینیم:
 ```{code-cell} ipython3
 # PMF: Probability of each choice
 labels = ['Coffee', 'Tea', 'Juice', 'Water']
 for i, (choice, label) in enumerate(zip(choices, labels)):
     print(f"P(X={choice}) [{label}]: {probs[i]:.2f}")
 ```
+قهوه محتمل‌ترین انتخاب (۴۰٪) است، سپس چای (۳۰٪)، آب‌میوه (۲۰٪) و آب (۱۰٪). برخلاف توزیع یکنواخت، این احتمال‌ها متفاوت‌اند.
 
-Coffee is the most likely choice (40%), followed by tea (30%), juice (20%), and water (10%). Unlike the uniform distribution, these probabilities differ.
+**محاسبه احتمال‌های تجمعی:**
 
-**Calculating cumulative probabilities:**
-
-What's the probability a customer chooses coffee or tea (categories 1 or 2)?
-
+احتمال انتخاب قهوه یا چای (دسته‌های ۱ یا ۲) چقدر است؟
 ```{code-cell} ipython3
 # CDF: Probability of choice i or lower
 print(f"P(X <= 2) [Coffee or Tea]: {categorical_rv.cdf(2):.2f}")
 print(f"P(X > 2) [Juice or Water]: {1 - categorical_rv.cdf(2):.2f}")
 ```
+۷۰٪ احتمال انتخاب قهوه یا چای و ۳۰٪ آب‌میوه یا آب وجود دارد.
 
-There's a 70% chance the customer chooses coffee or tea, and a 30% chance they choose juice or water.
+**محاسبه امید ریاضی و واریانس:**
 
-**Computing mean and variance:**
-
-While mean and variance are less interpretable for categorical data with arbitrary numbering, scipy can compute them:
-
+اگرچه امید ریاضی و واریانس برای داده دسته‌ای با شماره‌گذاری دلخواه کمتر قابل تفسیرند، scipy می‌تواند محاسبه کند:
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected value): {categorical_rv.mean():.2f}")
 print(f"Variance: {categorical_rv.var():.2f}")
 ```
+امید ریاضی ۲.۰۰ نشان می‌دهد انتخاب‌ها به سمت شماره‌های دسته پایین‌تر (قهوه و چای) وزن دارند.
 
-The mean of 2.00 indicates choices are weighted toward lower category numbers (coffee and tea).
+**تولید نمونه‌های تصادفی:**
 
-**Generating random samples:**
-
-Let's simulate 100 customers and see how many choose each drink:
-
+۱۰۰ مشتری را شبیه‌سازی می‌کنیم و می‌بینیم چند نفر هر نوشیدنی را انتخاب می‌کنند:
 ```{code-cell} ipython3
 # Generate random samples
 n_customers = 100
@@ -3352,13 +3060,11 @@ for i, label in enumerate(labels, 1):
     count = np.sum(samples == i)
     print(f"{label}: {count} ({count/n_customers:.1%})")
 ```
+شمارش‌های شبیه‌سازی‌شده باید به احتمال‌های نظری (۴۰٪، ۳۰٪، ۲۰٪، ۱۰٪) نزدیک شوند با کمی تغییر تصادفی.
 
-The simulated counts should approximate the theoretical probabilities (40%, 30%, 20%, 10%), with some random variation.
+**مصورسازی PMF:**
 
-**Visualizing the PMF:**
-
-The bar chart clearly shows the different probabilities for each category:
-
+نمودار میله‌ای احتمال‌های متفاوت هر دسته را به‌وضوح نشان می‌دهد:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3376,9 +3082,7 @@ plt.ylim(0, 0.5)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_categorical_pmf_example.svg', format='svg', bbox_inches='tight')
 ```
-
-The PMF shows unequal bar heights, distinguishing this from a discrete uniform distribution. Coffee (40%) has the tallest bar, while water (10%) has the shortest, clearly visualizing customer preferences.
-
+PMF ارتفاع میله‌های نابرابر نشان می‌دهد و آن را از توزیع یکنواخت گسسته متمایز می‌کند. قهوه (۴۰٪) بلندترین میله و آب (۱۰٪) کوتاه‌ترین است و ترجیحات مشتری را به‌وضوح مصور می‌کند.
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3399,98 +3103,83 @@ plt.ylim(0, 1.1)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_categorical_cdf_example.svg', format='svg', bbox_inches='tight')
 ```
-
-The CDF shows cumulative probabilities across the ordered choices.
+CDF احتمال‌های تجمعی در انتخاب‌های مرتب‌شده را نشان می‌دهد.
 
 :::
 
-**Quick Check Questions**
+**سؤالات مرور سریع**
 
-1. A traffic light can be red (50%), yellow (10%), or green (40%). What distribution models the color when you arrive at an intersection?
-
-```{admonition} Answer
+۱. چراغ راهنمایی می‌تواند قرمز (۵۰٪)، زرد (۱۰٪) یا سبز (۴۰٪) باشد. کدام توزیع رنگ را هنگام رسیدن به تقاطع مدل می‌کند؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Categorical distribution with k=3 categories and probabilities p₁=0.5, p₂=0.1, p₃=0.4** - Single trial with three possible outcomes.
+**توزیع Categorical با k=3 دسته و احتمال‌های p₁=0.5, p₂=0.1, p₃=0.4** — آزمایش تکی با سه پیامد ممکن.
 ```
-
-2. For a Categorical distribution with 4 equally likely outcomes, what is P(X = 2)?
-
-```{admonition} Answer
+۲. برای توزیع Categorical با ۴ پیامد به‌طور برابر محتمل، P(X = 2) چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**P(X = 2) = 0.25** - For equally likely outcomes, each has probability 1/4.
+**P(X = 2) = 0.25** — برای پیامدهای به‌طور برابر محتمل، هر کدام احتمال ۱/۴ دارد.
 ```
-
-3. How is the Categorical distribution related to the Bernoulli distribution?
-
-```{admonition} Answer
+۳. توزیع Categorical چه ارتباطی با توزیع Bernoulli دارد؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Bernoulli is a special case of Categorical with k=2** - When there are only two categories, Categorical reduces to Bernoulli.
+**Bernoulli حالت خاص Categorical با k=2 است** — وقتی فقط دو دسته باشد، Categorical به Bernoulli تقلیل می‌یابد.
 
-Categorical generalizes Bernoulli from 2 outcomes to k outcomes.
+Categorical Bernoulli را از ۲ پیامد به k پیامد تعمیم می‌دهد.
 ```
-
-4. You're observing a single customer's choice from a menu with 5 items having probabilities [0.3, 0.25, 0.2, 0.15, 0.1]. Should you use Categorical or Multinomial distribution?
-
-```{admonition} Answer
+۴. انتخاب یک مشتری از منوی ۵ قلمی با احتمال‌های [0.3, 0.25, 0.2, 0.15, 0.1] را مشاهده می‌کنید. از Categorical یا Multinomial استفاده کنید؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Categorical distribution** - You're observing a *single trial* (one customer making one choice).
+**توزیع Categorical** — یک *آزمایش تکی* را مشاهده می‌کنید (یک مشتری یک انتخاب).
 
-**Key distinction:**
-- **Categorical**: Single trial, multiple outcomes (this scenario)
-- **Multinomial**: Multiple trials, counting how many times each outcome occurs
+**تمایز کلیدی:**
+- **Categorical**: آزمایش تکی، چند پیامد (این سناریو)
+- **Multinomial**: آزمایش‌های متعدد، شمارش دفعات هر پیامد
 
-If you observed 100 customers and counted how many chose each item, *that* would be Multinomial.
+اگر ۱۰۰ مشتری را مشاهده و شمارش کنید چند نفر هر قلم را انتخاب کردند، *آن* Multinomial است.
 ```
-
-5. When can you model a Categorical distribution as a Discrete Uniform distribution?
-
-```{admonition} Answer
+۵. چه زمانی می‌توانید توزیع Categorical را به‌عنوان Discrete Uniform مدل کنید؟
+```{admonition} پاسخ
 :class: dropdown
 
-**When all k categories have equal probability** - If p₁ = p₂ = ... = pₖ = 1/k.
+**وقتی همه k دسته احتمال برابر دارند** — اگر p₁ = p₂ = ... = pₖ = 1/k.
 
-**Example:**
-- Rolling a fair die (6 equally likely outcomes): Can use either Categorical(p=[1/6, 1/6, 1/6, 1/6, 1/6, 1/6]) or Discrete Uniform(a=1, b=6)
-- Rolling a loaded die (unequal probabilities): Must use Categorical
+**مثال:**
+- انداختن تاس منصفانه (۶ پیامد به‌طور برابر محتمل): می‌توان Categorical(p=[1/6, 1/6, 1/6, 1/6, 1/6, 1/6]) یا Discrete Uniform(a=1, b=6) استفاده کرد
+- انداختن تاس سنگین (احتمال‌های نابرابر): باید Categorical استفاده شود
 
-Discrete Uniform is just a special case of Categorical where all probabilities are equal.
+Discrete Uniform فقط حالت خاص Categorical است که همه احتمال‌ها برابرند.
 ```
-
 +++
+## ۹. توزیع Multinomial
 
-## 9. Multinomial Distribution
+توزیع Multinomial تعداد ثابتی آزمایش مستقل را مدل می‌کند که هر آزمایش چند پیامد ممکن (بیش از ۲) دارد و تعداد وقوع هر پیامد را می‌شماریم. تعمیم توزیع Binomial به بیش از دو دسته است.
 
-The Multinomial distribution models performing a fixed number of independent trials where each trial has multiple possible outcomes (more than 2), and we count how many times each outcome occurs. It's the generalization of the Binomial distribution to more than two categories.
+**مثال ملموس**
 
-**Concrete Example**
+فرض کنید تاس شش‌وجهی منصفانه ۲۰ بار می‌اندازید. می‌خواهیم بدانیم هر وجه (۱، ۲، ۳، ۴، ۵، ۶) چند بار ظاهر می‌شود.
 
-Suppose you roll a fair six-sided die 20 times. We want to know how many times each face (1, 2, 3, 4, 5, 6) appears.
+این را با بردار تصادفی $\mathbf{X} = (X_1, X_2, X_3, X_4, X_5, X_6)$ مدل می‌کنیم که:
+- $X_1$ = تعداد دفعات ظاهر شدن وجه ۱
+- $X_2$ = تعداد دفعات ظاهر شدن وجه ۲
+- ... و الی آخر
+- قید: $X_1 + X_2 + X_3 + X_4 + X_5 + X_6 = 20$
 
-We model this with a random vector $\mathbf{X} = (X_1, X_2, X_3, X_4, X_5, X_6)$ where:
-- $X_1$ = number of times face 1 appears
-- $X_2$ = number of times face 2 appears
-- ... and so on
-- Constraint: $X_1 + X_2 + X_3 + X_4 + X_5 + X_6 = 20$
-
-The probabilities for a fair die are:
+احتمال‌های تاس منصفانه:
 - $p_1 = p_2 = p_3 = p_4 = p_5 = p_6 = \frac{1}{6}$
 
-**The Multinomial PMF**
+**PMF چندجمله‌ای**
 
-For $n$ independent trials with $k$ possible outcomes and probabilities $p_1, p_2, \ldots, p_k$ where $\sum_{i=1}^k p_i = 1$:
-
+برای $n$ آزمایش مستقل با $k$ پیامد ممکن و احتمال‌های $p_1, p_2, \ldots, p_k$ که $\sum_{i=1}^k p_i = 1$:
 $$ P(X_1=x_1, X_2=x_2, \ldots, X_k=x_k) = \frac{n!}{x_1! x_2! \cdots x_k!} \, p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k} $$
+که $x_1 + x_2 + \cdots + x_k = n$.
 
-where $x_1 + x_2 + \cdots + x_k = n$.
+عبارت $\frac{n!}{x_1! x_2! \cdots x_k!}$ ضریب چندجمله‌ای است (بخش [فصل ۳: جایگشت اشیای یکسان](chapter_03.md#permutations-of-identical-objects) را ببینید).
 
-The term $\frac{n!}{x_1! x_2! \cdots x_k!}$ is the multinomial coefficient (see [Chapter 3: Permutations of Identical Objects](chapter_03.md#permutations-of-identical-objects)).
-
-For our die example, the probability of getting exactly (3, 4, 2, 5, 4, 2) of each face:
-
+برای مثال تاس، احتمال گرفتن دقیقاً (۳، ۴، ۲، ۵، ۴، ۲) از هر وجه:
 $$
 \begin{align}
 P(X_1=3, X_2=4, X_3=2, X_4=5, X_5=4, X_6=2) &= \frac{20!}{3! \, 4! \, 2! \, 5! \, 4! \, 2!} \left(\frac{1}{6}\right)^{20} \\
@@ -3498,42 +3187,40 @@ P(X_1=3, X_2=4, X_3=2, X_4=5, X_5=4, X_6=2) &= \frac{20!}{3! \, 4! \, 2! \, 5! \
 &\approx 0.00454
 \end{align}
 $$
-
-:::{admonition} Why This Formula Works
+:::{admonition} چرا این فرمول کار می‌کند
 :class: note
 
-The Multinomial formula extends the Binomial idea to multiple categories:
+فرمول Multinomial ایده Binomial را به چند دسته گسترش می‌دهد:
 
-- **$\frac{n!}{x_1! x_2! \cdots x_k!}$**: The multinomial coefficient counts how many different sequences of $n$ trials produce exactly $x_1$ occurrences of category 1, $x_2$ of category 2, etc.
-- **$p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k}$**: Probability of any specific sequence with those counts
+- **$\frac{n!}{x_1! x_2! \cdots x_k!}$**: ضریب چندجمله‌ای می‌شمارد چند دنباله متفاوت از $n$ آزمایش دقیقاً $x_1$ وقوع دسته ۱، $x_2$ دسته ۲ و غیره تولید می‌کنند
+- **$p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k}$**: احتمال هر دنباله مشخص با آن شمارش‌ها
 
-**Example:** With 3 trials and outcomes (A, A, B):
-- There are $\frac{3!}{2! \, 1!} = 3$ arrangements: AAB, ABA, BAA
-- Each has probability $p_A^2 p_B^1$
-- Combined: $3 \times p_A^2 p_B$
+**مثال:** با ۳ آزمایش و پیامدها (A, A, B):
+- $\frac{3!}{2! \, 1!} = 3$ چینش وجود دارد: AAB, ABA, BAA
+- هر کدام احتمال $p_A^2 p_B^1$ دارد
+- ترکیب: $3 \times p_A^2 p_B$
 
-The multinomial coefficient is like the binomial coefficient, but for distributing $n$ items among $k$ categories instead of just 2.
+ضریب چندجمله‌ای مانند ضریب دوجمله‌ای است، اما برای توزیع $n$ مورد بین $k$ دسته به‌جای فقط ۲.
 :::
 
-**Key Characteristics**
+**ویژگی‌های کلیدی**
 
-- **Scenarios**: Rolling a die n times (counting each face), survey with multiple choice options, customer purchases across product categories, DNA base frequencies in a sequence
-- **Parameters**:
-    - $n$: number of trials
-    - $k$: number of categories
-    - $p_1, p_2, \ldots, p_k$: probabilities for each category (must sum to 1)
-- **Random Variables**: $X_1, X_2, \ldots, X_k$ where $X_i$ = count for category $i$, and $\sum_{i=1}^k X_i = n$
+- **سناریوها**: انداختن تاس n بار (شمارش هر وجه)، نظرسنجی با گزینه‌های چندگانه، خرید مشتری در دسته‌های محصول، فراوانی بازهای DNA در توالی
+- **پارامترها**:
+    - $n$: تعداد آزمایش‌ها
+    - $k$: تعداد دسته‌ها
+    - $p_1, p_2, \ldots, p_k$: احتمال هر دسته (باید مجموع ۱ شود)
+- **متغیرهای تصادفی**: $X_1, X_2, \ldots, X_k$ که $X_i$ = شمارش دسته $i$ و $\sum_{i=1}^k X_i = n$
 
-**Mean for each category:** $E[X_i] = n p_i$
+**امید ریاضی هر دسته:** $E[X_i] = n p_i$
 
-**Variance for each category:** $Var(X_i) = n p_i (1-p_i)$
+**واریانس هر دسته:** $Var(X_i) = n p_i (1-p_i)$
 
-**Relationship to Other Distributions:** Multinomial generalizes **Binomial** (when $k=2$) and **Categorical** (single trial becomes multiple trials). Each individual category count $X_i$ follows a **Binomial** distribution with parameters $(n, p_i)$.
+**ارتباط با توزیع‌های دیگر:** Multinomial **Binomial** (وقتی $k=2$) و **Categorical** (آزمایش تکی به چند آزمایش) را تعمیم می‌دهد. هر شمارش دسته $X_i$ از توزیع **Binomial** با پارامترهای $(n, p_i)$ پیروی می‌کند.
 
-**Visualizing the Distribution**
+**مصورسازی توزیع**
 
-Multinomial distributions are challenging to visualize since they involve multiple variables. Let's look at a simple case with $k=3$ categories:
-
+توزیع‌های Multinomial به‌دلیل چندمتغیره بودن مصورسازی دشوار دارند. حالت ساده با $k=3$ دسته را می‌بینیم:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3562,22 +3249,20 @@ plt.xticks(range(0, n_trials+1))
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_multinomial_marginal.svg', format='svg', bbox_inches='tight')
 ```
+توزیع حاشیه‌ای هر دسته تکی در Multinomial در واقع Binomial است! اینجا دسته ۱ از Binomial(n=15, p=1/3) پیروی می‌کند.
 
-The marginal distribution of any single category in a Multinomial distribution is actually a Binomial distribution! Here, Category 1 follows Binomial(n=15, p=1/3).
+**ارتباط با مثال تاس:** برای مصورسازی آسان‌تر به ۳ دسته ساده کردیم، اما همان اصل برای تاس شش‌وجهی (n=20 پرتاب) برقرار است. شمارش هر وجه از Binomial(n=20, p=1/6) پیروی می‌کند. هیستوگرام مشابه است اما حول 20/6 ≈ 3.33 به‌جای 15/3 = 5 متمرکز است.
 
-**Connecting to our die example:** We simplified to 3 categories for easier visualization, but the same principle applies to our 6-sided die example (n=20 rolls). Each face count would follow Binomial(n=20, p=1/6). The histogram would be similar but centered around 20/6 ≈ 3.33 instead of 15/3 = 5.
-
-:::{admonition} Example: Customer Product Purchases
+:::{admonition} مثال: خرید محصول مشتری
 :class: tip
 
-A store tracks purchases across 4 product categories: Electronics (30%), Clothing (25%), Home Goods (25%), Food (20%). We observe 50 customers and count how many purchase from each category.
+یک فروشگاه خرید در ۴ دسته محصول را ثبت می‌کند: الکترونیک (۳۰٪)، پوشاک (۲۵٪)، لوازم خانگی (۲۵٪)، غذا (۲۰٪). ۵۰ مشتری را مشاهده و شمارش می‌کنیم چند نفر از هر دسته خرید می‌کنند.
 
-Let's use [`numpy.random.multinomial`](https://numpy.org/doc/stable/reference/random/generated/numpy.random.multinomial.html) to work with this distribution.
+از [`numpy.random.multinomial`](https://numpy.org/doc/stable/reference/random/generated/numpy.random.multinomial.html) برای کار با این توزیع استفاده می‌کنیم.
 
-**Setting up parameters and computing expected values:**
+**تنظیم پارامترها و محاسبه مقادیر مورد انتظار:**
 
-First, let's define our multinomial parameters and see what counts we expect:
-
+ابتدا پارامترهای multinomial را تعریف و شمارش‌های مورد انتظار را می‌بینیم:
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -3594,13 +3279,11 @@ print("Expected purchases per category:")
 for cat, exp in zip(categories, expected_counts):
     print(f"  {cat}: {exp:.1f}")
 ```
+با ۵۰ مشتری، انتظار ۱۵ خرید الکترونیک (۳۰٪)، ۱۲.۵ برای پوشاک و لوازم خانگی (۲۵٪) و ۱۰ برای غذا (۲۰٪) داریم.
 
-With 50 customers, we expect 15 to buy Electronics (30%), 12.5 each for Clothing and Home Goods (25%), and 10 for Food (20%).
+**تولید یک نمونه:**
 
-**Generating a single sample:**
-
-Let's simulate one day of 50 customers and see how many purchase from each category:
-
+یک روز ۵۰ مشتری را شبیه‌سازی می‌کنیم و می‌بینیم چند نفر از هر دسته خرید می‌کنند:
 ```{code-cell} ipython3
 # Generate one sample (one set of 50 customers)
 one_sample = np.random.multinomial(n_customers, probs)
@@ -3609,13 +3292,11 @@ for cat, count in zip(categories, one_sample):
     print(f"  {cat}: {count}")
 print(f"Total: {np.sum(one_sample)}")
 ```
+توجه کنید مجموع همیشه دقیقاً ۵۰ است — هر مشتری دقیقاً یک دسته انتخاب می‌کند. شمارش‌های فردی به‌دلیل تصادف حول مقادیر مورد انتظار متغیرند.
 
-Notice that the total is always exactly 50—every customer chooses exactly one category. The individual counts will vary around the expected values due to randomness.
+**تحلیل توزیع با شبیه‌سازی‌های متعدد:**
 
-**Analyzing the distribution through many simulations:**
-
-Let's simulate many days to understand the variability in each category's count:
-
+روزهای زیادی را شبیه‌سازی می‌کنیم تا تغییرپذیری شمارش هر دسته را بفهمیم:
 ```{code-cell} ipython3
 # Generate many samples to see the distribution
 n_sims = 10000
@@ -3628,13 +3309,11 @@ for i, cat in enumerate(categories):
     print(f"  Mean: {np.mean(counts):.2f} (theoretical: {n_customers * probs[i]:.2f})")
     print(f"  Std: {np.std(counts):.2f} (theoretical: {np.sqrt(n_customers * probs[i] * (1-probs[i])):.2f})")
 ```
+میانگین‌های شبیه‌سازی‌شده باید نزدیک مقادیر نظری (n × p_i) باشند و انحراف‌های معیار از فرمول دوجمله‌ای √(n × p_i × (1-p_i)) پیروی کنند چون توزیع حاشیه‌ای هر دسته دوجمله‌ای است.
 
-The simulated means should closely match the theoretical values (n × p_i), and the standard deviations follow the binomial formula √(n × p_i × (1-p_i)) since each category's marginal distribution is binomial.
+**مصورسازی توزیع‌های حاشیه‌ای:**
 
-**Visualizing the marginal distributions:**
-
-Let's plot the distribution of counts for each category separately:
-
+توزیع شمارش هر دسته را جداگانه رسم می‌کنیم:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3660,90 +3339,77 @@ for i, (cat, ax) in enumerate(zip(categories, axes)):
 plt.tight_layout()
 plt.savefig('ch07_multinomial_example.svg', format='svg', bbox_inches='tight')
 ```
-
-Each subplot shows one category's distribution across 10,000 simulations. The histograms are bell-shaped and centered on the expected values (red dashed lines). Electronics (p=0.30) has the highest expected count (15), while Food (p=0.20) has the lowest (10). Each category's marginal distribution is binomial with parameters (n=50, p=category probability), but importantly, these counts are NOT independent—they must sum to 50.
+هر زیرنمودار توزیع یک دسته در ۱۰,۰۰۰ شبیه‌سازی را نشان می‌دهد. هیستوگرام‌ها زنگوله‌ای و حول مقادیر مورد انتظار (خطوط چین قرمز) متمرکزند. الکترونیک (p=0.30) بالاترین شمارش مورد انتظار (۱۵) و غذا (p=0.20) پایین‌ترین (۱۰) را دارد. توزیع حاشیه‌ای هر دسته دوجمله‌ای با پارامترهای (n=50, p=احتمال دسته) است، اما مهم است که این شمارش‌ها مستقل نیستند — باید مجموع ۵۰ شوند.
 
 :::
 
-**Quick Check Questions**
+**سؤالات مرور سریع**
 
-1. You flip a fair coin 30 times and count heads and tails. What distribution models the counts?
-
-```{admonition} Answer
+۱. سکه منصفانه ۳۰ بار می‌اندازید و شیر و خط را می‌شمارید. کدام توزیع شمارش‌ها را مدل می‌کند؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Multinomial distribution with n=30, k=2, and p₁=p₂=0.5** - Or equivalently, Binomial(n=30, p=0.5) for the number of heads, since there are only 2 categories.
+**توزیع Multinomial با n=30, k=2 و p₁=p₂=0.5** — یا معادل آن، Binomial(n=30, p=0.5) برای تعداد شیر، چون فقط ۲ دسته داریم.
 
-When k=2, Multinomial is the same as Binomial.
+وقتی k=2، Multinomial همان Binomial است.
 ```
-
-2. For a Multinomial distribution with n=100 trials and k=4 equally likely categories, what is the expected count for any one category?
-
-```{admonition} Answer
+۲. برای توزیع Multinomial با n=100 آزمایش و k=4 دسته به‌طور برابر محتمل، شمارش مورد انتظار هر دسته چقدر است؟
+```{admonition} پاسخ
 :class: dropdown
 
-**E[X_i] = n × p_i = 100 × 0.25 = 25** - Each category is expected to appear 25 times.
+**E[X_i] = n × p_i = 100 × 0.25 = 25** — انتظار می‌رود هر دسته ۲۵ بار ظاهر شود.
 
-Since all 4 categories are equally likely, p_i = 1/4 = 0.25 for each.
+چون هر ۴ دسته به‌طور برابر محتمل‌اند، p_i = 1/4 = 0.25 برای هر کدام.
 ```
-
-3. How is the Multinomial distribution related to the Binomial distribution?
-
-```{admonition} Answer
+۳. توزیع Multinomial چه ارتباطی با توزیع Binomial دارد؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Binomial is a special case of Multinomial with k=2** - When there are only two categories, Multinomial reduces to Binomial.
+**Binomial حالت خاص Multinomial با k=2 است** — وقتی فقط دو دسته باشد، Multinomial به Binomial تقلیل می‌یابد.
 
-Multinomial generalizes Binomial from 2 outcomes to k outcomes across multiple trials.
+Multinomial Binomial را از ۲ پیامد به k پیامد در آزمایش‌های متعدد تعمیم می‌دهد.
 ```
-
-4. You roll a die 100 times and count how many times each face (1-6) appears. Should you use Categorical or Multinomial distribution?
-
-```{admonition} Answer
+۴. تاس ۱۰۰ بار می‌اندازید و می‌شمارید هر وجه (۱-۶) چند بار ظاهر می‌شود. از Categorical یا Multinomial استفاده کنید؟
+```{admonition} پاسخ
 :class: dropdown
 
-**Multinomial distribution** - You're performing *multiple trials* (100 rolls) and counting how many times each outcome occurs.
+**توزیع Multinomial** — *آزمایش‌های متعدد* (۱۰۰ پرتاب) انجام می‌دهید و تعداد وقوع هر پیامد را می‌شمارید.
 
-**Key distinction:**
-- **Categorical**: Single trial, multiple possible outcomes (one roll)
-- **Multinomial**: Multiple trials, counting occurrences of each outcome (100 rolls)
+**تمایز کلیدی:**
+- **Categorical**: آزمایش تکی، چند پیامد ممکن (یک پرتاب)
+- **Multinomial**: آزمایش‌های متعدد، شمارش وقوع هر پیامد (۱۰۰ پرتاب)
 
-Use Multinomial(n=100, k=6, p=[1/6, 1/6, 1/6, 1/6, 1/6, 1/6]) for a fair die.
+برای تاس منصفانه از Multinomial(n=100, k=6, p=[1/6, 1/6, 1/6, 1/6, 1/6, 1/6]) استفاده کنید.
 ```
-
-5. In a Multinomial distribution, what is the relationship between the individual category counts X₁, X₂, ..., Xₖ?
-
-```{admonition} Answer
+۵. در توزیع Multinomial، رابطه بین شمارش‌های دسته‌ای X₁, X₂, ..., Xₖ چیست؟
+```{admonition} پاسخ
 :class: dropdown
 
-**They must sum to n** - The constraint is: X₁ + X₂ + ... + Xₖ = n
+**باید مجموع n شوند** — قید: X₁ + X₂ + ... + Xₖ = n
 
-This is because every trial must result in exactly one category, so the total count across all categories equals the number of trials.
+چون هر آزمایش باید دقیقاً یک دسته داشته باشد، مجموع شمارش همه دسته‌ها برابر تعداد آزمایش‌هاست.
 
-**Important implication:** The counts are *not independent* - if you know k-1 of the counts, you can determine the last one.
+**پیامد مهم:** شمارش‌ها *مستقل نیستند* — اگر k-1 شمارش را بدانید، آخری را می‌توان تعیین کرد.
 
-**Example:** If n=100 and you know X₁=30, X₂=25, X₃=20 in a k=4 category case, then X₄ must equal 25 (since 30+25+20+25=100).
+**مثال:** اگر n=100 و X₁=30, X₂=25, X₃=20 در حالت k=4 بدانید، X₄ باید ۲۵ باشد (چون 30+25+20+25=100).
 ```
-
 +++
+## ۱۰. روابط بین توزیع‌ها
 
-## 10. Relationships Between Distributions
+درک ارتباط بین این توزیع‌ها بینش را عمیق‌تر می‌کند و تقریب‌های مفیدی فراهم می‌کند.
 
-Understanding the connections between these distributions can deepen insight and provide useful approximations.
+۱.  **Bernoulli به‌عنوان حالت خاص Binomial**: توزیع Binomial با $n=1$ آزمایش ($Binomial(1, p)$) معادل توزیع Bernoulli ($Bernoulli(p)$) است.
 
-1.  **Bernoulli as a special case of Binomial**: A Binomial distribution with $n=1$ trial ($Binomial(1, p)$) is equivalent to a Bernoulli distribution ($Bernoulli(p)$).
+۲.  **Geometric به‌عنوان حالت خاص Negative Binomial**: توزیع Negative Binomial که تعداد آزمایش‌ها تا اولین موفقیت را مدل می‌کند ($r=1$) ($NegativeBinomial(1, p)$) معادل توزیع Geometric ($Geometric(p)$) است.
 
-2.  **Geometric as a special case of Negative Binomial**: A Negative Binomial distribution modeling the number of trials until the first success ($r=1$) ($NegativeBinomial(1, p)$) is equivalent to a Geometric distribution ($Geometric(p)$).
+۳.  **تقریب Binomial برای Hypergeometric**: اگر اندازه جامعه $N$ بسیار بزرگ‌تر از اندازه نمونه $n$ باشد (مثلاً $N > 20n$)، کشیدن بدون جایگزینی (Hypergeometric) بسیار شبیه کشیدن با جایگزینی است. در این حالت، توزیع Hypergeometric($N, K, n$) را می‌توان با Binomial($n, p=K/N$) به‌خوبی تقریب زد. ضریب اصلاح جامعه متناهی $\frac{N-n}{N-1}$ به ۱ نزدیک می‌شود.
 
-3.  **Binomial Approximation to Hypergeometric**: If the population size $N$ is much larger than the sample size $n$ (e.g., $N > 20n$), then drawing without replacement (Hypergeometric) is very similar to drawing with replacement. In this case, the Hypergeometric($N, K, n$) distribution can be well-approximated by the Binomial($n, p=K/N$) distribution. The finite population correction factor $\frac{N-n}{N-1}$ approaches 1.
+۴.  **تقریب Poisson برای Binomial**: اگر تعداد آزمایش‌ها $n$ در Binomial بزرگ و احتمال موفقیت $p$ کوچک باشد، به‌طوری که امید ریاضی $\lambda = np$ متوسط باشد، Binomial($n, p$) را می‌توان با Poisson($\lambda = np$) به‌خوبی تقریب زد. این مفید است چون PMF پواسون وقتی $n$ بزرگ است اغلب محاسبه‌اش از PMF دوجمله‌ای ساده‌تر است. قاعده سرانگشتی رایج: اگر $n \ge 20$ و $p \le 0.05$، یا $n \ge 100$ و $np \le 10$ از این تقریب استفاده کنید.
 
-4.  **Poisson Approximation to Binomial**: If the number of trials $n$ in a Binomial distribution is large, and the success probability $p$ is small, such that the mean $\lambda = np$ is moderate, then the Binomial($n, p$) distribution can be well-approximated by the Poisson($\lambda = np$) distribution. This is useful because the Poisson PMF is often easier to compute than the Binomial PMF when $n$ is large. A common rule of thumb is to use this approximation if $n \ge 20$ and $p \le 0.05$, or $n \ge 100$ and $np \le 10$.
+**مثال: تقریب Poisson برای Binomial**
+$Binomial(n=1000, p=0.005)$ را در نظر بگیرید. اینجا $n$ بزرگ و $p$ کوچک است. امید ریاضی $\lambda = np = 1000 \times 0.005 = 5$ است. می‌توان با $Poisson(\lambda=5)$ تقریب زد.
 
-**Example: Poisson approximation to Binomial**
-Consider $Binomial(n=1000, p=0.005)$. Here $n$ is large, $p$ is small. The mean is $\lambda = np = 1000 \times 0.005 = 5$. We can approximate this with $Poisson(\lambda=5)$.
-
-Let's compare the PMF values of both distributions to see how well the Poisson approximation works in practice.
-
+بیایید مقادیر PMF هر دو توزیع را مقایسه کنیم تا ببینیم تقریب Poisson در عمل چقدر خوب کار می‌کند.
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -3767,7 +3433,6 @@ print("k\tBinomial P(X=k)\tPoisson P(X=k)\tDifference")
 for k, bp, pp in zip(k_vals_compare, binom_pmf, poisson_pmf):
     print(f"{k}\t{bp:.6f}\t{pp:.6f}\t{abs(bp-pp):.6f}")
 ```
-
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -3787,73 +3452,69 @@ plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.legend()
 plt.savefig('ch07_poisson_binomial_approximation.svg', format='svg', bbox_inches='tight')
 ```
+نمودار توزیع Binomial(100, 0.03) (میله‌های آبی) را با تقریب Poisson(3.0) (میله‌های قرمز) مقایسه می‌کند. توزیع‌ها تقریباً یکسان‌اند و نشان می‌دهند وقتی n بزرگ و p کوچک است، Poisson تقریب عالی و محاسباتی ساده‌تری برای Binomial است.
 
-The chart compares the Binomial(100, 0.03) distribution (blue bars) with the Poisson(3.0) approximation (red bars). The distributions are nearly identical, demonstrating that when n is large and p is small, the Poisson provides an excellent and computationally simpler approximation to the Binomial.
+۵.  **Categorical به‌عنوان تعمیم Bernoulli**: توزیع Categorical با $k=2$ دسته ($Categorical(p_1, p_2)$ که $p_1 + p_2 = 1$) معادل Bernoulli ($Bernoulli(p_1)$) است. Categorical Bernoulli را برای بیش از دو پیامد در آزمایش تکی گسترش می‌دهد.
 
-5.  **Categorical as generalization of Bernoulli**: A Categorical distribution with $k=2$ categories ($Categorical(p_1, p_2)$ where $p_1 + p_2 = 1$) is equivalent to a Bernoulli distribution ($Bernoulli(p_1)$). Categorical extends Bernoulli to handle more than two outcomes in a single trial.
+۶.  **Multinomial به‌عنوان تعمیم Binomial**: توزیع Multinomial با $k=2$ دسته ($Multinomial(n, p_1, p_2)$ که $p_1 + p_2 = 1$) معادل Binomial ($Binomial(n, p_1)$) است. Multinomial Binomial را برای شمارش پیامدها در بیش از دو دسته گسترش می‌دهد.
 
-6.  **Multinomial as generalization of Binomial**: A Multinomial distribution with $k=2$ categories ($Multinomial(n, p_1, p_2)$ where $p_1 + p_2 = 1$) is equivalent to a Binomial distribution ($Binomial(n, p_1)$). Multinomial extends Binomial to count outcomes across more than two categories.
+۷.  **Discrete Uniform به‌عنوان حالت خاص Categorical**: توزیع Categorical که همه $k$ احتمال برابر دارند ($p_1 = p_2 = \cdots = p_k = \frac{1}{k}$) توزیع Discrete Uniform روی $k$ مقدار است. این بیشترین عدم‌قطعیت درباره پیامد آزمایش تکی را نشان می‌دهد.
 
-7.  **Discrete Uniform as special case of Categorical**: A Categorical distribution where all $k$ probabilities are equal ($p_1 = p_2 = \cdots = p_k = \frac{1}{k}$) is a Discrete Uniform distribution on $k$ values. This represents maximum uncertainty about a single trial's outcome.
-
-8.  **Marginal distributions of Multinomial are Binomial**: If $(X_1, X_2, \ldots, X_k) \sim Multinomial(n, p_1, p_2, \ldots, p_k)$, then each individual count $X_i$ follows a Binomial distribution: $X_i \sim Binomial(n, p_i)$. This makes sense because we're just counting successes (category $i$) vs. failures (all other categories) across $n$ trials.
-
+۸.  **توزیع‌های حاشیه‌ای Multinomial دوجمله‌ای‌اند**: اگر $(X_1, X_2, \ldots, X_k) \sim Multinomial(n, p_1, p_2, \ldots, p_k)$، هر شمارش $X_i$ از Binomial پیروی می‌کند: $X_i \sim Binomial(n, p_i)$. منطقی است چون فقط موفقیت‌ها (دسته $i$) در برابر شکست‌ها (همه دسته‌های دیگر) در $n$ آزمایش را می‌شماریم.
 +++
+## خلاصه
 
-## Summary
+در این فصل، نه توزیع بنیادین احتمال گسسته را بررسی کردیم:
 
-In this chapter, we explored nine fundamental discrete probability distributions:
+* **Bernoulli**: آزمایش تکی، دو پیامد (موفقیت/شکست).
+* **Binomial**: تعداد ثابت آزمایش مستقل، شمارش موفقیت‌ها.
+* **Geometric**: تعداد آزمایش‌ها تا *اولین* موفقیت.
+* **Negative Binomial**: تعداد آزمایش‌ها تا *تعداد ثابت* ($r$) موفقیت.
+* **Poisson**: تعداد رویدادها در بازه ثابت زمان/فضا با نرخ متوسط داده‌شده.
+* **Hypergeometric**: تعداد موفقیت‌ها در نمونه‌ای *بدون* جایگزینی از جامعه متناهی.
+* **Discrete Uniform**: آزمایش تکی که همه پیامدها به‌طور برابر محتمل‌اند.
+* **Categorical**: آزمایش تکی با چند پیامد ممکن، هر کدام با احتمال خود.
+* **Multinomial**: تعداد ثابت آزمایش با چند پیامد ممکن، شمارش وقوع هر پیامد.
 
-* **Bernoulli**: Single trial, two outcomes (Success/Failure).
-* **Binomial**: Fixed number of independent trials, counts successes.
-* **Geometric**: Number of trials until the *first* success.
-* **Negative Binomial**: Number of trials until a *fixed number* ($r$) of successes.
-* **Poisson**: Number of events in a fixed interval of time/space, given an average rate.
-* **Hypergeometric**: Number of successes in a sample drawn *without* replacement from a finite population.
-* **Discrete Uniform**: Single trial where all outcomes are equally likely.
-* **Categorical**: Single trial with multiple possible outcomes, each with its own probability.
-* **Multinomial**: Fixed number of trials with multiple possible outcomes, counting occurrences of each outcome.
+سناریوهایی را که هر توزیع مدل می‌کند، پارامترها، PMFها، امید ریاضی و واریانس را آموختیم. مهم‌تر، دیدیم چگونه از توابع `scipy.stats` (`pmf`, `cdf`, `rvs`, `mean`, `var`, `std`, `sf`) برای محاسبه، شبیه‌سازی و مصورسازی استفاده کنیم. روابط مهم را نیز بحث کردیم، از جمله:
+- Bernoulli ↔ Binomial ↔ Categorical ↔ Multinomial (تعمیم‌ها)
+- Discrete Uniform به‌عنوان حالت خاص Categorical
+- تقریب Poisson برای Binomial
+- تقریب Binomial برای Hypergeometric
 
-We learned the scenarios each distribution models, their parameters, PMFs, means, and variances. Critically, we saw how to leverage `scipy.stats` functions (`pmf`, `cdf`, `rvs`, `mean`, `var`, `std`, `sf`) to perform calculations, generate simulations, and visualize these distributions. We also discussed important relationships, such as:
-- Bernoulli ↔ Binomial ↔ Categorical ↔ Multinomial (generalizations)
-- Discrete Uniform as a special case of Categorical
-- Poisson approximation to Binomial
-- Binomial approximation to Hypergeometric
+تسلط بر این توزیع‌ها ابزار قدرتمندی برای مدل‌سازی پدیده‌های تصادفی در تحلیل داده، علم، مهندسی و کسب‌وکار فراهم می‌کند. در فصل‌های بعد به متغیرهای تصادفی پیوسته و توزیع‌های رایج متناظر می‌رویم.
 
-Mastering these distributions provides a powerful toolkit for modeling various random phenomena encountered in data analysis, science, engineering, and business. In the next chapters, we will transition to continuous random variables and their corresponding common distributions.
+**درخت تصمیم: انتخاب توزیع مناسب**
 
-**Decision Tree: Choosing the Right Distribution**
-
-Use this decision tree to help identify which distribution fits your scenario:
-
+از این درخت تصمیم برای شناسایی توزیع متناسب با سناریوی خود استفاده کنید:
 ```{mermaid}
 graph TD
-    Start{What are you<br/>modeling?}
+    Start{چه چیزی را<br/>مدل می‌کنید؟}
 
-    Start -->|Single trial| Single{How many<br/>outcomes?}
-    Start -->|Multiple trials| Multi{Fixed or<br/>variable trials?}
-    Start -->|Events in interval| IntervalQ{Constant<br/>average rate?}
+    Start -->|آزمایش تکی| Single{چند<br/>پیامد؟}
+    Start -->|آزمایش‌های متعدد| Multi{آزمایش‌های ثابت یا<br/>متغیر؟}
+    Start -->|رویدادها در بازه| IntervalQ{نرخ متوسط<br/>ثابت؟}
 
-    Single -->|Only 2| Bernoulli[Bernoulli]
-    Single -->|More than 2| MultiOut{All outcomes<br/>equally likely?}
+    Single -->|فقط ۲| Bernoulli[Bernoulli]
+    Single -->|بیش از ۲| MultiOut{همه پیامدها<br/>به‌طور برابر محتمل؟}
 
-    MultiOut -->|Yes| Uniform[Discrete Uniform]
-    MultiOut -->|No| Categorical[Categorical]
+    MultiOut -->|بله| Uniform[Discrete Uniform]
+    MultiOut -->|خیر| Categorical[Categorical]
 
-    Multi -->|Fixed number n| Fixed{How many<br/>outcomes per trial?}
-    Multi -->|Variable waiting| Waiting{Waiting for<br/>which success?}
+    Multi -->|تعداد ثابت n| Fixed{چند پیامد<br/>در هر آزمایش؟}
+    Multi -->|انتظار متغیر| Waiting{منتظر کدام<br/>موفقیت؟}
 
-    Fixed -->|Only 2| TwoOut{Sampling with or<br/>without replacement?}
-    Fixed -->|More than 2| Multinomial[Multinomial]
+    Fixed -->|فقط ۲| TwoOut{نمونه‌گیری با یا<br/>بدون جایگزینی؟}
+    Fixed -->|بیش از ۲| Multinomial[Multinomial]
 
-    TwoOut -->|With replacement<br/>or infinite pop| Binomial[Binomial]
-    TwoOut -->|Without replacement<br/>finite pop| Hypergeometric[Hypergeometric]
+    TwoOut -->|با جایگزینی<br/>یا جامعه نامتناهی| Binomial[Binomial]
+    TwoOut -->|بدون جایگزینی<br/>جامعه متناهی| Hypergeometric[Hypergeometric]
 
-    Waiting -->|First success| Geometric[Geometric]
-    Waiting -->|r-th success r>1| NegBinom[Negative Binomial]
+    Waiting -->|اولین موفقیت| Geometric[Geometric]
+    Waiting -->|موفقیت r-ام r>1| NegBinom[Negative Binomial]
 
-    IntervalQ -->|Yes| PoissonDist[Poisson]
-    IntervalQ -->|Need other| Other[See Exploring<br/>Additional Distributions]
+    IntervalQ -->|بله| PoissonDist[Poisson]
+    IntervalQ -->|سایر موارد| Other[بخش کاوش توزیع‌های<br/>بیشتر را ببینید]
 
     style Bernoulli fill:#e1f5ff
     style Binomial fill:#e1f5ff
@@ -3865,132 +3526,130 @@ graph TD
     style Categorical fill:#ffe1f5
     style Multinomial fill:#ffe1f5
 ```
+**سؤالات کلیدی برای پرسیدن:**
 
-**Key Questions to Ask:**
+۱. **چند آزمایش؟** تکی → Bernoulli/Categorical/Discrete Uniform. تعداد ثابت → Binomial/Multinomial/Hypergeometric. متغیر → Geometric/Negative Binomial.
 
-1. **How many trials?** Single → Bernoulli/Categorical/Discrete Uniform. Fixed number → Binomial/Multinomial/Hypergeometric. Variable → Geometric/Negative Binomial.
+۲. **چند پیامد در هر آزمایش؟** دو → Bernoulli/Binomial/Geometric/Negative Binomial. بیش از دو → Categorical/Multinomial/Discrete Uniform.
 
-2. **How many outcomes per trial?** Two → Bernoulli/Binomial/Geometric/Negative Binomial. More than two → Categorical/Multinomial/Discrete Uniform.
+۳. **با یا بدون جایگزینی؟** با جایگزینی (یا جامعه نامتناهی) → Binomial. بدون جایگزینی (جامعه متناهی) → Hypergeometric.
 
-3. **With or without replacement?** With replacement (or infinite population) → Binomial. Without replacement (finite population) → Hypergeometric.
+۴. **چه چیزی را می‌شمارید؟** موفقیت‌ها در آزمایش‌های ثابت → Binomial/Multinomial. آزمایش‌ها تا موفقیت → Geometric/Negative Binomial. رویدادها در بازه → Poisson.
 
-4. **What are you counting?** Successes in fixed trials → Binomial/Multinomial. Trials until success → Geometric/Negative Binomial. Events in interval → Poisson.
+۵. **آیا احتمال‌ها برابرند؟** بله → Discrete Uniform. خیر → Categorical.
 
-5. **Are probabilities equal?** Yes → Discrete Uniform. No → Categorical.
+**مثال‌های کاربردی:**
 
-**Example Applications:**
+- «یک بار سکه بیندازید» → Bernoulli (آزمایش تکی، ۲ پیامد)
+- «۱۰ بار سکه بیندازید، شیرها را بشمارید» → Binomial (آزمایش‌های ثابت، ۲ پیامد، با جایگزینی)
+- «تا رسیدن به ۶ تاس بیندازید» → Geometric (آزمایش‌های متغیر، منتظر اولین موفقیت)
+- «۵ کارت از دسته بکشید، خشت‌ها را بشمارید» → Hypergeometric (آزمایش‌های ثابت، ۲ پیامد، بدون جایگزینی)
+- «مشتریان رسیده در ساعت را بشمارید» → Poisson (رویدادها در بازه)
+- «یک بار تاس بیندازید» → Discrete Uniform (آزمایش تکی، ۶ پیامد به‌طور برابر محتمل)
+- «رنگ چراغ هنگام رسیدن» → Categorical (آزمایش تکی، ۳ پیامد با احتمال‌های متفاوت)
+- «۲۰ بار تاس بیندازید، هر وجه را بشمارید» → Multinomial (آزمایش‌های ثابت، ۶ پیامد)
 
-- "Flip a coin once" → Bernoulli (single trial, 2 outcomes)
-- "Flip a coin 10 times, count heads" → Binomial (fixed trials, 2 outcomes, with replacement)
-- "Roll a die until you get a 6" → Geometric (variable trials, waiting for first success)
-- "Draw 5 cards from a deck, count hearts" → Hypergeometric (fixed trials, 2 outcomes, without replacement)
-- "Count customers arriving per hour" → Poisson (events in interval)
-- "Roll a die once" → Discrete Uniform (single trial, 6 equally likely outcomes)
-- "Traffic light color when you arrive" → Categorical (single trial, 3 outcomes with different probabilities)
-- "Roll a die 20 times, count each face" → Multinomial (fixed trials, 6 outcomes)
+## کاوش توزیع‌های بیشتر
 
-## Exploring Additional Distributions
+اگرچه این فصل نه توزیع گسسته بنیادین را پوشش می‌دهد، توزیع‌های بسیار دیگری برای سناریوهای تخصصی وجود دارند. نحوه یادگیری توزیع‌های فراتر از این فصل:
 
-While this chapter covers nine fundamental discrete distributions, many other distributions exist for specialized scenarios. Here's how to learn about distributions beyond this chapter:
+**چگونه یک توزیع جدید را یاد بگیریم:**
 
-**How to Approach Learning a New Distribution:**
+وقتی با توزیع جدیدی روبه‌رو می‌شوید، این گام‌ها را دنبال کنید:
 
-When you encounter a new distribution, follow these steps:
+۱. **سناریو را بفهمید**: چه فرایند دنیای واقعی را مدل می‌کند؟ چه تفاوتی با توزیع‌های آشنا دارد؟
 
-1. **Understand the Scenario**: What real-world process does it model? What makes it different from distributions you already know?
+۲. **پارامترها را شناسایی کنید**: چه مقادیری توزیع را تعریف می‌کنند؟ (مثل $n$ و $p$ برای Binomial، $\lambda$ برای Poisson)
 
-2. **Identify the Parameters**: What values define the distribution? (like $n$ and $p$ for Binomial, $\lambda$ for Poisson)
+۳. **PMF (یا PDF برای پیوسته) را مطالعه کنید**: احتمال‌ها چگونه محاسبه می‌شوند؟ فرمول چیست؟
+   - PMF = تابع جرم احتمال (توزیع‌های گسسته، مانند این فصل)
+   - PDF = تابع چگالی احتمال (توزیع‌های پیوسته، در فصل‌های ۸-۹)
 
-3. **Study the PMF (or PDF for continuous)**: How are probabilities calculated? What's the formula?
-   - PMF = Probability Mass Function (discrete distributions, like those in this chapter)
-   - PDF = Probability Density Function (continuous distributions, covered in Chapters 8-9)
+۴. **ویژگی‌های کلیدی را بیاموزید**: امید ریاضی و واریانس چیست؟ ویژگی‌های خاصی دارد؟
 
-4. **Learn Key Properties**: What are the mean and variance? Are there special characteristics?
+۵. **روابط را کاوش کنید**: چه ارتباطی با توزیع‌های آشنا دارد؟ حالت خاص یا تعمیم چیزی آشناست؟
 
-5. **Explore Relationships**: How does it relate to distributions you already know? Is it a special case or generalization of something familiar?
+۶. **مثال‌ها را ببینید**: مثال‌های ملموس و مصورسازی برای ساخت شهود بیابید.
 
-6. **See Examples**: Find concrete examples and visualizations to build intuition.
+۷. **با کد تمرین کنید**: از `scipy.stats` یا کتابخانه‌های مشابه برای کار عملی با توزیع استفاده کنید.
 
-7. **Practice with Code**: Use `scipy.stats` or similar libraries to work with the distribution hands-on.
+**منابع کلیدی برای یادگیری توزیع‌های دیگر:**
 
-**Key Resources for Learning About Other Distributions:**
+۱. **ویکی‌پدیا** — هر توزیع مقاله جامعی با قالب استاندارد دارد:
+   - تعریف و سناریو
+   - پارامترها و پشتیبانی (مقادیر ممکن)
+   - فرمول PMF (گسسته) یا PDF (پیوسته)
+   - امید ریاضی، واریانس و سایر ویژگی‌ها
+   - روابط با توزیع‌های دیگر
+   - مثال‌ها و کاربردها
+   - جستجو: «[نام توزیع] distribution» (مثلاً «Beta-Binomial distribution»)
 
-1. **Wikipedia** - Each distribution has a comprehensive article with a standardized format:
-   - Definition and scenario
-   - Parameters and support (possible values)
-   - PMF formula (discrete) or PDF formula (continuous)
-   - Mean, variance, and other properties
-   - Relationships to other distributions
-   - Examples and applications
-   - Search for: "[Distribution name] distribution" (e.g., "Beta-Binomial distribution")
+۲. **مستندات SciPy** — ماژول `scipy.stats` پایتون بیش از ۱۰۰ توزیع دارد:
+   - مرجع کامل: https://docs.scipy.org/doc/scipy/reference/stats.html
+   - هر توزیع: PMF (گسسته) یا PDF (پیوسته)، CDF، امید ریاضی، واریانس، نمونه‌گیری تصادفی
+   - شامل مثال‌های کد برای هر توزیع
+   - توزیع‌های گسسته: `bernoulli`, `binom`, `geom`, `hypergeom`, `poisson`, `nbinom`, `randint` و بسیار دیگر
 
-2. **SciPy Documentation** - Python's `scipy.stats` module includes 100+ distributions:
-   - Complete reference: https://docs.scipy.org/doc/scipy/reference/stats.html
-   - Each distribution has: PMF (discrete) or PDF (continuous), CDF, mean, variance, random sampling
-   - Includes code examples showing how to use each distribution
-   - Discrete distributions: `bernoulli`, `binom`, `geom`, `hypergeom`, `poisson`, `nbinom`, `randint`, and many more
+۳. **کاوشگرهای تعاملی توزیع**:
+   - جستجو: «distribution explorer» یا «probability distribution visualizer»
+   - این ابزارها پارامترها را تنظیم و تغییر توزیع را نشان می‌دهند
+   - برای ساخت شهود درباره رفتار توزیع کمک می‌کند
 
-3. **Interactive Distribution Explorers**:
-   - Search for "distribution explorer" or "probability distribution visualizer"
-   - These tools let you adjust parameters and see how distributions change
-   - Helps build intuition about distribution behavior
+۴. **کتاب‌های کلاسیک**:
+   - *Introduction to Probability* اثر Bertsekas & Tsitsiklis
+   - *A First Course in Probability* اثر Sheldon Ross
+   - *Probability and Statistics* اثر DeGroot & Schervish
+   - این‌ها با اثبات و استنتاج ریاضی دقیق ارائه می‌شوند
 
-4. **Classic Textbooks**:
-   - *Introduction to Probability* by Bertsekas & Tsitsiklis
-   - *A First Course in Probability* by Sheldon Ross
-   - *Probability and Statistics* by DeGroot & Schervish
-   - These provide rigorous treatment with proofs and derivations
+۵. **منابع آنلاین**:
+   - **NIST Engineering Statistics Handbook**: مرجع جامع توزیع‌های رایج
+   - **Wolfram MathWorld**: دانشنامه ریاضی با اطلاعات تفصیلی توزیع‌ها
+   - **Stack Exchange (Cross Validated)**: سایت پرسش و پاسخ آمار
 
-5. **Online Resources**:
-   - **NIST Engineering Statistics Handbook**: Comprehensive reference for common distributions
-   - **Wolfram MathWorld**: Mathematical encyclopedia with detailed distribution information
-   - **Stack Exchange (Cross Validated)**: Q&A site for statistics questions
+**مثال‌هایی از توزیع‌های گسسته دیگر:**
 
-**Examples of Other Discrete Distributions:**
+برخی توزیع‌هایی که ممکن است ببینید و در این فصل به‌تفصیل نپوشاندیم:
 
-Here are some distributions you might encounter that we didn't cover in detail:
+- **Beta-Binomial**: مانند Binomial، اما احتمال موفقیت $p$ خود تصادفی است (از آزمایش به آزمایش متغیر)
+- **Logarithmic Distribution**: در بوم‌شناسی و نظریه اطلاعات
+- **Zipf Distribution**: فراوانی کلمات، بازدید وب‌سایت (قانون توان)
+- **Zero-Inflated Poisson**: Poisson با صفرهای اضافه، رایج در داده شمارشی
+- **Conway-Maxwell-Poisson**: تعمیم Poisson با پارامتر پراکندگی اضافه
+- **Benford's Law**: توزیع ارقام پیشرو در مجموعه‌داده‌های دنیای واقعی
 
-- **Beta-Binomial**: Like Binomial, but the success probability $p$ itself is random (varies from trial to trial)
-- **Logarithmic Distribution**: Used in ecology and information theory
-- **Zipf Distribution**: Models frequency of words, website visits (follows power law)
-- **Zero-Inflated Poisson**: Poisson with extra zeros, common in count data
-- **Conway-Maxwell-Poisson**: Generalization of Poisson with extra dispersion parameter
-- **Benford's Law**: Distribution of leading digits in real-world datasets
+**یافتن توزیع مناسب:**
 
-**Finding the Right Distribution:**
+اگر داده یا سناریو دارید و باید توزیع مناسب را بیابید:
 
-If you have data or a scenario and need to find which distribution fits:
+۱. **فرایند را شناسایی کنید**: آزمایش تکی؟ آزمایش‌های ثابت؟ زمان انتظار؟ رویدادها در بازه؟
 
-1. **Identify the process**: Single trial? Fixed trials? Waiting time? Events in interval?
+۲. **پشتیبانی را بررسی کنید**: متغیر تصادفی چه مقادیری می‌تواند بگیرد؟ (مثلاً ۰/۱، اعداد صحیح نامنفی، بازه متناهی)
 
-2. **Check the support**: What values can the random variable take? (e.g., 0/1, non-negative integers, finite range)
+۳. **پارامترها را در نظر بگیرید**: چه جنبه‌هایی از فرایند می‌توانند متغیر باشند؟ (احتمال موفقیت، نرخ، اندازه نمونه و غیره)
 
-3. **Consider the parameters**: What aspects of the process can vary? (success probability, rate, sample size, etc.)
+۴. **از درخت تصمیم** (در زیر) برای محدود کردن گزینه‌ها استفاده کنید
 
-4. **Use the decision tree** (see below) to narrow down candidates
+۵. **توزیع‌های نامزد را آزمایش کنید** با مصورسازی و آزمون‌های برازش
 
-5. **Test candidate distributions** using visualizations and goodness-of-fit tests
+۶. **ادبیات حوزه را مطالعه کنید**: ببینید در رشته شما چه توزیع‌هایی رایج‌اند
 
-6. **Consult domain literature**: See what distributions are commonly used in your field
-
-:::{admonition} Key Takeaway
+:::{admonition} نکته کلیدی
 :class: tip
 
-Understanding the underlying probabilistic structure is more important than memorizing formulas. Focus on building intuition about when and why to use each distribution!
+درک ساختار احتمالاتی زیربنایی مهم‌تر از حفظ فرمول‌هاست. روی ساخت شهود درباره *چه زمانی* و *چرا* از هر توزیع استفاده کنید تمرکز کنید!
 :::
 
-## Exercises
+## تمرین‌ها
 
-1. **Customer Arrivals:** The average number of customers arriving at a small cafe is 10 per hour. Assume arrivals follow a Poisson distribution.
-    a. What is the probability that exactly 8 customers arrive in a given hour?
-    b. What is the probability that 12 or fewer customers arrive in a given hour?
-    c. What is the probability that more than 15 customers arrive in a given hour?
-    d. Simulate 1000 hours of customer arrivals and plot a histogram of the results. Compare it to the theoretical PMF.
-
-    ```{admonition} Answer
+۱. **ورود مشتریان:** میانگین مشتریان رسیده به کافه کوچک ۱۰ نفر در ساعت است. فرض کنید ورودها از توزیع Poisson پیروی می‌کنند.
+    الف. احتمال رسیدن دقیقاً ۸ مشتری در یک ساعت مشخص چقدر است؟
+    ب. احتمال رسیدن ۱۲ مشتری یا کمتر در یک ساعت مشخص چقدر است؟
+    ج. احتمال رسیدن بیش از ۱۵ مشتری در یک ساعت مشخص چقدر است؟
+    د. ۱۰۰۰ ساعت ورود مشتری را شبیه‌سازی و هیستوگرام نتایج را رسم کنید. با PMF نظری مقایسه کنید.
+    ```{admonition} پاسخ
     :class: dropdown
 
-    a) Using the Poisson distribution with $\lambda = 10$:
+    الف) با استفاده از توزیع Poisson با $\lambda = 10$:
 
     ```{code-cell} ipython3
     import numpy as np
@@ -4002,23 +3661,17 @@ Understanding the underlying probabilistic structure is more important than memo
     prob_8 = cafe_rv.pmf(8)
     print(f"P(Exactly 8 customers) = {prob_8:.4f}")
     ```
-
-    b) The probability of 12 or fewer customers:
-
+ب) احتمال ۱۲ مشتری یا کمتر:
     ```{code-cell} ipython3
     prob_12_or_fewer = cafe_rv.cdf(12)
     print(f"P(12 or fewer customers) = {prob_12_or_fewer:.4f}")
     ```
-
-    c) The probability of more than 15 customers:
-
+ج) احتمال بیش از ۱۵ مشتری:
     ```{code-cell} ipython3
     prob_over_15 = cafe_rv.sf(15)
     print(f"P(More than 15 customers) = {prob_over_15:.4f}")
     ```
-
-    d) Simulation and visualization:
-
+د) شبیه‌سازی و مصورسازی:
     ```{code-cell} ipython3
     n_sim_hours = 1000
     sim_arrivals = cafe_rv.rvs(size=n_sim_hours)
@@ -4041,20 +3694,19 @@ Understanding the underlying probabilistic structure is more important than memo
     plt.xlim(-0.5, max_observed + 1.5)
     plt.show()
     ```
-
-    The histogram closely matches the theoretical PMF, confirming the Poisson model.
+هیستوگرام به‌طور نزدیک با PMF نظری مطابقت دارد و مدل Poisson را تأیید می‌کند.
     ```
 
-2. **Quality Control:** A batch contains 50 items, of which 5 are defective. You randomly sample 8 items without replacement.
-    a. What distribution models the number of defective items in your sample? State the parameters.
-    b. What is the probability that exactly 1 item in your sample is defective?
-    c. What is the probability that at most 2 items in your sample are defective?
-    d. What is the expected number of defective items in your sample?
+۲. **کنترل کیفیت:** یک دسته شامل ۵۰ قلم است که ۵ قلم آن معیوب است. ۸ قلم را به‌صورت تصادفی و بدون جایگزینی نمونه‌گیری می‌کنید.
+    الف. چه توزیعی تعداد اقلام معیوب در نمونه شما را مدل می‌کند؟ پارامترها را بیان کنید.
+    ب. احتمال اینکه دقیقاً ۱ قلم در نمونه شما معیوب باشد چقدر است؟
+    ج. احتمال اینکه حداکثر ۲ قلم در نمونه شما معیوب باشد چقدر است؟
+    د. تعداد مورد انتظار اقلام معیوب در نمونه شما چقدر است؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    a) This follows a Hypergeometric distribution since we're sampling without replacement from a finite population. The parameters are: $N=50$ (population size), $K=5$ (defective items in population), $n=8$ (sample size).
+    الف) این از توزیع Hypergeometric پیروی می‌کند زیرا بدون جایگزینی از یک جمعیت متناهی نمونه‌گیری می‌کنیم. پارامترها: $N=50$ (اندازه جمعیت)، $K=5$ (اقلام معیوب در جمعیت)، $n=8$ (اندازه نمونه).
 
     ```{code-cell} ipython3
     import numpy as np
@@ -4067,23 +3719,17 @@ Understanding the underlying probabilistic structure is more important than memo
     qc_rv = stats.hypergeom(M=N_qc, n=K_qc, N=n_qc)
     print(f"Distribution: Hypergeometric(N={N_qc}, K={K_qc}, n={n_qc})")
     ```
-
-    b) Probability of exactly 1 defective item:
-
+ب) احتمال دقیقاً ۱ قلم معیوب:
     ```{code-cell} ipython3
     prob_1_defective = qc_rv.pmf(1)
     print(f"P(Exactly 1 defective in sample) = {prob_1_defective:.4f}")
     ```
-
-    c) Probability of at most 2 defective items:
-
+ج) احتمال حداکثر ۲ قلم معیوب:
     ```{code-cell} ipython3
     prob_at_most_2 = qc_rv.cdf(2)
     print(f"P(At most 2 defectives in sample) = {prob_at_most_2:.4f}")
     ```
-
-    d) Expected number of defective items:
-
+د) تعداد مورد انتظار اقلام معیوب:
     ```{code-cell} ipython3
     expected_defective = qc_rv.mean()
     print(f"Expected number of defectives in sample = {expected_defective:.4f}")
@@ -4091,18 +3737,18 @@ Understanding the underlying probabilistic structure is more important than memo
     ```
     ```
 
-3. **Website Success:** A new website feature has a 3% chance of being used by a visitor ($p=0.03$). Assume visitors are independent.
-    a. If 100 visitors come to the site, what is the probability that exactly 3 visitors use the feature? What distribution applies?
-    b. What is the probability that 5 or fewer visitors use the feature out of 100?
-    c. What is the expected number of users out of 100 visitors?
-    d. A developer tests the feature repeatedly until the first user successfully uses it. What is the probability that the first success occurs on the 20th visitor? What distribution applies?
-    e. What is the expected number of visitors needed to see the first success?
-    f. How many visitors are expected until the 5th user is observed? What distribution applies?
+۳. **موفقیت وب‌سایت:** یک قابلیت جدید وب‌سایت ۳٪ شانس استفاده توسط هر بازدیدکننده را دارد ($p=0.03$). فرض کنید بازدیدکنندگان مستقل هستند.
+    الف. اگر ۱۰۰ بازدیدکننده به سایت بیایند، احتمال اینکه دقیقاً ۳ نفر از قابلیت استفاده کنند چقدر است؟ چه توزیعی اعمال می‌شود؟
+    ب. احتمال اینکه ۵ بازدیدکننده یا کمتر از ۱۰۰ نفر از قابلیت استفاده کنند چقدر است؟
+    ج. تعداد مورد انتظار کاربران از ۱۰۰ بازدیدکننده چقدر است؟
+    د. یک توسعه‌دهنده قابلیت را تا اولین استفاده موفق کاربر بارها آزمایش می‌کند. احتمال وقوع اولین موفقیت در بازدیدکننده ۲۰ام چقدر است؟ چه توزیعی اعمال می‌شود؟
+    ه. تعداد مورد انتظار بازدیدکنندگان تا مشاهده اولین موفقیت چقدر است؟
+    و. تا مشاهده کاربر پنجم، چند بازدیدکننده مورد انتظار است؟ چه توزیعی اعمال می‌شود؟
 
-    ```{admonition} Answer
+    ```{admonition} پاسخ
     :class: dropdown
 
-    a) This follows a Binomial distribution with $n=100$ trials and $p=0.03$:
+    الف) این از توزیع Binomial با $n=100$ آزمایش و $p=0.03$ پیروی می‌کند:
 
     ```{code-cell} ipython3
     import numpy as np
@@ -4116,41 +3762,31 @@ Understanding the underlying probabilistic structure is more important than memo
     print(f"Distribution: Binomial(n={n_ws}, p={p_ws})")
     print(f"P(Exactly 3 users) = {prob_3_users:.4f}")
     ```
-
-    b) Probability of 5 or fewer users:
-
+ب) احتمال ۵ کاربر یا کمتر:
     ```{code-cell} ipython3
     prob_5_or_fewer = ws_binom_rv.cdf(5)
     print(f"P(5 or fewer users) = {prob_5_or_fewer:.4f}")
     ```
-
-    c) Expected number of users:
-
+ج) تعداد مورد انتظار کاربران:
     ```{code-cell} ipython3
     expected_users = ws_binom_rv.mean()
     print(f"Expected number of users = {expected_users:.2f}")
     # Theoretical: E[X] = n*p = 100 * 0.03 = 3
     ```
-
-    d) This follows a Geometric distribution. The probability that the first success occurs on trial 20:
-
+د) این از توزیع Geometric پیروی می‌کند. احتمال وقوع اولین موفقیت در آزمایش ۲۰:
     ```{code-cell} ipython3
     ws_geom_rv = stats.geom(p=p_ws)
     prob_first_on_20 = ws_geom_rv.pmf(19)  # scipy counts 19 failures before success
     print(f"Distribution: Geometric(p={p_ws})")
     print(f"P(First success on trial 20) = {prob_first_on_20:.4f}")
     ```
-
-    e) Expected number of visitors until first success:
-
+ه) تعداد مورد انتظار بازدیدکنندگان تا اولین موفقیت:
     ```{code-cell} ipython3
     expected_trials_geom = 1 / p_ws
     print(f"Expected visitors until first success = {expected_trials_geom:.2f}")
     # Theoretical: E[X] = 1/p = 1/0.03 ≈ 33.33
     ```
-
-    f) This follows a Negative Binomial distribution with $r=5$ successes:
-
+و) این از توزیع Negative Binomial با $r=5$ موفقیت پیروی می‌کند:
     ```{code-cell} ipython3
     r_ws = 5
     expected_trials_nbinom = r_ws / p_ws
@@ -4159,3 +3795,4 @@ Understanding the underlying probabilistic structure is more important than memo
     # Theoretical: E[X] = r/p = 5/0.03 ≈ 166.67
     ```
     ```
+

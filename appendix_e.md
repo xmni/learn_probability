@@ -13,252 +13,252 @@ downloads:
   - file: notebooks/appendix_e.ipynb
 ---
 
-# Appendix E: Summary of Formulas
+# پیوست پ: خلاصهٔ فرمول‌ها
 
-This appendix provides a summary of the key formulas introduced in Chapters 1–8.
+این پیوست خلاصه‌ای از فرمول‌های کلیدی معرفی‌شده در فصول ۱–۸ ارائه می‌دهد.
 
-## **Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events**
+## **فصل ۲: زبان احتمال: مجموعه‌ها، فضاهای نمونه و رویدادها**
 
-### **Axioms of Probability**
+### **اصول موضوعهٔ احتمال**
 
-Let $S$ be a sample space, and $P(A)$ denote the probability of an event $A$.
+فرض کنید $S$ فضای نمونه و $P(A)$ احتمال رویداد $A$ باشد.
 
-1. **Non-negativity**: For any event $A$, the probability of $A$ is greater than or equal to zero. $P(A)\ge 0$
-2. **Normalization**: The probability of the entire sample space $S$ is equal to $1$. $P(S)=1$
-3. **Additivity for Disjoint Events**: If $A_1,A_2,A_3,\dots$ is a sequence of *mutually exclusive* (disjoint) events (i.e., $A_i\cap A_j=\emptyset$ for all $i\ne j$), then the probability of their union is the sum of their individual probabilities.
+1. **نامنفی بودن**: برای هر رویداد $A$، احتمال $A$ بزرگ‌تر یا مساوی صفر است. $P(A)\ge 0$
+2. **نرمال‌سازی**: احتمال کل فضای نمونه $S$ برابر ۱ است. $P(S)=1$
+3. **جمع‌پذیری برای رویدادهای ناهمپوشان**: اگر $A_1,A_2,A_3,\dots$ دنباله‌ای از رویدادهای *متقابلاً منحصر به فرد* (ناهمپوشان) باشد (یعنی $A_i\cap A_j=\emptyset$ برای همهٔ $i\ne j$)، آنگاه احتمال اجتماع آن‌ها مجموع احتمال‌های فردی است.
    $$P(A_1\cup A_2\cup A_3\cup \cdots)=P(A_1)+P(A_2)+P(A_3)+\cdots$$
 
-   * For a finite number of disjoint events, say $A$ and $B$: If $A\cap B=\emptyset$, then $P(A\cup B)=P(A)+P(B)$
+   * برای تعداد متناهی رویدادهای ناهمپوشان، مثلاً $A$ و $B$: اگر $A\cap B=\emptyset$، آنگاه $P(A\cup B)=P(A)+P(B)$
 
-* **Probability of Impossible Event**: The probability of an impossible event (the empty set, $\emptyset$) is $0$. $P(\emptyset)=0$
+* **احتمال رویداد غیرممکن**: احتمال رویداد غیرممکن (مجموعهٔ تهی، $\emptyset$) برابر $0$ است. $P(\emptyset)=0$
 
-### **Basic Probability Rules**
+### **قواعد پایهٔ احتمال**
 
-1. **Probability Range**: For any event $A$: $0\le P(A)\le 1$
-2. **Complement Rule**: The probability that event $A$ does *not* occur is $1$ minus the probability that it *does* occur. $P(A^c)=1-P(A)$
-3. **Addition Rule (General)**: For any two events $A$ and $B$ (not necessarily disjoint), the probability that $A$ *or* $B$ (or both) occurs is:
+1. **محدودهٔ احتمال**: برای هر رویداد $A$: $0\le P(A)\le 1$
+2. **قاعدهٔ متمم**: احتمال وقوع نیافتن رویداد $A$ برابر ۱ منهای احتمال وقوع آن است. $P(A^c)=1-P(A)$
+3. **قاعدهٔ جمع (عمومی)**: برای هر دو رویداد $A$ و $B$ (لزوماً ناهمپوشان نیستند)، احتمال وقوع $A$ *یا* $B$ (یا هر دو) عبارت است از:
    $$P(A\cup B)=P(A)+P(B)-P(A\cap B)$$
 
-### **Empirical Probability**
+### **احتمال تجربی**
 
-The empirical probability of an event $A$ is estimated from simulations:
+احتمال تجربی رویداد $A$ از شبیه‌سازی‌ها برآورد می‌شود:
 $$
 P_{\text{empirical}}(A)=\frac{\text{Number of times event $A$ occurred}}{\text{Total number of trials}}.
 $$
 
-## **Chapter 3: Counting Techniques: Permutations and Combinations**
+## **فصل ۳: فنون شمارش: تبدیلات و ترکیبات**
 
-### **The Multiplication Principle**
+### **اصل ضرب**
 
-If a procedure can be broken down into a sequence of $k$ steps, with $n_1$ ways for the first step, $n_2$ for the second, $\dots$, $n_k$ for the $k$-th step, then the total number of ways to perform the entire procedure is:
+اگر یک فرایند را بتوان به دنباله‌ای از $k$ گام تجزیه کرد، با $n_1$ روش برای گام اول، $n_2$ برای دوم، $\dots$، $n_k$ برای گام $k$-ام، آنگاه تعداد کل روش‌های انجام کل فرایند عبارت است از:
 $$
 \text{Total ways}=n_1\times n_2\times \cdots \times n_k.
 $$
 
-### **Permutations (Order Matters)**
+### **تبدیلات (ترتیب مهم است)**
 
-1. **Permutations without Repetition**: The number of permutations of $n$ distinct objects taken $k$ at a time:
+1. **تبدیلات بدون تکرار**: تعداد تبدیلات $n$ شیء متمایز انتخاب $k$تایی در هر بار:
    $$P(n,k)=\frac{n!}{(n-k)!}$$
 
-   * Special Case: Arranging all $n$ distinct objects: $P(n,n)=n!$
-2. **Permutations with Repetition (Multinomial Coefficients)**: The number of distinct permutations of $n$ objects where there are $n_1$ identical objects of type 1, $n_2$ of type 2, $\dots$, $n_k$ of type $k$ (such that $n_1+n_2+\cdots+n_k=n$):
+   * حالت ویژه: چیدمان همهٔ $n$ شیء متمایز: $P(n,n)=n!$
+2. **تبدیلات با تکرار (ضرایب چندجمله‌ای)**: تعداد تبدیلات متمایز $n$ شیء که $n_1$ شیء یکسان از نوع ۱، $n_2$ از نوع ۲، $\dots$، $n_k$ از نوع $k$ داریم (به‌طوری که $n_1+n_2+\cdots+n_k=n$):
    $$\frac{n!}{n_1!,n_2!\cdots n_k!}$$
 
-### **Combinations (Order Doesn't Matter)**
+### **ترکیبات (ترتیب مهم نیست)**
 
-1. **Combinations without Repetition**: The number of combinations of $n$ distinct objects taken $k$ at a time (also “$n$ choose $k$”):
+1. **ترکیبات بدون تکرار**: تعداد ترکیبات $n$ شیء متمایز انتخاب $k$تایی در هر بار (همچنین «انتخاب $k$ از $n$»):
    $$C(n,k)=\binom{n}{k}=\frac{n!}{k!(n-k)!}$$
 
-   * Relationship to permutations:
+   * رابطه با تبدیلات:
      $$C(n,k)=\frac{P(n,k)}{k!}$$
-2. **Combinations with Repetition**: The number of combinations with repetition of $n$ types of objects taken $k$ at a time:
+2. **ترکیبات با تکرار**: تعداد ترکیبات با تکرار از $n$ نوع شیء انتخاب $k$تایی در هر بار:
    $$\binom{n+k-1}{k}=\frac{(n+k-1)!}{k!(n-1)!}$$
 
-### **Probability with Equally Likely Outcomes**
+### **احتمال با پیامدهای هم‌احتمال**
 
-The probability of an event $E$ when all outcomes in the sample space $S$ are equally likely:
+احتمال رویداد $E$ وقتی همهٔ پیامدهای فضای نمونه $S$ هم‌احتمال‌اند:
 $$
 P(E)=\frac{\text{Number of outcomes favorable to }E}{\text{Total number of possible outcomes in }S}
 =\frac{|E|}{|S|}.
 $$
 
-## **Chapter 4: Conditional Probability**
+## **فصل ۴: احتمال شرطی**
 
-### **Definition of Conditional Probability**
+### **تعریف احتمال شرطی**
 
-For any two events $A$ and $B$ from a sample space $S$, where $P(B)>0$, the conditional probability of $A$ given $B$ is defined as:
+برای هر دو رویداد $A$ و $B$ از فضای نمونه $S$، که $P(B)>0$، احتمال شرطی $A$ با فرض $B$ به‌صورت زیر تعریف می‌شود:
 $$
 P(A\mid B)=\frac{P(A\cap B)}{P(B)}.
 $$
 
-### **The Multiplication Rule for Conditional Probability**
+### **قاعدهٔ ضرب برای احتمال شرطی**
 
-Rearranging the definition of conditional probability gives:
+بازچینش تعریف احتمال شرطی می‌دهد:
 $$
 P(A\cap B)=P(A\mid B)P(B).
 $$
-Similarly, if $P(A)>0$:
+به‌طور مشابه، اگر $P(A)>0$:
 $$
 P(A\cap B)=P(B\mid A)P(A).
 $$
-For three events $A,B,C$:
+برای سه رویداد $A,B,C$:
 $$
 P(A\cap B\cap C)=P(C\mid A\cap B),P(B\mid A),P(A).
 $$
 
-### **The Law of Total Probability**
+### **قانون احتمال کل**
 
-Let $B_1,B_2,\dots,B_n$ be a partition of the sample space $S$. Then, for any event $A$ in $S$:
+فرض کنید $B_1,B_2,\dots,B_n$ تجزیه‌ای از فضای نمونه $S$ باشند. آنگاه برای هر رویداد $A$ در $S$:
 $$
 P(A)=\sum_{i=1}^{n} P(A\mid B_i),P(B_i).
 $$
-Expanded form:
+فرم گسترده:
 $$
 P(A)=P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2)+\cdots+P(A\mid B_n)P(B_n).
 $$
 
-## **Chapter 5: Bayes' Theorem and Independence**
+## **فصل ۵: قضیهٔ بیز و استقلال**
 
-### **Bayes' Theorem**
+### **قضیهٔ بیز**
 
-Provides a way to “reverse” conditional probabilities. If $P(B)>0$:
+راهی برای «معکوس کردن» احتمال‌های شرطی فراهم می‌کند. اگر $P(B)>0$:
 $$
 P(A\mid B)=\frac{P(B\mid A)P(A)}{P(B)}.
 $$
-Where $P(B)$ can often be calculated using the Law of Total Probability (e.g., with a partition ${A,A^c}$):
+که $P(B)$ اغلب با قانون احتمال کل قابل محاسبه است (مثلاً با تجزیه ${A,A^c}$):
 $$
 P(B)=P(B\mid A)P(A)+P(B\mid A^c)P(A^c).
 $$
 
-### **Independence of Events**
+### **استقلال رویدادها**
 
-1. **Formal Definition**: Events $A$ and $B$ are independent if and only if:
+1. **تعریف رسمی**: رویدادهای $A$ و $B$ مستقل‌اند اگر و فقط اگر:
    $$P(A\cap B)=P(A)P(B)$$
-2. **Alternative Definition (using conditional probability)**:
+2. **تعریف جایگزین (با احتمال شرطی)**:
 
-   * If $P(B)>0$, $A$ and $B$ are independent if and only if: $P(A\mid B)=P(A)$
-   * Similarly, if $P(A)>0$, independence means: $P(B\mid A)=P(B)$
+   * اگر $P(B)>0$، $A$ و $B$ مستقل‌اند اگر و فقط اگر: $P(A\mid B)=P(A)$
+   * به‌طور مشابه، اگر $P(A)>0$، استقلال یعنی: $P(B\mid A)=P(B)$
 
-### **Conditional Independence**
+### **استقلال شرطی**
 
-**Notation:**
+**نمادگذاری:**
 $$
 A \perp B \mid C
 \quad \text{means “$A$ and $B$ are conditionally independent given $C$.”}
 $$
 
-**Definition (with $P(C)>0$):**
+**تعریف (با $P(C)>0$):**
 $$
 A \perp B \mid C
 \iff
 P(A\cap B\mid C)=P(A\mid C) P(B\mid C).
 $$
 
-**Equivalent “no extra information” form:** if $P(B\cap C)>0$, then
+**فرم معادل «بدون اطلاعات اضافی»:** اگر $P(B\cap C)>0$، آنگاه
 $$
 A \perp B \mid C
 \iff
 P(A\mid B\cap C)=P(A\mid C).
 $$
 
-Likewise, if $P(A\cap C)>0$, then
+به‌طور مشابه، اگر $P(A\cap C)>0$، آنگاه
 $$
 P(B\mid A\cap C)=P(B\mid C).
 $$
 
 
-## **Chapter 6: Discrete Random Variables**
+## **فصل ۶: متغیرهای تصادفی گسسته**
 
-### **Probability Mass Function (PMF)**
+### **تابع جرم احتمال (PMF)**
 
-For a discrete random variable $X$, the PMF $p_X(x)$ is:
+برای متغیر تصادفی گسسته $X$، PMF $p_X(x)$ عبارت است از:
 $$
 p_X(x)=P(X=x)
 $$
-Properties of a PMF:
+خواص PMF:
 
-1. $p_X(x)\ge 0$ for all possible values $x$.
-2. $$\sum_x p_X(x)=1$$ (sum over all possible values $x$).
+1. $p_X(x)\ge 0$ برای همهٔ مقادیر ممکن $x$.
+2. $$\sum_x p_X(x)=1$$ (جمع روی همهٔ مقادیر ممکن $x$).
 
-### **Cumulative Distribution Function (CDF)**
+### **تابع توزیع تجمعی (CDF)**
 
-For a random variable $X$, the CDF $F_X(x)$ is:
+برای متغیر تصادفی $X$، CDF $F_X(x)$ عبارت است از:
 $$
 F_X(x)=P(X\le x)
 $$
-For a discrete random variable $X$:
+برای متغیر تصادفی گسسته $X$:
 $$
 F_X(x)=\sum_{k\le x} p_X(k)
 $$
-Properties of a CDF:
+خواص CDF:
 
 1. $0\le F_X(x)\le 1$ for all $x$.
-2. If $a<b$, then $F_X(a)\le F_X(b)$ (non-decreasing).
+2. اگر $a<b$، آنگاه $F_X(a)\le F_X(b)$ (نامنکاهنده).
 3. $$\lim_{x\to -\infty} F_X(x)=0$$
 4. $$\lim_{x\to +\infty} F_X(x)=1$$
 5. $P(X>x)=1-F_X(x)$
 6. $P(a<X\le b)=F_X(b)-F_X(a)$ for $a<b$.
-7. $$P(X=x)=F_X(x)-\lim_{y\to x^-}F_X(y)$$ (for a discrete RV, this is the jump at $x$).
+7. $$P(X=x)=F_X(x)-\lim_{y\to x^-}F_X(y)$$ (برای متغیر گسسته، این پرش در $x$ است).
 
-### **Expected Value (Mean)**
+### **امید ریاضی (میانگین)**
 
-For a discrete random variable $X$:
+برای متغیر تصادفی گسسته $X$:
 $$
 E[X]=\mu_X=\sum_x x\cdot p_X(x)
 $$
 
-### **Variance**
+### **واریانس**
 
-For a random variable $X$ with mean $\mu_X$:
+برای متغیر تصادفی $X$ با میانگین $\mu_X$:
 $$
 \operatorname{Var}(X)=\sigma_X^2=E[(X-\mu_X)^2]
 $$
-For a discrete random variable $X$:
+برای متغیر تصادفی گسسته $X$:
 $$
 \operatorname{Var}(X)=\sum_x (x-\mu_X)^2\cdot p_X(x)
 $$
-Computational formula for variance:
+فرمول محاسباتی واریانس:
 $$
 \operatorname{Var}(X)=E[X^2]-(E[X])^2
 $$
-Where $E[X^2]$ for a discrete random variable is:
+که $E[X^2]$ برای متغیر گسسته عبارت است از:
 $$
 E[X^2]=\sum_x x^2\cdot p_X(x)
 $$
 
-### **Standard Deviation**
+### **انحراف معیار**
 
-The positive square root of the variance:
+جذر مثبت واریانس:
 $$
 SD(X)=\sigma_X=\sqrt{\operatorname{Var}(X)}
 $$
 
-### **Functions of a Random Variable**
+### **توابع یک متغیر تصادفی**
 
-If $Y=g(X)$:
+اگر $Y=g(X)$:
 
-1. **PMF of $Y$ (for discrete $X$)**:
+1. **PMFِ $Y$ (برای $X$ گسسته)**:
    $$
    p_Y(y)=P(Y=y)=P(g(X)=y)=\sum_{x:,g(x)=y} p_X(x)
    $$
-2. **Expected Value of $Y=g(X)$ (LOTUS - Law of the Unconscious Statistician)**: For a discrete random variable $X$:
+2. **Expected Value of $Y=g(X)$ (LOTUS - Law of the Unconscious Statistician)**: برای متغیر تصادفی گسسته $X$:
    $$
    E[Y]=E[g(X)]=\sum_x g(x)\cdot p_X(x)
    $$
 
-## **Chapter 7: Common Discrete Distributions**
+## **فصل ۷: توزیع‌های گسستهٔ رایج**
 
-### **Bernoulli Distribution**
+### **توزیع برنولی**
 
-Models a single trial with two outcomes (success=$1$, failure=$0$).
-Parameter: $p$ (probability of success).
+یک آزمایش با دو پیامد (موفقیت=$1$، شکست=$0$) را مدل می‌کند.
+پارامتر: $p$ (احتمال موفقیت).
 
 * **PMF**:
   $$
   P(X=k)=p^k(1-p)^{1-k}\quad \text{for }k\in{0,1}
   $$
 
-  * Alternatively:
+  * در غیر این صورت:
     $$
     P(X=k)=
     \begin{cases}
@@ -267,13 +267,13 @@ Parameter: $p$ (probability of success).
     0, & \text{otherwise}
     \end{cases}
     $$
-* **Mean**: $E[X]=p$
-* **Variance**: $\operatorname{Var}(X)=p(1-p)$
+* **میانگین**: $E[X]=p$
+* **واریانس**: $\operatorname{Var}(X)=p(1-p)$
 
-### **Binomial Distribution**
+### **توزیع دوجمله‌ای**
 
-Models the number of successes in $n$ independent Bernoulli trials.
-Parameters: $n$ (number of trials), $p$ (probability of success on each trial).
+تعداد موفقیت‌ها در $n$ آزمایش مستقل برنولی را مدل می‌کند.
+پارامترها: $n$ (تعداد آزمایش‌ها)، $p$ (احتمال موفقیت در هر آزمایش).
 
 * **PMF**:
   $$
@@ -282,46 +282,46 @@ Parameters: $n$ (number of trials), $p$ (probability of success on each trial).
 * **Mean**: $E[X]=np$
 * **Variance**: $\operatorname{Var}(X)=np(1-p)$
 
-### **Geometric Distribution**
+### **توزیع هندسی**
 
-Models the number of trials ($k$) needed to get the first success.
-Parameter: $p$ (probability of success on each trial).
+تعداد آزمایش‌ها ($k$) لازم برای اولین موفقیت را مدل می‌کند.
+پارامتر: $p$ (احتمال موفقیت در هر آزمایش).
 
-* **PMF** (for $X=$ trial number of first success):
+* **PMF** (برای $X=$ شمارهٔ آزمایش اولین موفقیت):
   $$
   P(X=k)=(1-p)^{k-1}p\quad \text{for }k=1,2,3,\dots
   $$
-* **Mean** (trial number of first success):
+* **میانگین** (شمارهٔ آزمایش اولین موفقیت):
   $$
   E[X]=\frac{1}{p}
   $$
-* **Variance** (trial number of first success):
+* **واریانس** (شمارهٔ آزمایش اولین موفقیت):
   $$
   \operatorname{Var}(X)=\frac{1-p}{p^2}
   $$
 
-### **Negative Binomial Distribution**
+### **توزیع دوجمله‌ای منفی**
 
-Models the number of trials ($k$) needed to achieve $r$ successes.
-Parameters: $r$ (target number of successes), $p$ (probability of success on each trial).
+تعداد آزمایش‌ها ($k$) لازم برای $r$ موفقیت را مدل می‌کند.
+پارامترها: $r$ (تعداد هدف موفقیت‌ها)، $p$ (احتمال موفقیت در هر آزمایش).
 
-* **PMF** (for $X=$ trial number of $r$-th success):
+* **PMF** (برای $X=$ شمارهٔ آزمایش $r$-امین موفقیت):
   $$
   P(X=k)=\binom{k-1}{r-1}p^r(1-p)^{k-r}\quad \text{for }k=r,r+1,r+2,\dots
   $$
-* **Mean** (trial number of $r$-th success):
+* **میانگین** (شمارهٔ آزمایش $r$-امین موفقیت):
   $$
   E[X]=\frac{r}{p}
   $$
-* **Variance** (trial number of $r$-th success):
+* **واریانس** (شمارهٔ آزمایش $r$-امین موفقیت):
   $$
   \operatorname{Var}(X)=\frac{r(1-p)}{p^2}
   $$
 
-### **Poisson Distribution**
+### **توزیع پواسون**
 
-Models the number of events occurring in a fixed interval of time or space.
-Parameter: $\lambda$ (average number of events in the interval).
+تعداد وقوع رویدادها در بازهٔ ثابت زمانی یا مکانی را مدل می‌کند.
+پارامتر: $\lambda$ (میانگین تعداد رویدادها در بازه).
 
 * **PMF**:
   $$
@@ -330,16 +330,16 @@ Parameter: $\lambda$ (average number of events in the interval).
 * **Mean**: $E[X]=\lambda$
 * **Variance**: $\operatorname{Var}(X)=\lambda$
 
-### **Hypergeometric Distribution**
+### **توزیع فوق‌هندسی**
 
-Models the number of successes in a sample of size $n$ drawn without replacement from a finite population of size $N$ containing $K$ successes.
-Parameters: $N$ (population size), $K$ (total successes in population), $n$ (sample size).
+تعداد موفقیت‌ها در نمونه‌ای به اندازه $n$ بدون جایگزینی از جامعهٔ متناهی به اندازه $N$ با $K$ موفقیت را مدل می‌کند.
+پارامترها: $N$ (اندازهٔ جامعه)، $K$ (کل موفقیت‌ها در جامعه)، $n$ (اندازهٔ نمونه).
 
 * **PMF**:
   $$
   P(X=k)=\frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}
   $$
-  for $k$ such that $\max(0,n-(N-K))\le k\le \min(n,K)$.
+  برای $k$ به‌طوری که $\max(0,n-(N-K))\le k\le \min(n,K)$.
 * **Mean**:
   $$
   E[X]=n\frac{K}{N}
@@ -349,277 +349,277 @@ Parameters: $N$ (population size), $K$ (total successes in population), $n$ (sam
   \operatorname{Var}(X)=n\frac{K}{N}\left(1-\frac{K}{N}\right)\left(\frac{N-n}{N-1}\right)
   $$
 
-  * **Finite Population Correction Factor**:
+  * **ضریب اصلاح جامعهٔ متناهی**:
     $$
     \frac{N-n}{N-1}
     $$
 
-## **Chapter 8: Continuous Random Variables**
+## **فصل ۸: متغیرهای تصادفی پیوسته**
 
-### **Probability Density Function (PDF)**
+### **تابع چگالی احتمال (PDF)**
 
-For a continuous random variable $X$, the PDF $f_X(x)$ describes the relative likelihood of $X$.
-Properties of a PDF:
+برای متغیر پیوسته $X$، PDF $f_X(x)$ احتمال نسبی $X$ را توصیف می‌کند.
+خواص PDF:
 
 1. $f_X(x)\ge 0$ for all $x$.
-2. $\int_{-\infty}^{\infty} f_X(x)\,dx = 1$ (total area under curve is $1$).
+2. $\int_{-\infty}^{\infty} f_X(x)\,dx = 1$ (مساحت کل زیر منحنی برابر ۱ است).
 3. $P(a\le X\le b)=\int_a^b f_X(x)\,dx$.
-4. For any specific value $c$: $P(X=c)=\int_c^c f_X(x)\,dx=0$.
+4. برای هر مقدار مشخص $c$: $P(X=c)=\int_c^c f_X(x)\,dx=0$.
 
-### **Cumulative Distribution Function (CDF)**
+### **تابع توزیع تجمعی (CDF)**
 
-For a continuous random variable $X$, the CDF $F_X(x)$ is:
+برای متغیر پیوسته $X$، CDF $F_X(x)$ عبارت است از:
 $$
 F_X(x)=P(X\le x)=\int_{-\infty}^{x} f_X(t),dt
 $$
-Properties of a CDF:
+خواص CDF:
 
-1. $F_X(x)$ is non-decreasing.
+1. $F_X(x)$ نامنکاهنده است.
 2. $$\lim_{x\to -\infty} F_X(x)=0$$
 3. $$\lim_{x\to \infty} F_X(x)=1$$
 4. $P(a<X\le b)=F_X(b)-F_X(a)$.
-5. $$f_X(x)=\frac{d}{dx}F_X(x)$$ (where the derivative exists).
+5. $$f_X(x)=\frac{d}{dx}F_X(x)$$ (جایی که مشتق وجود دارد).
 
-### **Expected Value (Mean)**
+### **امید ریاضی (میانگین)**
 
-For a continuous random variable $X$:
+برای متغیر پیوسته $X$:
 $$
 E[X]=\mu=\int_{-\infty}^{\infty} x f_X(x),dx
 $$
 
-### **Variance**
+### **واریانس**
 
-For a continuous random variable $X$ with mean $\mu$:
+برای متغیر پیوسته $X$ با میانگین $\mu$:
 $$
 \operatorname{Var}(X)=\sigma^2=E[(X-\mu)^2]=\int_{-\infty}^{\infty} (x-\mu)^2 f_X(x),dx
 $$
-Computational formula:
+فرمول محاسباتی:
 $$
 \operatorname{Var}(X)=E[X^2]-(E[X])^2
 $$
-Where
+که
 $$
 E[X^2]=\int_{-\infty}^{\infty} x^2 f_X(x),dx.
 $$
 
-### **Standard Deviation**
+### **انحراف معیار**
 
-The positive square root of the variance:
+جذر مثبت واریانس:
 $$
 \sigma=\sqrt{\operatorname{Var}(X)}
 $$
 
-### **Percentiles and Quantiles**
+### **صدک‌ها و چندک‌ها**
 
-The $p$-th percentile $x_p$ is the value such that $F_X(x_p)=P(X\le x_p)=p$.
-The quantile function $Q(p)$ is the inverse of the CDF:
+صدک $p$-ام $x_p$ مقداری است که $F_X(x_p)=P(X\le x_p)=p$.
+تابع چندک $Q(p)$ معکوس CDF است:
 $$
 Q(p)=F_X^{-1}(p)=x_p.
 $$
 
-### **Functions of a Continuous Random Variable**
+### **توابع یک متغیر تصادفی پیوسته**
 
-If $Y=g(X)$:
+اگر $Y=g(X)$:
 
-1. **CDF of $Y$**:
+1. **CDFِ $Y$**:
    $$F_Y(y)=P(Y\le y)=P(g(X)\le y)$$
-2. **PDF of $Y$ (Change of Variables Formula)**: If $g(x)$ is monotonic with inverse $x=g^{-1}(y)$, then:
+2. **PDFِ $Y$ (فرمول تغییر متغیر)**: اگر $g(x)$ یکنوا با معکوس $x=g^{-1}(y)$ باشد، آنگاه:
    $$
    f_Y(y)=f_X(g^{-1}(y))\left|\frac{dx}{dy}\right|
    $$
-3. **Expected Value of $Y=g(X)$ (LOTUS)**:
+3. **امید ریاضی $Y=g(X)$ (LOTUS)**:
    $$
    E[Y]=E[g(X)]=\int_{-\infty}^{\infty} g(x)f_X(x),dx
    $$
 
-## **Chapter 9: Common Continuous Distributions**
+## **فصل ۹: توزیع‌های پیوستهٔ رایج**
 
-### **1\. Uniform Distribution**
+### **1\. توزیع یکنواخت**
 
 X∼U(a,b)
 
-* **PDF (Probability Density Function):** $$ f(x; a, b) = \begin{cases} \frac{1}{b-a} & \text{for } a \le x \le b \\ 0 & \text{otherwise} \end{cases} $$  
-* **CDF (Cumulative Distribution Function):** $$ F(x; a, b) = P(X \le x) = \begin{cases} 0 & \text{for } x < a \\ \frac{x-a}{b-a} & \text{for } a \le x \le b \\ 1 & \text{for } x > b \end{cases} $$  
-* **Expected Value:** E\[X\]=2a+b​  
-* **Variance:** Var(X)=12(b−a)2​
+* **PDF (تابع چگالی احتمال):** $$ f(x; a, b) = \begin{cases} \frac{1}{b-a} & \text{for } a \le x \le b \\ 0 & \text{otherwise} \end{cases} $$  
+* **CDF (تابع توزیع تجمعی):** $$ F(x; a, b) = P(X \le x) = \begin{cases} 0 & \text{for } x < a \\ \frac{x-a}{b-a} & \text{for } a \le x \le b \\ 1 & \text{for } x > b \end{cases} $$  
+* **امید ریاضی:** E\[X\]=2a+b​  
+* **واریانس:** Var(X)=12(b−a)2​
 
-### **2\. Exponential Distribution**
+### **2\. توزیع نمایی**
 
 T∼Exp(λ)
 
-* **PDF (Probability Density Function):** $$ f(t; \lambda) = \begin{cases} \lambda e^{-\lambda t} & \text{for } t \ge 0 \\ 0 & \text{for } t < 0 \end{cases} $$  
-* **CDF (Cumulative Distribution Function):** $$ F(t; \lambda) = P(T \le t) = \begin{cases} 1 - e^{-\lambda t} & \text{for } t \ge 0 \\ 0 & \text{for } t < 0 \end{cases} $$  
-* **Survival Function:** P(T\>t)=1−F(t)=e−λt  
-* **Expected Value:** E\[T\]=λ1​  
-* **Variance:** Var(T)=λ21​  
-* **Memoryless Property:** P(T\>s+t∣T\>s)=P(T\>t) for any s,t≥0.
+* **PDF (تابع چگالی احتمال):** $$ f(t; \lambda) = \begin{cases} \lambda e^{-\lambda t} & \text{for } t \ge 0 \\ 0 & \text{for } t < 0 \end{cases} $$  
+* **CDF (تابع توزیع تجمعی):** $$ F(t; \lambda) = P(T \le t) = \begin{cases} 1 - e^{-\lambda t} & \text{for } t \ge 0 \\ 0 & \text{for } t < 0 \end{cases} $$  
+* **تابع بقا:** P(T\>t)=1−F(t)=e−λt  
+* **امید ریاضی:** E\[T\]=λ1​  
+* **واریانس:** Var(T)=λ21​  
+* **خاصیت بی‌حافظه:** P(T\>s+t∣T\>s)=P(T\>t) for any s,t≥0.
 
-### **3\. Normal (Gaussian) Distribution**
+### **3\. توزیع نرمال (گاوسی)**
 
 X∼N(μ,σ2)
 
-* **PDF (Probability Density Function):** $$ f(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{ - \frac{(x-\mu)^2}{2\sigma^2} } $$ for −∞\<x\<∞.  
-* **Expected Value:** E\[X\]=μ  
-* **Variance:** Var(X)=σ2  
-* **Standardization (Z-score):** Z=σX−μ​ where Z∼N(0,1).
+* **PDF (تابع چگالی احتمال):** $$ f(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{ - \frac{(x-\mu)^2}{2\sigma^2} } $$ for −∞\<x\<∞.  
+* **امید ریاضی:** E\[X\]=μ  
+* **واریانس:** Var(X)=σ2  
+* **استانداردسازی (امتیاز Z):** Z=σX−μ​ where Z∼N(0,1).
 
-### **4\. Gamma Distribution**
+### **4\. توزیع گاما**
 
-X∼Gamma(k,λ) (using shape k and rate λ) or X∼Gamma(k,θ) (using shape k and scale θ=1/λ)  
-The Gamma function is Γ(k)=∫0∞​xk−1e−xdx. For positive integers k, Γ(k)=(k−1)\!.
+X∼Gamma(k,λ) (با شکل k و نرخ λ) یا X∼Gamma(k,θ) (با شکل k و مقیاس θ=1/λ)  
+تابع گاما Γ(k)=∫0∞​xk−1e−xdx است. برای اعداد صحیح مثبت k، Γ(k)=(k−1)\!.
 
-* **PDF (Probability Density Function):** Using shape k and rate λ: $$ f(x; k, \lambda) = \frac{\lambda^k x^{k-1} e^{-\lambda x}}{\Gamma(k)} \quad \text{for } x \ge 0 $$ Using shape k and scale θ=1/λ: $$ f(x; k, \theta) = \frac{1}{\Gamma(k)\theta^k} x^{k-1} e^{-x/\theta} \quad \text{for } x \ge 0 $$  
-* **Expected Value:** E\[X\]=λk​=kθ  
-* **Variance:** Var(X)=λ2k​=kθ2
+* **PDF (تابع چگالی احتمال):** با شکل k و نرخ λ: $$ f(x; k, \lambda) = \frac{\lambda^k x^{k-1} e^{-\lambda x}}{\Gamma(k)} \quad \text{for } x \ge 0 $$ با شکل k و مقیاس θ=1/λ: $$ f(x; k, \theta) = \frac{1}{\Gamma(k)\theta^k} x^{k-1} e^{-x/\theta} \quad \text{for } x \ge 0 $$  
+* **امید ریاضی:** E\[X\]=λk​=kθ  
+* **واریانس:** Var(X)=λ2k​=kθ2
 
-### **5\. Beta Distribution**
+### **5\. توزیع بتا**
 
 X∼Beta(α,β)  
-The Beta function is B(α,β)=∫01​tα−1(1−t)β−1dt=Γ(α+β)Γ(α)Γ(β)​.
+تابع بتا B(α,β)=∫01​tα−1(1−t)β−1dt=Γ(α+β)Γ(α)Γ(β)​ است.
 
-* **PDF (Probability Density Function):** $$ f(x; \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1} = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1} (1-x)^{\beta-1} $$ for 0≤x≤1.  
-* **Expected Value:** E\[X\]=α+βα​  
-* **Variance:** Var(X)=(α+β)2(α+β+1)αβ​
+* **PDF (تابع چگالی احتمال):** $$ f(x; \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1} = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1} (1-x)^{\beta-1} $$ for 0≤x≤1.  
+* **امید ریاضی:** E\[X\]=α+βα​  
+* **واریانس:** Var(X)=(α+β)2(α+β+1)αβ​
 
-## Chapter 10: Joint Distributions
+## فصل ۱۰: توزیع‌های مشترک
 
-### Joint Probability Mass Functions (PMFs)
+### توابع جرم احتمال مشترک (PMFها)
 
-For two discrete random variables $X$ and $Y$:
-* **Joint PMF Definition:**
+برای دو متغیر گسسته $X$ و $Y$:
+* **تعریف PMF مشترک:**
     $$p_{X,Y}(x, y) = P(X=x, Y=y)$$
-* **Conditions:**
+* **شرایط:**
     1.  $p_{X,Y}(x, y) \ge 0$ for all $(x, y)$
     2.  $\sum_{x} \sum_{y} p_{X,Y}(x, y) = 1$
 
-### Joint Probability Density Functions (PDFs)
+### توابع چگالی احتمال مشترک (PDFها)
 
-For two continuous random variables $X$ and $Y$:
-* **Probability over a Region A:**
+برای دو متغیر پیوسته $X$ و $Y$:
+* **احتمال روی ناحیه A:**
     $$P((X, Y) \in A) = \iint_A f_{X,Y}(x, y) \,dx \,dy$$
-* **Conditions:**
+* **شرایط:**
     1.  $f_{X,Y}(x, y) \ge 0$ for all $(x, y)$
     2.  $\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx \,dy = 1$
 
-### Marginal Distributions
+### توزیع‌های حاشیه‌ای
 
-* **Marginal PMF of X (Discrete):**
+* **PMF حاشیه‌ای X (گسسته):**
     $$p_X(x) = P(X=x) = \sum_{y} P(X=x, Y=y) = \sum_{y} p_{X,Y}(x, y)$$
-* **Marginal PMF of Y (Discrete):**
+* **PMF حاشیه‌ای Y (گسسته):**
     $$p_Y(y) = P(Y=y) = \sum_{x} P(X=x, Y=y) = \sum_{x} p_{X,Y}(x, y)$$
-* **Marginal PDF of X (Continuous):**
+* **PDF حاشیه‌ای X (پیوسته):**
     $$f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dy$$
-* **Marginal PDF of Y (Continuous):**
+* **PDF حاشیه‌ای Y (پیوسته):**
     $$f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx$$
 
-### Conditional Distributions
+### توزیع‌های شرطی
 
-* **Conditional PMF of Y given X=x (Discrete):**
+* **PMF شرطی Y با فرض X=x (گسسته):**
     $$p_{Y|X}(y|x) = P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)} = \frac{p_{X,Y}(x, y)}{p_X(x)}$$
-    (provided $p_X(x) > 0$)
-* **Conditional PDF of Y given X=x (Continuous):**
+    (به‌شرط $p_X(x) > 0$)
+* **PDF شرطی Y با فرض X=x (پیوسته):**
     $$f_{Y|X}(y|x) = \frac{f_{X,Y}(x, y)}{f_X(x)}$$
-    (provided $f_X(x) > 0$)
+    (به‌شرط $f_X(x) > 0$)
 
-### Joint Cumulative Distribution Functions (CDFs)
+### توابع توزیع تجمعی مشترک (CDFها)
 
-* **Joint CDF Definition:**
+* **تعریف CDF مشترک:**
     $$F_{X,Y}(x, y) = P(X \le x, Y \le y)$$
-* **Discrete Case:**
+* **حالت گسسته:**
     $$F_{X,Y}(x, y) = \sum_{x_i \le x} \sum_{y_j \le y} p_{X,Y}(x_i, y_j)$$
-* **Continuous Case:**
+* **حالت پیوسته:**
     $$F_{X,Y}(x, y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{X,Y}(u, v) \,dv \,du$$
-* **Properties:**
+* **خواص:**
     1.  $0 \le F_{X,Y}(x, y) \le 1$
-    2.  $F_{X,Y}(x, y)$ is non-decreasing in both $x$ and $y$.
+    2.  $F_{X,Y}(x, y)$ در هر دو $x$ و $y$ نامنکاهنده است.
     3.  $\lim_{x \to \infty, y \to \infty} F_{X,Y}(x, y) = 1$
     4.  $\lim_{x \to -\infty} F_{X,Y}(x, y) = 0$ and $\lim_{y \to -\infty} F_{X,Y}(x, y) = 0$
 
-## Chapter 11: Independence, Covariance, and Correlation
+## فصل ۱۱: استقلال، کوواریانس و همبستگی
 
-### Independence of Random Variables
+### استقلال متغیرهای تصادفی
 
-Two random variables $X$ and $Y$ are **independent** if for any sets $A$ and $B$:
+دو متغیر $X$ و $Y$ **مستقل‌**اند اگر برای هر مجموعه $A$ و $B$:
 $$P(X \in A, Y \in B) = P(X \in A) P(Y \in B)$$
 
-This is equivalent to:
+این معادل است با:
 
-* **Discrete:**
+* **گسسته:**
     $$P(X=x, Y=y) = P(X=x) P(Y=y)$$
-    (Joint PMF = Product of Marginal PMFs)
+    (PMF مشترک = حاصل‌ضرب PMFهای حاشیه‌ای)
 
-* **Continuous:**
+* **پیوسته:**
     $$f_{X,Y}(x,y) = f_X(x) f_Y(y)$$
-    (Joint PDF = Product of Marginal PDFs)
+    (PDF مشترک = حاصل‌ضرب PDFهای حاشیه‌ای)
 
-### Covariance
+### کوواریانس
 
-The **covariance** between two random variables $X$ and $Y$:
-* **Definition:**
+**کوواریانس** بین دو متغیر $X$ و $Y$:
+* **تعریف:**
     $$\mathrm{Cov}(X, Y) = E[(X - E[X])(Y - E[Y])]$$
-* **Computational Formula:**
+* **فرمول محاسباتی:**
     $$\mathrm{Cov}(X, Y) = E[XY] - E[X]E[Y]$$
-* **Properties:**
+* **خواص:**
     1.  $\mathrm{Cov}(X, X) = \mathrm{Var}(X)$
     2.  $\mathrm{Cov}(X, Y) = \mathrm{Cov}(Y, X)$
     3.  $\mathrm{Cov}(aX + b, cY + d) = ac \mathrm{Cov}(X, Y)$
     4.  $\mathrm{Cov}(X+Y, Z) = \mathrm{Cov}(X, Z) + \mathrm{Cov}(Y, Z)$
-    5.  If $X$ and $Y$ are independent, then $\mathrm{Cov}(X, Y) = 0$.
+    5.  اگر $X$ و $Y$ مستقل باشند، $\mathrm{Cov}(X, Y) = 0$.
 
-### Correlation Coefficient
+### ضریب همبستگی
 
-The **Pearson correlation coefficient** between two random variables $X$ and $Y$:
-* **Definition:**
+**ضریب همبستگی پیرسون** بین دو متغیر $X$ و $Y$:
+* **تعریف:**
     $$\rho(X, Y) = \frac{\mathrm{Cov}(X, Y)}{\sigma_X \sigma_Y} = \frac{\mathrm{Cov}(X, Y)}{\sqrt{\mathrm{Var}(X) \mathrm{Var}(Y)}}$$
-* **Properties:**
+* **خواص:**
     1.  $-1 \le \rho(X, Y) \le 1$
     2.  $\rho(aX + b, cY + d) = \mathrm{sign}(ac) \rho(X, Y)$, (assuming $a \ne 0, c \ne 0$)
 
-### Variance of Sums of Random Variables
+### واریانس مجموع متغیرهای تصادفی
 
-For any two random variables $X$ and $Y$, and constants $a$ and $b$:
-* **General Formula:**
+برای هر دو متغیر $X$ و $Y$ و ثابت‌های $a$ و $b$:
+* **فرمول عمومی:**
     $$\mathrm{Var}(aX + bY) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) + 2ab \mathrm{Cov}(X, Y)$$
-* **Sum of Variables ($a=1, b=1$):**
+* **مجموع متغیرها ($a=1, b=1$):**
     $$\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \mathrm{Cov}(X, Y)$$
-* **Difference of Variables ($a=1, b=-1$):**
+* **تفاضل متغیرها ($a=1, b=-1$):**
     $$\mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) - 2 \mathrm{Cov}(X, Y)$$
-* **If $X$ and $Y$ are independent ($\mathrm{Cov}(X, Y) = 0$):**
+* **اگر $X$ و $Y$ مستقل باشند ($\mathrm{Cov}(X, Y) = 0$):**
     $$\mathrm{Var}(aX + bY) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y)$$   $$\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y)$$   $$\mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y)$$
-* **Extension to Multiple Variables ($X_1, X_2, ..., X_n$):**
+* **تعمیم به چند متغیر ($X_1, X_2, ..., X_n$):**
     $$\mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) + \sum_{i \ne j} a_i a_j \mathrm{Cov}(X_i, X_j)$$
-    or
+    یا
     $$\mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) + 2 \sum_{i < j} a_i a_j \mathrm{Cov}(X_i, X_j)$$
-* **If all $X_i$ are independent:**
+* **اگر همهٔ $X_i$ مستقل باشند:**
     $$\mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i)$$
 
-## Chapter 12: Functions of Multiple Random Variables
+## فصل ۱۲: توابع چند متغیر تصادفی
 
-### Sums of Independent Random Variables (Convolution)
+### مجموع متغیرهای مستقل ( کانولوشن )
 
-Let $X$ and $Y$ be two random variables, and $Z = X+Y$.
+فرض کنید $X$ و $Y$ دو متغیر و $Z = X+Y$.
 
-* **Discrete Case (PMF of Z):**
+* **حالت گسسته (PMFِ Z):**
     $$P(Z=z) = \sum_{k} P(X=k, Y=z-k)$$
-    If $X$ and $Y$ are independent:
+    اگر $X$ و $Y$ مستقل باشند:
     $$P(Z=z) = \sum_{k} P(X=k)P(Y=z-k)$$
-    This is the discrete convolution of the PMFs.
+    این کانولوشن گسستهٔ PMFهاست.
 
-* **Continuous Case (PDF of Z):**
+* **حالت پیوسته (PDFِ Z):**
     $$f_Z(z) = \int_{-\infty}^{\infty} f_{X,Y}(x, z-x)dx$$
-    If $X$ and $Y$ are independent:
+    اگر $X$ و $Y$ مستقل باشند:
     $$f_Z(z) = \int_{-\infty}^{\infty} f_X(x)f_Y(z-x)dx = (f_X * f_Y)(z)$$
-    This is the convolution of the PDFs.
+    این کانولوشن PDFهاست.
 
-### General Transformations (Jacobian Method for PDFs)
+### تبدیلات عمومی (روش ژاکوبین برای PDFها)
 
-If $Y_1 = g_1(X_1, X_2)$ and $Y_2 = g_2(X_1, X_2)$ are transformations of random variables $X_1, X_2$, and these transformations are invertible such that $X_1 = h_1(Y_1, Y_2)$ and $X_2 = h_2(Y_1, Y_2)$.
+اگر $Y_1 = g_1(X_1, X_2)$ و $Y_2 = g_2(X_1, X_2)$ تبدیلات متغیرهای $X_1, X_2$ باشند و این تبدیلات وارون‌پذیر باشند به‌طوری که $X_1 = h_1(Y_1, Y_2)$ و $X_2 = h_2(Y_1, Y_2)$.
 
-* **Joint PDF of $Y_1, Y_2$:**
+* **PDF مشترک $Y_1, Y_2$:**
     $$f_{Y_1,Y_2}(y_1, y_2) = f_{X_1,X_2}(h_1(y_1,y_2), h_2(y_1,y_2)) |J|$$
-    Where $|J|$ is the absolute value of the determinant of the Jacobian matrix.
+    که $|J|$ is the absolute value of the determinant of the Jacobian matrix.
 
-* **Jacobian Determinant (J):**
+* **دترمینان ژاکوبین (J):**
     $$
     J = \det \begin{pmatrix}
     \frac{\partial x_1}{\partial y_1} & \frac{\partial x_1}{\partial y_2} \\
@@ -627,197 +627,197 @@ If $Y_1 = g_1(X_1, X_2)$ and $Y_2 = g_2(X_1, X_2)$ are transformations of random
     \end{pmatrix}
     $$
 
-### Order Statistics
+### آماره‌های ترتیبی
 
-Let $X_1, X_2, \dots, X_n$ be $n$ independent and identically distributed (i.i.d.) random variables with CDF $F_X(x)$ and PDF $f_X(x)$. Let $X_{(1)}, X_{(2)}, \dots, X_{(n)}$ be the order statistics (sorted values).
+فرض کنید $X_1, X_2, \dots, X_n$، $n$ متغیر مستقل و هم‌توزیع (i.i.d.) با CDF $F_X(x)$ و PDF $f_X(x)$ باشند. $X_{(1)}, X_{(2)}, \dots, X_{(n)}$ آماره‌های ترتیبی (مقادیر مرتب‌شده)‌اند.
 
-* **CDF of the Maximum ($Y_n = X_{(n)}$):**
+* **CDF بیشینه ($Y_n = X_{(n)}$):**
     $$F_{Y_n}(y) = P(X_{(n)} \le y) = [F_X(y)]^n$$
 
-* **PDF of the Maximum ($Y_n = X_{(n)}$):**
+* **PDF بیشینه ($Y_n = X_{(n)}$):**
     $$f_{Y_n}(y) = n[F_X(y)]^{n-1}f_X(y)$$
 
-* **CDF of the Minimum ($Y_1 = X_{(1)}$):**
+* **CDF کمینه ($Y_1 = X_{(1)}$):**
     $$F_{Y_1}(y) = P(X_{(1)} \le y) = 1 - [1-F_X(y)]^n$$
 
-* **PDF of the Minimum ($Y_1 = X_{(1)}$):**
+* **PDF کمینه ($Y_1 = X_{(1)}$):**
     $$f_{Y_1}(y) = n[1-F_X(y)]^{n-1}f_X(y)$$
 
-* **PDF of the $k$-th Order Statistic ($Y_k = X_{(k)}$):**
+* **PDF آمارهٔ ترتیبی $k$-ام ($Y_k = X_{(k)}$):**
     $$f_{Y_k}(y) = \frac{n!}{(k-1)!(n-k)!} [F_X(y)]^{k-1} [1-F_X(y)]^{n-k} f_X(y)$$
 
-## Chapter 13: The Law of Large Numbers (LLN)
+## فصل ۱۳: قانون اعداد بزرگ (LLN)
 
-### Chebyshev's Inequality
+### نابرابری چبی‌شف
 
-For a random variable $X$ with mean $\mu$ and finite variance $\sigma^2$:
+برای متغیر $X$ با میانگین $\mu$ و واریانس متناهی $\sigma^2$:
 
-* **Form 1:**
+* **فرم ۱:**
     $$P(|X - \mu| \ge k\sigma) \le \frac{1}{k^2}$$
-    (where $k$ is the number of standard deviations)
+    (که $k$ تعداد انحراف معیارهاست)
 
-* **Form 2:**
+* **فرم ۲:**
     $$P(|X - \mu| \ge \epsilon) \le \frac{\sigma^2}{\epsilon^2}$$
-    (where $\epsilon > 0$ is any positive number)
+    (که $\epsilon > 0$ هر عدد مثبت است)
 
-### Weak Law of Large Numbers (WLLN)
+### قانون ضعیف اعداد بزرگ (WLLN)
 
-For a sequence of i.i.d. random variables $X_1, X_2, \dots, X_n$ with common mean $E[X_i] = \mu$ and common finite variance $Var(X_i) = \sigma^2$. Let $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ be the sample mean.
+برای دنباله‌ای از متغیرهای i.i.d. $X_1, X_2, \dots, X_n$ با میانگین مشترک $E[X_i] = \mu$ و واریانس متناهی مشترک $Var(X_i) = \sigma^2$. $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ میانگین نمونه است.
 
-* **Statement:** For any $\epsilon > 0$,
+* **بیان:** برای هر $\epsilon > 0$،
     $$\lim_{n \to \infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0$$
-    or equivalently,
+    یا equivalently,
     $$\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1$$
 
-* **Formulas used in WLLN proof via Chebyshev's Inequality:**
-    * Expected Value of Sample Mean:
+* **فرمول‌های استفاده‌شده در اثبات WLLN با نابرابری چبی‌شف:**
+    * امید ریاضی میانگین نمونه:
         $$E[\bar{X}_n] = \mu$$
-    * Variance of Sample Mean (for i.i.d. variables):
+    * واریانس میانگین نمونه (برای متغیرهای i.i.d.):
         $$Var(\bar{X}_n) = \frac{\sigma^2}{n}$$
-    * Application of Chebyshev's Inequality to $\bar{X}_n$:
+    * کاربرد نابرابری چبی‌شف برای $\bar{X}_n$:
         $$P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{Var(\bar{X}_n)}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2}$$
 
-### Strong Law of Large Numbers (SLLN)
+### قانون قوی اعداد بزرگ (SLLN)
 
-For a sequence of i.i.d. random variables $X_1, X_2, \dots, X_n$ with common mean $E[X_i] = \mu$.
+برای دنباله‌ای از متغیرهای i.i.d. $X_1, X_2, \dots, X_n$ با میانگین مشترک $E[X_i] = \mu$.
 
-* **Statement:**
+* **بیان:**
     $$P\left(\lim_{n \to \infty} \bar{X}_n = \mu\right) = 1$$
-    (The sample mean converges almost surely to the population mean).
+    (میانگین نمونه تقریباً مطمئناً به میانگین جامعه همگرا می‌شود).
 
-## Chapter 14: The Central Limit Theorem (CLT)
+## فصل ۱۴: قضیهٔ حد مرکزی (CLT)
 
-* **Statement of CLT (Lindeberg-Lévy CLT):**
-    Let $X_1, X_2, \dots, X_n$ be i.i.d. random variables with mean $\mu$ and variance $\sigma^2$. Let $\bar{X}_n$ be the sample mean.
+* **بیان CLT (CLT لیندبرگ-لِوی):**
+    فرض کنید $X_1, X_2, \dots, X_n$ متغیرهای i.i.d. با میانگین $\mu$ و واریانس $\sigma^2$ باشند. $\bar{X}_n$ میانگین نمونه است.
     $$Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0, 1)$$
-    (where $\xrightarrow{d}$ denotes convergence in distribution)
+    (که $\xrightarrow{d}$ همگرایی در توزیع را نشان می‌دهد)
 
-* **Convergence in Distribution (for $Z_n$):**
+* **همگرایی در توزیع (برای $Z_n$):**
     $$\lim_{n \to \infty} P(Z_n \le z) = \Phi(z)$$
-    where $\Phi(z)$ is the CDF of the standard Normal distribution $N(0, 1)$.
+    که $\Phi(z)$ CDF توزیع نرمال استاندارد $N(0, 1)$ است.
 
-* **Approximation for Sample Mean $\bar{X}_n$:**
+* **تقریب برای میانگین نمونه $\bar{X}_n$:**
     $$P(\bar{X}_n \le x) \approx \Phi\left(\frac{x - \mu}{\sigma/\sqrt{n}}\right)$$
 
-* **CLT for Sums ($S_n = \sum_{i=1}^{n} X_i$):**
+* **CLT برای مجموع‌ها ($S_n = \sum_{i=1}^{n} X_i$):**
     $E[S_n] = n\mu$, $Var(S_n) = n\sigma^2$.
     $$\frac{S_n - n\mu}{\sqrt{n}\sigma} \xrightarrow{d} N(0, 1)$$
 
-* **Normal Approximation to Binomial Distribution:**
-    For $X \sim \text{Binomial}(n, p)$:
-    * Mean: $E[X] = np$
-    * Variance: $Var(X) = np(1-p)$
-    * Approximation: $X \approx N(np, np(1-p))$ (if $np \ge 5$ and $n(1-p) \ge 5$ is a common rule of thumb).
+* **تقریب نرمال برای توزیع دوجمله‌ای:**
+    برای $X \sim \text{Binomial}(n, p)$:
+    * میانگین: $E[X] = np$
+    * واریانس: $Var(X) = np(1-p)$
+    * تقریب: $X \approx N(np, np(1-p))$ (اگر $np \ge 5$ و $n(1-p) \ge 5$ قاعدهٔ انگشت شایع است).
 
-* **Continuity Correction (for approximating discrete with continuous):**
-    * To approximate $P(X \le k)$, use $P(Y \le k + 0.5)$
-    * To approximate $P(X \ge k)$, use $P(Y \ge k - 0.5)$
-    * To approximate $P(X = k)$, use $P(k - 0.5 \le Y \le k + 0.5)$
-    * To approximate $P(a \le X \le b)$, use $P(a - 0.5 \le Y \le b + 0.5)$
+* **اصلاح پیوستگی (برای تقریب گسسته با پیوسته):**
+    * برای تقریب $P(X \le k)$، از $P(Y \le k + 0.5)$ استفاده کنید
+    * برای تقریب $P(X \ge k)$، از $P(Y \ge k - 0.5)$ استفاده کنید
+    * برای تقریب $P(X = k)$، از $P(k - 0.5 \le Y \le k + 0.5)$ استفاده کنید
+    * برای تقریب $P(a \le X \le b)$، از $P(a - 0.5 \le Y \le b + 0.5)$ استفاده کنید
 
-## Chapter 15: Introduction to Bayesian Inference
+## فصل ۱۵: مقدمه‌ای بر استنتاج بیزی
 
-* **Bayes' Theorem for Distributions:**
+* **قضیهٔ بیز برای توزیع‌ها:**
     $$p(\theta | D) = \frac{p(D | \theta) p(\theta)}{p(D)}$$
-    Where:
-    * $p(\theta | D)$ is the **posterior probability** of parameter $\theta$ given data $D$.
-    * $p(D | \theta)$ is the **likelihood** of data $D$ given parameter $\theta$.
-    * $p(\theta)$ is the **prior probability** of parameter $\theta$.
-    * $p(D)$ is the **evidence** (or marginal likelihood of data).
+    که:
+    * $p(\theta | D)$ **احتمال پسین** پارامتر $\theta$ با دادهٔ $D$ است.
+    * $p(D | \theta)$ **درست‌نمایی** دادهٔ $D$ با پارامتر $\theta$ است.
+    * $p(\theta)$ **احتمال پیشین** پارامتر $\theta$ است.
+    * $p(D)$ **شواهد** (یا درست‌نمایی حاشیه‌ای داده) است.
 
-* **Proportionality Form:**
+* **فرم تناسب:**
     $$\text{Posterior} \propto \text{Likelihood} \times \text{Prior}$$
 
-* **Evidence Calculation:**
-    * For continuous $\theta$: $p(D) = \int p(D|\theta) p(\theta) d\theta$
-    * For discrete $\theta$: $p(D) = \sum_{\theta} p(D|\theta) p(\theta)$
+* **محاسبهٔ شواهد:**
+    * برای $\theta$ پیوسته: $p(D) = \int p(D|\theta) p(\theta) d\theta$
+    * برای $\theta$ گسسته: $p(D) = \sum_{\theta} p(D|\theta) p(\theta)$
 
-* **Beta-Binomial Conjugate Prior Update:**
-    If prior is $\text{Beta}(\alpha_{prior}, \beta_{prior})$ and data is $k$ successes in $n$ trials (Binomial likelihood):
-    * Posterior is $\text{Beta}(\alpha_{posterior}, \beta_{posterior}) = \text{Beta}(\alpha_{prior} + k, \beta_{prior} + n - k)$
+* **به‌روزرسانی پیشین مزدوج بتا-دوجمله‌ای:**
+    اگر پیشین $\text{Beta}(\alpha_{prior}, \beta_{prior})$ و داده $k$ موفقیت در $n$ آزمایش (درست‌نمایی دوجمله‌ای) باشد:
+    * پسین $\text{Beta}(\alpha_{posterior}, \beta_{posterior}) = \text{Beta}(\alpha_{prior} + k, \beta_{prior} + n - k)$ است
 
-* **Point Estimates from Posterior:**
-    * **Maximum a Posteriori (MAP) Estimate:**
+* **برآورد نقطه‌ای از پسین:**
+    * **برآورد بیشینهٔ پسین (MAP):**
         $$\hat{\theta}_{MAP} = \arg \max_{\theta} p(\theta | D)$$
-        For a Beta$(\alpha, \beta)$ posterior (if $\alpha > 1, \beta > 1$):
+        برای پسین Beta$(\alpha, \beta)$ (اگر $\alpha > 1, \beta > 1$):
         $$\hat{\theta}_{MAP} = \frac{\alpha - 1}{\alpha + \beta - 2}$$
-    * **Posterior Mean:**
+    * **میانگین پسین:**
         $$\hat{\theta}_{Mean} = E[\theta | D] = \int \theta p(\theta | D) d\theta$$
-        For a Beta$(\alpha, \beta)$ posterior:
+        برای پسین Beta$(\alpha, \beta)$:
         $$\hat{\theta}_{Mean} = \frac{\alpha}{\alpha + \beta}$$
 
-* **Credible Interval:**
-    An interval $[L, U]$ such that:
+* **بازهٔ باور:**
+    بازه‌ای $[L, U]$ به‌طوری که:
     $$P(L \le \theta \le U | D) = \int_L^U p(\theta | D) d\theta = 1 - \gamma$$
-    (where $1-\gamma$ is the credibility level, e.g., 95%)
+    (که $1-\gamma$ سطح باور است، مثلاً ۹۵٪)
 
-## Chapter 16: Introduction to Markov Chains
+## فصل ۱۶: مقدمه‌ای بر زنجیره‌های مارکوف
 
-* **Transition Probability (from state $i$ to state $j$):**
+* **احتمال گذار (از حالت $i$ به $j$):**
     $$P_{ij} = P(X_{t+1} = s_j | X_t = s_i)$$
 
-* **n-Step Transition Probability:**
-    The $(i, j)$-th entry of the matrix $P^n$ (the transition matrix $P$ raised to the power of $n$):
+* **احتمال گذار n-مرحله‌ای:**
+    عنصر $(i, j)$-ام ماتریس $P^n$ (ماتریس گذار $P$ به توان $n$):
     $$P^{(n)}_{ij} = P(X_{t+n} = s_j | X_t = s_i) = (P^n)_{ij}$$
 
-* **Stationary Distribution ($\pi$):**
-    A row vector $\pi = [\pi_1, \pi_2, ..., \pi_k]$ such that:
+* **توزیع ایستا ($\pi$):**
+    بردار سطری $\pi = [\pi_1, \pi_2, ..., \pi_k]$ به‌طوری که:
     $$\pi P = \pi$$
-    and
+    و
     $$\sum_{j=1}^{k} \pi_j = 1$$
 
-## Chapter 17: Monte Carlo Methods
+## فصل ۱۷: روش‌های مونت‌کارلو
 
-* **Estimating Probability $P(A)$:**
+* **برآورد احتمال $P(A)$:**
     $$P(A) \approx \frac{N_A}{N}$$
-    (where $N_A$ is the number of times event A occurred in $N$ simulations)
+    (که $N_A$ تعداد وقوع رویداد A در $N$ شبیه‌سازی است)
 
-* **Estimating Expected Value $E[g(X)]$:**
+* **برآورد امید ریاضی $E[g(X)]$:**
     $$E[g(X)] \approx \frac{1}{N} \sum_{i=1}^{N} g(X_i)$$
-    (where $X_i$ are samples from the distribution of $X$)
+    (که $X_i$ نمونه‌هایی از توزیع $X$ هستند)
 
-* **Monte Carlo Integration (Hit-or-Miss for Area):**
+* **انتگرال‌گیری مونت‌کارلو (برخورد-عدم‌برخورد برای مساحت):**
     $$\text{Area}(A) \approx \text{Area}(B) \times \frac{N_{hit}}{N}$$
 
-* **Monte Carlo Integration (Using Expected Values for $I = \int_a^b g(x) dx$):**
-    If $X \sim \text{Uniform}(a, b)$:
+* **انتگرال‌گیری مونت‌کارلو (با امید ریاضی برای $I = \int_a^b g(x) dx$):**
+    اگر $X \sim \text{Uniform}(a, b)$:
     $$I \approx (b-a) \times \frac{1}{N} \sum_{i=1}^{N} g(X_i)$$
 
-* **Inverse Transform Method for Generating Random Variables:**
-    If $U \sim \text{Uniform}(0, 1)$, then $X = F^{-1}(U)$ has CDF $F(x)$.
-    * For Exponential($\lambda$): $F^{-1}(u) = -\frac{1}{\lambda} \ln(1 - u)$ or $F^{-1}(u) = -\frac{1}{\lambda} \ln(u)$.
+* **روش تبدیل معکوس برای تولید متغیرهای تصادفی:**
+    اگر $U \sim \text{Uniform}(0, 1)$، آنگاه $X = F^{-1}(U)$ CDF $F(x)$ دارد.
+    * برای نمایی($\lambda$): $F^{-1}(u) = -\frac{1}{\lambda} \ln(1 - u)$ یا $F^{-1}(u) = -\frac{1}{\lambda} \ln(u)$.
 
-* **Acceptance-Rejection Method:**
-    To sample from target PDF $f(x)$ using proposal PDF $g(x)$ where $f(x) \le c \cdot g(x)$:
-    1.  Sample $y$ from $g(x)$.
-    2.  Sample $u$ from $\text{Uniform}(0, 1)$.
-    3.  Accept $y$ if $u \le \frac{f(y)}{c \cdot g(y)}$.
+* **روش پذیرش-رد:**
+    برای نمونه‌گیری از PDF هدف $f(x)$ با PDF پیشنهادی $g(x)$ که $f(x) \le c \cdot g(x)$:
+    1.  $y$ را از $g(x)$ نمونه بگیرید.
+    2.  $u$ را از $\text{Uniform}(0, 1)$ نمونه بگیرید.
+    3.  $y$ را بپذیرید اگر $u \le \frac{f(y)}{c \cdot g(y)}$.
 
-* **Buffon's Needle Problem ($L \le D$):**
-    Probability of needle crossing a line:
+* **مسئلهٔ سوزن بوفون ($L \le D$):**
+    احتمال عبور سوزن از خط:
     $$P(\text{cross}) = \frac{2L}{\pi D}$$
-    For $L=1, D=2$:
+    برای $L=1, D=2$:
     $$\pi \approx \frac{1}{P(\text{cross})}$$
 
-## Chapter 18: (Optional) Further Explorations
+## فصل ۱۸: (اختیاری) کاوش‌های بیشتر
 
-* **Entropy $H(X)$ (for discrete random variable $X$ with PMF $p(x)$):**
+* **آنتروپی $H(X)$ (برای متغیر گسسته $X$ با PMF $p(x)$):**
     $$H(X) = - \sum_{x} p(x) \log_b p(x)$$
-    (Base $b$ is often 2 for bits, or $e$ for nats)
+    (پایه $b$ اغلب ۲ برای بیت، یا $e$ برای nat است)
 
-* **Kullback-Leibler (KL) Divergence (for discrete distributions $P$ and $Q$):**
+* **واگرایی Kullback-Leibler (KL) (برای توزیع‌های گسسته $P$ و $Q$):**
     $$D_{KL}(P || Q) = \sum_{x} P(x) \log_b \frac{P(x)}{Q(x)}$$
 
-* **Geometric Brownian Motion (GBM) $S(t)$:**
-    * Stochastic Differential Equation: $dS(t) = \mu S(t) dt + \sigma S(t) dW(t)$
-    * Solution: $S(t) = S(0) \exp\left( \left(\mu - \frac{\sigma^2}{2}\right)t + \sigma W(t) \right)$
+* **حرکت براونی هندسی (GBM) $S(t)$:**
+    * معادلهٔ دیفرانسیل تصادفی: $dS(t) = \mu S(t) dt + \sigma S(t) dW(t)$
+    * جواب: $S(t) = S(0) \exp\left( \left(\mu - \frac{\sigma^2}{2}\right)t + \sigma W(t) \right)$
 
-* **Probability Generating Function (PGF) $G_X(z)$ (for non-negative integer-valued RV $X$):**
+* **تابع مولد احتمال (PGF) $G_X(z)$ (برای متغیر با مقادیر صحیح نامنفی $X$):**
     $$G_X(z) = E[z^X] = \sum_{k=0}^{\infty} P(X=k) z^k$$
     * $E[X] = G'_X(1)$
     * $Var(X) = G''_X(1) + G'_X(1) - [G'_X(1)]^2$
 
-* **Moment Generating Function (MGF) $M_X(t)$:**
+* **تابع مولد گشتاور (MGF) $M_X(t)$:**
     $$M_X(t) = E[e^{tX}]$$
-    * $E[X^n] = M_X^{(n)}(0)$ (n-th derivative evaluated at $t=0$)
-    * For independent $X, Y$: $M_{X+Y}(t) = M_X(t) M_Y(t)$
+    * $E[X^n] = M_X^{(n)}(0)$ (مشتق n-ام در $t=0$)
+    * برای $X, Y$ مستقل: $M_{X+Y}(t) = M_X(t) M_Y(t)$

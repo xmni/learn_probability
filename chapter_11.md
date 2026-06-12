@@ -14,39 +14,39 @@ downloads:
   - file: notebooks/chapter_11.ipynb
 ---
 
-# Chapter 11: Joint Distributions
+# فصل ۱۱: توزیع‌های مشترک
 
-**Part 4: Multiple Random Variables**
+**بخش ۴: چند متغیر تصادفی**
 
-Up until now, we've primarily focused on the behaviour of single random variables. However, real-world phenomena often involve observing and analysing multiple random quantities simultaneously. For instance:
+تا اینجا عمدتاً بر رفتار متغیرهای تصادفی تکی تمرکز کرده‌ایم. با این حال، پدیده‌های دنیای واقعی اغلب شامل مشاهده و تحلیل هم‌زمان چند کمیت تصادفی هستند. برای نمونه:
 
-* How does a person's height relate to their weight?
-* How does the temperature and humidity on a given day affect electricity consumption?
-* In finance, how do the returns of different stocks move together?
+* قد یک فرد چه رابطه‌ای با وزن او دارد؟
+* دما و رطوبت در یک روز مشخص چگونه بر مصرف برق اثر می‌گذارند؟
+* در امور مالی، بازده سهام‌های مختلف چگونه با هم حرکت می‌کنند؟
 
-To answer such questions, we need to understand how to model the probabilities of multiple random variables occurring together. This leads us to the concept of **joint distributions**. In this chapter, we'll explore how to describe the probabilistic relationship between two or more random variables, extending the concepts of PMFs, PDFs, and CDFs to multiple dimensions.
+برای پاسخ به چنین پرسش‌هایی باید بدانیم احتمال وقوع هم‌زمان چند متغیر تصادفی را چگونه مدل کنیم. این ما را به مفهوم **توزیع مشترک** می‌رساند. در این فصل می‌آموزیم رابطهٔ احتمالاتی بین دو یا چند متغیر تصادفی را چگونه توصیف کنیم و مفاهیم PMF، PDF و CDF را به چند بعد تعمیم دهیم.
 
 +++
 
-## Joint Probability Mass Functions (PMFs)
+## توابع جرم احتمال مشترک (PMF)
 
-Let's start with the discrete case. Suppose we have two discrete random variables, $X$ and $Y$, defined on the same probability space. Their **joint probability mass function (PMF)** gives the probability that $X$ takes a specific value $x$ *and* $Y$ takes a specific value $y$, simultaneously.
+با حالت گسسته آغاز می‌کنیم. فرض کنید دو متغیر تصادفی گسسته $X$ و $Y$ روی یک فضای احتمال یکسان تعریف شده‌اند. **تابع جرم احتمال مشترک (PMF)** آن‌ها احتمالی را می‌دهد که $X$ مقدار مشخص $x$ *و* $Y$ مقدار مشخص $y$ را *هم‌زمان* بگیرند.
 
 $$ p_{X,Y}(x, y) = P(X=x, Y=y) $$
 
-The joint PMF must satisfy two conditions:
-1. $p_{X,Y}(x, y) \ge 0$ for all possible pairs $(x, y)$.
-2. $\sum_{x} \sum_{y} p_{X,Y}(x, y) = 1$, where the sum is over all possible pairs $(x, y)$.
+PMF مشترک باید دو شرط زیر را برآورده کند:
+1. $p_{X,Y}(x, y) \ge 0$ برای همهٔ جفت‌های ممکن $(x, y)$.
+2. $\sum_{x} \sum_{y} p_{X,Y}(x, y) = 1$، که در آن جمع روی همهٔ جفت‌های ممکن $(x, y)$ است.
 
-**Example: Rolling Two Dice**
+**مثال: پرتاب دو تاس**
 
-Let $X$ be the outcome of rolling a fair red die, and $Y$ be the outcome of rolling a fair blue die. Both $X$ and $Y$ can take values in $\{1, 2, 3, 4, 5, 6\}$. Assuming the rolls are independent, the probability of any specific pair $(x, y)$ is:
+فرض کنید $X$ پیامد پرتاب یک تاس قرمز منصفانه و $Y$ پیامد پرتاب یک تاس آبی منصفانه باشد. هر دو $X$ و $Y$ می‌توانند مقادیر $\{1, 2, 3, 4, 5, 6\}$ را بگیرند. با فرض استقلال پرتاب‌ها، احتمال هر جفت مشخص $(x, y)$ برابر است با:
 
 $$ p_{X,Y}(x, y) = P(X=x, Y=y) = P(X=x) P(Y=y) = \frac{1}{6} \times \frac{1}{6} = \frac{1}{36} $$
 
-for all $x, y \in \{1, 2, 3, 4, 5, 6\}$.
+برای همهٔ $x, y \in \{1, 2, 3, 4, 5, 6\}$.
 
-We can represent this joint PMF as a table or a 2D array:
+می‌توانیم این PMF مشترک را به‌صورت جدول یا آرایهٔ دوبعدی نمایش دهیم:
 
 | y\x | 1    | 2    | 3    | 4    | 5    | 6    |
 |-----|------|------|------|------|------|------|
@@ -57,56 +57,56 @@ We can represent this joint PMF as a table or a 2D array:
 | **5** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
 | **6** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
 
-The sum of all entries in the table is $36 \times \frac{1}{36} = 1$.
+مجموع همهٔ درایه‌های جدول برابر $36 \times \frac{1}{36} = 1$ است.
 
 +++
 
-## Joint Probability Density Functions (PDFs)
+## توابع چگالی احتمال مشترک (PDF)
 
-For continuous random variables $X$ and $Y$, we use a **joint probability density function (PDF)**, denoted $f_{X,Y}(x, y)$. This function describes the relative likelihood of the variables taking on a specific pair of values $(x, y)$.
+برای متغیرهای تصادفی پیوسته $X$ و $Y$ از **تابع چگالی احتمال مشترک (PDF)** با نماد $f_{X,Y}(x, y)$ استفاده می‌کنیم. این تابع برازندگی نسبی این را توصیف می‌کند که متغیرها جفت مقادیر مشخص $(x, y)$ را بگیرند.
 
-Unlike the discrete case, $f_{X,Y}(x, y)$ itself is not a probability. Instead, probabilities are found by integrating the joint PDF over a region in the $xy$-plane. The probability that the pair $(X, Y)$ falls within a region $A$ is given by:
+برخلاف حالت گسسته، خود $f_{X,Y}(x, y)$ احتمال نیست. در عوض، احتمال‌ها با انتگرال‌گیری PDF مشترک روی ناحیه‌ای در صفحهٔ $xy$ به‌دست می‌آیند. احتمال اینکه جفت $(X, Y)$ در ناحیهٔ $A$ قرار گیرد برابر است با:
 
 $$ P((X, Y) \in A) = \iint_A f_{X,Y}(x, y) \,dx \,dy $$
 
-The joint PDF must satisfy:
-1. $f_{X,Y}(x, y) \ge 0$ for all $(x, y)$.
+PDF مشترک باید موارد زیر را برآورده کند:
+1. $f_{X,Y}(x, y) \ge 0$ برای همهٔ $(x, y)$.
 2. $\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx \,dy = 1$.
 
-**Conceptual Example: Height and Weight**
+**مثال مفهومی: قد و وزن**
 
-Let $X$ represent the height (in meters) and $Y$ represent the weight (in kilograms) of a randomly selected adult. We expect that taller people generally tend to weigh more, so these variables are likely not independent. Their joint distribution might be modelled by a **bivariate normal distribution**. The joint PDF $f_{X,Y}(x, y)$ would be a bell-shaped surface over the $xy$-plane, likely centered around the average height and weight, and elongated along a diagonal line reflecting the positive relationship between height and weight. The volume under this entire surface must equal 1.
+فرض کنید $X$ قد (بر حسب متر) و $Y$ وزن (بر حسب کیلوگرم) یک بزرگسال انتخاب‌شدهٔ تصادفی را نمایش دهد. انتظار داریم افراد بلندتر معمولاً سنگین‌تر باشند، پس این متغیرها احتمالاً مستقل نیستند. توزیع مشترک آن‌ها ممکن است با **توزیع نرمال دوبعدی** مدل شود. PDF مشترک $f_{X,Y}(x, y)$ سطحی زنگوله‌ای روی صفحهٔ $xy$ خواهد بود که احتمالاً حول میانگین قد و وزن متمرکز است و در امتداد خط مورب کشیده شده تا رابطهٔ مثبت بین قد و وزن را منعکس کند. حجم زیر کل این سطح باید برابر ۱ باشد.
 
 +++
 
-## Marginal Distributions
+## توزیع‌های حاشیه‌ای
 
-Often, we have the joint distribution of multiple variables, but we are interested in the distribution of just one of them, irrespective of the others. This is called the **marginal distribution**.
+اغلب توزیع مشترک چند متغیر را داریم، اما به توزیع تنها یکی از آن‌ها — صرف‌نظر از بقیه — علاقه‌مندیم. این را **توزیع حاشیه‌ای** می‌نامند.
 
-**Discrete Case:**
+**حالت گسسته:**
 
-To find the marginal PMF of $X$, $p_X(x)$, we sum the joint PMF $p_{X,Y}(x, y)$ over all possible values of $y$:
+برای یافتن PMF حاشیه‌ای $X$، یعنی $p_X(x)$، PMF مشترک $p_{X,Y}(x, y)$ را روی همهٔ مقادیر ممکن $y$ جمع می‌کنیم:
 
 $$ p_X(x) = P(X=x) = \sum_{y} P(X=x, Y=y) = \sum_{y} p_{X,Y}(x, y) $$
 
-Similarly, for the marginal PMF of $Y$, $p_Y(y)$:
+به‌طور مشابه، برای PMF حاشیه‌ای $Y$، یعنی $p_Y(y)$:
 
 $$ p_Y(y) = P(Y=y) = \sum_{x} P(X=x, Y=y) = \sum_{x} p_{X,Y}(x, y) $$
 
-In the two-dice example, the marginal probability $P(X=3)$ is found by summing the probabilities in the column corresponding to $x=3$:
-$P(X=3) = \sum_{y=1}^{6} p_{X,Y}(3, y) = \sum_{y=1}^{6} \frac{1}{36} = 6 \times \frac{1}{36} = \frac{1}{6}$. As expected for a single fair die.
+در مثال دو تاس، احتمال حاشیه‌ای $P(X=3)$ با جمع احتمال‌های ستون متناظر با $x=3$ به‌دست می‌آید:
+$P(X=3) = \sum_{y=1}^{6} p_{X,Y}(3, y) = \sum_{y=1}^{6} \frac{1}{36} = 6 \times \frac{1}{36} = \frac{1}{6}$. همان‌طور که برای یک تاس منصفانه انتظار می‌رود.
 
-**Continuous Case:**
+**حالت پیوسته:**
 
-To find the marginal PDF of $X$, $f_X(x)$, we integrate the joint PDF $f_{X,Y}(x, y)$ over all possible values of $y$:
+برای یافتن PDF حاشیه‌ای $X$، یعنی $f_X(x)$، PDF مشترک $f_{X,Y}(x, y)$ را نسبت به همهٔ مقادیر ممکن $y$ انتگرال می‌گیریم:
 
 $$ f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dy $$
 
-Similarly, for the marginal PDF of $Y$, $f_Y(y)$:
+به‌طور مشابه، برای PDF حاشیه‌ای $Y$، یعنی $f_Y(y)$:
 
 $$ f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx $$
 
-For the height ($X$) and weight ($Y$) example, integrating the bivariate normal PDF $f_{X,Y}(x, y)$ with respect to $y$ from $-\infty$ to $\infty$ would yield the marginal distribution of height, $f_X(x)$, which itself would typically be a normal distribution.
+در مثال قد ($X$) و وزن ($Y$)، انتگرال‌گیری PDF نرمال دوبعدی $f_{X,Y}(x, y)$ نسبت به $y$ از $-\infty$ تا $\infty$ توزیع حاشیه‌ای قد، یعنی $f_X(x)$ را می‌دهد که خود معمولاً توزیع نرمال است.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -115,9 +115,9 @@ import seaborn as sns
 from scipy import stats
 ```
 
-**Hands-on: Marginal PMFs from Joint PMF**
+**کار عملی: PMFهای حاشیه‌ای از PMF مشترک**
 
-Let's represent the joint PMF for the two dice example and calculate the marginal PMFs.
+بیایید PMF مشترک مثال دو تاس را نمایش دهیم و PMFهای حاشیه‌ای را محاسبه کنیم.
 
 ```{code-cell} ipython3
 # Joint PMF for two independent dice rolls
@@ -170,45 +170,45 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Conditional Distributions
+## توزیع‌های شرطی
 
-The conditional distribution tells us the probability distribution of one variable *given* that the other variable has taken a specific value.
+توزیع شرطی توزیع احتمال یک متغیر را *با فرض* اینکه متغیر دیگر مقدار مشخصی گرفته است، به ما می‌دهد.
 
-**Definition:**
+**تعریف:**
 
-The **conditional PMF** of $Y$ given $X=x$ is:
+**PMF شرطی** $Y$ با فرض $X=x$ برابر است با:
 $$ p_{Y|X}(y|x) = P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)} = \frac{p_{X,Y}(x, y)}{p_X(x)} $$
-provided that $p_X(x) > 0$.
+به‌شرط آنکه $p_X(x) > 0$.
 
-The **conditional PDF** of $Y$ given $X=x$ is:
+**PDF شرطی** $Y$ با فرض $X=x$ برابر است با:
 $$ f_{Y|X}(y|x) = \frac{f_{X,Y}(x, y)}{f_X(x)} $$
-provided that $f_X(x) > 0$.
+به‌شرط آنکه $f_X(x) > 0$.
 
-Note that for a fixed value of $x$, the conditional PMF $p_{Y|X}(y|x)$ is a valid PMF in $y$ (sums to 1), and the conditional PDF $f_{Y|X}(y|x)$ is a valid PDF in $y$ (integrates to 1).
+توجه کنید که برای مقدار ثابت $x$، PMF شرطی $p_{Y|X}(y|x)$ یک PMF معتبر در $y$ است (جمع آن ۱ است) و PDF شرطی $f_{Y|X}(y|x)$ یک PDF معتبر در $y$ است (انتگرال آن ۱ است).
 
-**Example: Two Dice (Conditional)**
+**مثال: دو تاس (حالت شرطی)**
 
-What is the probability distribution of the second die roll ($Y$) given that the first die roll ($X$) was a 3?
-Using the formula: $p_{Y|X}(y|3) = \frac{p_{X,Y}(3, y)}{p_X(3)}$.
-We know $p_{X,Y}(3, y) = 1/36$ and $p_X(3) = 1/6$.
-So, $p_{Y|X}(y|3) = \frac{1/36}{1/6} = \frac{6}{36} = \frac{1}{6}$ for $y \in \{1, 2, 3, 4, 5, 6\}$.
-This makes intuitive sense: knowing the outcome of the first fair die doesn't change the probabilities for the second fair die because they are independent.
+توزیع احتمال پرتاب دوم ($Y$) با فرض اینکه پرتاب اول ($X$) برابر ۳ بوده چیست؟
+با استفاده از فرمول: $p_{Y|X}(y|3) = \frac{p_{X,Y}(3, y)}{p_X(3)}$.
+می‌دانیم $p_{X,Y}(3, y) = 1/36$ و $p_X(3) = 1/6$.
+پس $p_{Y|X}(y|3) = \frac{1/36}{1/6} = \frac{6}{36} = \frac{1}{6}$ برای $y \in \{1, 2, 3, 4, 5, 6\}$.
+این شهودی است: دانستن پیامد تاس منصفانهٔ اول، احتمال‌های تاس منصفانهٔ دوم را تغییر نمی‌دهد چون مستقل‌اند.
 
-**Example: Height and Weight (Conditional)**
+**مثال: قد و وزن (حالت شرطی)**
 
-Consider the height ($X$) and weight ($Y$) example. The conditional distribution $f_{Y|X}(y|x=1.8)$ would describe the distribution of weights specifically for people who are 1.8 meters tall. If height and weight are positively correlated, we'd expect the mean of this conditional distribution (the average weight for people 1.8m tall) to be higher than the mean of the marginal distribution of weight $f_Y(y)$ (the average weight across all heights).
-
-+++
-
-**Hands-on: Conditional PMFs from Joint PMF**
-
-Let's calculate the conditional PMF of $Y$ given $X=3$ for the dice example.
+مثال قد ($X$) و وزن ($Y$) را در نظر بگیرید. توزیع شرطی $f_{Y|X}(y|x=1.8)$ توزیع وزن را به‌طور خاص برای افرادی با قد ۱٫۸ متر توصیف می‌کند. اگر قد و وزن همبستهٔ مثبت باشند، انتظار داریم میانگین این توزیع شرطی (میانگین وزن افراد ۱٫۸ متری) بیشتر از میانگین توزیع حاشیه‌ای وزن $f_Y(y)$ (میانگین وزن در همهٔ قدها) باشد.
 
 +++
 
-We need the joint PMF and the marginal PMF of X
-joint_pmf_dice (calculated above)
-marginal_pmf_X (calculated above)
+**کار عملی: PMFهای شرطی از PMF مشترک**
+
+بیایید PMF شرطی $Y$ با فرض $X=3$ را برای مثال تاس محاسبه کنیم.
+
++++
+
+به PMF مشترک و PMF حاشیه‌ای $X$ نیاز داریم
+joint_pmf_dice (در بالا محاسبه شد)
+marginal_pmf_X (در بالا محاسبه شد)
 
 ```{code-cell} ipython3
 x_condition = 3 # Condition on X=3
@@ -247,44 +247,44 @@ else:
     print("\nCannot calculate conditional PMF as P(X=3) is zero.")
 ```
 
-## Joint Cumulative Distribution Functions (CDFs)
+## توابع توزیع تجمعی مشترک (CDF)
 
-The **joint cumulative distribution function (CDF)** $F_{X,Y}(x, y)$ gives the probability that $X$ is less than or equal to $x$ *and* $Y$ is less than or equal to $y$.
+**تابع توزیع تجمعی مشترک (CDF)** $F_{X,Y}(x, y)$ احتمالی را می‌دهد که $X$ کمتر یا مساوی $x$ *و* $Y$ کمتر یا مساوی $y$ باشد.
 
 $$ F_{X,Y}(x, y) = P(X \le x, Y \le y) $$
 
-**Discrete Case:**
+**حالت گسسته:**
 $$ F_{X,Y}(x, y) = \sum_{x_i \le x} \sum_{y_j \le y} p_{X,Y}(x_i, y_j) $$
 
-**Continuous Case:**
+**حالت پیوسته:**
 $$ F_{X,Y}(x, y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{X,Y}(u, v) \,dv \,du $$
 
-**Properties:**
+**ویژگی‌ها:**
 1. $0 \le F_{X,Y}(x, y) \le 1$.
-2. $F_{X,Y}(x, y)$ is non-decreasing in both $x$ and $y$.
+2. $F_{X,Y}(x, y)$ در هر دو $x$ و $y$ نارون‌یاب است.
 3. $\lim_{x \to \infty, y \to \infty} F_{X,Y}(x, y) = 1$.
-4. $\lim_{x \to -\infty} F_{X,Y}(x, y) = 0$ and $\lim_{y \to -\infty} F_{X,Y}(x, y) = 0$.
+4. $\lim_{x \to -\infty} F_{X,Y}(x, y) = 0$ و $\lim_{y \to -\infty} F_{X,Y}(x, y) = 0$.
 
-**Example: Two Dice (CDF)**
+**مثال: دو تاس (CDF)**
 
-What is $F_{X,Y}(2, 3) = P(X \le 2, Y \le 3)$?
-This is the probability that the first die is 1 or 2, AND the second die is 1, 2, or 3.
-The pairs $(x, y)$ satisfying this are: (1,1), (1,2), (1,3), (2,1), (2,2), (2,3).
-There are $2 \times 3 = 6$ such pairs. Since each pair has probability 1/36:
+مقدار $F_{X,Y}(2, 3) = P(X \le 2, Y \le 3)$ چیست؟
+این احتمالی است که تاس اول ۱ یا ۲ باشد *و* تاس دوم ۱، ۲ یا ۳ باشد.
+جفت‌های $(x, y)$ که این شرط را برآورده می‌کنند: (1,1)، (1,2)، (1,3)، (2,1)، (2,2)، (2,3).
+تعداد این جفت‌ها $2 \times 3 = 6$ است. از آنجا که احتمال هر جفت $1/36$ است:
 $F_{X,Y}(2, 3) = 6 \times \frac{1}{36} = \frac{1}{6}$.
 
-**Example: Height and Weight (CDF)**
+**مثال: قد و وزن (CDF)**
 
-$F_{X,Y}(1.8, 75) = P(\text{Height} \le 1.8\text{m AND } \text{Weight} \le 75\text{kg})$. This represents the probability that a randomly selected person falls within this specific height and weight range (or below). This would be calculated by integrating the joint PDF $f_{X,Y}(x, y)$ over the region where $x \le 1.8$ and $y \le 75$.
+$F_{X,Y}(1.8, 75) = P(\text{Height} \le 1.8\text{m AND } \text{Weight} \le 75\text{kg})$. این احتمالی است که فردی انتخاب‌شدهٔ تصادفی در این محدودهٔ خاص قد و وزن (یا کمتر) قرار گیرد. این مقدار با انتگرال‌گیری PDF مشترک $f_{X,Y}(x, y)$ روی ناحیه‌ای که $x \le 1.8$ و $y \le 75$ محاسبه می‌شود.
 
 +++
 
-## Hands-on: Simulation and Visualization
+## کار عملی: شبیه‌سازی و مصورسازی
 
-A powerful way to understand joint distributions is through simulation and visualization. We can generate random samples from a joint distribution and then use plots to visualize the relationship between the variables.
+راهی قدرتمند برای درک توزیع‌های مشترک، شبیه‌سازی و مصورسازی است. می‌توانیم نمونه‌های تصادفی از یک توزیع مشترک تولید کنیم و سپس با نمودارها رابطهٔ بین متغیرها را ببینیم.
 
-**1. Simulating Independent Variables:**
-If $X$ and $Y$ are independent, we can simulate them separately from their marginal distributions and then pair the results. For our two dice example:
+**۱. شبیه‌سازی متغیرهای مستقل:**
+اگر $X$ و $Y$ مستقل باشند، می‌توانیم آن‌ها را جداگانه از توزیع‌های حاشیه‌ای‌شان شبیه‌سازی کنیم و سپس نتایج را جفت کنیم. برای مثال دو تاس:
 
 ```{code-cell} ipython3
 num_simulations = 5000
@@ -321,10 +321,10 @@ plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-The scatter plot shows points distributed roughly evenly across all 36 possible outcomes, as expected for independent fair dice.
+نمودار پراکندگی نقاطی را نشان می‌دهد که تقریباً یکنواخت روی همهٔ ۳۶ پیامد ممکن پخش شده‌اند، همان‌طور که برای تاس‌های منصفانهٔ مستقل انتظار می‌رود.
 
-**2. Simulating Dependent Variables (Bivariate Normal):**
-Let's simulate height and weight data assuming they follow a bivariate normal distribution. We need to specify means, standard deviations, and the correlation between them.
+**۲. شبیه‌سازی متغیرهای وابسته (نرمال دوبعدی):**
+بیایید داده‌های قد و وزن را با فرض پیروی از توزیع نرمال دوبعدی شبیه‌سازی کنیم. باید میانگین‌ها، انحراف‌های معیار و همبستگی بین آن‌ها را مشخص کنیم.
 
 ```{code-cell} ipython3
 from scipy.stats import multivariate_normal
@@ -376,11 +376,11 @@ simulated_weights = simulated_data[:, 1]
 print(f"\nFirst 5 simulated (Height, Weight) pairs:\n{simulated_data[:5]}")
 ```
 
-**3. Visualizing Joint Distributions:**
+**۳. مصورسازی توزیع‌های مشترک:**
 
-* **Scatter Plot:** Good for showing the relationship and density of simulated points.
-* **2D Histogram (Heatmap):** Divides the space into bins and shows the count/density in each bin using color intensity.
-* **Contour Plot:** For continuous distributions, shows lines of constant probability density (like elevation lines on a map).
+* **نمودار پراکندگی:** برای نشان دادن رابطه و چگالی نقاط شبیه‌سازی‌شده مناسب است.
+* **هیستوگرام دوبعدی (نقشهٔ حرارتی):** فضا را به بازه‌ها تقسیم می‌کند و تعداد/چگالی هر بازه را با شدت رنگ نشان می‌دهد.
+* **نمودار کانتور:** برای توزیع‌های پیوسته، خطوط چگالی احتمال ثابت را نشان می‌دهد (مانند خطوط ارتفاع روی نقشه).
 
 ```{code-cell} ipython3
 # Scatter Plot
@@ -425,34 +425,34 @@ plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-These plots clearly show the positive correlation – taller simulated individuals tend to be heavier. The 2D histogram and contour plot visualize the shape of the joint probability density, concentrated around the means and elongated along the diagonal due to the correlation.
+این نمودارها همبستگی مثبت را به‌وضوح نشان می‌دهند — افراد بلندتر شبیه‌سازی‌شده تمایل به سنگین‌تر بودن دارند. هیستوگرام دوبعدی و نمودار کانتور شکل چگالی احتمال مشترک را مصور می‌کنند؛ متمرکز حول میانگین‌ها و در امتداد قطر به‌دلیل همبستگی کشیده شده‌اند.
 
-## Summary
+## خلاصه
 
-This chapter introduced the fundamental concepts for dealing with multiple random variables:
-* **Joint PMFs/PDFs:** Describe the probability or density of multiple variables occurring together.
-* **Marginal Distributions:** Allow us to focus on the distribution of a single variable by summing or integrating out the others.
-* **Conditional Distributions:** Describe the distribution of one variable given a specific value of another.
-* **Joint CDFs:** Give the probability that all variables fall below certain thresholds.
+این فصل مفاهیم بنیادین کار با چند متغیر تصادفی را معرفی کرد:
+* **PMF/PDF مشترک:** احتمال یا چگالی وقوع هم‌زمان چند متغیر را توصیف می‌کنند.
+* **توزیع‌های حاشیه‌ای:** با جمع یا انتگرال‌گیری سایر متغیرها، امکان تمرکز روی توزیع یک متغیر تکی را می‌دهند.
+* **توزیع‌های شرطی:** توزیع یک متغیر را با فرض مقدار مشخصی از متغیر دیگر توصیف می‌کنند.
+* **CDF مشترک:** احتمالی را می‌دهد که همهٔ متغیرها زیر آستانه‌های مشخصی قرار گیرند.
 
-We saw how to represent these distributions mathematically and how to work with them in Python, particularly through simulation and visualization using NumPy, Matplotlib, and Seaborn. Understanding joint distributions is crucial for modeling complex systems where multiple factors interact, paving the way for concepts like covariance, correlation, and independence, which we will explore in the next chapter.
+دیدیم این توزیع‌ها را چگونه به‌صورت ریاضی نمایش دهیم و در پایتون، به‌ویژه از طریق شبیه‌سازی و مصورسازی با NumPy، Matplotlib و Seaborn، با آن‌ها کار کنیم. درک توزیع‌های مشترک برای مدل‌سازی سامانه‌های پیچیده‌ای که چند عامل در آن‌ها تعامل دارند حیاتی است و راه را برای مفاهیمی مانند کوواریانس، همبستگی و استقلال — که در فصل بعد بررسی می‌کنیم — هموار می‌کند.
 
 +++
 
 ---
-**Exercises:**
+**تمرین‌ها:**
 
-1.  **Coin Flips:** Let $X$ be the number of heads in 2 flips of a fair coin, and $Y$ be the outcome of the first flip (0 for Tails, 1 for Heads).
-    * Determine the joint PMF $p_{X,Y}(x, y)$. Represent it as a table or a 2D array.
-    * Calculate the marginal PMFs $p_X(x)$ and $p_Y(y)$.
-    * Calculate the conditional PMF $p_{X|Y}(x|1)$ (distribution of total heads given the first flip was Heads).
-2.  **Uniform Distribution on a Square:** Suppose $(X, Y)$ are uniformly distributed over the square defined by $0 \le x \le 2$ and $0 \le y \le 2$.
-    * What is the joint PDF $f_{X,Y}(x, y)$? (Remember it must integrate to 1 over the square).
-    * Find the marginal PDFs $f_X(x)$ and $f_Y(y)$. Are $X$ and $Y$ independent?
-    * Calculate $P(X \le 1, Y \le 1)$.
-    * Calculate $P(X+Y \le 1)$. (Hint: Visualize the region in the square).
-3.  **Simulation Visualization:** Modify the bivariate normal simulation for height and weight.
-    * Set the `correlation` to -0.6. Regenerate the samples and the three plots (scatter, 2D histogram, contour). How do the plots change?
-    * Set the `correlation` to 0. Regenerate the samples and plots. What do the plots look like now? What does this imply about the relationship between height and weight in this simulated scenario?
+1.  **پرتاب سکه:** فرض کنید $X$ تعداد شیر در ۲ پرتاب یک سکهٔ منصفانه و $Y$ پیامد پرتاب اول (۰ برای خط، ۱ برای شیر) باشد.
+    * PMF مشترک $p_{X,Y}(x, y)$ را تعیین کنید. آن را به‌صورت جدول یا آرایهٔ دوبعدی نمایش دهید.
+    * PMFهای حاشیه‌ای $p_X(x)$ و $p_Y(y)$ را محاسبه کنید.
+    * PMF شرطی $p_{X|Y}(x|1)$ (توزیع تعداد کل شیرها با فرض شیر بودن پرتاب اول) را محاسبه کنید.
+2.  **توزیع یکنواخت روی مربع:** فرض کنید $(X, Y)$ به‌طور یکنواخت روی مربعی با $0 \le x \le 2$ و $0 \le y \le 2$ توزیع شده‌اند.
+    * PDF مشترک $f_{X,Y}(x, y)$ چیست؟ (به‌خاطر داشته باشید باید روی مربع به ۱ انتگرال بگیرد).
+    * PDFهای حاشیه‌ای $f_X(x)$ و $f_Y(y)$ را بیابید. آیا $X$ و $Y$ مستقل‌اند؟
+    * $P(X \le 1, Y \le 1)$ را محاسبه کنید.
+    * $P(X+Y \le 1)$ را محاسبه کنید. (راهنما: ناحیه را روی مربع مصور کنید).
+3.  **مصورسازی شبیه‌سازی:** شبیه‌سازی نرمال دوبعدی قد و وزن را تغییر دهید.
+    * `correlation` را روی $-0.6$ بگذارید. نمونه‌ها و سه نمودار (پراکندگی، هیستوگرام دوبعدی، کانتور) را دوباره بسازید. نمودارها چگونه تغییر می‌کنند؟
+    * `correlation` را روی ۰ بگذارید. نمونه‌ها و نمودارها را دوباره بسازید. اکنون نمودارها چگونه‌اند؟ این دربارهٔ رابطهٔ قد و وزن در این سناریوی شبیه‌سازی‌شده چه می‌گوید؟
 
 +++
